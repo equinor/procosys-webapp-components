@@ -1,13 +1,3 @@
-import React from 'react';
-
-const Checklist = () => {
-    return (
-        <>
-            <hr />
-            <h1>THIS IS A CHECKLIST</h1>
-            <hr />
-        </>
-    );
-};
+import Checklist from './checklist/Checklist';
 
 export default Checklist;
