@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChecklistDetails } from '../../services/apiTypes';
+import { AsyncStatus, ChecklistDetails } from '../services/apiTypes';
 import {
     Button,
     Divider,
@@ -7,14 +7,12 @@ import {
     Typography,
 } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { AsyncStatus } from '../../contexts/CommAppContext';
 import {
     determineHelperText,
     determineVariant,
-} from '../../utils/textFieldHelpers';
-import useCommonHooks from '../../utils/useCommonHooks';
-import EdsIcon from '../../components/icons/EdsIcon';
+} from '../utils/textFieldHelpers';
 import { Banner } from '@equinor/eds-core-react';
+import { ProcosysApiService } from '../services/procosysApi';
 const { BannerMessage, BannerIcon } = Banner;
 
 const ChecklistSignatureWrapper = styled.div<{ helperTextVisible: boolean }>`
@@ -50,6 +48,7 @@ type ChecklistSignatureProps = {
     allItemsCheckedOrNA: boolean;
     reloadChecklist: React.Dispatch<React.SetStateAction<boolean>>;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    api: ProcosysApiService;
 };
 
 const ChecklistSignature = ({
@@ -59,8 +58,8 @@ const ChecklistSignature = ({
     allItemsCheckedOrNA,
     reloadChecklist,
     setSnackbarText,
+    api,
 }: ChecklistSignatureProps): JSX.Element => {
-    const { api, params } = useCommonHooks();
     const [comment, setComment] = useState(details.comment);
     const [putCommentStatus, setPutCommentStatus] = useState(
         AsyncStatus.INACTIVE
@@ -72,11 +71,7 @@ const ChecklistSignature = ({
         if (comment === commentBeforeFocus) return;
         setPutCommentStatus(AsyncStatus.LOADING);
         try {
-            await api.putChecklistComment(
-                params.plant,
-                params.checklistId,
-                comment
-            );
+            await api.putChecklistComment(comment);
             setPutCommentStatus(AsyncStatus.SUCCESS);
             reloadChecklist((prev) => !prev);
         } catch (error) {
@@ -88,10 +83,10 @@ const ChecklistSignature = ({
         setSignStatus(AsyncStatus.LOADING);
         try {
             if (isSigned) {
-                await api.postUnsign(params.plant, params.checklistId);
+                await api.postUnsign();
                 setIsSigned(false);
             } else {
-                await api.postSign(params.plant, params.checklistId);
+                await api.postSign();
                 setIsSigned(true);
             }
             setSignStatus(AsyncStatus.SUCCESS);

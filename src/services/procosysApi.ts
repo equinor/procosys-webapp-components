@@ -22,16 +22,6 @@ const procosysApiService = ({
     plantId,
     checklistId,
 }: ProcosysApiServiceProps) => {
-    const getAttachments = async (
-        cancelToken: CancelToken,
-        endpoint: string
-    ): Promise<Attachment[]> => {
-        const { data } = await axios.get(`${endpoint}${apiVersion}`, {
-            cancelToken: cancelToken,
-        });
-        return data as Attachment[];
-    };
-
     const getChecklist = async (): Promise<ChecklistResponse> => {
         const { data } = await axios.get(
             `Checklist/MC?plantId=PCS$${plantId}&checklistId=${checklistId}${apiVersion}`
@@ -167,7 +157,6 @@ const procosysApiService = ({
 
     return {
         deleteChecklistAttachment,
-        getAttachments,
         getChecklistAttachments,
         getChecklistAttachment,
         getChecklist,

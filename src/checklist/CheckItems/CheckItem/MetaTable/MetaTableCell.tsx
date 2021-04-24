@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextField } from '@equinor/eds-core-react';
-import { AsyncStatus } from '../../../../../contexts/CommAppContext';
 import styled from 'styled-components';
-import useCommonHooks from '../../../../../utils/useCommonHooks';
+import { AsyncStatus } from '../../../../services/apiTypes';
+import { ProcosysApiService } from '../../../../services/procosysApi';
 
 const HelperText = styled.div`
     height: 12px;
@@ -22,6 +22,7 @@ export type MetaTableCellProps = {
     unit: string;
     disabled: boolean;
     label: string;
+    api: ProcosysApiService;
 };
 
 function determineHelperText(submitStatus: AsyncStatus): string {
@@ -39,8 +40,8 @@ const MetaTableCell = ({
     columnId,
     checkItemId,
     label,
+    api,
 }: MetaTableCellProps): JSX.Element => {
-    const { api, params } = useCommonHooks();
     const [inputValue, setInputValue] = useState(value);
     const [submitStatus, setSubmitStatus] = useState<AsyncStatus>(
         AsyncStatus.INACTIVE
@@ -52,9 +53,7 @@ const MetaTableCell = ({
         setSubmitStatus(AsyncStatus.LOADING);
         try {
             await api.putMetaTableCell(
-                params.plant,
                 checkItemId,
-                params.checklistId,
                 columnId,
                 rowId,
                 inputValue

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ColumnLabel, Row } from '../../../../../services/apiTypes';
+import { ColumnLabel, Row } from '../../../../services/apiTypes';
 import styled from 'styled-components';
 import MetaTableCell from './MetaTableCell';
-import EdsIcon from '../../../../../components/icons/EdsIcon';
-import { COLORS } from '../../../../../style/GlobalStyles';
+import EdsIcon from '../../../../components/icons/EdsIcon';
+import { COLORS } from '../../../../style/GlobalStyles';
+import { ProcosysApiService } from '../../../../services/procosysApi';
 
 const MetaTableWrapper = styled.table`
     border-spacing: 4px;
@@ -62,6 +63,7 @@ type MetaTableProps = {
     isSigned: boolean;
     checkItemId: number;
     disabled: boolean;
+    api: ProcosysApiService;
 };
 
 const MetaTable = ({
@@ -69,6 +71,7 @@ const MetaTable = ({
     rows,
     disabled,
     checkItemId,
+    api,
 }: MetaTableProps): JSX.Element => {
     const [tableIsScrollable, setTableIsScrollable] = useState(false);
     const tableContainerRef = useRef<HTMLDivElement>(
@@ -95,6 +98,7 @@ const MetaTable = ({
                     unit={cell.unit}
                     value={cell.value}
                     label={row.cells.length < 2 ? row.label : ''}
+                    api={api}
                 />
             );
         });

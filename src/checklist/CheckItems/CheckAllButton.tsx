@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { CheckItem } from '../../../services/apiTypes';
+import { AsyncStatus, CheckItem } from '../../services/apiTypes';
 import { Button } from '@equinor/eds-core-react';
-import EdsIcon from '../../../components/icons/EdsIcon';
+import EdsIcon from '../../components/icons/EdsIcon';
 import styled from 'styled-components';
-import { AsyncStatus } from '../../../contexts/CommAppContext';
-import useCommonHooks from '../../../utils/useCommonHooks';
+import { ProcosysApiService } from '../../services/procosysApi';
 
 const StyledCheckAllButton = styled(Button)`
     :disabled {
@@ -18,6 +17,7 @@ type CheckAllButtonProps = {
     updateOk: (value: boolean, checkItemId: number) => void;
     allItemsCheckedOrNA: boolean;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    api: ProcosysApiService;
 };
 
 const CheckAllButton = ({
@@ -25,8 +25,8 @@ const CheckAllButton = ({
     updateOk,
     allItemsCheckedOrNA,
     setSnackbarText,
+    api,
 }: CheckAllButtonProps): JSX.Element => {
-    const { api, params } = useCommonHooks();
     const [checkAllStatus, setCheckAllStatus] = useState(AsyncStatus.INACTIVE);
     const checkAll = async (): Promise<void> => {
         setCheckAllStatus(AsyncStatus.LOADING);
@@ -36,11 +36,7 @@ const CheckAllButton = ({
         try {
             await Promise.all(
                 itemsToCheck.map((item) => {
-                    return api.postSetOk(
-                        params.plant,
-                        params.checklistId,
-                        item.id
-                    );
+                    return api.postSetOk(item.id);
                 })
             );
             itemsToCheck.forEach((item) => updateOk(true, item.id));
@@ -60,11 +56,7 @@ const CheckAllButton = ({
         try {
             await Promise.all(
                 itemsToCheck.map((item) => {
-                    return api.postClear(
-                        params.plant,
-                        params.checklistId,
-                        item.id
-                    );
+                    return api.postClear(item.id);
                 })
             );
             itemsToCheck.forEach((item) => updateOk(false, item.id));

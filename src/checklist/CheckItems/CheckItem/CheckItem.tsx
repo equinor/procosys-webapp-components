@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { CheckItem as CheckItemType } from '../../../../services/apiTypes';
+import {
+    AsyncStatus,
+    CheckItem as CheckItemType,
+} from '../../../services/apiTypes';
 import { Checkbox } from '@equinor/eds-core-react';
 import MetaTable from './MetaTable/MetaTable';
-import { AsyncStatus } from '../../../../contexts/CommAppContext';
-import EdsIcon from '../../../../components/icons/EdsIcon';
-import useCommonHooks from '../../../../utils/useCommonHooks';
-import { COLORS } from '../../../../style/GlobalStyles';
+import EdsIcon from '../../../components/icons/EdsIcon';
+import { COLORS } from '../../../style/GlobalStyles';
+import { ProcosysApiService } from '../../../services/procosysApi';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: ${(props): string =>
@@ -68,6 +70,7 @@ type CheckItemProps = {
     checklistId: number;
     isSigned: boolean;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    api: ProcosysApiService;
 };
 
 const CheckItem = ({
@@ -76,8 +79,8 @@ const CheckItem = ({
     updateNA,
     updateOk,
     setSnackbarText,
+    api,
 }: CheckItemProps): JSX.Element => {
-    const { api, params } = useCommonHooks();
     const [postCheckStatus, setPostCheckStatus] = useState(
         AsyncStatus.INACTIVE
     );
@@ -86,7 +89,7 @@ const CheckItem = ({
 
     const clearCheckmarks = async (): Promise<void> => {
         try {
-            await api.postClear(params.plant, params.checklistId, item.id);
+            await api.postClear(item.id);
             updateOk(false, item.id);
             updateNA(false, item.id);
             setSnackbarText('Change saved.');
@@ -104,7 +107,7 @@ const CheckItem = ({
             return;
         }
         try {
-            await api.postSetNA(params.plant, params.checklistId, item.id);
+            await api.postSetNA(item.id);
             updateOk(false, item.id);
             updateNA(true, item.id);
             setSnackbarText('Change saved.');
@@ -119,7 +122,7 @@ const CheckItem = ({
         if (item.isOk) return clearCheckmarks();
         setPostCheckStatus(AsyncStatus.LOADING);
         try {
-            await api.postSetOk(params.plant, params.checklistId, item.id);
+            await api.postSetOk(item.id);
             updateNA(false, item.id);
             updateOk(true, item.id);
             setSnackbarText('Change saved.');
@@ -193,6 +196,7 @@ const CheckItem = ({
                         rows={item.metaTable.rows}
                         isSigned={isSigned}
                         checkItemId={item.id}
+                        api={api}
                     />
                 )}
             </CheckItemWrapper>

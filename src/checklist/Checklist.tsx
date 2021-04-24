@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { AsyncStatus, CheckItem, ChecklistDetails } from '../services/apiTypes';
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
@@ -18,9 +18,7 @@ import buildEndpoint from '../utils/buildEndpoint';
 import useSnackbar from '../utils/useSnackbar';
 import AsyncPage from '../components/AsyncPage';
 import { Banner } from '@equinor/eds-core-react';
-import procosysApiService, {
-    ProcosysApiService,
-} from '../services/procosysApi';
+import procosysApiService from '../services/procosysApi';
 import baseApi from '../services/baseApi';
 
 const { BannerIcon, BannerMessage } = Banner;
@@ -58,7 +56,10 @@ const initializeApi = ({
 };
 
 const Checklist = (props: ChecklistProps): JSX.Element => {
-    const [api, setApi] = useState(initializeApi({ ...props }));
+    const api = useMemo(() => initializeApi({ ...props }), [
+        props.checklistId,
+        props.plantId,
+    ]);
     const getAttachmentsEndpoint = buildEndpoint().getChecklistAttachments(
         props.plantId,
         props.checklistId
@@ -67,7 +68,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         refreshAttachments: setRefreshAttachments,
         attachments,
         fetchAttachmentsStatus,
-    } = useAttachments(getAttachmentsEndpoint);
+    } = useAttachments(getAttachmentsEndpoint, api);
     const { snackbar, setSnackbarText } = useSnackbar();
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
@@ -191,6 +192,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                             isSigned={isSigned}
                             details={checklistDetails}
                             setIsSigned={setIsSigned}
+                            api={api}
                         />
                     </AsyncCard>
                     {!isSigned && !allItemsCheckedOrNA && (
