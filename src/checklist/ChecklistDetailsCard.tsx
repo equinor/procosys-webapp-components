@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import CompletionStatusIcon from '../../components/icons/CompletionStatusIcon';
-import { ChecklistDetails } from '../../services/apiTypes';
-import { COLORS, SHADOW } from '../../style/GlobalStyles';
+import CompletionStatusIcon from '../components/icons/CompletionStatusIcon';
+import { ChecklistDetails } from '../services/apiTypes';
+import { COLORS, SHADOW } from '../style/GlobalStyles';
 
 const FormularTypeText = styled.p`
     flex: 1;

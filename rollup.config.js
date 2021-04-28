@@ -1,4 +1,5 @@
 import typescript from 'rollup-plugin-typescript2';
+import image from '@rollup/plugin-image';
 import pkg from './package.json';
 
 // continued
@@ -13,6 +14,6 @@ export default {
             strict: false,
         },
     ],
-    plugins: [typescript({ objectHashIgnoreUnknownHack: true })],
+    plugins: [typescript({ objectHashIgnoreUnknownHack: true }), image()],
     external: ['react', 'react-dom'],
 };

@@ -7,6 +7,7 @@ import {
 import CheckItem from './CheckItem/CheckItem';
 import CheckHeader from './CheckHeader';
 import CheckAllButton from './CheckAllButton';
+import { ProcosysApiService } from '../../services/procosysApi';
 
 const CheckItemsWrapper = styled.div`
     display: flex;
@@ -34,6 +35,7 @@ type CheckItemsProps = {
     setAllItemsCheckedOrNA: React.Dispatch<React.SetStateAction<boolean>>;
     allItemsCheckedOrNA: boolean;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    api: ProcosysApiService;
 };
 
 const CheckItems = ({
@@ -43,6 +45,7 @@ const CheckItems = ({
     allItemsCheckedOrNA,
     setAllItemsCheckedOrNA,
     setSnackbarText,
+    api,
 }: CheckItemsProps): JSX.Element => {
     const [items, setItems] = useState(checkItems);
 
@@ -97,6 +100,7 @@ const CheckItems = ({
                     checklistId={details.id}
                     isSigned={isSigned}
                     setSnackbarText={setSnackbarText}
+                    api={api}
                 />
             </>
         );
@@ -121,6 +125,7 @@ const CheckItems = ({
                     allItemsCheckedOrNA={allItemsCheckedOrNA}
                     items={items}
                     updateOk={updateOk}
+                    api={api}
                 />
             )}
             {itemsToDisplay}

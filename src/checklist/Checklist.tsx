@@ -128,6 +128,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         details={checklistDetails}
                         isSigned={isSigned}
                         setSnackbarText={setSnackbarText}
+                        api={api}
                     />
                     <AsyncCard
                         errorMessage={
@@ -148,8 +149,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     setShowModal={setShowUploadModal}
                                     setSnackbarText={setSnackbarText}
                                     updateAttachments={setRefreshAttachments}
-                                    postAttachment={api.postChecklistAttachment}
-                                    parentId={props.checklistId}
+                                    api={api}
                                 />
                             ) : null}
                             {attachments.map((attachment) => (

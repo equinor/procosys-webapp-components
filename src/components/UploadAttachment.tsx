@@ -1,11 +1,9 @@
 import { Button, DotProgress, Scrim } from '@equinor/eds-core-react';
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { AsyncStatus } from '../contexts/CommAppContext';
-import { TempAttachment } from '../pages/Punch/NewPunch/NewPunch';
+import { AsyncStatus } from '../services/apiTypes';
 import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
-import useCommonHooks from '../utils/useCommonHooks';
 
 export const UploadContainer = styled.div`
     max-height: 80vh;
@@ -35,31 +33,19 @@ const ChooseImageContainer = styled.div`
     border: 2px dashed ${COLORS.fadedBlue};
 `;
 
-type PostChecklistAttachment = ProcosysApiService['postChecklistAttachment'];
-type PostPunchAttachment = ProcosysApiService['postPunchAttachment'];
-type PostTempAttachment = ProcosysApiService['postTempPunchAttachment'];
-
 type UploadAttachmentProps = {
     setShowModal: Dispatch<SetStateAction<boolean>>;
-    postAttachment:
-        | PostPunchAttachment
-        | PostChecklistAttachment
-        | PostTempAttachment;
-    updateAttachments?: Dispatch<SetStateAction<boolean>>;
-    updateTempAttachments?: Dispatch<SetStateAction<TempAttachment[]>>;
+    updateAttachments: Dispatch<SetStateAction<boolean>>;
     setSnackbarText: Dispatch<SetStateAction<string>>;
-    parentId: string;
+    api: ProcosysApiService;
 };
 
 const UploadAttachment = ({
     setShowModal,
-    postAttachment,
     updateAttachments,
     setSnackbarText,
-    updateTempAttachments,
-    parentId,
+    api,
 }: UploadAttachmentProps): JSX.Element => {
-    const { params } = useCommonHooks();
     const [selectedFile, setSelectedFile] = useState<File>();
     const [postAttachmentStatus, setPostAttachmentStatus] = useState(
         AsyncStatus.INACTIVE
@@ -76,28 +62,8 @@ const UploadAttachment = ({
         const formData = new FormData();
         formData.append(selectedFile.name, selectedFile);
         try {
-            const response = await postAttachment({
-                plantId: params.plant,
-                parentId: parentId,
-                data: formData,
-                title: selectedFile.name,
-            });
-            if (updateTempAttachments) {
-                //For new punch, this adds the new attachment to the list of attachments
-                if (typeof response === 'string') {
-                    updateTempAttachments((attachments) => [
-                        ...attachments,
-                        { id: response, file: selectedFile },
-                    ]);
-                } else {
-                    console.error(
-                        'Expected an ID response, but did not receive one.'
-                    );
-                }
-            }
-            if (updateAttachments) {
-                updateAttachments((prev) => !prev);
-            }
+            await api.postChecklistAttachment(formData, selectedFile.name);
+            updateAttachments((prev) => !prev);
             setPostAttachmentStatus(AsyncStatus.SUCCESS);
             setSnackbarText('File successfully added.');
             setShowModal(false);

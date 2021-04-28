@@ -7,8 +7,10 @@ import {
 import Axios, { CancelToken } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AsyncStatus } from '../contexts/CommAppContext';
-import { Attachment as AttachmentType } from '../services/apiTypes';
+import {
+    AsyncStatus,
+    Attachment as AttachmentType,
+} from '../services/apiTypes';
 import { COLORS } from '../style/GlobalStyles';
 import handleDownload from '../utils/handleDownload';
 import EdsIcon from './icons/EdsIcon';

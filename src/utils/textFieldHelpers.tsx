@@ -1,7 +1,7 @@
 import { Variants } from '@equinor/eds-core-react/dist/types/components/TextField/types';
 import React from 'react';
 import EdsIcon from '../components/icons/EdsIcon';
-import { AsyncStatus } from '../contexts/CommAppContext';
+import { AsyncStatus } from '../services/apiTypes';
 import { COLORS } from '../style/GlobalStyles';
 
 export const determineVariant = (status: AsyncStatus): Variants => {

@@ -1,5 +1,5 @@
 import greyStatus from '../../assets/img/scopeStatusGrey.png';
-import greenStatus from '../../assets/img/status/ok.svg';
+import greenStatus from '../../assets/img/ok.svg';
 import paStatus from '../../assets/img/scopeStatusPa.png';
 import pbStatus from '../../assets/img/scopeStatusPb.png';
 import React from 'react';

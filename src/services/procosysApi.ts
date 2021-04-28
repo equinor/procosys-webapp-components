@@ -1,13 +1,6 @@
 import { AxiosInstance, CancelToken } from 'axios';
 import { ChecklistResponse, Attachment } from './apiTypes';
 
-type PostAttachmentProps = {
-    plantId: string;
-    parentId?: string;
-    data: FormData;
-    title?: string;
-};
-
 type ProcosysApiServiceProps = {
     axios: AxiosInstance;
     apiVersion: string;
@@ -139,13 +132,12 @@ const procosysApiService = ({
         );
     };
 
-    const postChecklistAttachment = async ({
-        parentId,
-        data,
-        title,
-    }: PostAttachmentProps): Promise<void> => {
+    const postChecklistAttachment = async (
+        data: FormData,
+        title?: string
+    ): Promise<void> => {
         await axios.post(
-            `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${parentId}&title=${title}${apiVersion}`,
+            `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&title=${title}${apiVersion}`,
             data,
             {
                 headers: {

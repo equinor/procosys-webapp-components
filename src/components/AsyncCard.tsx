@@ -1,7 +1,7 @@
 import React from 'react';
-import { AsyncStatus } from '../contexts/CommAppContext';
 import SkeletonLoadingPage from './loading/SkeletonLoader';
 import EdsCard from './EdsCard';
+import { AsyncStatus } from '../services/apiTypes';
 
 type AsyncCardProps = {
     fetchStatus: AsyncStatus;
