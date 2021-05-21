@@ -1,3 +1,4 @@
 import Checklist from './checklist/Checklist';
+import AsyncCard from './components/AsyncCard';
 
-export default Checklist;
+export { Checklist, AsyncCard };

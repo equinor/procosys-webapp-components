@@ -10,6 +10,8 @@ export const COLORS = {
     fadedBlue: tokens.colors.interactive.primary__hover_alt.hex,
     danger: tokens.colors.interactive.danger__resting.hex,
     success: tokens.colors.interactive.success__resting.hex,
+    midnight: '#243746',
+    red: '#ff1343',
     white: '#fff',
     darkGrey: '#777',
     lightGrey: '#fafafa',
@@ -17,12 +19,6 @@ export const COLORS = {
 };
 
 const GlobalStyles = createGlobalStyle`
-    body { 
-        margin: 0 auto;
-        padding-top: 54px;
-        max-width: 768px;
-        box-shadow: ${SHADOW};
-    }
     h1 {
         ${tokens.typography.heading.h1 as CSSObject}
     }
@@ -53,19 +49,18 @@ const GlobalStyles = createGlobalStyle`
     label {
         ${tokens.typography.input.label as CSSObject}
     }
-    main {
-        background-color: ${COLORS.white};
-        min-height: calc(100vh - 55px);
+    caption { 
+        ${tokens.typography.paragraph.caption as CSSObject}
     }
 `;
 
-export const BREAKPOINT = {
-    xs: '@media (max-width: 0px)',
-    sm: '@media (max-width: 600px)',
-    standard: '@media (max-width: 768px)',
-    md: '@media (max-width: 960px)',
-    lg: '@media (max-width: 1280px)',
-    xl: '@media (max-width: 1920px)',
-};
+export const Caption = styled.p({
+    color: 'rgba(61, 61, 61, 1)',
+    fontFamily: 'Equinor',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    lineHeight: '1.143em',
+    textAlign: 'left',
+});
 
 export default GlobalStyles;

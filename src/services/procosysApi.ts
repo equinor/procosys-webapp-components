@@ -95,7 +95,7 @@ const procosysApiService = ({
 
     const getChecklistAttachments = async (): Promise<Attachment[]> => {
         const { data } = await axios.get(
-            `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=32${apiVersion}`
+            `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=128${apiVersion}`
         );
         return data as Attachment[];
     };

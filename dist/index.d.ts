@@ -7,5 +7,14 @@ type ChecklistProps = {
     baseUrl: string;
 };
 
+type AsyncCardProps = {
+    fetchStatus: AsyncStatus;
+    errorMessage: string;
+    emptyContentMessage?: string;
+    children: JSX.Element;
+    cardTitle: string;
+};
+
 declare const Checklist: React.FC<ChecklistProps>;
-export default Checklist;
+declare const AsyncCard: React.FC<AsyncCardProps>;
+export { Checklist, AsyncCard };

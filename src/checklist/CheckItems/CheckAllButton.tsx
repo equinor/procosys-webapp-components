@@ -7,9 +7,9 @@ import { ProcosysApiService } from '../../services/procosysApi';
 
 const StyledCheckAllButton = styled(Button)`
     :disabled {
-        margin: 24px 0 12px auto;
+        margin: 24px 0 24px auto;
     }
-    margin: 24px 0 12px auto;
+    margin: 24px 0 24px auto;
 `;
 
 type CheckAllButtonProps = {
@@ -70,14 +70,13 @@ const CheckAllButton = ({
 
     return (
         <StyledCheckAllButton
-            variant="outlined"
             onClick={allItemsCheckedOrNA ? uncheckAll : checkAll}
             disabled={checkAllStatus === AsyncStatus.LOADING}
         >
-            <EdsIcon
+            {/* <EdsIcon
                 name={allItemsCheckedOrNA ? 'checkbox' : 'checkbox_outline'}
-            />
-            {allItemsCheckedOrNA ? 'Uncheck all' : 'Check all'}
+            /> */}
+            {allItemsCheckedOrNA ? 'Clear all' : 'Check all'}
         </StyledCheckAllButton>
     );
 };

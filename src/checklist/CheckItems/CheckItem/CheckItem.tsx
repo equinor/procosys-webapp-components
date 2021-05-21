@@ -13,7 +13,8 @@ import { ProcosysApiService } from '../../../services/procosysApi';
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: ${(props): string =>
         props.disabled ? 'transparent' : 'transparent'};
-    margin-top: 12px;
+    /* border-bottom: 2px ${COLORS.fadedBlue} solid; */
+    padding: 4px 0;
     & p,
     button {
         color: ${(props): string =>
@@ -25,11 +26,14 @@ const CheckItemWrapper = styled.div<{ disabled: boolean }>`
 
 const DescriptionAndCheckWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    & > p {
+        margin: 0;
+        margin-right: 12px;
+    }
 `;
 
-const LeftWrapper = styled.div`
+const MidWrapper = styled.div`
     & button {
         margin: 0;
         padding: 0;
@@ -61,6 +65,7 @@ const CheckboxGroup = styled.div`
     flex: 0 0 80px;
     display: flex;
     justify-content: space-between;
+    margin-left: auto;
 `;
 
 type CheckItemProps = {
@@ -113,7 +118,7 @@ const CheckItem = ({
             setSnackbarText('Change saved.');
             setPostNAStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            setSnackbarText(error.toString());
+            setSnackbarText(error.message.toString());
             setPostNAStatus(AsyncStatus.ERROR);
         }
     };
@@ -137,8 +142,10 @@ const CheckItem = ({
         <>
             <CheckItemWrapper disabled={item.isNotApplicable}>
                 <DescriptionAndCheckWrapper>
-                    <LeftWrapper>
-                        <p>{item.text}</p>
+                    <MidWrapper>
+                        <p>
+                            {item.sequenceNumber}. {item.text}
+                        </p>
                         {item.detailText && (
                             <button
                                 onClick={(): void =>
@@ -160,7 +167,7 @@ const CheckItem = ({
                                 />
                             </button>
                         )}
-                    </LeftWrapper>
+                    </MidWrapper>
                     <CheckboxGroup>
                         <Checkbox
                             disabled={
