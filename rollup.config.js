@@ -2,7 +2,6 @@ import typescript from 'rollup-plugin-typescript2';
 import image from '@rollup/plugin-image';
 import pkg from './package.json';
 
-// continued
 export default {
     input: 'src/index.tsx',
     output: [
