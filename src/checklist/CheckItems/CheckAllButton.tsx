@@ -76,7 +76,7 @@ const CheckAllButton = ({
             {/* <EdsIcon
                 name={allItemsCheckedOrNA ? 'checkbox' : 'checkbox_outline'}
             /> */}
-            {allItemsCheckedOrNA ? 'Uncheck all' : 'Check all'}
+            {allItemsCheckedOrNA ? 'Clear all' : 'Check all'}
         </StyledCheckAllButton>
     );
 };

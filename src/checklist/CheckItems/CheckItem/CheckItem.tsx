@@ -118,7 +118,7 @@ const CheckItem = ({
             setSnackbarText('Change saved.');
             setPostNAStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            setSnackbarText(error.toString());
+            setSnackbarText(error.message.toString());
             setPostNAStatus(AsyncStatus.ERROR);
         }
     };

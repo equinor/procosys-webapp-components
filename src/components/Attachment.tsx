@@ -25,8 +25,7 @@ const AttachmentWrapper = styled.div`
 `;
 
 const DocumentAttachmentWrapper = styled(AttachmentWrapper)`
-    background-color: ${COLORS.fadedBlue};
-    border: 2px solid ${COLORS.mossGreen};
+    border: 1px dashed ${COLORS.mossGreen};
     overflow: hidden;
     box-sizing: border-box;
     padding: 8px;
@@ -56,7 +55,7 @@ export const AttachmentsWrapper = styled.div`
     display: grid;
     grid-gap: 12px;
     grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-    padding: 24px 4%;
+    padding: 12px 4%;
     & > img,
     > ${DocumentAttachmentWrapper}, > button {
         width: 100%;
