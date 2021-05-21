@@ -37,11 +37,13 @@ import {
     hourglass_empty,
     check,
     assignment_turned_in,
+    external_link,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
 
 Icon.add({
+    external_link,
     camera_add_photo,
     menu,
     stop,

@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { AsyncStatus, ChecklistDetails } from '../services/apiTypes';
-import {
-    Button,
-    Divider,
-    TextField,
-    Typography,
-} from '@equinor/eds-core-react';
+import { Button, TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import {
     determineHelperText,
     determineVariant,
 } from '../utils/textFieldHelpers';
-import { Banner } from '@equinor/eds-core-react';
 import { ProcosysApiService } from '../services/procosysApi';
-const { BannerMessage, BannerIcon } = Banner;
 
 const ChecklistSignatureWrapper = styled.div<{ helperTextVisible: boolean }>`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    padding: 12px 4%;
+    margin-bottom: 12px;
     & button,
     button:disabled {
+        margin-left: 24px;
         width: fit-content;
-        margin-left: auto;
-        margin-top: ${(props): string =>
-            props.helperTextVisible ? '0' : '24px'};
     }
+`;
+
+const CommentHeader = styled.h5`
+    margin-top: 24px;
+    margin-bottom: 12px;
+`;
+
+const BottomContentWrapper = styled.div<{ readyToSign: boolean }>`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 12px;
+    background-color: ${(props): string =>
+        props.readyToSign ? '#deecee' : '#eb003726'};
+    padding: 0 16px;
 `;
 
 const determineSignButtonText = (
@@ -117,23 +125,30 @@ const ChecklistSignature = ({
         }, 2000);
     }, [putCommentStatus]);
 
+    const determineSignatureText = () => {
+        if (isSigned) {
+            return (
+                <p>
+                    Signed by {details.signedByFirstName}{' '}
+                    {details.signedByLastName} at{' '}
+                    {new Date(details.signedAt).toLocaleDateString('en-GB')}
+                </p>
+            );
+        }
+        if (allItemsCheckedOrNA) {
+            return <p>Checklist is ready to be signed.</p>;
+        }
+        if (!isSigned && !allItemsCheckedOrNA) {
+            return <p>All items must be checked or NA before signing.</p>;
+        }
+        return <></>;
+    };
+
     return (
         <ChecklistSignatureWrapper
             helperTextVisible={putCommentStatus !== AsyncStatus.INACTIVE}
         >
-            <p>
-                {details.signedAt ? (
-                    <>
-                        Signed by {details.signedByFirstName}{' '}
-                        {details.signedByLastName} at{' '}
-                        {new Date(details.signedAt).toLocaleDateString('en-GB')}
-                    </>
-                ) : (
-                    'This checklist is unsigned.'
-                )}
-            </p>
-            <Divider />
-
+            <CommentHeader>Comment and sign</CommentHeader>
             <TextField
                 id={'comment-field'}
                 maxLength={500}
@@ -141,7 +156,6 @@ const ChecklistSignature = ({
                 disabled={isSigned || putCommentStatus === AsyncStatus.LOADING}
                 multiline
                 rows={5}
-                label="Comment"
                 helperText={
                     putCommentStatus === AsyncStatus.INACTIVE &&
                     details.updatedAt
@@ -155,15 +169,18 @@ const ChecklistSignature = ({
                 onFocus={(): string => (commentBeforeFocus = comment)}
                 onBlur={putComment}
             />
-
-            <Button
-                onClick={handleSignClick}
-                disabled={
-                    signStatus === AsyncStatus.LOADING || !allItemsCheckedOrNA
-                }
-            >
-                {determineSignButtonText(isSigned, signStatus)}
-            </Button>
+            <BottomContentWrapper readyToSign={allItemsCheckedOrNA}>
+                {determineSignatureText()}
+                <Button
+                    onClick={handleSignClick}
+                    disabled={
+                        signStatus === AsyncStatus.LOADING ||
+                        !allItemsCheckedOrNA
+                    }
+                >
+                    {determineSignButtonText(isSigned, signStatus)}
+                </Button>
+            </BottomContentWrapper>
         </ChecklistSignatureWrapper>
     );
 };

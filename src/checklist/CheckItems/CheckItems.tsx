@@ -12,6 +12,7 @@ import { ProcosysApiService } from '../../services/procosysApi';
 const CheckItemsWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    margin-bottom: 24px;
     & div:first-of-type {
         margin-top: 0;
     }
@@ -78,21 +79,18 @@ const CheckItems = ({
         index: number,
         nextItemIsHeading: boolean
     ): JSX.Element => {
-        if (item.isHeading && nextItemIsHeading) {
-            return <></>;
-        }
+        // if (item.isHeading && nextItemIsHeading) {
+        //     return <></>;
+        // }
         if (item.isHeading) {
-            return (
-                <CheckHeader
-                    text={item.text}
-                    removeLabels={nextItemIsHeading}
-                />
-            );
+            return <CheckHeader text={item.text} addLabels={index === 0} />;
         }
         // Return "OK / NA" labels if the first check item is not a heading.
         return (
             <>
-                {index === 0 ? <CheckHeader text="" /> : null}
+                {index === 0 ? (
+                    <CheckHeader text="" addLabels={index === 0} />
+                ) : null}
                 <CheckItem
                     item={item}
                     updateNA={updateNA}

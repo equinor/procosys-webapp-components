@@ -1,7 +1,13 @@
 import React from 'react';
 import SkeletonLoadingPage from './loading/SkeletonLoader';
-import EdsCard from './EdsCard';
+import { Accordion } from '@equinor/eds-core-react';
 import { AsyncStatus } from '../services/apiTypes';
+import styled from 'styled-components';
+const { AccordionHeader, AccordionItem, AccordionPanel } = Accordion;
+
+const AccordionWrapper = styled.div`
+    margin-bottom: 16px;
+`;
 
 type AsyncCardProps = {
     fetchStatus: AsyncStatus;
@@ -30,7 +36,17 @@ const AsyncCard = ({
         }
     };
 
-    return <EdsCard title={cardTitle}>{content()}</EdsCard>;
+    return (
+        <AccordionWrapper>
+            <Accordion headerLevel="h3" chevronPosition="left">
+                <AccordionItem isExpanded={fetchStatus !== AsyncStatus.LOADING}>
+                    <AccordionHeader>{cardTitle}</AccordionHeader>
+
+                    <AccordionPanel>{content()}</AccordionPanel>
+                </AccordionItem>
+            </Accordion>
+        </AccordionWrapper>
+    );
 };
 
 export default AsyncCard;

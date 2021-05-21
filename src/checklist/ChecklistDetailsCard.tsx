@@ -1,65 +1,101 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import CompletionStatusIcon from '../components/icons/CompletionStatusIcon';
-import { ChecklistDetails } from '../services/apiTypes';
-import { COLORS, SHADOW } from '../style/GlobalStyles';
+import EdsIcon from '../components/icons/EdsIcon';
+import { ChecklistDetails, ChecklistResponse } from '../services/apiTypes';
+import { Caption, COLORS } from '../style/GlobalStyles';
 
-const FormularTypeText = styled.p`
-    flex: 1;
+const DetailsCardWrapper = styled.div`
+    cursor: pointer;
+    display: flex;
+    background-color: #deecee;
+    padding: 4% 20px;
+    text-decoration: none;
+    &:hover {
+        opacity: 0.7;
+    }
 `;
 
-const TextWrapper = styled.div`
-    flex: 3;
-    padding-right: 15px;
-    & p,
-    h6 {
+const DetailsWrapper = styled.div`
+    flex-direction: column;
+    flex: 1;
+    & > p {
         margin: 0;
     }
 `;
 
-const ChecklistDetailsCardWrapper = styled.div<{ isSigned?: boolean }>`
-    padding: 16px 4%;
-    box-sizing: border-box;
-    width: 100%;
-    background-color: ${(props): string =>
-        props.isSigned ? COLORS.fadedBlue : COLORS.lightGrey};
+const StatusImageWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: ${SHADOW};
-    & img {
-        max-width: 20px;
-        margin: 10px 16px 10px 0px;
-        flex: 1;
-    }
-    & ${FormularTypeText} {
-        flex: 1;
-        text-align: right;
-        padding-right: 24px;
+    flex-direction: column;
+    padding-right: 12px;
+    align-self: center;
+    & > img {
+        height: 20px;
     }
 `;
 
-type ChecklistDetailsCardProps = {
+const StatusTextWrapper = styled.div`
+    display: flex;
+    & > p {
+        margin: 0;
+        background-color: ${COLORS.lightGrey};
+        font-size: 0.75rem;
+    }
+`;
+
+const DetailsHeaderWrapper = styled.div`
+    display: flex;
+    align-items: baseline;
+    & > p:first-child {
+        flex: 2;
+        color: ${COLORS.mossGreen};
+        text-align: left;
+    }
+    & > p {
+        margin: 0;
+        flex: 1;
+        text-align: right;
+    }
+`;
+
+const DetailsBodyWrapper = styled.div`
+    display: flex;
+    margin: 0;
+    & > div {
+        margin-left: auto;
+    }
+    & p {
+        margin: 0;
+        margin-top: 4px;
+    }
+`;
+
+type ScopeItemProps = {
     details: ChecklistDetails;
-    descriptionLabel: string;
-    isSigned?: boolean;
 };
 
-const ChecklistDetailsCard = ({
-    details,
-    isSigned,
-    descriptionLabel,
-}: ChecklistDetailsCardProps): JSX.Element => {
+const ScopeItem = ({ details }: ScopeItemProps): JSX.Element => {
     return (
-        <ChecklistDetailsCardWrapper isSigned={isSigned}>
-            <CompletionStatusIcon status={details.status} />
-            <TextWrapper>
-                <label>{details.tagNo}</label>
-                <p>{details.tagDescription}</p>
-            </TextWrapper>
-            <FormularTypeText>{details.formularType}</FormularTypeText>
-        </ChecklistDetailsCardWrapper>
+        <DetailsCardWrapper>
+            <StatusImageWrapper>
+                <CompletionStatusIcon status={details.status} />
+                <StatusTextWrapper>
+                    {details.signedAt ? <Caption>S</Caption> : null}
+                    {details.verifiedByUser ? <Caption>V</Caption> : null}
+                </StatusTextWrapper>
+            </StatusImageWrapper>
+            <DetailsWrapper>
+                <DetailsHeaderWrapper>
+                    <Caption>{details.tagNo}</Caption>
+                    <Caption>{details.formularType}</Caption>
+                    <Caption>{details.responsibleCode}</Caption>
+                </DetailsHeaderWrapper>
+                <DetailsBodyWrapper>
+                    <Caption>{details.tagDescription}</Caption>
+                </DetailsBodyWrapper>
+            </DetailsWrapper>
+        </DetailsCardWrapper>
     );
 };
 
-export default ChecklistDetailsCard;
+export default ScopeItem;

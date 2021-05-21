@@ -25,12 +25,12 @@ const { BannerIcon, BannerMessage } = Banner;
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 55px);
-    & > ${CardWrapper}:first-of-type {
-        margin-top: 50px;
-    }
+`;
+
+const AttachmentsHeader = styled.h5`
+    margin-top: 54px;
+    margin-left: 4%;
+    margin-bottom: 0px;
 `;
 
 type ChecklistProps = {
@@ -56,10 +56,10 @@ const initializeApi = ({
 };
 
 const Checklist = (props: ChecklistProps): JSX.Element => {
-    const api = useMemo(() => initializeApi({ ...props }), [
-        props.checklistId,
-        props.plantId,
-    ]);
+    const api = useMemo(
+        () => initializeApi({ ...props }),
+        [props.checklistId, props.plantId]
+    );
     const getAttachmentsEndpoint = buildEndpoint().getChecklistAttachments(
         props.plantId,
         props.checklistId
@@ -74,10 +74,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         AsyncStatus.LOADING
     );
     const [checkItems, setCheckItems] = useState<CheckItem[]>([]);
-    const [
-        checklistDetails,
-        setChecklistDetails,
-    ] = useState<ChecklistDetails>();
+    const [checklistDetails, setChecklistDetails] =
+        useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
     const [reloadChecklist, setReloadChecklist] = useState(false);
@@ -105,21 +103,20 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         if (!checklistDetails) return <></>;
         return (
             <>
-                <ChecklistDetailsCard
-                    details={checklistDetails}
-                    isSigned={isSigned}
-                    descriptionLabel={'checklist'}
-                />
-                {isSigned && (
-                    <Banner>
-                        <BannerIcon variant={'info'}>
-                            <EdsIcon name={'info_circle'} />
-                        </BannerIcon>
-                        <BannerMessage>
-                            This checklist is signed. Unsign to make changes.
-                        </BannerMessage>
-                    </Banner>
-                )}
+                <ChecklistDetailsCard details={checklistDetails} />
+                {!isSigned && !allItemsCheckedOrNA
+                    ? null
+                    : isSigned && (
+                          <Banner>
+                              <BannerIcon variant={'info'}>
+                                  <EdsIcon name={'info_circle'} />
+                              </BannerIcon>
+                              <BannerMessage>
+                                  This checklist is signed. Unsign to make
+                                  changes.
+                              </BannerMessage>
+                          </Banner>
+                      )}
                 <ChecklistWrapper>
                     <CheckItems
                         setAllItemsCheckedOrNA={setAllItemsCheckedOrNA}
@@ -130,98 +127,65 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         setSnackbarText={setSnackbarText}
                         api={api}
                     />
-                    <AsyncCard
-                        errorMessage={
-                            'Unable to load attachments for this checklist.'
-                        }
-                        cardTitle={'Attachments'}
-                        fetchStatus={fetchAttachmentsStatus}
+                </ChecklistWrapper>
+                <AttachmentsHeader>Attachments</AttachmentsHeader>
+                <AttachmentsWrapper>
+                    <UploadImageButton
+                        disabled={isSigned}
+                        onClick={(): void => setShowUploadModal(true)}
                     >
-                        <AttachmentsWrapper>
-                            <UploadImageButton
-                                disabled={isSigned}
-                                onClick={(): void => setShowUploadModal(true)}
-                            >
-                                <EdsIcon name="camera_add_photo" />
-                            </UploadImageButton>
-                            {showUploadModal ? (
-                                <UploadAttachment
-                                    setShowModal={setShowUploadModal}
-                                    setSnackbarText={setSnackbarText}
-                                    updateAttachments={setRefreshAttachments}
-                                    api={api}
-                                />
-                            ) : null}
-                            {attachments.map((attachment) => (
-                                <Attachment
-                                    key={attachment.id}
-                                    isSigned={isSigned}
-                                    getAttachment={(
-                                        cancelToken: CancelToken
-                                    ): Promise<Blob> =>
-                                        api.getChecklistAttachment(
-                                            cancelToken,
-                                            attachment.id
-                                        )
-                                    }
-                                    setSnackbarText={setSnackbarText}
-                                    attachment={attachment}
-                                    refreshAttachments={setRefreshAttachments}
-                                    deleteAttachment={(
-                                        cancelToken: CancelToken
-                                    ): Promise<void> =>
-                                        api.deleteChecklistAttachment(
-                                            cancelToken,
-                                            attachment.id
-                                        )
-                                    }
-                                />
-                            ))}
-                        </AttachmentsWrapper>
-                    </AsyncCard>
-
-                    <AsyncCard
-                        fetchStatus={fetchChecklistStatus}
-                        errorMessage={'Unable to load checklist signature.'}
-                        cardTitle={'Signature'}
-                    >
-                        <ChecklistSignature
+                        <EdsIcon name="camera_add_photo" />
+                    </UploadImageButton>
+                    {showUploadModal ? (
+                        <UploadAttachment
+                            setShowModal={setShowUploadModal}
                             setSnackbarText={setSnackbarText}
-                            reloadChecklist={setReloadChecklist}
-                            allItemsCheckedOrNA={allItemsCheckedOrNA}
-                            isSigned={isSigned}
-                            details={checklistDetails}
-                            setIsSigned={setIsSigned}
+                            updateAttachments={setRefreshAttachments}
                             api={api}
                         />
-                    </AsyncCard>
-                    {!isSigned && !allItemsCheckedOrNA && (
-                        <Banner>
-                            <BannerIcon variant={'warning'}>
-                                <EdsIcon name={'warning_outlined'} />
-                            </BannerIcon>
-                            <BannerMessage>
-                                All applicable items must be checked before
-                                signing.
-                            </BannerMessage>
-                        </Banner>
-                    )}
-                </ChecklistWrapper>
+                    ) : null}
+                    {attachments.map((attachment) => (
+                        <Attachment
+                            key={attachment.id}
+                            isSigned={isSigned}
+                            getAttachment={(
+                                cancelToken: CancelToken
+                            ): Promise<Blob> =>
+                                api.getChecklistAttachment(
+                                    cancelToken,
+                                    attachment.id
+                                )
+                            }
+                            setSnackbarText={setSnackbarText}
+                            attachment={attachment}
+                            refreshAttachments={setRefreshAttachments}
+                            deleteAttachment={(
+                                cancelToken: CancelToken
+                            ): Promise<void> =>
+                                api.deleteChecklistAttachment(
+                                    cancelToken,
+                                    attachment.id
+                                )
+                            }
+                        />
+                    ))}
+                </AttachmentsWrapper>
+                <ChecklistSignature
+                    setSnackbarText={setSnackbarText}
+                    reloadChecklist={setReloadChecklist}
+                    allItemsCheckedOrNA={allItemsCheckedOrNA}
+                    isSigned={isSigned}
+                    details={checklistDetails}
+                    setIsSigned={setIsSigned}
+                    api={api}
+                />
             </>
         );
     };
 
     return (
         <>
-            <AsyncPage
-                fetchStatus={fetchChecklistStatus}
-                errorMessage={
-                    'Unable to load checklist. Please reload or try again later.'
-                }
-                loadingMessage={'Loading checklist'}
-            >
-                {content()}
-            </AsyncPage>
+            {content()}
             {snackbar}
         </>
     );

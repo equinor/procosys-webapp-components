@@ -6,6 +6,7 @@ import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
 
 export const UploadContainer = styled.div`
+    border-radius: 20px;
     max-height: 80vh;
     width: 300px;
     background-color: ${COLORS.white};
@@ -16,11 +17,14 @@ export const UploadContainer = styled.div`
         max-height: 200px;
         object-fit: contain;
     }
-    & > button,
-    button:disabled {
-        margin-top: 12px;
-        margin-left: 8px;
-        float: right;
+`;
+
+const ButtonWrapper = styled.div`
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    & button:first-of-type {
+        margin-right: 12px;
     }
 `;
 
@@ -97,25 +101,28 @@ const UploadAttachment = ({
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                 />
-
-                <Button
-                    disabled={
-                        !selectedFile ||
-                        postAttachmentStatus === AsyncStatus.LOADING
-                    }
-                    onClick={onFileUpload}
-                >
-                    {postAttachmentStatus === AsyncStatus.LOADING ? (
-                        <DotProgress color="primary" />
-                    ) : (
-                        'Upload image'
-                    )}
-                </Button>
-                {selectedFile ? (
-                    <Button onClick={(): void => fileInputRef.current.click()}>
-                        Choose other
+                <ButtonWrapper>
+                    {selectedFile ? (
+                        <Button
+                            onClick={(): void => fileInputRef.current.click()}
+                        >
+                            Choose other
+                        </Button>
+                    ) : null}
+                    <Button
+                        disabled={
+                            !selectedFile ||
+                            postAttachmentStatus === AsyncStatus.LOADING
+                        }
+                        onClick={onFileUpload}
+                    >
+                        {postAttachmentStatus === AsyncStatus.LOADING ? (
+                            <DotProgress color="primary" />
+                        ) : (
+                            'Upload image'
+                        )}
                     </Button>
-                ) : null}
+                </ButtonWrapper>
             </UploadContainer>
         </Scrim>
     );

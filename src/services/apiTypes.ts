@@ -113,6 +113,7 @@ export interface ChecklistDetails {
     updatedByLastName: string;
     isRestrictedForUser: boolean;
     hasElectronicForm: boolean;
+    verifiedByUser: string | null;
 }
 
 export interface ColumnLabel {
