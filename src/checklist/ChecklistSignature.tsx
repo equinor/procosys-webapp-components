@@ -55,7 +55,7 @@ type ChecklistSignatureProps = {
     isSigned: boolean;
     allItemsCheckedOrNA: boolean;
     reloadChecklist: React.Dispatch<React.SetStateAction<boolean>>;
-    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };
 

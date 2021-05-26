@@ -35,7 +35,7 @@ type CheckItemsProps = {
     isSigned: boolean;
     setAllItemsCheckedOrNA: React.Dispatch<React.SetStateAction<boolean>>;
     allItemsCheckedOrNA: boolean;
-    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };
 

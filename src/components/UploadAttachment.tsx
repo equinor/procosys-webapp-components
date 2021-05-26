@@ -40,7 +40,7 @@ const ChooseImageContainer = styled.div`
 type UploadAttachmentProps = {
     setShowModal: Dispatch<SetStateAction<boolean>>;
     updateAttachments: Dispatch<SetStateAction<boolean>>;
-    setSnackbarText: Dispatch<SetStateAction<string>>;
+    setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };
 

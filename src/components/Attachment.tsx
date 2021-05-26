@@ -88,7 +88,7 @@ type AttachmentProps = {
     isSigned?: boolean;
     deleteAttachment?: (cancelToken: CancelToken) => Promise<void>;
     getAttachment: (cancelToken: CancelToken) => Promise<Blob>;
-    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    setSnackbarText: (message: string) => void;
 };
 
 const Attachment = ({
