@@ -1,20 +1,27 @@
 import axios, { AxiosInstance } from 'axios';
 import objectToCamelCase from '../utils/objectToCamelCase';
 
-type baseApiProps = {
-    accessToken: string;
+export type ProcosysApiSettings = {
     baseUrl: string;
+    apiVersion: string;
+    scope: string[];
+};
+
+type baseApiProps = {
+    apiSettings: ProcosysApiSettings;
+    getAccessToken: (scope: string[]) => Promise<string>;
 };
 
 const baseApiService = ({
-    accessToken,
-    baseUrl,
+    apiSettings,
+    getAccessToken,
 }: baseApiProps): AxiosInstance => {
     const axiosInstance = axios.create();
-    axiosInstance.defaults.baseURL = baseUrl;
+    axiosInstance.defaults.baseURL = apiSettings.baseUrl;
     axiosInstance.interceptors.request.use(async (request) => {
         try {
-            request.headers['Authorization'] = `Bearer ${accessToken}`;
+            const token = await getAccessToken(apiSettings.scope);
+            request.headers['Authorization'] = `Bearer ${token}`;
             return request;
         } catch (error) {
             throw new Error(error.message);
@@ -31,6 +38,7 @@ const baseApiService = ({
             return response;
         },
         (error) => {
+            console.dir(error);
             if (axios.isCancel(error)) {
                 throw error;
             }

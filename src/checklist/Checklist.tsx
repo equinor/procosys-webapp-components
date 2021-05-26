@@ -6,20 +6,16 @@ import ChecklistDetailsCard from './ChecklistDetailsCard';
 import styled from 'styled-components';
 import EdsIcon from '../components/icons/EdsIcon';
 import axios, { CancelToken } from 'axios';
-import AsyncCard from '../components/AsyncCard';
 import Attachment, {
     AttachmentsWrapper,
     UploadImageButton,
 } from '../components/Attachment';
 import UploadAttachment from '../components/UploadAttachment';
-import { CardWrapper } from '../components/EdsCard';
 import useAttachments from '../utils/useAttachments';
 import buildEndpoint from '../utils/buildEndpoint';
-import useSnackbar from '../utils/useSnackbar';
-import AsyncPage from '../components/AsyncPage';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../services/procosysApi';
-import baseApi from '../services/baseApi';
+import baseApi, { ProcosysApiSettings } from '../services/baseApi';
 
 const { BannerIcon, BannerMessage } = Banner;
 
@@ -36,17 +32,19 @@ const AttachmentsHeader = styled.h5`
 type ChecklistProps = {
     checklistId: string;
     plantId: string;
-    accessToken: string;
-    baseUrl: string;
+    apiSettings: ProcosysApiSettings;
+    setChecklistStatus: React.Dispatch<React.SetStateAction<string>>;
+    getAccessToken: (scope: string[]) => Promise<string>;
+    setSnackbarText: (message: string) => void;
 };
 
 const initializeApi = ({
     checklistId,
     plantId,
-    accessToken,
-    baseUrl,
+    getAccessToken,
+    apiSettings,
 }: ChecklistProps) => {
-    const axiosInstance = baseApi({ accessToken, baseUrl });
+    const axiosInstance = baseApi({ getAccessToken, apiSettings });
     return procosysApiService({
         axios: axiosInstance,
         apiVersion: '&api-version=4.1',
@@ -69,7 +67,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         attachments,
         fetchAttachmentsStatus,
     } = useAttachments(getAttachmentsEndpoint, api);
-    const { snackbar, setSnackbarText } = useSnackbar();
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
     );
@@ -81,6 +78,14 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const source = axios.CancelToken.source();
+
+    useEffect(() => {
+        if (isSigned) {
+            props.setChecklistStatus('OK');
+        } else {
+            props.setChecklistStatus('OS');
+        }
+    }, [isSigned]);
 
     useEffect(() => {
         (async (): Promise<void> => {
@@ -124,7 +129,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         checkItems={checkItems}
                         details={checklistDetails}
                         isSigned={isSigned}
-                        setSnackbarText={setSnackbarText}
+                        setSnackbarText={props.setSnackbarText}
                         api={api}
                     />
                 </ChecklistWrapper>
@@ -139,7 +144,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                     {showUploadModal ? (
                         <UploadAttachment
                             setShowModal={setShowUploadModal}
-                            setSnackbarText={setSnackbarText}
+                            setSnackbarText={props.setSnackbarText}
                             updateAttachments={setRefreshAttachments}
                             api={api}
                         />
@@ -156,7 +161,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     attachment.id
                                 )
                             }
-                            setSnackbarText={setSnackbarText}
+                            setSnackbarText={props.setSnackbarText}
                             attachment={attachment}
                             refreshAttachments={setRefreshAttachments}
                             deleteAttachment={(
@@ -171,7 +176,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                     ))}
                 </AttachmentsWrapper>
                 <ChecklistSignature
-                    setSnackbarText={setSnackbarText}
+                    setSnackbarText={props.setSnackbarText}
                     reloadChecklist={setReloadChecklist}
                     allItemsCheckedOrNA={allItemsCheckedOrNA}
                     isSigned={isSigned}
@@ -183,12 +188,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         );
     };
 
-    return (
-        <>
-            {content()}
-            {snackbar}
-        </>
-    );
+    return <>{content()}</>;
 };
 
 export default Checklist;
