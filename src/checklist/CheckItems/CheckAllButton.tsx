@@ -16,7 +16,7 @@ type CheckAllButtonProps = {
     items: CheckItem[];
     updateOk: (value: boolean, checkItemId: number) => void;
     allItemsCheckedOrNA: boolean;
-    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };
 

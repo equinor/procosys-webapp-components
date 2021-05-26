@@ -74,7 +74,7 @@ type CheckItemProps = {
     updateOk: (value: boolean, checkItemId: number) => void;
     checklistId: number;
     isSigned: boolean;
-    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };
 

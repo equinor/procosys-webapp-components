@@ -9,7 +9,10 @@
   },
   "peerDependencies": {
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "@equinor/eds-core-react": "^0.10.1",
+    "@equinor/eds-icons": "^0.6.2",
+    "styled-components": "^5.2.3"
   },
   "files": [
     "dist"
@@ -26,28 +29,24 @@
   },
   "homepage": "https://github.com/equinor/procosys-webapp-components#readme",
   "dependencies": {
-    "@equinor/eds-core-react": "^0.10.1",
-    "@equinor/eds-icons": "^0.6.2",
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^13.1.5",
-    "@types/jest": "^26.0.22",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
-    "@types/styled-components": "^5.1.9",
-    "axios": "^0.21.1",
-    "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0",
-    "msw": "^0.28.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "styled-components": "^5.2.3",
-    "ts-jest": "^26.5.5",
-    "typescript": "^4.2.4"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "ts-jest": "^26.5.5",
+    "typescript": "^4.2.4",
+    "msw": "^0.28.2",
+    "styled-components": "^5.2.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "@equinor/eds-core-react": "^0.10.1",
+    "@equinor/eds-icons": "^0.6.2",
     "@rollup/plugin-image": "^2.0.6",
     "rollup": "^2.45.2",
-    "rollup-plugin-typescript2": "^0.30.0"
+    "rollup-plugin-typescript2": "^0.30.0",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "@types/styled-components": "^5.1.9"
   }
 }
