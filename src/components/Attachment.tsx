@@ -25,7 +25,7 @@ const AttachmentWrapper = styled.div`
 `;
 
 const DocumentAttachmentWrapper = styled(AttachmentWrapper)`
-    border: 1px dashed ${COLORS.mossGreen};
+    border: 1px solid ${COLORS.mossGreen};
     overflow: hidden;
     box-sizing: border-box;
     padding: 8px;
