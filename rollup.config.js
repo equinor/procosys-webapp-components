@@ -13,6 +13,6 @@ export default {
             strict: false,
         },
     ],
-    plugins: [typescript({ objectHashIgnoreUnknownHack: true }), image()],
+    plugins: [typescript(), image()],
     external: ['react', 'react-dom'],
 };
