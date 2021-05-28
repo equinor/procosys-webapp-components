@@ -13,16 +13,13 @@ import updateCheck from '../../../utils/updateCheck';
 import updateNA from '../../../utils/updateNA';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
-    background-color: ${(props): string =>
-        props.disabled ? 'transparent' : 'transparent'};
-    /* border-bottom: 2px ${COLORS.fadedBlue} solid; */
+    background-color: transparent;
     padding: 4px 0;
     & p,
     button {
         color: ${(props): string =>
             props.disabled ? COLORS.darkGrey : 'initial'};
     }
-    transition: background-color 0.2s ease-in-out;
     transition: color 0.2s ease-in-out;
 `;
 

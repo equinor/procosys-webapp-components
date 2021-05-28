@@ -121,6 +121,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 const checklistResponse = await api.getChecklist();
                 setIsSigned(!!checklistResponse.checkList.signedByFirstName);
                 setCheckItems(checklistResponse.checkItems);
+                setCustomCheckItems(checklistResponse.customCheckItems);
                 setChecklistDetails(checklistResponse.checkList);
                 setFetchChecklistStatus(AsyncStatus.SUCCESS);
             } catch (err) {
@@ -168,6 +169,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         api={api}
                     />
                     <CustomCheckItems
+                        setCustomCheckItems={setCustomCheckItems}
                         customCheckItems={customCheckItems}
                         isSigned={isSigned}
                         setSnackbarText={props.setSnackbarText}

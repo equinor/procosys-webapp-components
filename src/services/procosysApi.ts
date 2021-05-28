@@ -78,11 +78,13 @@ const procosysApiService = ({
 
     const postCustomCheckItem = async (
         dto: CustomCheckItemDto
-    ): Promise<void> => {
-        await axios.post(
+    ): Promise<number> => {
+        const { data } = await axios.post(
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
-            dto
+            { ...dto, ChecklistId: checklistId }
         );
+        console.log('data ', data);
+        return data.id;
     };
 
     const deleteCustomCheckItem = async (customCheckItemId: number) => {
@@ -98,9 +100,10 @@ const procosysApiService = ({
     };
 
     const getNextCustomItemNumber = async (): Promise<string> => {
-        return axios.get(
+        const { data } = await axios.get(
             `CheckList/CustomItem/NextItemNo?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
         );
+        return data;
     };
 
     const putMetaTableCell = async (
