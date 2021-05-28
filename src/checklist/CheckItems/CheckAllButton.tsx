@@ -1,28 +1,41 @@
 import React, { useState } from 'react';
-import { AsyncStatus, CheckItem } from '../../services/apiTypes';
+import {
+    AsyncStatus,
+    CheckItem,
+    CustomCheckItem,
+} from '../../services/apiTypes';
 import { Button } from '@equinor/eds-core-react';
-import EdsIcon from '../../components/icons/EdsIcon';
 import styled from 'styled-components';
 import { ProcosysApiService } from '../../services/procosysApi';
+import updateCheck from '../../utils/updateCheck';
+import updateCustomCheck from '../../utils/updateCustomCheck';
+import updateNA from '../../utils/updateNA';
 
 const StyledCheckAllButton = styled(Button)`
     :disabled {
         margin: 24px 0 24px auto;
     }
     margin: 24px 0 24px auto;
+    justify-self: flex-end;
 `;
 
 type CheckAllButtonProps = {
-    items: CheckItem[];
-    updateOk: (value: boolean, checkItemId: number) => void;
+    checkItems: CheckItem[];
+    customCheckItems: CustomCheckItem[];
+    setCheckItems: React.Dispatch<React.SetStateAction<CheckItem[]>>;
+    setCustomCheckItems: React.Dispatch<
+        React.SetStateAction<CustomCheckItem[]>
+    >;
     allItemsCheckedOrNA: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };
 
 const CheckAllButton = ({
-    items,
-    updateOk,
+    checkItems,
+    customCheckItems,
+    setCheckItems,
+    setCustomCheckItems,
     allItemsCheckedOrNA,
     setSnackbarText,
     api,
@@ -30,8 +43,11 @@ const CheckAllButton = ({
     const [checkAllStatus, setCheckAllStatus] = useState(AsyncStatus.INACTIVE);
     const checkAll = async (): Promise<void> => {
         setCheckAllStatus(AsyncStatus.LOADING);
-        const itemsToCheck = items.filter(
+        const itemsToCheck = checkItems.filter(
             (item) => !item.isOk && !item.isNotApplicable
+        );
+        const customItemsToCheck = customCheckItems.filter(
+            (item) => !item.isOk
         );
         try {
             await Promise.all(
@@ -39,7 +55,25 @@ const CheckAllButton = ({
                     return api.postSetOk(item.id);
                 })
             );
-            itemsToCheck.forEach((item) => updateOk(true, item.id));
+            await Promise.all(
+                customItemsToCheck.map((item) => {
+                    return api.postCustomSetOk(item.id);
+                })
+            );
+            itemsToCheck.forEach((item) =>
+                updateCheck({
+                    value: true,
+                    checkItemId: item.id,
+                    setItems: setCheckItems,
+                })
+            );
+            customItemsToCheck.forEach((item) =>
+                updateCustomCheck({
+                    value: true,
+                    checkItemId: item.id,
+                    setItems: setCustomCheckItems,
+                })
+            );
             setCheckAllStatus(AsyncStatus.SUCCESS);
             setSnackbarText('Changes saved.');
         } catch (error) {
@@ -48,29 +82,53 @@ const CheckAllButton = ({
         }
     };
 
-    const uncheckAll = async (): Promise<void> => {
+    const clearAll = async (): Promise<void> => {
         setCheckAllStatus(AsyncStatus.LOADING);
-        const itemsToCheck = items.filter(
-            (item) => item.isOk && !item.isNotApplicable
+        const itemsToClear = checkItems.filter(
+            (item) => !item.isHeading && (item.isOk || item.isNotApplicable)
         );
+        const customItemsToClear = customCheckItems.filter((item) => item.isOk);
         try {
             await Promise.all(
-                itemsToCheck.map((item) => {
+                itemsToClear.map((item) => {
                     return api.postClear(item.id);
                 })
             );
-            itemsToCheck.forEach((item) => updateOk(false, item.id));
+            await Promise.all(
+                customItemsToClear.map((item) => {
+                    return api.postCustomClear(item.id);
+                })
+            );
+            itemsToClear.forEach((item) => {
+                updateCheck({
+                    value: false,
+                    checkItemId: item.id,
+                    setItems: setCheckItems,
+                });
+                updateNA({
+                    value: false,
+                    checkItemId: item.id,
+                    setItems: setCheckItems,
+                });
+            });
+            customItemsToClear.forEach((item) =>
+                updateCustomCheck({
+                    value: false,
+                    checkItemId: item.id,
+                    setItems: setCustomCheckItems,
+                })
+            );
             setCheckAllStatus(AsyncStatus.SUCCESS);
-            setSnackbarText('Uncheck complete.');
+            setSnackbarText('Clear complete.');
         } catch (error) {
             setCheckAllStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to save changes.');
+            setSnackbarText('Unable to clear fields.');
         }
     };
 
     return (
         <StyledCheckAllButton
-            onClick={allItemsCheckedOrNA ? uncheckAll : checkAll}
+            onClick={allItemsCheckedOrNA ? clearAll : checkAll}
             disabled={checkAllStatus === AsyncStatus.LOADING}
         >
             {/* <EdsIcon
