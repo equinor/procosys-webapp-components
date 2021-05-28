@@ -1,4 +1,5 @@
 import { AxiosInstance, CancelToken } from 'axios';
+import { CustomCheckItemDto } from '../checklist/CheckItems/CustomCheckItems';
 import { ChecklistResponse, Attachment } from './apiTypes';
 
 type ProcosysApiServiceProps = {
@@ -49,6 +50,56 @@ const procosysApiService = ({
                 CheckListId: checklistId,
                 CheckItemId: checkItemId,
             }
+        );
+    };
+
+    const postCustomClear = async (
+        customCheckItemId: number
+    ): Promise<void> => {
+        await axios.post(
+            `CheckList/CustomItem/Clear?plantId=PCS$${plantId}${apiVersion}`,
+            {
+                CheckListId: checklistId,
+                CustomCheckItemId: customCheckItemId,
+            }
+        );
+    };
+    const postCustomSetOk = async (
+        customCheckItemId: number
+    ): Promise<void> => {
+        await axios.post(
+            `CheckList/CustomItem/SetOk?plantId=PCS$${plantId}${apiVersion}`,
+            {
+                CheckListId: checklistId,
+                CustomCheckItemId: customCheckItemId,
+            }
+        );
+    };
+
+    const postCustomCheckItem = async (
+        dto: CustomCheckItemDto
+    ): Promise<void> => {
+        await axios.post(
+            `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
+            dto
+        );
+    };
+
+    const deleteCustomCheckItem = async (customCheckItemId: number) => {
+        await axios.delete(
+            `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
+            {
+                data: {
+                    CustomCheckItemId: customCheckItemId,
+                    ChecklistId: checklistId,
+                },
+            }
+        );
+    };
+
+    const getNextCustomItemNumber = async (): Promise<string> => {
+        return axios.get(
+            `CheckList/CustomItem/NextItemNo?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
         );
     };
 
@@ -148,6 +199,11 @@ const procosysApiService = ({
     };
 
     return {
+        postCustomCheckItem,
+        postCustomClear,
+        postCustomSetOk,
+        getNextCustomItemNumber,
+        deleteCustomCheckItem,
         deleteChecklistAttachment,
         getChecklistAttachments,
         getChecklistAttachment,
