@@ -10,7 +10,7 @@ type AsyncPageProps = {
     fetchStatus: AsyncStatus;
     errorMessage: string;
     emptyContentMessage?: string;
-    children: JSX.Element;
+    children: JSX.Element | JSX.Element[];
     loadingMessage?: string;
 };
 
