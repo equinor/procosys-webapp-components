@@ -9,18 +9,17 @@ import MetaTable from './MetaTable/MetaTable';
 import EdsIcon from '../../../components/icons/EdsIcon';
 import { COLORS } from '../../../style/GlobalStyles';
 import { ProcosysApiService } from '../../../services/procosysApi';
+import updateCheck from '../../../utils/updateCheck';
+import updateNA from '../../../utils/updateNA';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
-    background-color: ${(props): string =>
-        props.disabled ? 'transparent' : 'transparent'};
-    /* border-bottom: 2px ${COLORS.fadedBlue} solid; */
+    background-color: transparent;
     padding: 4px 0;
     & p,
     button {
         color: ${(props): string =>
             props.disabled ? COLORS.darkGrey : 'initial'};
     }
-    transition: background-color 0.2s ease-in-out;
     transition: color 0.2s ease-in-out;
 `;
 
@@ -70,9 +69,7 @@ const CheckboxGroup = styled.div`
 
 type CheckItemProps = {
     item: CheckItemType;
-    updateNA: (value: boolean, checkItemId: number) => void;
-    updateOk: (value: boolean, checkItemId: number) => void;
-    checklistId: number;
+    setCheckItems: React.Dispatch<React.SetStateAction<CheckItemType[]>>;
     isSigned: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
@@ -81,8 +78,7 @@ type CheckItemProps = {
 const CheckItem = ({
     item,
     isSigned,
-    updateNA,
-    updateOk,
+    setCheckItems,
     setSnackbarText,
     api,
 }: CheckItemProps): JSX.Element => {
@@ -95,9 +91,16 @@ const CheckItem = ({
     const clearCheckmarks = async (): Promise<void> => {
         try {
             await api.postClear(item.id);
-            updateOk(false, item.id);
-            updateNA(false, item.id);
-            setSnackbarText('Change saved.');
+            updateCheck({
+                value: false,
+                checkItemId: item.id,
+                setItems: setCheckItems,
+            });
+            updateNA({
+                value: false,
+                checkItemId: item.id,
+                setItems: setCheckItems,
+            });
             setPostNAStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             setSnackbarText(error.toString());
@@ -113,9 +116,16 @@ const CheckItem = ({
         }
         try {
             await api.postSetNA(item.id);
-            updateOk(false, item.id);
-            updateNA(true, item.id);
-            setSnackbarText('Change saved.');
+            updateCheck({
+                value: false,
+                checkItemId: item.id,
+                setItems: setCheckItems,
+            });
+            updateNA({
+                value: true,
+                checkItemId: item.id,
+                setItems: setCheckItems,
+            });
             setPostNAStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             setSnackbarText(error.message.toString());
@@ -128,9 +138,16 @@ const CheckItem = ({
         setPostCheckStatus(AsyncStatus.LOADING);
         try {
             await api.postSetOk(item.id);
-            updateNA(false, item.id);
-            updateOk(true, item.id);
-            setSnackbarText('Change saved.');
+            updateNA({
+                value: false,
+                checkItemId: item.id,
+                setItems: setCheckItems,
+            });
+            updateCheck({
+                value: true,
+                checkItemId: item.id,
+                setItems: setCheckItems,
+            });
             setPostCheckStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             setSnackbarText(error.toString());

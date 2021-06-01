@@ -26,38 +26,6 @@ export interface Plant {
     projects?: Project[];
 }
 
-//COMM PKG SEARCH
-export interface CommPkgPreview {
-    id: number;
-    commPkgNo: string;
-    description: string;
-    mcStatus: CompletionStatus;
-    commStatus: CompletionStatus;
-    commissioningHandoverStatus: string;
-    operationHandoverStatus: string;
-}
-
-export type CommPkgSearchResults = {
-    maxAvailable: number;
-    items: CommPkgPreview[];
-};
-
-// COMM PKG AND LISTS
-
-export type CommPkg = {
-    id: number;
-    commPkgNo: string;
-    description: string;
-    commStatus: CompletionStatus;
-    mcStatus: CompletionStatus;
-    mcPkgCount: number;
-    mcPkgsAcceptedByCommissioning: number;
-    mcPkgsAcceptedByOperation: number;
-    commissioningHandoverStatus: string;
-    operationHandoverStatus: string;
-    systemId: number;
-};
-
 export type ChecklistPreview = {
     id: number;
     tagNo: string;
@@ -69,33 +37,12 @@ export type ChecklistPreview = {
     hasElectronicForm: boolean;
 };
 
-export type PunchPreview = {
-    id: number;
-    status: CompletionStatus;
-    description: string;
-    systemModule: string;
-    tagDescription: string;
-    tagId: number;
-    tagNo: string;
-    isRestrictedForUser: boolean;
-    cleared: boolean;
-    rejected: boolean;
-    statusControlledBySwcr: boolean;
-};
-
-export type TaskPreview = {
-    id: number;
-    number: string;
-    title: string;
-    chapter: string;
-    isSigned: boolean;
-};
-
 // CHECKLIST
 export interface ChecklistDetails {
     id: number;
     tagNo: string;
     tagDescription: string;
+    mcPkgNo: string;
     responsibleCode: string;
     responsibleDescription: string;
     status: CompletionStatus;
@@ -107,15 +54,37 @@ export interface ChecklistDetails {
     signedByFirstName: string;
     signedByLastName: string;
     signedAt: Date;
+    verifiedByUser: string;
+    verifiedByFirstName: string;
+    verifiedByLastName: string;
+    verifiedAt: Date;
     updatedAt: Date;
     updatedByUser: string;
     updatedByFirstName: string;
     updatedByLastName: string;
     isRestrictedForUser: boolean;
     hasElectronicForm: boolean;
-    verifiedByUser: string | null;
+    attachmentCount: number;
 }
 
+export interface LoopTag {
+    tagId: number;
+    tagNo: string;
+}
+
+export interface CustomCheckItem {
+    id: number;
+    itemNo: string;
+    text: string;
+    isOk: boolean;
+}
+
+export interface ChecklistResponse {
+    loopTags: LoopTag[];
+    checkList: ChecklistDetails;
+    checkItems: CheckItem[];
+    customCheckItems: CustomCheckItem[];
+}
 export interface ColumnLabel {
     id: number;
     label: string;
@@ -154,8 +123,10 @@ export interface CheckItem {
 }
 
 export interface ChecklistResponse {
+    loopTags: LoopTag[];
     checkList: ChecklistDetails;
     checkItems: CheckItem[];
+    customCheckItems: CustomCheckItem[];
 }
 
 export interface PunchCategory {

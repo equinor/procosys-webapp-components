@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {
-    CheckItem as CheckItemType,
-    ChecklistDetails,
-} from '../../services/apiTypes';
+import { CheckItem as CheckItemType } from '../../services/apiTypes';
 import CheckItem from './CheckItem/CheckItem';
 import CheckHeader from './CheckHeader';
-import CheckAllButton from './CheckAllButton';
 import { ProcosysApiService } from '../../services/procosysApi';
 
 const CheckItemsWrapper = styled.div`
@@ -23,17 +19,10 @@ const CheckItemsWrapper = styled.div`
     }
 `;
 
-const determineIfAllAreCheckedOrNA = (
-    itemsToDetermine: CheckItemType[]
-): boolean => {
-    return itemsToDetermine.every((item) => item.isOk || item.isNotApplicable);
-};
-
 type CheckItemsProps = {
     checkItems: CheckItemType[];
-    details: ChecklistDetails;
+    setCheckItems: React.Dispatch<React.SetStateAction<CheckItemType[]>>;
     isSigned: boolean;
-    setAllItemsCheckedOrNA: React.Dispatch<React.SetStateAction<boolean>>;
     allItemsCheckedOrNA: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
@@ -41,47 +30,15 @@ type CheckItemsProps = {
 
 const CheckItems = ({
     checkItems,
-    details,
+    setCheckItems,
     isSigned,
-    allItemsCheckedOrNA,
-    setAllItemsCheckedOrNA,
     setSnackbarText,
     api,
 }: CheckItemsProps): JSX.Element => {
-    const [items, setItems] = useState(checkItems);
-
-    useEffect(() => {
-        setAllItemsCheckedOrNA(determineIfAllAreCheckedOrNA(items));
-    }, [items, setAllItemsCheckedOrNA]);
-
-    const updateNA = (value: boolean, checkItemId: number): void => {
-        setItems((items) =>
-            items.map((existingItem) =>
-                existingItem.id === checkItemId
-                    ? { ...existingItem, isNotApplicable: value }
-                    : existingItem
-            )
-        );
-    };
-
-    const updateOk = (value: boolean, checkItemId: number): void => {
-        setItems((items) =>
-            items.map((existingItem) =>
-                existingItem.id === checkItemId
-                    ? { ...existingItem, isOk: value }
-                    : existingItem
-            )
-        );
-    };
-
     const determineCheckItem = (
         item: CheckItemType,
-        index: number,
-        nextItemIsHeading: boolean
+        index: number
     ): JSX.Element => {
-        // if (item.isHeading && nextItemIsHeading) {
-        //     return <></>;
-        // }
         if (item.isHeading) {
             return <CheckHeader text={item.text} addLabels={index === 0} />;
         }
@@ -93,9 +50,7 @@ const CheckItems = ({
                 ) : null}
                 <CheckItem
                     item={item}
-                    updateNA={updateNA}
-                    updateOk={updateOk}
-                    checklistId={details.id}
+                    setCheckItems={setCheckItems}
                     isSigned={isSigned}
                     setSnackbarText={setSnackbarText}
                     api={api}
@@ -104,31 +59,15 @@ const CheckItems = ({
         );
     };
 
-    const itemsToDisplay = items.map((item, index) => {
-        const nextItemIsHeading = items[index + 1]
-            ? items[index + 1].isHeading
-            : true;
+    const itemsToDisplay = checkItems.map((item, index) => {
         return (
             <React.Fragment key={item.id}>
-                {determineCheckItem(item, index, nextItemIsHeading)}
+                {determineCheckItem(item, index)}
             </React.Fragment>
         );
     });
 
-    return (
-        <CheckItemsWrapper>
-            {!isSigned && (
-                <CheckAllButton
-                    setSnackbarText={setSnackbarText}
-                    allItemsCheckedOrNA={allItemsCheckedOrNA}
-                    items={items}
-                    updateOk={updateOk}
-                    api={api}
-                />
-            )}
-            {itemsToDisplay}
-        </CheckItemsWrapper>
-    );
+    return <CheckItemsWrapper>{itemsToDisplay}</CheckItemsWrapper>;
 };
 
 export default CheckItems;
