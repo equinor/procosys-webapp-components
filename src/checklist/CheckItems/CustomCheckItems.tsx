@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import EdsIcon from '../../components/icons/EdsIcon';
 import { AsyncStatus, CustomCheckItem } from '../../services/apiTypes';
 import { ProcosysApiService } from '../../services/procosysApi';
-import { COLORS } from '../../style/GlobalStyles';
+import { COLORS, SHADOW } from '../../style/GlobalStyles';
 import updateCustomCheck from '../../utils/updateCustomCheck';
 import CheckHeader from './CheckHeader';
 
@@ -39,9 +39,10 @@ const RightWrapper = styled.div`
 `;
 
 const DeletionPopup = styled.div`
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: ${COLORS.white};
     padding: 15px;
+    box-shadow: ${SHADOW};
     & > :last-child {
         margin-left: 15px;
     }
