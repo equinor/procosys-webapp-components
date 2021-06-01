@@ -72,6 +72,12 @@ export interface LoopTag {
     tagNo: string;
 }
 
+export interface ItemToMultiSignOrVerify {
+    id: number;
+    tagNo: string;
+    tagDescription: string;
+}
+
 export interface CustomCheckItem {
     id: number;
     itemNo: string;

@@ -1,6 +1,10 @@
 import { AxiosInstance, CancelToken } from 'axios';
 import { CustomCheckItemDto } from '../checklist/CheckItems/CustomCheckItems';
-import { ChecklistResponse, Attachment } from './apiTypes';
+import {
+    ChecklistResponse,
+    Attachment,
+    ItemToMultiSignOrVerify,
+} from './apiTypes';
 
 type ProcosysApiServiceProps = {
     axios: AxiosInstance;
@@ -83,7 +87,6 @@ const procosysApiService = ({
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             { ...dto, ChecklistId: checklistId }
         );
-        console.log('data ', data);
         return data.id;
     };
 
@@ -147,6 +150,62 @@ const procosysApiService = ({
         );
     };
 
+    const postVerify = async (): Promise<void> => {
+        await axios.post(
+            `CheckList/MC/Verify?plantId=PCS$${plantId}${apiVersion}`,
+            checklistId,
+            { headers: { 'Content-Type': 'application/json' } }
+        );
+    };
+
+    const postUnverify = async (): Promise<void> => {
+        await axios.post(
+            `CheckList/MC/Unverify?plantId=PCS$${plantId}${apiVersion}`,
+            checklistId,
+            { headers: { 'Content-Type': 'application/json' } }
+        );
+    };
+
+    const postMultiSign = async (
+        targetChecklistIds: number[],
+        copyMetaTable: boolean
+    ): Promise<void> => {
+        await axios.post(
+            `CheckList/MC/MultiSign?plantId=PCS$${plantId}${apiVersion}`,
+            {
+                OriginalCheckListId: checklistId,
+                TargetCheckListIds: targetChecklistIds,
+                CopyMetaTable: copyMetaTable,
+            }
+        );
+    };
+
+    const postMultiVerify = async (
+        targetChecklistIds: number[]
+    ): Promise<void> => {
+        await axios.post(
+            `CheckList/MC/MultiVerify?plantId=PCS$${plantId}${apiVersion}`,
+            {
+                OriginalCheckListId: checklistId,
+                TargetCheckListIds: targetChecklistIds,
+            }
+        );
+    };
+
+    const getCanMultiSign = async (): Promise<ItemToMultiSignOrVerify[]> => {
+        const { data } = await axios.get(
+            `CheckList/MC/CanMultiSign?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
+        );
+        return data as ItemToMultiSignOrVerify[];
+    };
+
+    const getCanMultiVerify = async (): Promise<ItemToMultiSignOrVerify[]> => {
+        const { data } = await axios.get(
+            `CheckList/MC/CanMultiVerify?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
+        );
+        return data as ItemToMultiSignOrVerify[];
+    };
+
     const getChecklistAttachments = async (): Promise<Attachment[]> => {
         const { data } = await axios.get(
             `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=128${apiVersion}`
@@ -202,6 +261,12 @@ const procosysApiService = ({
     };
 
     return {
+        postVerify,
+        postUnverify,
+        postMultiSign,
+        postMultiVerify,
+        getCanMultiSign,
+        getCanMultiVerify,
         postCustomCheckItem,
         postCustomClear,
         postCustomSetOk,
