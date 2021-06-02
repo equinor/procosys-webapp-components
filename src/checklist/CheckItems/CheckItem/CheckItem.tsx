@@ -7,7 +7,7 @@ import {
 import { Checkbox } from '@equinor/eds-core-react';
 import MetaTable from './MetaTable/MetaTable';
 import EdsIcon from '../../../components/icons/EdsIcon';
-import { COLORS } from '../../../style/GlobalStyles';
+import { Caption, COLORS } from '../../../style/GlobalStyles';
 import { ProcosysApiService } from '../../../services/procosysApi';
 import updateCheck from '../../../utils/updateCheck';
 import updateNA from '../../../utils/updateNA';
@@ -18,7 +18,7 @@ const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     & p,
     button {
         color: ${(props): string =>
-            props.disabled ? COLORS.darkGrey : 'initial'};
+            props.disabled ? COLORS.darkGrey : '#3D3D3D'};
     }
     transition: color 0.2s ease-in-out;
 `;
@@ -32,7 +32,7 @@ const DescriptionAndCheckWrapper = styled.div`
     }
 `;
 
-const MidWrapper = styled.div`
+const DescriptionWrapper = styled.div`
     & button {
         margin: 0;
         padding: 0;
@@ -40,7 +40,6 @@ const MidWrapper = styled.div`
         background: none;
         display: flex;
         align-items: center;
-
         & p {
             margin: 0;
             color: ${COLORS.mossGreen};
@@ -158,9 +157,12 @@ const CheckItem = ({
         <>
             <CheckItemWrapper disabled={item.isNotApplicable}>
                 <DescriptionAndCheckWrapper>
-                    <MidWrapper>
+                    <DescriptionWrapper>
                         <p>
-                            {item.sequenceNumber}. {item.text}
+                            <span style={{ fontWeight: 500 }}>
+                                {item.sequenceNumber}
+                            </span>
+                            . {item.text}
                         </p>
                         {item.detailText && (
                             <button
@@ -183,7 +185,7 @@ const CheckItem = ({
                                 />
                             </button>
                         )}
-                    </MidWrapper>
+                    </DescriptionWrapper>
                     <CheckboxGroup>
                         <Checkbox
                             disabled={

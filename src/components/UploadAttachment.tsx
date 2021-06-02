@@ -6,7 +6,7 @@ import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
 
 export const UploadContainer = styled.div`
-    border-radius: 20px;
+    border-radius: 5px;
     max-height: 80vh;
     width: 300px;
     background-color: ${COLORS.white};

@@ -8,7 +8,6 @@ import { ProcosysApiService } from '../../services/procosysApi';
 const CheckItemsWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    margin-bottom: 24px;
     & div:first-of-type {
         margin-top: 0;
     }
