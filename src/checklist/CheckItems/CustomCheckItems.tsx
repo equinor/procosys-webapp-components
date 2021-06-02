@@ -1,10 +1,11 @@
 import { Button, Checkbox, Scrim, TextField } from '@equinor/eds-core-react';
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../components/icons/EdsIcon';
 import { AsyncStatus, CustomCheckItem } from '../../services/apiTypes';
 import { ProcosysApiService } from '../../services/procosysApi';
-import { COLORS } from '../../style/GlobalStyles';
+import { COLORS, SHADOW } from '../../style/GlobalStyles';
 import updateCustomCheck from '../../utils/updateCustomCheck';
 import CheckHeader from './CheckHeader';
 
@@ -39,13 +40,20 @@ const RightWrapper = styled.div`
 `;
 
 const DeletionPopup = styled.div`
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: ${COLORS.white};
     padding: 15px;
+    box-shadow: ${SHADOW};
     & > :last-child {
         margin-left: 15px;
     }
 `;
+
+export type CustomCheckItemDto = {
+    ItemNo: string;
+    Text: string;
+    IsOk: boolean;
+};
 
 type CustomCheckItemsProps = {
     customCheckItems: CustomCheckItem[];
@@ -55,12 +63,6 @@ type CustomCheckItemsProps = {
     isSigned: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
-};
-
-export type CustomCheckItemDto = {
-    ItemNo: string;
-    Text: string;
-    IsOk: boolean;
 };
 
 const CustomCheckItems = ({
@@ -81,11 +83,14 @@ const CustomCheckItems = ({
     );
     const [itemToBeDeleted, setItemToBeDeleted] = useState(0);
     const [customItemText, setCustomItemText] = useState('');
+    const source = axios.CancelToken.source();
 
     const handleCreateNewItem = async () => {
         setPostCustomCheckItemStatus(AsyncStatus.LOADING);
         try {
-            const nextAvailableNumber = await api.getNextCustomItemNumber();
+            const nextAvailableNumber = await api.getNextCustomItemNumber(
+                source.token
+            );
             const newIdFromApi = await api.postCustomCheckItem({
                 ItemNo: nextAvailableNumber,
                 IsOk: false,
@@ -106,6 +111,9 @@ const CustomCheckItems = ({
             setPostCustomCheckItemStatus(AsyncStatus.ERROR);
             setSnackbarText('Unable to save new check item.');
         }
+        return () => {
+            source.cancel('Custom check item component unmounted.');
+        };
     };
 
     const handleDelete = async (customCheckItemId: number) => {
