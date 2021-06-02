@@ -1,5 +1,6 @@
 import { Button, Checkbox, Scrim, TextField } from '@equinor/eds-core-react';
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../components/icons/EdsIcon';
 import { AsyncStatus, CustomCheckItem } from '../../services/apiTypes';
@@ -48,6 +49,12 @@ const DeletionPopup = styled.div`
     }
 `;
 
+export type CustomCheckItemDto = {
+    ItemNo: string;
+    Text: string;
+    IsOk: boolean;
+};
+
 type CustomCheckItemsProps = {
     customCheckItems: CustomCheckItem[];
     setCustomCheckItems: React.Dispatch<
@@ -56,12 +63,6 @@ type CustomCheckItemsProps = {
     isSigned: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
-};
-
-export type CustomCheckItemDto = {
-    ItemNo: string;
-    Text: string;
-    IsOk: boolean;
 };
 
 const CustomCheckItems = ({
@@ -82,11 +83,14 @@ const CustomCheckItems = ({
     );
     const [itemToBeDeleted, setItemToBeDeleted] = useState(0);
     const [customItemText, setCustomItemText] = useState('');
+    const source = axios.CancelToken.source();
 
     const handleCreateNewItem = async () => {
         setPostCustomCheckItemStatus(AsyncStatus.LOADING);
         try {
-            const nextAvailableNumber = await api.getNextCustomItemNumber();
+            const nextAvailableNumber = await api.getNextCustomItemNumber(
+                source.token
+            );
             const newIdFromApi = await api.postCustomCheckItem({
                 ItemNo: nextAvailableNumber,
                 IsOk: false,
@@ -107,6 +111,9 @@ const CustomCheckItems = ({
             setPostCustomCheckItemStatus(AsyncStatus.ERROR);
             setSnackbarText('Unable to save new check item.');
         }
+        return () => {
+            source.cancel('Custom check item component unmounted.');
+        };
     };
 
     const handleDelete = async (customCheckItemId: number) => {

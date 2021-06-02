@@ -1,6 +1,12 @@
 import { AxiosInstance, CancelToken } from 'axios';
 import { CustomCheckItemDto } from '../checklist/CheckItems/CustomCheckItems';
 import {
+    isArrayOfAttachments,
+    isArrayOfItemToMultiSignOrVerify,
+    isChecklistResponse,
+    isNextAvailableNumber,
+} from './apiTypeGuards';
+import {
     ChecklistResponse,
     Attachment,
     ItemToMultiSignOrVerify,
@@ -16,15 +22,23 @@ type ProcosysApiServiceProps = {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const procosysApiService = ({
     axios,
-    apiVersion = '&api-version=4.1',
+    apiVersion,
     plantId,
     checklistId,
 }: ProcosysApiServiceProps) => {
-    const getChecklist = async (): Promise<ChecklistResponse> => {
+    const getChecklist = async (
+        cancelToken: CancelToken
+    ): Promise<ChecklistResponse> => {
         const { data } = await axios.get(
-            `Checklist/MC?plantId=PCS$${plantId}&checklistId=${checklistId}${apiVersion}`
+            `CheckList/MC?plantId=PCS$${plantId}&checklistId=${checklistId}${apiVersion}`,
+            { cancelToken }
         );
-        return data as ChecklistResponse;
+        if (!isChecklistResponse(data)) {
+            throw new TypeError(
+                'The received item was not a checklist response'
+            );
+        }
+        return data;
     };
 
     const postSetOk = async (checkItemId: number): Promise<void> => {
@@ -102,10 +116,16 @@ const procosysApiService = ({
         );
     };
 
-    const getNextCustomItemNumber = async (): Promise<string> => {
+    const getNextCustomItemNumber = async (
+        cancelToken: CancelToken
+    ): Promise<string> => {
         const { data } = await axios.get(
-            `CheckList/CustomItem/NextItemNo?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
+            `CheckList/CustomItem/NextItemNo?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
+            { cancelToken }
         );
+        if (!isNextAvailableNumber(data)) {
+            throw TypeError('Invalid next available number from API.');
+        }
         return data;
     };
 
@@ -192,25 +212,49 @@ const procosysApiService = ({
         );
     };
 
-    const getCanMultiSign = async (): Promise<ItemToMultiSignOrVerify[]> => {
+    const getCanMultiSign = async (
+        cancelToken: CancelToken
+    ): Promise<ItemToMultiSignOrVerify[]> => {
         const { data } = await axios.get(
-            `CheckList/MC/CanMultiSign?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
+            `CheckList/MC/CanMultiSign?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
+            { cancelToken }
         );
-        return data as ItemToMultiSignOrVerify[];
+        if (!isArrayOfItemToMultiSignOrVerify(data)) {
+            throw new TypeError(
+                'Error: Api responded with an unexpected type(ItemsToMultiSignOrVerify)'
+            );
+        }
+        return data;
     };
 
-    const getCanMultiVerify = async (): Promise<ItemToMultiSignOrVerify[]> => {
+    const getCanMultiVerify = async (
+        cancelToken: CancelToken
+    ): Promise<ItemToMultiSignOrVerify[]> => {
         const { data } = await axios.get(
-            `CheckList/MC/CanMultiVerify?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`
+            `CheckList/MC/CanMultiVerify?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
+            { cancelToken }
         );
-        return data as ItemToMultiSignOrVerify[];
+        if (!isArrayOfItemToMultiSignOrVerify(data)) {
+            throw new TypeError(
+                'Error: Api responded with an unexpected type(ItemsToMultiSignOrVerify)'
+            );
+        }
+        return data;
     };
 
-    const getChecklistAttachments = async (): Promise<Attachment[]> => {
+    const getChecklistAttachments = async (
+        cancelToken: CancelToken
+    ): Promise<Attachment[]> => {
         const { data } = await axios.get(
-            `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=128${apiVersion}`
+            `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=128${apiVersion}`,
+            { cancelToken }
         );
-        return data as Attachment[];
+        if (!isArrayOfAttachments(data)) {
+            throw new TypeError(
+                'Error: Api responded with an unexpected type(Attachments)'
+            );
+        }
+        return data;
     };
 
     const getChecklistAttachment = async (
@@ -220,7 +264,7 @@ const procosysApiService = ({
         const { data } = await axios.get(
             `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&attachmentId=${attachmentId}${apiVersion}`,
             {
-                cancelToken: cancelToken,
+                cancelToken,
                 responseType: 'blob',
                 headers: {
                     'Content-Disposition':

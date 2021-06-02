@@ -15,7 +15,9 @@ const useAttachments = (endpoint: string, api: ProcosysApiService) => {
     useEffect(() => {
         (async (): Promise<void> => {
             try {
-                const attachmentsFromApi = await api.getChecklistAttachments();
+                const attachmentsFromApi = await api.getChecklistAttachments(
+                    source.token
+                );
                 setFetchAttachmentsStatus(AsyncStatus.SUCCESS);
                 setAttachments(attachmentsFromApi);
             } catch (error) {

@@ -24,7 +24,7 @@ import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../components/AsyncPage';
 
-const { BannerIcon, BannerMessage } = Banner;
+const { BannerMessage } = Banner;
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
@@ -67,7 +67,7 @@ const initializeApi = ({
     const axiosInstance = baseApi({ getAccessToken, apiSettings });
     return procosysApiService({
         axios: axiosInstance,
-        apiVersion: '&api-version=4.1',
+        apiVersion: apiSettings.apiVersion,
         plantId,
         checklistId,
     });
@@ -115,7 +115,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     useEffect(() => {
         (async (): Promise<void> => {
             try {
-                const checklistResponse = await api.getChecklist();
+                const checklistResponse = await api.getChecklist(source.token);
                 setIsSigned(!!checklistResponse.checkList.signedByFirstName);
                 setCheckItems(checklistResponse.checkItems);
                 setCustomCheckItems(checklistResponse.customCheckItems);
@@ -169,8 +169,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                             api={api}
                         />
                         <CustomCheckItems
-                            setCustomCheckItems={setCustomCheckItems}
                             customCheckItems={customCheckItems}
+                            setCustomCheckItems={setCustomCheckItems}
                             isSigned={isSigned}
                             setSnackbarText={props.setSnackbarText}
                             api={api}

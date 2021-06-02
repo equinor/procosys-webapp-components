@@ -12,6 +12,7 @@ import {
 } from '../utils/textFieldHelpers';
 import { ProcosysApiService } from '../services/procosysApi';
 import ChecklistMultiSignOrVerify from './ChecklistMultiSignOrVerify';
+import axios from 'axios';
 
 const ChecklistSignatureWrapper = styled.div<{ helperTextVisible: boolean }>`
     display: flex;
@@ -104,6 +105,7 @@ const ChecklistSignature = ({
     ] = useState<ItemToMultiSignOrVerify[]>([]);
     const [multiSignOrVerifyIsOpen, setMultiSignOrVerifyIsOpen] =
         useState(false);
+    const source = axios.CancelToken.source();
     let commentBeforeFocus = '';
 
     const putComment = async (): Promise<void> => {
@@ -136,7 +138,9 @@ const ChecklistSignature = ({
         setSignStatus(AsyncStatus.LOADING);
         try {
             await api.postSign();
-            const eligibleItemsToMultiSignFromApi = await api.getCanMultiSign();
+            const eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
+                source.token
+            );
             setEligibleItemsToMultiSignOrVerify(
                 eligibleItemsToMultiSignFromApi
             );
@@ -175,7 +179,7 @@ const ChecklistSignature = ({
         try {
             await api.postVerify();
             const eligibleItemsToMultiVerifyFromApi =
-                await api.getCanMultiVerify();
+                await api.getCanMultiVerify(source.token);
             setEligibleItemsToMultiSignOrVerify(
                 eligibleItemsToMultiVerifyFromApi
             );
@@ -209,6 +213,12 @@ const ChecklistSignature = ({
             setPutCommentStatus(AsyncStatus.INACTIVE);
         }, 2000);
     }, [putCommentStatus]);
+
+    useEffect(() => {
+        return () => {
+            source.cancel('Checklist signature component unmounted.');
+        };
+    }, []);
 
     const determineSignatureText = () => {
         if (isSigned) {
@@ -308,14 +318,12 @@ const ChecklistSignature = ({
             </SignOrVerifyWrapper>
             {multiSignOrVerifyIsOpen ? (
                 <ChecklistMultiSignOrVerify
-                    api={api}
-                    setSnackbarText={setSnackbarText}
                     isMultiVerify={isVerified}
                     eligibleItems={eligibleItemsToMultiSignOrVerify}
-                    setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
-                    setIsSigned={setIsSigned}
-                    setIsVerified={setIsVerified}
                     tagNo={details.tagNo}
+                    api={api}
+                    setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
+                    setSnackbarText={setSnackbarText}
                 />
             ) : null}
         </ChecklistSignatureWrapper>

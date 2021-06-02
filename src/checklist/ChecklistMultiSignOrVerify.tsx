@@ -34,8 +34,6 @@ type ChecklistMultiSignOrVerifyProps = {
     isMultiVerify: boolean;
     eligibleItems: ItemToMultiSignOrVerify[];
     setMultiSignOrVerifyIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsSigned: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsVerified: React.Dispatch<React.SetStateAction<boolean>>;
     tagNo: string;
     api: ProcosysApiService;
     setSnackbarText: (message: string) => void;
@@ -44,9 +42,9 @@ type ChecklistMultiSignOrVerifyProps = {
 const ChecklistMultiSignOrVerify = ({
     isMultiVerify,
     eligibleItems,
+    setMultiSignOrVerifyIsOpen,
     tagNo,
     api,
-    setMultiSignOrVerifyIsOpen,
     setSnackbarText,
 }: ChecklistMultiSignOrVerifyProps) => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
@@ -127,7 +125,7 @@ const ChecklistMultiSignOrVerify = ({
             <OptionsWrapper>
                 <Checkbox
                     checked={allAreChecked}
-                    label={allAreChecked ? 'Select all' : 'Unselect all'}
+                    label={allAreChecked ? 'Unselect all' : 'Select all'}
                     onChange={handleCheckOrUncheckAll}
                 />
                 {isMultiVerify ? null : (
@@ -156,7 +154,10 @@ const ChecklistMultiSignOrVerify = ({
                     Close
                 </Button>
                 <Button
-                    disabled={postSignOrVerifyStatus === AsyncStatus.LOADING}
+                    disabled={
+                        postSignOrVerifyStatus === AsyncStatus.LOADING ||
+                        itemsToSignOrVerify.length < 1
+                    }
                     onClick={handleMultiSignOrVerify}
                 >
                     {determineButtonText()}

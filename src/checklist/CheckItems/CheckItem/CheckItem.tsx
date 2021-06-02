@@ -102,18 +102,17 @@ const CheckItem = ({
                 setItems: setCheckItems,
             });
             setPostNAStatus(AsyncStatus.SUCCESS);
+            setPostCheckStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             setSnackbarText(error.toString());
             setPostNAStatus(AsyncStatus.ERROR);
+            setPostCheckStatus(AsyncStatus.ERROR);
         }
     };
 
     const handleSetNA = async (): Promise<void> => {
         setPostNAStatus(AsyncStatus.LOADING);
-        if (item.isNotApplicable) {
-            clearCheckmarks();
-            return;
-        }
+        if (item.isNotApplicable) return clearCheckmarks();
         try {
             await api.postSetNA(item.id);
             updateCheck({
@@ -134,8 +133,8 @@ const CheckItem = ({
     };
 
     const handleSetOk = async (): Promise<void> => {
-        if (item.isOk) return clearCheckmarks();
         setPostCheckStatus(AsyncStatus.LOADING);
+        if (item.isOk) return clearCheckmarks();
         try {
             await api.postSetOk(item.id);
             updateNA({
