@@ -146,11 +146,11 @@ const ChecklistSignature = ({
             );
             setIsSigned(true);
             setSignStatus(AsyncStatus.SUCCESS);
+            reloadChecklist((reloadStatus) => !reloadStatus);
             if (eligibleItemsToMultiSignFromApi.length === 0) {
                 setSnackbarText(
                     isSigned ? 'Unsign complete.' : 'Signing complete.'
                 );
-                reloadChecklist((reloadStatus) => !reloadStatus);
             } else {
                 setMultiSignOrVerifyIsOpen(true);
             }
@@ -185,9 +185,9 @@ const ChecklistSignature = ({
             );
             setIsVerified(true);
             setVerifyStatus(AsyncStatus.SUCCESS);
+            reloadChecklist((reloadStatus) => !reloadStatus);
             if (eligibleItemsToMultiVerifyFromApi.length === 0) {
                 setSnackbarText('Checklist successfully verified');
-                reloadChecklist((reloadStatus) => !reloadStatus);
             } else {
                 setMultiSignOrVerifyIsOpen(true);
             }
