@@ -6,7 +6,7 @@ import {
     Menu,
 } from '@equinor/eds-core-react';
 import Axios, { CancelToken } from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../components/icons/EdsIcon';
 import {
@@ -16,15 +16,13 @@ import {
 import { COLORS } from '../style/GlobalStyles';
 import handleDownload from '../utils/handleDownload';
 
-export const UploadImageButton = styled(Button)``;
-
 const AttachmentWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
-const DocumentAttachmentWrapper = styled(AttachmentWrapper)`
+export const DocumentAttachmentWrapper = styled(AttachmentWrapper)`
     border: 1px solid ${COLORS.mossGreen};
     overflow: hidden;
     box-sizing: border-box;
@@ -40,31 +38,16 @@ const DocumentAttachmentWrapper = styled(AttachmentWrapper)`
     }
 `;
 
-export const ImageModal = styled.div`
+export const ImageModal = styled.div<{ pushImageUp: boolean }>`
     position: relative;
     & > img {
         position: fixed;
-        bottom: 150px;
+        bottom: ${(props) => (props.pushImageUp ? '180px' : '145px')};
         left: 50%;
         transform: translateX(-50%);
         max-width: 95vw;
-        max-height: 70vh;
+        max-height: ${(props) => (props.pushImageUp ? '65vh' : '70vh')};
         object-fit: contain;
-    }
-`;
-
-export const AttachmentsWrapper = styled.div`
-    display: grid;
-    grid-gap: 12px;
-    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-    padding: 12px 4%;
-    & > img,
-    > ${DocumentAttachmentWrapper}, > button {
-        width: 100%;
-        height: 100px;
-    }
-    & > img {
-        object-fit: cover;
     }
 `;
 
@@ -87,8 +70,8 @@ export const ModalActionPanel = styled.div`
 type AttachmentProps = {
     attachment: AttachmentType;
     refreshAttachments?: React.Dispatch<React.SetStateAction<boolean>>;
-    isSigned?: boolean;
-    deleteAttachment?: (cancelToken: CancelToken) => Promise<void>;
+    readOnly: boolean;
+    deleteAttachment?: (attachmentId: number) => Promise<void>;
     getAttachment: (cancelToken: CancelToken) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
 };
@@ -99,7 +82,7 @@ const Attachment = ({
     deleteAttachment,
     refreshAttachments,
     setSnackbarText,
-    isSigned = false,
+    readOnly,
 }: AttachmentProps): JSX.Element => {
     const [showFullScreenImage, setShowFullScreenImage] = useState(false);
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
@@ -143,7 +126,7 @@ const Attachment = ({
         if (!deleteAttachment) return;
         setDeleteStatus(AsyncStatus.LOADING);
         try {
-            await deleteAttachment(source.token);
+            await deleteAttachment(attachment.id);
             setSnackbarText('Attachment successfully removed');
             refreshAttachments && refreshAttachments((prev) => !prev);
             setDeleteStatus(AsyncStatus.SUCCESS);
@@ -199,7 +182,7 @@ const Attachment = ({
                         isDismissable
                         onClose={(): void => setShowFullScreenImage(false)}
                     >
-                        <ImageModal>
+                        <ImageModal pushImageUp={!readOnly}>
                             <img
                                 src={attachmentFileURL}
                                 alt={attachment.title}
@@ -225,7 +208,7 @@ const Attachment = ({
                                         Download
                                     </Typography>
                                 </Menu.Item>
-                                {isSigned || !deleteAttachment ? null : (
+                                {readOnly || !deleteAttachment ? null : (
                                     <Menu.Item
                                         color={'danger'}
                                         onClick={handleDelete}

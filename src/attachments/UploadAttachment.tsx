@@ -65,10 +65,12 @@ const UploadAttachment = ({
     };
 
     const onFileUpload = async (): Promise<void> => {
+        console.log('FUCNTION STARTED');
         if (!selectedFile) return;
         setPostAttachmentStatus(AsyncStatus.LOADING);
         const formData = new FormData();
         formData.append(selectedFile.name, selectedFile);
+        console.log('REACHED BEFORE TRY');
         try {
             if (postTempAttachment && updateTempAttachments) {
                 const response = await postTempAttachment(
@@ -80,7 +82,9 @@ const UploadAttachment = ({
                     { id: response, file: selectedFile },
                 ]);
             } else if (postAttachment && updateAttachments) {
+                console.log('BEFORE POST');
                 await postAttachment(formData, selectedFile.name);
+                console.log('AFTER POST');
                 updateAttachments((prev) => !prev);
                 setPostAttachmentStatus(AsyncStatus.SUCCESS);
             } else {
@@ -91,6 +95,7 @@ const UploadAttachment = ({
             setSnackbarText('File successfully added.');
             setShowModal(false);
         } catch (error) {
+            console.log(error);
             setPostAttachmentStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }

@@ -1,7 +1,8 @@
 import { Button, Menu, Scrim, Typography } from '@equinor/eds-core-react';
 import React, { useEffect, useRef, useState } from 'react';
 import EdsIcon from '../components/icons/EdsIcon';
-import { AttachmentsWrapper, ImageModal, ModalActionPanel } from './Attachment';
+import { ImageModal, ModalActionPanel } from './Attachment';
+import { AttachmentsWrapper } from './Attachments';
 import UploadAttachment from './UploadAttachment';
 
 export type TempAttachment = { id: string; file: File };
@@ -32,9 +33,6 @@ const TempAttachments = ({
 
     return (
         <AttachmentsWrapper>
-            <Button onClick={(): void => setShowUploadModal(true)}>
-                <EdsIcon name="camera_add_photo" />
-            </Button>
             {tempAttachments.map((attachment) => (
                 <img
                     key={attachment.id}
@@ -45,9 +43,12 @@ const TempAttachments = ({
                     }}
                 />
             ))}
+            <Button onClick={(): void => setShowUploadModal(true)}>
+                <EdsIcon name="camera_add_photo" />
+            </Button>
             {attachmentToShow ? (
                 <Scrim isDismissable onClose={() => setAttachmentToShow(null)}>
-                    <ImageModal>
+                    <ImageModal pushImageUp={false}>
                         <img
                             src={URL.createObjectURL(attachmentToShow?.file)}
                             alt={'Temp attachment ' + attachmentToShow.id}

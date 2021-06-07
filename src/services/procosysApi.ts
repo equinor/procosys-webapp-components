@@ -276,7 +276,6 @@ const procosysApiService = ({
     };
 
     const deleteChecklistAttachment = async (
-        cancelToken: CancelToken,
         attachmentId: number
     ): Promise<void> => {
         const dto = {
@@ -285,7 +284,7 @@ const procosysApiService = ({
         };
         await axios.delete(
             `CheckList/Attachment?plantId=PCS$${plantId}&api-version=4.1`,
-            { data: dto, cancelToken: cancelToken }
+            { data: dto }
         );
     };
 
