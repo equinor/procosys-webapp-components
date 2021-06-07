@@ -13,10 +13,9 @@ import updateNA from '../../utils/updateNA';
 
 const StyledCheckAllButton = styled(Button)`
     :disabled {
-        margin: 24px 0 24px auto;
+        margin: 18px 4px 0 auto;
     }
-    margin: 24px 0 24px auto;
-    justify-self: flex-end;
+    margin: 18px 4px 0 auto;
 `;
 
 type CheckAllButtonProps = {
@@ -130,6 +129,7 @@ const CheckAllButton = ({
         <StyledCheckAllButton
             onClick={allItemsCheckedOrNA ? clearAll : checkAll}
             disabled={checkAllStatus === AsyncStatus.LOADING}
+            variant={'outlined'}
         >
             {/* <EdsIcon
                 name={allItemsCheckedOrNA ? 'checkbox' : 'checkbox_outline'}

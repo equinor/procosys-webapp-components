@@ -39,9 +39,10 @@ const SignOrVerifyWrapper = styled.div<{ eligible: boolean }>`
 const ButtonWrapper = styled.div`
     display: flex;
     margin-bottom: 12px;
-    & > :first-child {
+    justify-content: flex-end;
+    & > :last-child {
         margin: 0;
-        margin-right: 12px;
+        margin-left: 12px;
     }
 `;
 

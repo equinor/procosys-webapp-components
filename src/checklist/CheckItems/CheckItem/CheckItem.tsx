@@ -14,7 +14,7 @@ import updateNA from '../../../utils/updateNA';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: transparent;
-    padding: 4px 0;
+    margin-top: 8px;
     & p,
     button {
         color: ${(props): string =>

@@ -173,7 +173,10 @@ const CustomCheckItems = ({
             {customCheckItems.map((item) => (
                 <CustomCheckItemWrapper key={item.id}>
                     <p>
-                        {item.itemNo}. {item.text}
+                        <strong style={{ fontWeight: 500 }}>
+                            {item.itemNo}.
+                        </strong>{' '}
+                        {item.text}
                     </p>
                     <RightWrapper>
                         <Checkbox
@@ -196,7 +199,9 @@ const CustomCheckItems = ({
                             onClick={() => setItemToBeDeleted(item.id)}
                         >
                             <EdsIcon
-                                color={COLORS.danger}
+                                color={
+                                    isSigned ? COLORS.darkGrey : COLORS.danger
+                                }
                                 name={'delete_to_trash'}
                             />
                         </Button>
