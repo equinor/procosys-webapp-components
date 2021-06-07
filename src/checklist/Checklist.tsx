@@ -1,28 +1,25 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import {
     AsyncStatus,
+    Attachment,
     CheckItem,
     ChecklistDetails,
     CustomCheckItem,
+    LoopTag,
 } from '../services/apiTypes';
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
-import EdsIcon from '../components/icons/EdsIcon';
 import axios, { CancelToken } from 'axios';
-import Attachment, {
-    AttachmentsWrapper,
-    UploadImageButton,
-} from '../components/Attachment';
-import UploadAttachment from '../components/UploadAttachment';
-import useAttachments from '../utils/useAttachments';
-import buildEndpoint from '../utils/buildEndpoint';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../services/procosysApi';
 import baseApi, { ProcosysApiSettings } from '../services/baseApi';
 import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../components/AsyncPage';
+import Attachments from '../attachments/Attachments';
+import { List } from '@equinor/eds-core-react';
+import { Caption } from '../style/GlobalStyles';
 
 const { BannerMessage } = Banner;
 
@@ -32,10 +29,24 @@ const ChecklistWrapper = styled.div`
     flex-direction: column;
 `;
 
+const LoopTagWrapper = styled.div`
+    padding: 0 4%;
+    background-color: #deecee;
+    padding-bottom: 16px;
+    & p {
+        margin: 0;
+        margin-bottom: 4px;
+    }
+`;
+
 const AttachmentsHeader = styled.h5`
     margin-top: 54px;
     margin-left: 4%;
     margin-bottom: 0px;
+`;
+
+const AttachmentsWrapper = styled.div`
+    padding: 16px 4%;
 `;
 
 const determineIfAllAreCheckedOrNA = (
@@ -78,15 +89,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
     );
-    const getAttachmentsEndpoint = buildEndpoint().getChecklistAttachments(
-        props.plantId,
-        props.checklistId
-    );
-    const {
-        refreshAttachments: setRefreshAttachments,
-        attachments,
-        fetchAttachmentsStatus,
-    } = useAttachments(getAttachmentsEndpoint, api);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
     );
@@ -94,12 +96,12 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [customCheckItems, setCustomCheckItems] = useState<CustomCheckItem[]>(
         []
     );
+    const [loopTags, setLoopTags] = useState<LoopTag[]>([]);
     const [checklistDetails, setChecklistDetails] =
         useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
     const [reloadChecklist, setReloadChecklist] = useState(false);
-    const [showUploadModal, setShowUploadModal] = useState(false);
     const source = axios.CancelToken.source();
 
     useEffect(() => {
@@ -120,6 +122,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 setCheckItems(checklistResponse.checkItems);
                 setCustomCheckItems(checklistResponse.customCheckItems);
                 setChecklistDetails(checklistResponse.checkList);
+                setLoopTags(checklistResponse.loopTags);
                 setFetchChecklistStatus(AsyncStatus.SUCCESS);
             } catch (err) {
                 setFetchChecklistStatus(AsyncStatus.ERROR);
@@ -137,6 +140,18 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
             loadingMessage={''}
         >
             <>
+                {loopTags.length > 0 ? (
+                    <LoopTagWrapper>
+                        <Caption>Loop tags:</Caption>
+                        <List>
+                            {loopTags.map((loopTag) => (
+                                <List.Item key={loopTag.tagId}>
+                                    <Caption>{loopTag.tagNo}</Caption>
+                                </List.Item>
+                            ))}
+                        </List>
+                    </LoopTagWrapper>
+                ) : null}
                 {!isSigned && !allItemsCheckedOrNA
                     ? null
                     : isSigned && (
@@ -179,47 +194,36 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 ) : null}
                 <AttachmentsHeader>Attachments</AttachmentsHeader>
                 <AttachmentsWrapper>
-                    <UploadImageButton
-                        disabled={isSigned}
-                        onClick={(): void => setShowUploadModal(true)}
-                    >
-                        <EdsIcon name="camera_add_photo" />
-                    </UploadImageButton>
-                    {showUploadModal ? (
-                        <UploadAttachment
-                            setShowModal={setShowUploadModal}
-                            setSnackbarText={props.setSnackbarText}
-                            updateAttachments={setRefreshAttachments}
-                            api={api}
-                        />
-                    ) : null}
-                    {attachments.map((attachment) => (
-                        <Attachment
-                            key={attachment.id}
-                            isSigned={isSigned}
-                            getAttachment={(
-                                cancelToken: CancelToken
-                            ): Promise<Blob> =>
-                                api.getChecklistAttachment(
-                                    cancelToken,
-                                    attachment.id
-                                )
-                            }
-                            setSnackbarText={props.setSnackbarText}
-                            attachment={attachment}
-                            refreshAttachments={setRefreshAttachments}
-                            deleteAttachment={(
-                                cancelToken: CancelToken
-                            ): Promise<void> =>
-                                api.deleteChecklistAttachment(
-                                    cancelToken,
-                                    attachment.id
-                                )
-                            }
-                        />
-                    ))}
+                    <Attachments
+                        getAttachments={(
+                            cancelToken: CancelToken
+                        ): Promise<Attachment[]> =>
+                            api.getChecklistAttachments(cancelToken)
+                        }
+                        getAttachment={(
+                            cancelToken: CancelToken,
+                            attachmentId: number
+                        ): Promise<Blob> =>
+                            api.getChecklistAttachment(
+                                cancelToken,
+                                attachmentId
+                            )
+                        }
+                        postAttachment={(
+                            file: FormData,
+                            title: string
+                        ): Promise<void> =>
+                            api.postChecklistAttachment(file, title)
+                        }
+                        deleteAttachment={(
+                            attachmentId: number
+                        ): Promise<void> =>
+                            api.deleteChecklistAttachment(attachmentId)
+                        }
+                        setSnackbarText={props.setSnackbarText}
+                        readOnly={isSigned}
+                    />
                 </AttachmentsWrapper>
-
                 {checklistDetails ? (
                     <ChecklistSignature
                         setSnackbarText={props.setSnackbarText}
