@@ -7,7 +7,7 @@ import {
 import { Checkbox } from '@equinor/eds-core-react';
 import MetaTable from './MetaTable/MetaTable';
 import EdsIcon from '../../../components/icons/EdsIcon';
-import { Caption, COLORS } from '../../../style/GlobalStyles';
+import { COLORS } from '../../../style/GlobalStyles';
 import { ProcosysApiService } from '../../../services/procosysApi';
 import updateCheck from '../../../utils/updateCheck';
 import updateNA from '../../../utils/updateNA';

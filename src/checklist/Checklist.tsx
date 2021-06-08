@@ -177,7 +177,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         )}
                         <CheckItems
                             setCheckItems={setCheckItems}
-                            allItemsCheckedOrNA={allItemsCheckedOrNA}
                             checkItems={checkItems}
                             isSigned={isSigned}
                             setSnackbarText={props.setSnackbarText}

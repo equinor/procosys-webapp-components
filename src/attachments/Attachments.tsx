@@ -1,10 +1,7 @@
 import { CancelToken } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-    AsyncStatus,
-    Attachment as AttachmentType,
-} from '../services/apiTypes';
+import { Attachment as AttachmentType } from '../services/apiTypes';
 import Attachment, { DocumentAttachmentWrapper } from './Attachment';
 import Axios from 'axios';
 import { Button } from '@equinor/eds-core-react';
@@ -41,9 +38,6 @@ const Attachments = (props: AttachmentsProps) => {
     const [refreshAttachments, setRefreshAttachments] = useState(false);
     const [attachments, setAttachments] = useState<AttachmentType[]>([]);
     const [showUploadModal, setShowUploadModal] = useState(false);
-    const [fetchAttachmentsStatus, setFetchAttachmentsStatus] = useState(
-        AsyncStatus.LOADING
-    );
     const source = Axios.CancelToken.source();
 
     useEffect(() => {
@@ -52,11 +46,10 @@ const Attachments = (props: AttachmentsProps) => {
                 const attachmentsFromApi = await props.getAttachments(
                     source.token
                 );
-                setFetchAttachmentsStatus(AsyncStatus.SUCCESS);
                 setAttachments(attachmentsFromApi);
             } catch (error) {
                 if (!Axios.isCancel(error)) {
-                    setFetchAttachmentsStatus(AsyncStatus.ERROR);
+                    props.setSnackbarText('Failed to load attachments.');
                 }
             }
         })();

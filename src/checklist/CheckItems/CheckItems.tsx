@@ -22,7 +22,6 @@ type CheckItemsProps = {
     checkItems: CheckItemType[];
     setCheckItems: React.Dispatch<React.SetStateAction<CheckItemType[]>>;
     isSigned: boolean;
-    allItemsCheckedOrNA: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
 };

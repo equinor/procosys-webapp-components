@@ -1,5 +1,5 @@
 import { Button, Menu, Scrim, Typography } from '@equinor/eds-core-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EdsIcon from '../components/icons/EdsIcon';
 import { ImageModal, ModalActionPanel } from './Attachment';
 import { AttachmentsWrapper } from './Attachments';
@@ -14,9 +14,9 @@ type TempAttachmentsProps = {
 };
 
 const TempAttachments = ({
-    postTempAttachment,
     setSnackbarText,
     setTempAttachmentIds,
+    postTempAttachment,
 }: TempAttachmentsProps) => {
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [attachmentToShow, setAttachmentToShow] =

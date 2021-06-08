@@ -39,9 +39,9 @@ const ChooseImageContainer = styled.div`
 
 type UploadAttachmentProps = {
     setShowModal: Dispatch<SetStateAction<boolean>>;
+    setSnackbarText: (message: string) => void;
     updateTempAttachments?: Dispatch<SetStateAction<TempAttachment[]>>;
     updateAttachments?: Dispatch<SetStateAction<boolean>>;
-    setSnackbarText: (message: string) => void;
     postTempAttachment?: (formData: FormData, title: string) => Promise<string>;
     postAttachment?: (formData: FormData, title: string) => Promise<void>;
 };
@@ -49,10 +49,10 @@ type UploadAttachmentProps = {
 const UploadAttachment = ({
     setShowModal,
     setSnackbarText,
-    postTempAttachment,
     updateTempAttachments,
-    postAttachment,
     updateAttachments,
+    postTempAttachment,
+    postAttachment,
 }: UploadAttachmentProps): JSX.Element => {
     const [selectedFile, setSelectedFile] = useState<File>();
     const [postAttachmentStatus, setPostAttachmentStatus] = useState(
