@@ -2,11 +2,11 @@ import { Button, DotProgress, Scrim } from '@equinor/eds-core-react';
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { AsyncStatus } from '../services/apiTypes';
-import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
+import { TempAttachment } from './TempAttachments';
 
 export const UploadContainer = styled.div`
-    border-radius: 20px;
+    border-radius: 5px;
     max-height: 80vh;
     width: 300px;
     background-color: ${COLORS.white};
@@ -39,16 +39,20 @@ const ChooseImageContainer = styled.div`
 
 type UploadAttachmentProps = {
     setShowModal: Dispatch<SetStateAction<boolean>>;
-    updateAttachments: Dispatch<SetStateAction<boolean>>;
     setSnackbarText: (message: string) => void;
-    api: ProcosysApiService;
+    updateTempAttachments?: Dispatch<SetStateAction<TempAttachment[]>>;
+    updateAttachments?: Dispatch<SetStateAction<boolean>>;
+    postTempAttachment?: (formData: FormData, title: string) => Promise<string>;
+    postAttachment?: (formData: FormData, title: string) => Promise<void>;
 };
 
 const UploadAttachment = ({
     setShowModal,
-    updateAttachments,
     setSnackbarText,
-    api,
+    updateTempAttachments,
+    updateAttachments,
+    postTempAttachment,
+    postAttachment,
 }: UploadAttachmentProps): JSX.Element => {
     const [selectedFile, setSelectedFile] = useState<File>();
     const [postAttachmentStatus, setPostAttachmentStatus] = useState(
@@ -66,12 +70,28 @@ const UploadAttachment = ({
         const formData = new FormData();
         formData.append(selectedFile.name, selectedFile);
         try {
-            await api.postChecklistAttachment(formData, selectedFile.name);
-            updateAttachments((prev) => !prev);
-            setPostAttachmentStatus(AsyncStatus.SUCCESS);
+            if (postTempAttachment && updateTempAttachments) {
+                const response = await postTempAttachment(
+                    formData,
+                    selectedFile.name
+                );
+                updateTempAttachments((attachments) => [
+                    ...attachments,
+                    { id: response, file: selectedFile },
+                ]);
+            } else if (postAttachment && updateAttachments) {
+                await postAttachment(formData, selectedFile.name);
+                updateAttachments((prev) => !prev);
+                setPostAttachmentStatus(AsyncStatus.SUCCESS);
+            } else {
+                throw new Error(
+                    'Failed to distinguish between attachment and temporary attachment.'
+                );
+            }
             setSnackbarText('File successfully added.');
             setShowModal(false);
         } catch (error) {
+            console.log(error);
             setPostAttachmentStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }

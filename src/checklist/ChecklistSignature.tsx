@@ -39,9 +39,10 @@ const SignOrVerifyWrapper = styled.div<{ eligible: boolean }>`
 const ButtonWrapper = styled.div`
     display: flex;
     margin-bottom: 12px;
-    & > :first-child {
+    justify-content: flex-end;
+    & > :last-child {
         margin: 0;
-        margin-right: 12px;
+        margin-left: 12px;
     }
 `;
 
@@ -146,11 +147,11 @@ const ChecklistSignature = ({
             );
             setIsSigned(true);
             setSignStatus(AsyncStatus.SUCCESS);
+            reloadChecklist((reloadStatus) => !reloadStatus);
             if (eligibleItemsToMultiSignFromApi.length === 0) {
                 setSnackbarText(
                     isSigned ? 'Unsign complete.' : 'Signing complete.'
                 );
-                reloadChecklist((reloadStatus) => !reloadStatus);
             } else {
                 setMultiSignOrVerifyIsOpen(true);
             }
@@ -185,9 +186,9 @@ const ChecklistSignature = ({
             );
             setIsVerified(true);
             setVerifyStatus(AsyncStatus.SUCCESS);
+            reloadChecklist((reloadStatus) => !reloadStatus);
             if (eligibleItemsToMultiVerifyFromApi.length === 0) {
                 setSnackbarText('Checklist successfully verified');
-                reloadChecklist((reloadStatus) => !reloadStatus);
             } else {
                 setMultiSignOrVerifyIsOpen(true);
             }
