@@ -4,7 +4,6 @@ import { AsyncStatus } from '../services/apiTypes';
 import { COLORS } from '../style/GlobalStyles';
 import EdsIcon from './icons/EdsIcon';
 import SkeletonLoadingPage from './loading/SkeletonLoader';
-const { BannerIcon, BannerMessage } = Banner;
 
 type AsyncPageProps = {
     fetchStatus: AsyncStatus;
@@ -27,24 +26,24 @@ const AsyncPage = ({
         } else if (fetchStatus === AsyncStatus.EMPTY_RESPONSE) {
             return (
                 <Banner>
-                    <BannerIcon>
+                    <Banner.Icon>
                         <EdsIcon
                             name={'info_circle'}
                             color={COLORS.mossGreen}
                         />
-                    </BannerIcon>
-                    <BannerMessage role={'paragraph'}>
+                    </Banner.Icon>
+                    <Banner.Message role={'paragraph'}>
                         {emptyContentMessage ? emptyContentMessage : ''}
-                    </BannerMessage>
+                    </Banner.Message>
                 </Banner>
             );
         } else if (fetchStatus === AsyncStatus.ERROR) {
             return (
                 <Banner>
-                    <BannerIcon variant="warning">
+                    <Banner.Icon variant="warning">
                         <EdsIcon name={'error_filled'} color={COLORS.danger} />
-                    </BannerIcon>
-                    <BannerMessage>{errorMessage}</BannerMessage>
+                    </Banner.Icon>
+                    <Banner.Message>{errorMessage}</Banner.Message>
                 </Banner>
             );
         } else {
