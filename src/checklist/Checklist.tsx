@@ -21,8 +21,6 @@ import Attachments from '../attachments/Attachments';
 import { List } from '@equinor/eds-core-react';
 import { Caption } from '../style/GlobalStyles';
 
-const { BannerMessage } = Banner;
-
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
     display: flex;
@@ -156,10 +154,10 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                     ? null
                     : isSigned && (
                           <Banner>
-                              <BannerMessage>
+                              <Banner.Message>
                                   This checklist is signed. Unsign to make
                                   changes.
-                              </BannerMessage>
+                              </Banner.Message>
                           </Banner>
                       )}
                 {checklistDetails ? (
