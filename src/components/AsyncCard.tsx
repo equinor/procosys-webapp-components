@@ -3,7 +3,6 @@ import SkeletonLoadingPage from './loading/SkeletonLoader';
 import { Accordion } from '@equinor/eds-core-react';
 import { AsyncStatus } from '../services/apiTypes';
 import styled from 'styled-components';
-const { AccordionHeader, AccordionItem, AccordionPanel } = Accordion;
 
 const AccordionWrapper = styled.div`
     margin-bottom: 16px;
@@ -39,11 +38,13 @@ const AsyncCard = ({
     return (
         <AccordionWrapper>
             <Accordion headerLevel="h3" chevronPosition="left">
-                <AccordionItem isExpanded={fetchStatus !== AsyncStatus.LOADING}>
-                    <AccordionHeader>{cardTitle}</AccordionHeader>
+                <Accordion.Item
+                    isExpanded={fetchStatus !== AsyncStatus.LOADING}
+                >
+                    <Accordion.Header>{cardTitle}</Accordion.Header>
 
-                    <AccordionPanel>{content()}</AccordionPanel>
-                </AccordionItem>
+                    <Accordion.Panel>{content()}</Accordion.Panel>
+                </Accordion.Item>
             </Accordion>
         </AccordionWrapper>
     );
