@@ -6,15 +6,15 @@ const AccordionWrapper = styled.div`
     margin-bottom: 16px;
 `;
 
-type AsyncCardProps = {
-    children: JSX.Element;
+type CollapsibleCardProps = {
+    children: JSX.Element | JSX.Element[];
     cardTitle: string;
 };
 
 const CollapsibleCard = ({
     cardTitle,
     children,
-}: AsyncCardProps): JSX.Element => {
+}: CollapsibleCardProps): JSX.Element => {
     return (
         <AccordionWrapper>
             <Accordion headerLevel="h3" chevronPosition="left">
