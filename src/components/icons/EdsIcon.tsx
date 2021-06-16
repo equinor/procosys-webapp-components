@@ -1,4 +1,5 @@
 import {
+    attachment,
     camera_add_photo,
     menu,
     stop,
@@ -38,11 +39,14 @@ import {
     check,
     assignment_turned_in,
     external_link,
+    tag,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
 
 Icon.add({
+    tag,
+    attachment,
     external_link,
     camera_add_photo,
     menu,
