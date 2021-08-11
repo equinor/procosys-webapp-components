@@ -34,7 +34,7 @@ type AttachmentsProps = {
     readOnly: boolean;
 };
 
-const Attachments = (props: AttachmentsProps) => {
+const Attachments = (props: AttachmentsProps): JSX.Element => {
     const [refreshAttachments, setRefreshAttachments] = useState(false);
     const [attachments, setAttachments] = useState<AttachmentType[]>([]);
     const [showUploadModal, setShowUploadModal] = useState(false);

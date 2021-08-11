@@ -42,11 +42,11 @@ export const ImageModal = styled.div<{ pushImageUp: boolean }>`
     position: relative;
     & > img {
         position: fixed;
-        bottom: ${(props) => (props.pushImageUp ? '180px' : '145px')};
+        bottom: ${(props): string => (props.pushImageUp ? '180px' : '145px')};
         left: 50%;
         transform: translateX(-50%);
         max-width: 95vw;
-        max-height: ${(props) => (props.pushImageUp ? '65vh' : '70vh')};
+        max-height: ${(props): string => (props.pushImageUp ? '65vh' : '70vh')};
         object-fit: contain;
     }
 `;

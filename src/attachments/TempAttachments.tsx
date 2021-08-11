@@ -17,7 +17,7 @@ const TempAttachments = ({
     setSnackbarText,
     setTempAttachmentIds,
     postTempAttachment,
-}: TempAttachmentsProps) => {
+}: TempAttachmentsProps): JSX.Element => {
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [attachmentToShow, setAttachmentToShow] =
         useState<TempAttachment | null>(null);
@@ -47,7 +47,10 @@ const TempAttachments = ({
                 <EdsIcon name="camera_add_photo" />
             </Button>
             {attachmentToShow ? (
-                <Scrim isDismissable onClose={() => setAttachmentToShow(null)}>
+                <Scrim
+                    isDismissable
+                    onClose={(): void => setAttachmentToShow(null)}
+                >
                     <ImageModal pushImageUp={false}>
                         <img
                             src={URL.createObjectURL(attachmentToShow?.file)}
@@ -56,7 +59,7 @@ const TempAttachments = ({
                         <ModalActionPanel>
                             <Menu.Item
                                 color={'danger'}
-                                onClick={() => {
+                                onClick={(): void => {
                                     setTempAttachments((prev) =>
                                         prev.filter(
                                             (attachment) =>

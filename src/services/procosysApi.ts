@@ -104,7 +104,9 @@ const procosysApiService = ({
         return data.id;
     };
 
-    const deleteCustomCheckItem = async (customCheckItemId: number) => {
+    const deleteCustomCheckItem = async (
+        customCheckItemId: number
+    ): Promise<void> => {
         await axios.delete(
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             {

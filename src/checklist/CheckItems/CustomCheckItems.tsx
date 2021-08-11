@@ -1,6 +1,6 @@
 import { Button, Checkbox, Scrim, TextField } from '@equinor/eds-core-react';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../components/icons/EdsIcon';
 import { AsyncStatus, CustomCheckItem } from '../../services/apiTypes';
@@ -71,7 +71,7 @@ const CustomCheckItems = ({
     isSigned,
     setSnackbarText,
     api,
-}: CustomCheckItemsProps) => {
+}: CustomCheckItemsProps): JSX.Element => {
     const [postCustomCheckStatus, setPostCustomCheckStatus] = useState(
         AsyncStatus.INACTIVE
     );
@@ -85,6 +85,7 @@ const CustomCheckItems = ({
     const [customItemText, setCustomItemText] = useState('');
     const source = axios.CancelToken.source();
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const handleCreateNewItem = async () => {
         setPostCustomCheckItemStatus(AsyncStatus.LOADING);
         try {
@@ -111,12 +112,12 @@ const CustomCheckItems = ({
             setPostCustomCheckItemStatus(AsyncStatus.ERROR);
             setSnackbarText('Unable to save new check item.');
         }
-        return () => {
+        return (): void => {
             source.cancel('Custom check item component unmounted.');
         };
     };
 
-    const handleDelete = async (customCheckItemId: number) => {
+    const handleDelete = async (customCheckItemId: number): Promise<void> => {
         setDeleteCustomCheckStatus(AsyncStatus.LOADING);
         try {
             await api.deleteCustomCheckItem(customCheckItemId);
@@ -133,7 +134,7 @@ const CustomCheckItems = ({
         }
     };
 
-    const handleUncheck = async (item: CustomCheckItem) => {
+    const handleUncheck = async (item: CustomCheckItem): Promise<void> => {
         try {
             await api.postCustomClear(item.id);
             updateCustomCheck({
@@ -148,7 +149,9 @@ const CustomCheckItems = ({
         }
     };
 
-    const handleCheckboxClick = async (item: CustomCheckItem) => {
+    const handleCheckboxClick = async (
+        item: CustomCheckItem
+    ): Promise<void> => {
         setPostCustomCheckStatus(AsyncStatus.LOADING);
         if (item.isOk) {
             handleUncheck(item);
@@ -167,6 +170,7 @@ const CustomCheckItems = ({
             setSnackbarText('Unable to check item.');
         }
     };
+
     return (
         <>
             <CheckHeader text={'Custom check items'} />
@@ -185,7 +189,9 @@ const CustomCheckItems = ({
                                 postCustomCheckStatus === AsyncStatus.LOADING
                             }
                             enterKeyHint={'send'}
-                            onChange={() => handleCheckboxClick(item)}
+                            onChange={(): Promise<void> =>
+                                handleCheckboxClick(item)
+                            }
                             checked={item.isOk}
                             data-testid={'custom-checked-' + item.id}
                             label={''}
@@ -196,7 +202,7 @@ const CustomCheckItems = ({
                                 deleteCustomCheckStatus ===
                                     AsyncStatus.LOADING || isSigned
                             }
-                            onClick={() => setItemToBeDeleted(item.id)}
+                            onClick={(): void => setItemToBeDeleted(item.id)}
                         >
                             <EdsIcon
                                 color={
@@ -221,7 +227,7 @@ const CustomCheckItems = ({
                         e: React.ChangeEvent<
                             HTMLInputElement | HTMLTextAreaElement
                         >
-                    ) => setCustomItemText(e.currentTarget.value)}
+                    ): void => setCustomItemText(e.currentTarget.value)}
                     placeholder={'Enter details for new check item.'}
                 />
                 <Button
@@ -237,12 +243,15 @@ const CustomCheckItems = ({
             </NewCustomItemWrapper>
 
             {itemToBeDeleted ? (
-                <Scrim isDismissable onClose={() => setItemToBeDeleted(0)}>
+                <Scrim
+                    isDismissable
+                    onClose={(): void => setItemToBeDeleted(0)}
+                >
                     <DeletionPopup>
                         <p>Really delete this item?</p>
                         <Button
                             variant={'outlined'}
-                            onClick={() => setItemToBeDeleted(0)}
+                            onClick={(): void => setItemToBeDeleted(0)}
                         >
                             Cancel
                         </Button>
@@ -251,7 +260,9 @@ const CustomCheckItems = ({
                             disabled={
                                 deleteCustomCheckStatus === AsyncStatus.LOADING
                             }
-                            onClick={() => handleDelete(itemToBeDeleted)}
+                            onClick={(): Promise<void> =>
+                                handleDelete(itemToBeDeleted)
+                            }
                         >
                             Delete
                         </Button>
