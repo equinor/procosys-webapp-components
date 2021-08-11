@@ -46,7 +46,7 @@ const ChecklistMultiSignOrVerify = ({
     tagNo,
     api,
     setSnackbarText,
-}: ChecklistMultiSignOrVerifyProps) => {
+}: ChecklistMultiSignOrVerifyProps): JSX.Element => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
         eligibleItems.map((item) => item.id)
     );
@@ -60,7 +60,7 @@ const ChecklistMultiSignOrVerify = ({
         setAllAreChecked(itemsToSignOrVerify.length === eligibleItems.length);
     }, [itemsToSignOrVerify]);
 
-    const handleMultiSignOrVerify = async () => {
+    const handleMultiSignOrVerify = async (): Promise<void> => {
         setPostSignOrVerifyStatus(AsyncStatus.LOADING);
         try {
             if (isMultiVerify) {
@@ -78,7 +78,7 @@ const ChecklistMultiSignOrVerify = ({
         }
     };
 
-    const determineButtonText = () => {
+    const determineButtonText = (): string => {
         if (isMultiVerify) {
             if (postSignOrVerifyStatus === AsyncStatus.LOADING) {
                 return 'Verifying...';
@@ -94,7 +94,7 @@ const ChecklistMultiSignOrVerify = ({
         }
     };
 
-    const handleCheckOrUncheckAll = () => {
+    const handleCheckOrUncheckAll = (): void => {
         if (allAreChecked) {
             setItemsToSignOrVerify([]);
         } else {
@@ -102,7 +102,7 @@ const ChecklistMultiSignOrVerify = ({
         }
     };
 
-    const handleItemClick = (itemId: number) => {
+    const handleItemClick = (itemId: number): void => {
         if (itemsToSignOrVerify.includes(itemId)) {
             setItemsToSignOrVerify((prev) =>
                 prev.filter((item) => item !== itemId)
@@ -132,7 +132,9 @@ const ChecklistMultiSignOrVerify = ({
                     <Checkbox
                         checked={copyTableContents}
                         label={'Copy table contents.'}
-                        onChange={() => setCopyTableContents((prev) => !prev)}
+                        onChange={(): void =>
+                            setCopyTableContents((prev) => !prev)
+                        }
                     />
                 )}
             </OptionsWrapper>
@@ -142,14 +144,14 @@ const ChecklistMultiSignOrVerify = ({
                     <Checkbox
                         checked={itemsToSignOrVerify.includes(item.id)}
                         label={item.tagNo}
-                        onChange={() => handleItemClick(item.id)}
+                        onChange={(): void => handleItemClick(item.id)}
                     />
                 </React.Fragment>
             ))}
             <ButtonWrapper>
                 <Button
                     variant={'outlined'}
-                    onClick={() => setMultiSignOrVerifyIsOpen(false)}
+                    onClick={(): void => setMultiSignOrVerifyIsOpen(false)}
                 >
                     Close
                 </Button>

@@ -161,7 +161,7 @@ const ChecklistSignature = ({
         }
     };
 
-    const handleUnverifyClick = async () => {
+    const handleUnverifyClick = async (): Promise<void> => {
         setVerifyStatus(AsyncStatus.LOADING);
         try {
             await api.postUnverify();
@@ -175,7 +175,7 @@ const ChecklistSignature = ({
         }
     };
 
-    const handleVerifyClick = async () => {
+    const handleVerifyClick = async (): Promise<void> => {
         setVerifyStatus(AsyncStatus.LOADING);
         try {
             await api.postVerify();
@@ -216,12 +216,12 @@ const ChecklistSignature = ({
     }, [putCommentStatus]);
 
     useEffect(() => {
-        return () => {
+        return (): void => {
             source.cancel('Checklist signature component unmounted.');
         };
     }, []);
 
-    const determineSignatureText = () => {
+    const determineSignatureText = (): JSX.Element => {
         if (isSigned) {
             return (
                 <p>
@@ -240,7 +240,7 @@ const ChecklistSignature = ({
         return <></>;
     };
 
-    const determineVerifyText = () => {
+    const determineVerifyText = (): JSX.Element => {
         if (!isVerified) {
             return <></>;
         }
@@ -286,7 +286,7 @@ const ChecklistSignature = ({
                     {isVerified ? null : (
                         <Button
                             variant={isSigned ? 'outlined' : 'contained'}
-                            onClick={() => {
+                            onClick={(): void => {
                                 isSigned
                                     ? handleUnsignClick()
                                     : handleSignClick();
@@ -302,7 +302,7 @@ const ChecklistSignature = ({
                     {isSigned ? (
                         <Button
                             variant={isVerified ? 'outlined' : 'contained'}
-                            onClick={() =>
+                            onClick={(): Promise<void> =>
                                 isVerified
                                     ? handleUnverifyClick()
                                     : handleVerifyClick()

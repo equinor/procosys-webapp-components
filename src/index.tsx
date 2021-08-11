@@ -19,5 +19,5 @@ export {
     StatusColumn,
     ErrorPage,
     HomeButton,
-    ReloadButton
+    ReloadButton,
 };
