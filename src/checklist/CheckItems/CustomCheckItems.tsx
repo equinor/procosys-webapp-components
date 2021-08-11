@@ -85,13 +85,8 @@ const CustomCheckItems = ({
     const [customItemText, setCustomItemText] = useState('');
     const source = axios.CancelToken.source();
 
-    useEffect(() => {
-        return (): void => {
-            source.cancel('Custom check item component unmounted.');
-        };
-    });
-
-    const handleCreateNewItem = async (): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const handleCreateNewItem = async () => {
         setPostCustomCheckItemStatus(AsyncStatus.LOADING);
         try {
             const nextAvailableNumber = await api.getNextCustomItemNumber(
@@ -117,6 +112,9 @@ const CustomCheckItems = ({
             setPostCustomCheckItemStatus(AsyncStatus.ERROR);
             setSnackbarText('Unable to save new check item.');
         }
+        return (): void => {
+            source.cancel('Custom check item component unmounted.');
+        };
     };
 
     const handleDelete = async (customCheckItemId: number): Promise<void> => {
