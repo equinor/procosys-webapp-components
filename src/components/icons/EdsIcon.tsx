@@ -40,6 +40,7 @@ import {
     assignment_turned_in,
     external_link,
     tag,
+    file_add,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
@@ -86,6 +87,7 @@ Icon.add({
     error_filled,
     hourglass_empty,
     check,
+    file_add,
 });
 
 type IconProps = {

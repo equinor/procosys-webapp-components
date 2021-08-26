@@ -32,6 +32,7 @@ type AttachmentsProps = {
     deleteAttachment?: (attachmentId: number) => Promise<void>;
     setSnackbarText: (message: string) => void;
     readOnly: boolean;
+    supportsDocuments?: boolean;
 };
 
 const Attachments = (props: AttachmentsProps): JSX.Element => {
@@ -69,11 +70,18 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                     attachment={attachment}
                     refreshAttachments={setRefreshAttachments}
                     deleteAttachment={props.deleteAttachment}
+                    supportsDocuments={props.supportsDocuments}
                 />
             ))}
             {props.readOnly ? null : (
                 <Button onClick={(): void => setShowUploadModal(true)}>
-                    <EdsIcon name="camera_add_photo" />
+                    <EdsIcon
+                        name={
+                            props.supportsDocuments
+                                ? 'file_add'
+                                : 'camera_add_photo'
+                        }
+                    />
                 </Button>
             )}
             {showUploadModal ? (
@@ -82,6 +90,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                     setSnackbarText={props.setSnackbarText}
                     updateAttachments={setRefreshAttachments}
                     postAttachment={props.postAttachment}
+                    supportsDocuments={props.supportsDocuments}
                 />
             ) : null}
         </AttachmentsWrapper>
