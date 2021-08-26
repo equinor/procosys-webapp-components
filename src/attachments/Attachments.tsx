@@ -70,7 +70,6 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                     attachment={attachment}
                     refreshAttachments={setRefreshAttachments}
                     deleteAttachment={props.deleteAttachment}
-                    supportsDocuments={props.supportsDocuments}
                 />
             ))}
             {props.readOnly ? null : (

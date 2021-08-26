@@ -59,7 +59,6 @@ type AttachmentProps = {
     deleteAttachment?: (attachmentId: number) => Promise<void>;
     getAttachment: (cancelToken: CancelToken) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
-    supportsDocuments?: boolean;
 };
 
 const Attachment = ({
@@ -69,7 +68,6 @@ const Attachment = ({
     refreshAttachments,
     setSnackbarText,
     readOnly,
-    supportsDocuments,
 }: AttachmentProps): JSX.Element => {
     const [showFullScreenImage, setShowFullScreenImage] = useState(false);
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
