@@ -143,9 +143,7 @@ const UploadAttachment = ({
                 <input
                     type="file"
                     onChange={onFileChange}
-                    accept={`image/*${
-                        supportsDocuments ? ', .pdf, .doc, .xlsx, .docx' : ''
-                    }`}
+                    accept={supportsDocuments ? '' : 'image/*'}
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                 />
