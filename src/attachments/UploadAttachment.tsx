@@ -44,7 +44,6 @@ type UploadAttachmentProps = {
     updateAttachments?: Dispatch<SetStateAction<boolean>>;
     postTempAttachment?: (formData: FormData, title: string) => Promise<string>;
     postAttachment?: (formData: FormData, title: string) => Promise<void>;
-    supportsDocuments?: boolean;
 };
 
 const UploadAttachment = ({
@@ -54,7 +53,6 @@ const UploadAttachment = ({
     updateAttachments,
     postTempAttachment,
     postAttachment,
-    supportsDocuments,
 }: UploadAttachmentProps): JSX.Element => {
     const [selectedFile, setSelectedFile] = useState<File>();
     const [postAttachmentStatus, setPostAttachmentStatus] = useState(
@@ -134,16 +132,13 @@ const UploadAttachment = ({
                         <Button
                             onClick={(): void => fileInputRef.current.click()}
                         >
-                            {supportsDocuments
-                                ? 'Choose file...'
-                                : 'Choose image...'}
+                            Choose file...
                         </Button>
                     </ChooseImageContainer>
                 )}
                 <input
                     type="file"
                     onChange={onFileChange}
-                    accept={supportsDocuments ? '' : 'image/*'}
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                 />
@@ -164,10 +159,8 @@ const UploadAttachment = ({
                     >
                         {postAttachmentStatus === AsyncStatus.LOADING ? (
                             <DotProgress color="primary" />
-                        ) : supportsDocuments ? (
-                            'Upload file'
                         ) : (
-                            'Upload image'
+                            'Upload file'
                         )}
                     </Button>
                 </ButtonWrapper>

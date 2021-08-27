@@ -168,6 +168,13 @@ const Attachment = ({
                 ) : (
                     <DocumentAttachmentWrapper onClick={loadAttachment}>
                         <Typography lines={3}>{attachment.title}</Typography>
+                        <Button variant={'ghost_icon'}>
+                            <EdsIcon
+                                name="launch"
+                                color={COLORS.mossGreen}
+                                alt={'open action menu'}
+                            />
+                        </Button>
                     </DocumentAttachmentWrapper>
                 )}
             </>

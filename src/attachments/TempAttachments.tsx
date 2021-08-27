@@ -45,7 +45,7 @@ const TempAttachments = ({
                 />
             ))}
             <Button onClick={(): void => setShowUploadModal(true)}>
-                <EdsIcon name="camera_add_photo" />
+                <EdsIcon name="add" />
             </Button>
             {attachmentToShow ? (
                 <Scrim
