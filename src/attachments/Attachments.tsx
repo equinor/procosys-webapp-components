@@ -73,7 +73,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
             ))}
             {props.readOnly ? null : (
                 <Button onClick={(): void => setShowUploadModal(true)}>
-                    <EdsIcon name="camera_add_photo" />
+                    <EdsIcon name={'add'} size={40} />
                 </Button>
             )}
             {showUploadModal ? (

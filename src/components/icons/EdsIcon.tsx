@@ -1,6 +1,5 @@
 import {
     attachment,
-    camera_add_photo,
     menu,
     stop,
     chevron_right,
@@ -40,6 +39,8 @@ import {
     assignment_turned_in,
     external_link,
     tag,
+    add,
+    launch,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
@@ -48,7 +49,6 @@ Icon.add({
     tag,
     attachment,
     external_link,
-    camera_add_photo,
     menu,
     stop,
     tune,
@@ -86,6 +86,8 @@ Icon.add({
     error_filled,
     hourglass_empty,
     check,
+    add,
+    launch,
 });
 
 type IconProps = {

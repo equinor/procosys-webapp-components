@@ -15,6 +15,7 @@ import {
 } from '../services/apiTypes';
 import { COLORS } from '../style/GlobalStyles';
 import handleDownload from '../utils/handleDownload';
+import ActionsPanel from './ActionsPanel';
 
 const AttachmentWrapper = styled.div`
     display: flex;
@@ -48,22 +49,6 @@ export const ImageModal = styled.div<{ pushImageUp: boolean }>`
         max-width: 95vw;
         max-height: ${(props): string => (props.pushImageUp ? '65vh' : '70vh')};
         object-fit: contain;
-    }
-`;
-
-export const ModalActionPanel = styled.div`
-    width: 100%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    border-radius: 20px 20px 0 0;
-    & > li,
-    & > li:hover {
-        list-style-type: none;
-        background: none;
     }
 `;
 
@@ -108,15 +93,11 @@ const Attachment = ({
                 console.log('Failed to create object URL from blob: ', blob);
             }
             setAttachmentFileURL(imageUrl);
-            if (!isDocument) {
-                setShowFullScreenImage(true);
-            } else {
-                handleDownload(imageUrl, attachment.fileName);
-            }
+            setShowFullScreenImage(true);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             if (!Axios.isCancel(error)) {
-                setSnackbarText('Unable to load image.');
+                setSnackbarText('Unable to load attachment.');
                 setLoadingStatus(AsyncStatus.ERROR);
             }
         }
@@ -161,16 +142,42 @@ const Attachment = ({
 
     const documentAttachment = (): JSX.Element => {
         return (
-            <DocumentAttachmentWrapper>
-                <Typography lines={3}>{attachment.title}</Typography>
-                <Button variant={'ghost_icon'} onClick={loadAttachment}>
-                    <EdsIcon
-                        name="cloud_download"
-                        color={COLORS.mossGreen}
-                        alt={'download document'}
-                    />
-                </Button>
-            </DocumentAttachmentWrapper>
+            <>
+                {showFullScreenImage ? (
+                    <Scrim
+                        isDismissable
+                        onClose={(): void => setShowFullScreenImage(false)}
+                    >
+                        <ActionsPanel
+                            attachmentFileURL={attachmentFileURL}
+                            fileName={attachment.fileName}
+                            setSnackbarText={setSnackbarText}
+                            readOnly={readOnly}
+                            deleteStatus={deleteStatus}
+                            setShowFullScreenImage={setShowFullScreenImage}
+                            handleDelete={
+                                deleteAttachment ? handleDelete : undefined
+                            }
+                        />
+                    </Scrim>
+                ) : null}
+                {loadingStatus === AsyncStatus.LOADING ? (
+                    <AttachmentWrapper>
+                        <CircularProgress />
+                    </AttachmentWrapper>
+                ) : (
+                    <DocumentAttachmentWrapper onClick={loadAttachment}>
+                        <Typography lines={3}>{attachment.title}</Typography>
+                        <Button variant={'ghost_icon'}>
+                            <EdsIcon
+                                name="launch"
+                                color={COLORS.mossGreen}
+                                alt={'open action menu'}
+                            />
+                        </Button>
+                    </DocumentAttachmentWrapper>
+                )}
+            </>
         );
     };
 
@@ -187,56 +194,17 @@ const Attachment = ({
                                 src={attachmentFileURL}
                                 alt={attachment.title}
                             />
-                            <ModalActionPanel>
-                                <Menu.Item
-                                    onClick={(): void => {
-                                        handleDownload(
-                                            attachmentFileURL,
-                                            attachment.fileName
-                                        );
-                                        setSnackbarText(
-                                            'Image successfully downloaded.'
-                                        );
-                                    }}
-                                >
-                                    <EdsIcon name="cloud_download" />
-                                    <Typography
-                                        group="navigation"
-                                        variant="menu_title"
-                                        as="span"
-                                    >
-                                        Download
-                                    </Typography>
-                                </Menu.Item>
-                                {readOnly || !deleteAttachment ? null : (
-                                    <Menu.Item
-                                        color={'danger'}
-                                        onClick={handleDelete}
-                                    >
-                                        <EdsIcon
-                                            name="delete_to_trash"
-                                            alt="Delete attachment"
-                                        />
-                                        {deleteStatus === AsyncStatus.LOADING
-                                            ? 'Deleting...'
-                                            : 'Delete'}
-                                    </Menu.Item>
-                                )}
-                                <Menu.Item
-                                    onClick={(): void =>
-                                        setShowFullScreenImage(false)
-                                    }
-                                >
-                                    <EdsIcon name="close" />
-                                    <Typography
-                                        group="navigation"
-                                        variant="menu_title"
-                                        as="span"
-                                    >
-                                        Close
-                                    </Typography>
-                                </Menu.Item>
-                            </ModalActionPanel>
+                            <ActionsPanel
+                                attachmentFileURL={attachmentFileURL}
+                                fileName={attachment.fileName}
+                                setSnackbarText={setSnackbarText}
+                                readOnly={readOnly}
+                                deleteStatus={deleteStatus}
+                                setShowFullScreenImage={setShowFullScreenImage}
+                                handleDelete={
+                                    deleteAttachment ? handleDelete : undefined
+                                }
+                            />
                         </ImageModal>
                     </Scrim>
                 ) : null}

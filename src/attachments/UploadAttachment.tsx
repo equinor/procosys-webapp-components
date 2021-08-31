@@ -58,14 +58,32 @@ const UploadAttachment = ({
     const [postAttachmentStatus, setPostAttachmentStatus] = useState(
         AsyncStatus.INACTIVE
     );
+    const [isDocument, setIsDocument] = useState<boolean>(false);
     const fileInputRef = useRef(document.createElement('input'));
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const currentFiles = e.currentTarget.files;
-        if (currentFiles) setSelectedFile(currentFiles[0]);
+        if (currentFiles) {
+            setSelectedFile(currentFiles[0]);
+            if (currentFiles[0].name.match(/.(jpg|jpeg|png|gif)$/i) === null) {
+                setIsDocument(true);
+            }
+        }
+    };
+
+    const isUnsupportedFileType = (fileName: string): boolean => {
+        const rejectedFileExtensions =
+            /(\.exe|\.msi|\.dotm|\.docm|\.xlsm|\.xltm)$/i;
+        const rejected = rejectedFileExtensions.exec(fileName);
+        if (rejected) {
+            setSnackbarText('File type not suppported');
+            return true;
+        }
+        return false;
     };
 
     const onFileUpload = async (): Promise<void> => {
         if (!selectedFile) return;
+        if (isUnsupportedFileType(selectedFile.name)) return;
         setPostAttachmentStatus(AsyncStatus.LOADING);
         const formData = new FormData();
         formData.append(selectedFile.name, selectedFile);
@@ -101,23 +119,26 @@ const UploadAttachment = ({
         <Scrim isDismissable onClose={(): void => setShowModal(false)}>
             <UploadContainer>
                 {selectedFile ? (
-                    <img
-                        src={URL.createObjectURL(selectedFile)}
-                        alt={selectedFile.name}
-                    />
+                    isDocument ? (
+                        selectedFile.name
+                    ) : (
+                        <img
+                            src={URL.createObjectURL(selectedFile)}
+                            alt={selectedFile.name}
+                        />
+                    )
                 ) : (
                     <ChooseImageContainer>
                         <Button
                             onClick={(): void => fileInputRef.current.click()}
                         >
-                            Choose image...
+                            Choose file...
                         </Button>
                     </ChooseImageContainer>
                 )}
                 <input
                     type="file"
                     onChange={onFileChange}
-                    accept="image/*"
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                 />
@@ -139,7 +160,7 @@ const UploadAttachment = ({
                         {postAttachmentStatus === AsyncStatus.LOADING ? (
                             <DotProgress color="primary" />
                         ) : (
-                            'Upload image'
+                            'Upload file'
                         )}
                     </Button>
                 </ButtonWrapper>
