@@ -64,4 +64,13 @@ export const Caption = styled.p({
     textAlign: 'left',
 });
 
+export const BREAKPOINT = {
+    xs: '@media (max-width: 0px)',
+    sm: '@media (max-width: 600px)',
+    standard: '@media (max-width: 768px)',
+    md: '@media (max-width: 960px)',
+    lg: '@media (max-width: 1280px)',
+    xl: '@media (max-width: 1920px)',
+};
+
 export default GlobalStyles;
