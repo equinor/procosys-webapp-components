@@ -15,7 +15,6 @@ const BackButton = ({ to }: BackButtonProps): JSX.Element => {
         <Button
             variant="ghost"
             onClick={(): void => {
-                //Sends the user one subdirectory back unless otherwise specified in the "to" prop.
                 if (to) {
                     history.push(to);
                 } else {
