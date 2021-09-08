@@ -8,7 +8,7 @@ const removeLastSubdirectory = (url: string): string => {
 
 const removeSubdirectories = (
     url: string,
-    numberOfSubdirectoriesToRemove: number
+    numberOfSubdirectoriesToRemove = 1
 ): string => {
     let modifiedUrl = url;
     for (let i = 0; i < numberOfSubdirectoriesToRemove; i++) {

@@ -13,6 +13,7 @@ import ProcosysButton from './components/buttons/ProcosysButton';
 import Navbar from './NavBar/NavBar';
 import LoadingPage from './components/loading/LoadingPage';
 import SkeletonLoadingPage from './components/loading/SkeletonLoader';
+import removeSubdirectories from './utils/removeSubdirectories';
 
 export {
     Checklist,
@@ -30,4 +31,5 @@ export {
     ProcosysButton,
     LoadingPage,
     SkeletonLoadingPage,
+    removeSubdirectories,
 };
