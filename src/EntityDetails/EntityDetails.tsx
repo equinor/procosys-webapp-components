@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Caption, COLORS } from '../style/GlobalStyles';
 
 const EntityDetailsWrapper = styled.article<{ isDetailsCard?: boolean }>`
-    cursor: ${(props): string => (props.isDetailsCard ? 'none' : 'pointer')};
+    cursor: ${(props): string => (props.isDetailsCard ? 'default' : 'pointer')};
     display: flex;
     border-top: 1px solid ${COLORS.lightGrey};
     padding: 16px 4%;
