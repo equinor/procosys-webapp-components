@@ -111,6 +111,25 @@ export interface ChecklistResponse {
     customCheckItems: CustomCheckItem[];
 }
 
+export interface ChecklistPreview {
+    id: number;
+    tagId: number;
+    tagNo: string;
+    tagDescription: string;
+    responsibleCode: string;
+    status: CompletionStatus;
+    formularType: string;
+    formularGroup: string;
+    sheetNo: number;
+    subSheetNo: number;
+    isRestrictedForUser: boolean;
+    hasElectronicForm: boolean;
+    attachmentCount: number;
+    isSigned: boolean;
+    isVerified: boolean;
+}
+
+// Attachments
 export interface Attachment {
     id: number;
     uri: string;
@@ -121,4 +140,24 @@ export interface Attachment {
     thumbnailAsBase64: string;
     hasFile: boolean;
     fileName: string;
+}
+
+// Punch
+export interface PunchPreview {
+    id: number;
+    status: CompletionStatus;
+    description: string;
+    systemModule: string;
+    tagDescription: string;
+    tagId: number;
+    tagNo: string;
+    formularType: string;
+    responsibleCode: string;
+    isRestrictedForUser: boolean;
+    cleared: boolean;
+    rejected: boolean;
+    verified: boolean;
+    statusControlledBySwcr: boolean;
+    attachmentCount: number;
+    callOffNo?: string;
 }
