@@ -14,6 +14,8 @@ import Navbar from './NavBar/NavBar';
 import LoadingPage from './components/loading/LoadingPage';
 import SkeletonLoadingPage from './components/loading/SkeletonLoader';
 import removeSubdirectories from './utils/removeSubdirectories';
+import PunchList from './PunchList/PunchList';
+import Scope from './Scope/Scope';
 
 export {
     Checklist,
@@ -32,4 +34,6 @@ export {
     LoadingPage,
     SkeletonLoadingPage,
     removeSubdirectories,
+    PunchList,
+    Scope,
 };
