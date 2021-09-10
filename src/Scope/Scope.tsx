@@ -14,12 +14,11 @@ export const ScopeWrapper = styled.div`
 `;
 
 type ScopeProps = {
-    url: string;
     fetchScopeStatus: AsyncStatus;
     scope?: ChecklistPreview[];
 };
 
-const Scope = ({ url, fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
+const Scope = ({ fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
     const history = useHistory();
     const [shownScope, setShownScope] = useState<
         ChecklistPreview[] | undefined
@@ -34,7 +33,7 @@ const Scope = ({ url, fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
             >
                 <div>
                     <Filter
-                        url={url}
+                        url={history.location.pathname}
                         setShownScope={setShownScope}
                         scopeItems={scope}
                     />
@@ -55,7 +54,9 @@ const Scope = ({ url, fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
                                 checklist.responsibleCode,
                             ]}
                             onClick={(): void =>
-                                history.push(`${url}/checklist/${checklist.id}`)
+                                history.push(
+                                    `${history.location.pathname}/checklist/${checklist.id}`
+                                )
                             }
                         />
                     ))}

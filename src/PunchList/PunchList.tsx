@@ -9,15 +9,15 @@ import InfoItem from '../InfoItem/InfoItem';
 import removeSubdirectories from '../utils/removeSubdirectories';
 
 type PunchListProps = {
-    url: string;
     fetchPunchListStatus: AsyncStatus;
     punchList?: PunchPreview[];
+    isChecklistPunchList?: boolean;
 };
 
 const PunchList = ({
-    url,
     punchList,
     fetchPunchListStatus,
+    isChecklistPunchList,
 }: PunchListProps): JSX.Element => {
     const history = useHistory();
     const [filteredPunchList, setFilteredPunchList] = useState<
@@ -35,9 +35,10 @@ const PunchList = ({
             >
                 <>
                     <Filter
-                        url={url}
+                        url={history.location.pathname}
                         setShownPunches={setFilteredPunchList}
                         punchItems={punchList}
+                        isChecklistPunchList={isChecklistPunchList}
                     />
                     {filteredPunchList?.map((punch) => (
                         <InfoItem
@@ -54,9 +55,9 @@ const PunchList = ({
                             tag={punch.tagNo}
                             onClick={(): void =>
                                 history.push(
-                                    `${removeSubdirectories(url)}/punch-item/${
-                                        punch.id
-                                    }`
+                                    `${removeSubdirectories(
+                                        history.location.pathname
+                                    )}/punch-item/${punch.id}`
                                 )
                             }
                         />
