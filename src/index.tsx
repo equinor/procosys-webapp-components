@@ -16,7 +16,6 @@ import SkeletonLoadingPage from './components/loading/SkeletonLoader';
 import removeSubdirectories from './utils/removeSubdirectories';
 import PunchList from './PunchList/PunchList';
 import Scope from './Scope/Scope';
-import ChecklistPunchList from './PunchList/ChecklistPunchList';
 
 export {
     Checklist,
@@ -37,5 +36,4 @@ export {
     removeSubdirectories,
     PunchList,
     Scope,
-    ChecklistPunchList,
 };
