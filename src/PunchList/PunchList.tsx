@@ -51,7 +51,14 @@ const PunchList = ({
                             attachments={punch.attachmentCount}
                             headerText={punch.id.toString()}
                             description={punch.description}
-                            chips={[punch.formularType, punch.responsibleCode]}
+                            chips={
+                                isChecklistPunchList
+                                    ? undefined
+                                    : [
+                                          punch.formularType,
+                                          punch.responsibleCode,
+                                      ]
+                            }
                             tag={punch.tagNo}
                             onClick={(): void =>
                                 history.push(
