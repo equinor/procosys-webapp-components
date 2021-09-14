@@ -15,10 +15,17 @@ export const ScopeWrapper = styled.div`
 
 type ScopeProps = {
     fetchScopeStatus: AsyncStatus;
+    onChecklistClick: (checklistId: number) => void;
     scope?: ChecklistPreview[];
+    isPoScope?: boolean;
 };
 
-const Scope = ({ fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
+const Scope = ({
+    fetchScopeStatus,
+    onChecklistClick,
+    scope,
+    isPoScope,
+}: ScopeProps): JSX.Element => {
     const history = useHistory();
     const [shownScope, setShownScope] = useState<
         ChecklistPreview[] | undefined
@@ -36,6 +43,7 @@ const Scope = ({ fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
                         url={history.location.pathname}
                         setShownScope={setShownScope}
                         scopeItems={scope}
+                        isPoScope={isPoScope}
                     />
                     {shownScope?.map((checklist) => (
                         <InfoItem
@@ -53,11 +61,7 @@ const Scope = ({ fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
                                 checklist.formularType,
                                 checklist.responsibleCode,
                             ]}
-                            onClick={(): void =>
-                                history.push(
-                                    `${history.location.pathname}/checklist/${checklist.id}`
-                                )
-                            }
+                            onClick={(): void => onChecklistClick(checklist.id)}
                         />
                     ))}
                 </div>

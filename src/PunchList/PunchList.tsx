@@ -10,14 +10,16 @@ import PunchListFilter from '../components/Filter/PunchListFilter/PunchListFilte
 
 type PunchListProps = {
     fetchPunchListStatus: AsyncStatus;
+    onPunchClick: (punchId: number) => void;
     punchList?: PunchPreview[];
     isChecklistPunchList?: boolean;
     isPoPunchList?: boolean;
 };
 
 const PunchList = ({
-    punchList,
     fetchPunchListStatus,
+    onPunchClick,
+    punchList,
     isChecklistPunchList,
     isPoPunchList,
 }: PunchListProps): JSX.Element => {
@@ -62,13 +64,7 @@ const PunchList = ({
                                       ]
                             }
                             tag={isChecklistPunchList ? undefined : punch.tagNo}
-                            onClick={(): void =>
-                                history.push(
-                                    `${removeSubdirectories(
-                                        history.location.pathname
-                                    )}/punch-item/${punch.id}`
-                                )
-                            }
+                            onClick={(): void => onPunchClick(punch.id)}
                         />
                     ))}
                 </>
