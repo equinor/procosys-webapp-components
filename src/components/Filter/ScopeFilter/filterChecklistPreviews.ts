@@ -1,11 +1,11 @@
-import { ChecklistPreview } from '../../services/apiTypes';
+import { ChecklistPreview } from '../../../services/apiTypes';
 import {
     filterChecklistPreviewsOnSignature,
     filterOnFormType,
     filterOnResponsible,
     filterOnStatus,
-} from './helperFunctions';
-import { Filter } from './useFilterFacade';
+} from '../helperFunctions';
+import { Filter } from '../useFilter';
 
 export const filterChecklistPreviews = (
     checklistPreviews: ChecklistPreview[],

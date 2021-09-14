@@ -4,20 +4,22 @@ import { useState } from 'react';
 import { AsyncStatus, PunchPreview } from '../services/apiTypes';
 import { useHistory } from 'react-router';
 import AsyncPage from '../components/AsyncPage';
-import Filter from '../components/Filter/Filter';
 import InfoItem from '../InfoItem/InfoItem';
 import removeSubdirectories from '../utils/removeSubdirectories';
+import PunchListFilter from '../components/Filter/PunchListFilter/PunchListFilter';
 
 type PunchListProps = {
     fetchPunchListStatus: AsyncStatus;
     punchList?: PunchPreview[];
     isChecklistPunchList?: boolean;
+    isPoPunchList?: boolean;
 };
 
 const PunchList = ({
     punchList,
     fetchPunchListStatus,
     isChecklistPunchList,
+    isPoPunchList,
 }: PunchListProps): JSX.Element => {
     const history = useHistory();
     const [filteredPunchList, setFilteredPunchList] = useState<
@@ -34,11 +36,11 @@ const PunchList = ({
                 emptyContentMessage={'The punch list is empty.'}
             >
                 <>
-                    <Filter
-                        url={history.location.pathname}
+                    <PunchListFilter
                         setShownPunches={setFilteredPunchList}
                         punchItems={punchList}
                         isChecklistPunchList={isChecklistPunchList}
+                        isPoPunchList={isPoPunchList}
                     />
                     {filteredPunchList?.map((punch) => (
                         <InfoItem
@@ -59,7 +61,7 @@ const PunchList = ({
                                           punch.responsibleCode,
                                       ]
                             }
-                            tag={punch.tagNo}
+                            tag={isChecklistPunchList ? undefined : punch.tagNo}
                             onClick={(): void =>
                                 history.push(
                                     `${removeSubdirectories(

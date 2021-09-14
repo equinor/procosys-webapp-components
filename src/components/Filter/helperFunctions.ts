@@ -3,7 +3,7 @@ import {
     CompletionStatus,
     PunchPreview,
 } from '../../services/apiTypes';
-import { Signatures } from './useFilterFacade';
+import { Signatures } from './useFilter';
 
 export const filterOnStatus = <T extends { status: CompletionStatus }>(
     arrayToFilter: T[],

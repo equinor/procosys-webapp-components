@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import AsyncPage from '../components/AsyncPage';
-import Filter from '../components/Filter/Filter';
+import ScopeFilter from '../components/Filter/ScopeFilter/ScopeFilter';
 import InfoItem from '../InfoItem/InfoItem';
 import { AsyncStatus, ChecklistPreview } from '../services/apiTypes';
 
@@ -32,7 +32,7 @@ const Scope = ({ fetchScopeStatus, scope }: ScopeProps): JSX.Element => {
                 fetchStatus={fetchScopeStatus}
             >
                 <div>
-                    <Filter
+                    <ScopeFilter
                         url={history.location.pathname}
                         setShownScope={setShownScope}
                         scopeItems={scope}

@@ -1,11 +1,11 @@
-import { PunchPreview } from '../../services/apiTypes';
+import { PunchPreview } from '../../../services/apiTypes';
 import {
     filterOnFormType,
     filterOnResponsible,
     filterOnStatus,
     filterPunchPreviewsOnSignature,
-} from './helperFunctions';
-import { Filter } from './useFilterFacade';
+} from '../helperFunctions';
+import { Filter } from '../useFilter';
 
 export const filterPunchPreviews = (
     punchPreviews: PunchPreview[],
