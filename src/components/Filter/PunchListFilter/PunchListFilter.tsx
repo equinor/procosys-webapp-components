@@ -7,13 +7,13 @@ import { COLORS } from '../../../style/GlobalStyles';
 import EdsIcon from '../../icons/EdsIcon';
 import usePunchListFilterFacade from './usePunchListFilterFacade';
 
-const FilterWrapper = styled.div`
+export const FilterWrapper = styled.div`
     padding: 0 4%;
     width: 100%;
     box-sizing: border-box;
 `;
 
-const FilterButton = styled.div<{ isActive: boolean }>`
+export const FilterButton = styled.div<{ isActive: boolean }>`
     display: flex;
     justify-content: flex-end;
     margin: 16px 0 0 0;
@@ -26,7 +26,7 @@ const FilterButton = styled.div<{ isActive: boolean }>`
     }
 `;
 
-const SelectFieldsWrapper = styled.form`
+export const SelectFieldsWrapper = styled.form`
     & > div {
         margin-bottom: 16px;
     }

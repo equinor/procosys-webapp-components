@@ -1,43 +1,16 @@
 import React, { useState } from 'react';
 import { Checkbox, Label, NativeSelect, Radio } from '@equinor/eds-core-react';
-import {
-    ChecklistPreview,
-    CompletionStatus,
-    PunchPreview,
-} from '../../../services/apiTypes';
-import useFilterFacade, { Signatures } from '../useFilter';
-import styled from 'styled-components';
-import { COLORS } from '../../../style/GlobalStyles';
+import { ChecklistPreview } from '../../../services/apiTypes';
+import { Signatures } from '../useFilter';
 import EdsIcon from '../../icons/EdsIcon';
 import useScopeFilterFacade from './useScopeFilterFacade';
-
-const FilterWrapper = styled.div`
-    padding: 0 4%;
-    width: 100%;
-    box-sizing: border-box;
-`;
-
-const FilterButton = styled.div<{ isActive: boolean }>`
-    display: flex;
-    justify-content: flex-end;
-    margin: 16px 0 0 0;
-    color: ${(props): string =>
-        props.isActive ? COLORS.danger : COLORS.mossGreen};
-    & > p {
-        margin: 0;
-        color: ${(props): string =>
-            props.isActive ? COLORS.danger : COLORS.mossGreen};
-    }
-`;
-
-const SelectFieldsWrapper = styled.form`
-    & > div {
-        margin-bottom: 16px;
-    }
-`;
+import {
+    FilterButton,
+    FilterWrapper,
+    SelectFieldsWrapper,
+} from '../PunchListFilter/PunchListFilter';
 
 type FilterProps = {
-    url: string;
     setShownScope: React.Dispatch<
         React.SetStateAction<ChecklistPreview[] | undefined>
     >;
@@ -46,7 +19,6 @@ type FilterProps = {
 };
 
 const ScopeFilter = ({
-    url,
     setShownScope,
     scopeItems,
     isPoScope,

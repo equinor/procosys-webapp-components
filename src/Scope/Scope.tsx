@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import AsyncPage from '../components/AsyncPage';
 import ScopeFilter from '../components/Filter/ScopeFilter/ScopeFilter';
@@ -26,7 +25,6 @@ const Scope = ({
     scope,
     isPoScope,
 }: ScopeProps): JSX.Element => {
-    const history = useHistory();
     const [shownScope, setShownScope] = useState<
         ChecklistPreview[] | undefined
     >(scope);
@@ -40,7 +38,6 @@ const Scope = ({
             >
                 <div>
                     <ScopeFilter
-                        url={history.location.pathname}
                         setShownScope={setShownScope}
                         scopeItems={scope}
                         isPoScope={isPoScope}

@@ -5,7 +5,6 @@ import { AsyncStatus, PunchPreview } from '../services/apiTypes';
 import { useHistory } from 'react-router';
 import AsyncPage from '../components/AsyncPage';
 import InfoItem from '../InfoItem/InfoItem';
-import removeSubdirectories from '../utils/removeSubdirectories';
 import PunchListFilter from '../components/Filter/PunchListFilter/PunchListFilter';
 
 type PunchListProps = {
@@ -23,7 +22,6 @@ const PunchList = ({
     isChecklistPunchList,
     isPoPunchList,
 }: PunchListProps): JSX.Element => {
-    const history = useHistory();
     const [filteredPunchList, setFilteredPunchList] = useState<
         PunchPreview[] | undefined
     >(punchList);
