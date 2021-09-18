@@ -5,7 +5,7 @@ import { COLORS } from '../style/GlobalStyles';
 const TextIconWrapper = styled.div<{ color: string }>`
     width: 24px;
     height: 24px;
-    background-color: ${(props): string => props.color};
+    background-color: ${({ color }): string => color};
     display: flex;
     align-items: center;
     justify-content: center;
