@@ -14,32 +14,22 @@ export const filterOnStatus = <T extends { status: CompletionStatus }>(
     });
 };
 
-export const filterPunchPreviewsOnSignature = (
-    arrayToFilter: PunchPreview[],
+export const filterOnSignature = <T, K extends keyof T>(
+    arrayToFilter: T[],
+    key: K,
+    verified: K,
     signature: string
-): PunchPreview[] => {
-    if (signature === Signatures.NOT_CLEARED) {
+): T[] => {
+    if (
+        signature === Signatures.NOT_SIGNED ||
+        signature === Signatures.NOT_CLEARED
+    ) {
         return arrayToFilter.filter((item) => {
-            return !item.cleared;
+            return !item[key];
         });
     } else {
         return arrayToFilter.filter((item) => {
-            return item.cleared && !item.verified;
-        });
-    }
-};
-
-export const filterChecklistPreviewsOnSignature = (
-    arrayToFilter: ChecklistPreview[],
-    signature: string
-): ChecklistPreview[] => {
-    if (signature === Signatures.NOT_SIGNED) {
-        return arrayToFilter.filter((item) => {
-            return !item.isSigned;
-        });
-    } else {
-        return arrayToFilter.filter((item) => {
-            return item.isSigned && !item.isVerified;
+            return item[key] && !item[verified];
         });
     }
 };

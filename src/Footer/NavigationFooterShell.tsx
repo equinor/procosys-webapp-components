@@ -20,7 +20,7 @@ const NavigationFooterShellWrapper = styled(NavigationFooterBase)`
 `;
 
 type NavigationFooterShellProps = {
-    children: JSX.Element;
+    children: React.ReactNode;
 };
 
 const NavigationFooterShell = ({

@@ -62,32 +62,24 @@ const PunchListFilter = ({
     } = usePunchListFilterFacade(setFilterCount, setShownPunches, punchItems);
 
     const getStatusFieldsToRender = (): JSX.Element => {
+        const statusList = [
+            `All`,
+            `${CompletionStatus.PA}`,
+            `${CompletionStatus.PB}`,
+        ];
         return (
             <div>
-                <Radio
-                    label={'All'}
-                    checked={statusChosen === 'All'}
-                    onChange={(): void => {
-                        handleStatusChange('All');
-                        setStatusChosen('All');
-                    }}
-                />
-                <Radio
-                    label={CompletionStatus.PA}
-                    checked={statusChosen === CompletionStatus.PA}
-                    onChange={(): void => {
-                        handleStatusChange(CompletionStatus.PA);
-                        setStatusChosen(CompletionStatus.PA);
-                    }}
-                />
-                <Radio
-                    label={CompletionStatus.PB}
-                    checked={statusChosen === CompletionStatus.PB}
-                    onChange={(): void => {
-                        handleStatusChange(CompletionStatus.PB);
-                        setStatusChosen(CompletionStatus.PB);
-                    }}
-                />
+                {statusList.map((status) => (
+                    <Radio
+                        key={status}
+                        label={status}
+                        checked={statusChosen === status}
+                        onChange={(): void => {
+                            handleStatusChange(status);
+                            setStatusChosen(status);
+                        }}
+                    />
+                ))}
             </div>
         );
     };

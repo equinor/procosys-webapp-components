@@ -2,8 +2,8 @@ import { PunchPreview } from '../../../services/apiTypes';
 import {
     filterOnFormType,
     filterOnResponsible,
+    filterOnSignature,
     filterOnStatus,
-    filterPunchPreviewsOnSignature,
 } from '../helperFunctions';
 import { Filter } from '../useFilter';
 
@@ -21,8 +21,10 @@ export const filterPunchPreviews = (
         filterCount++;
     }
     if (filter.signature) {
-        filteredPunchPreviews = filterPunchPreviewsOnSignature(
+        filteredPunchPreviews = filterOnSignature(
             filteredPunchPreviews,
+            'cleared',
+            'verified',
             filter.signature
         );
         filterCount++;

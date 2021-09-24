@@ -11,8 +11,8 @@ const FooterButtonWrapper = styled.button<{ active: boolean }>`
     cursor: pointer;
     padding: 12px 0 10px 0;
     margin: 0;
-    background-color: ${(props): string =>
-        props.active ? COLORS.fadedBlue : COLORS.white};
+    background-color: ${({ active }): string =>
+        active ? COLORS.fadedBlue : COLORS.white};
     position: relative;
     & p {
         margin: 0;
@@ -23,8 +23,8 @@ const ItemCount = styled.span<{ active: boolean }>`
     position: absolute;
     top: 8px;
     left: calc(50% + 7px);
-    background-color: ${(props): string =>
-        props.active ? COLORS.mossGreen : COLORS.fadedBlue};
+    background-color: ${({ active }): string =>
+        active ? COLORS.mossGreen : COLORS.fadedBlue};
     border-radius: 15px;
     min-width: 16px;
     padding: 4px 5px 1px 5px;
@@ -32,8 +32,8 @@ const ItemCount = styled.span<{ active: boolean }>`
     & p {
         text-align: center;
         font-size: 12px;
-        color: ${(props): string =>
-            props.active ? COLORS.white : COLORS.black};
+        color: ${({ active }): string =>
+            active ? COLORS.white : COLORS.black};
         border: none;
     }
 `;

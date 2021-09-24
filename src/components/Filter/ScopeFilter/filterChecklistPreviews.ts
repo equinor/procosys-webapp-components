@@ -1,8 +1,8 @@
 import { ChecklistPreview } from '../../../services/apiTypes';
 import {
-    filterChecklistPreviewsOnSignature,
     filterOnFormType,
     filterOnResponsible,
+    filterOnSignature,
     filterOnStatus,
 } from '../helperFunctions';
 import { Filter } from '../useFilter';
@@ -21,8 +21,10 @@ export const filterChecklistPreviews = (
         filterCount++;
     }
     if (filter.signature) {
-        filteredChecklistPreviews = filterChecklistPreviewsOnSignature(
+        filteredChecklistPreviews = filterOnSignature(
             filteredChecklistPreviews,
+            'isSigned',
+            'isVerified',
             filter.signature
         );
         filterCount++;
