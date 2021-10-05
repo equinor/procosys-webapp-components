@@ -6,14 +6,10 @@ import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
 
 const Wrapper = styled.div`
-    position: fixed;
-    top: 0;
-    bottom: 66px;
-    left: 0;
-    width: 100vw;
+    width: 100%;
     background-color: ${COLORS.white};
     z-index: 100;
-    padding: 24px;
+    padding: 0.5rem;
     overflow: auto;
     box-sizing: border-box;
 `;
@@ -114,7 +110,7 @@ const ChecklistMultiSignOrVerify = ({
 
     return (
         <Wrapper>
-            <p>
+            <p id="multiSignVerifyHeader">
                 MCCR {isMultiVerify ? 'verified' : 'signed'} for tag: <br />
                 <strong>{tagNo}</strong>
             </p>

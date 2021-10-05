@@ -105,6 +105,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     );
     const [loopTags, setLoopTags] = useState<LoopTag[]>([]);
     const [showMore, setShowMore] = useState(false);
+    const [multiSignOrVerifyIsOpen, setMultiSignOrVerifyIsOpen] =
+        useState(false);
     const [checklistDetails, setChecklistDetails] =
         useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
@@ -121,6 +123,11 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     useEffect(() => {
         props.refreshChecklistStatus((prev: boolean) => !prev);
     }, [isSigned]);
+
+    useEffect(() => {
+        const element = document.getElementById('multiSignVerifyHeader');
+        if (element) element.scrollIntoView(true);
+    }, [multiSignOrVerifyIsOpen]);
 
     useEffect(() => {
         (async (): Promise<void> => {
@@ -156,113 +163,127 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
             loadingMessage={''}
         >
             <>
-                {loopTags.length > 0 && (
-                    <LoopTagWrapper>
-                        <Caption>Loop tags:</Caption>
-                        <List>
-                            {loopTags
-                                .slice(0, showMore ? loopTags.length : 3)
-                                .map((loopTag) => (
-                                    <List.Item key={loopTag.tagId}>
-                                        <Caption>{loopTag.tagNo}</Caption>
-                                    </List.Item>
-                                ))}
-                        </List>
-                        <button
-                            onClick={
-                                showMore
-                                    ? handleShowLessClick
-                                    : handleShowMoreClick
-                            }
-                        >
-                            <Caption>
-                                {showMore
-                                    ? 'Show less'
-                                    : `Show all (${loopTags.length})`}
-                                <EdsIcon
-                                    name={
+                {!multiSignOrVerifyIsOpen && (
+                    <>
+                        {loopTags.length > 0 && (
+                            <LoopTagWrapper>
+                                <Caption>Loop tags:</Caption>
+                                <List>
+                                    {loopTags
+                                        .slice(
+                                            0,
+                                            showMore ? loopTags.length : 3
+                                        )
+                                        .map((loopTag) => (
+                                            <List.Item key={loopTag.tagId}>
+                                                <Caption>
+                                                    {loopTag.tagNo}
+                                                </Caption>
+                                            </List.Item>
+                                        ))}
+                                </List>
+                                <button
+                                    onClick={
                                         showMore
-                                            ? 'chevron_down'
-                                            : 'chevron_right'
+                                            ? handleShowLessClick
+                                            : handleShowMoreClick
                                     }
-                                    size={16}
-                                />
-                            </Caption>
-                        </button>
-                    </LoopTagWrapper>
-                )}
-                {!isSigned && !allItemsCheckedOrNA
-                    ? null
-                    : isSigned && (
-                          <Banner>
-                              <Banner.Message>
-                                  This checklist is signed. Unsign to make
-                                  changes.
-                              </Banner.Message>
-                          </Banner>
-                      )}
-                {checklistDetails ? (
-                    <ChecklistWrapper>
-                        {!isSigned && (
-                            <CheckAllButton
-                                setSnackbarText={props.setSnackbarText}
-                                allItemsCheckedOrNA={allItemsCheckedOrNA}
-                                checkItems={checkItems}
-                                customCheckItems={customCheckItems}
-                                setCheckItems={setCheckItems}
-                                setCustomCheckItems={setCustomCheckItems}
-                                api={api}
-                            />
+                                >
+                                    <Caption>
+                                        {showMore
+                                            ? 'Show less'
+                                            : `Show all (${loopTags.length})`}
+                                        <EdsIcon
+                                            name={
+                                                showMore
+                                                    ? 'chevron_down'
+                                                    : 'chevron_right'
+                                            }
+                                            size={16}
+                                        />
+                                    </Caption>
+                                </button>
+                            </LoopTagWrapper>
                         )}
-                        <CheckItems
-                            setCheckItems={setCheckItems}
-                            checkItems={checkItems}
-                            isSigned={isSigned}
-                            setSnackbarText={props.setSnackbarText}
-                            api={api}
-                        />
-                        <CustomCheckItems
-                            customCheckItems={customCheckItems}
-                            setCustomCheckItems={setCustomCheckItems}
-                            isSigned={isSigned}
-                            setSnackbarText={props.setSnackbarText}
-                            api={api}
-                        />
-                    </ChecklistWrapper>
-                ) : null}
-                <AttachmentsHeader>Attachments</AttachmentsHeader>
-                <AttachmentsWrapper>
-                    <Attachments
-                        getAttachments={(
-                            cancelToken: CancelToken
-                        ): Promise<Attachment[]> =>
-                            api.getChecklistAttachments(cancelToken)
-                        }
-                        getAttachment={(
-                            cancelToken: CancelToken,
-                            attachmentId: number
-                        ): Promise<Blob> =>
-                            api.getChecklistAttachment(
-                                cancelToken,
-                                attachmentId
-                            )
-                        }
-                        postAttachment={(
-                            file: FormData,
-                            title: string
-                        ): Promise<void> =>
-                            api.postChecklistAttachment(file, title)
-                        }
-                        deleteAttachment={(
-                            attachmentId: number
-                        ): Promise<void> =>
-                            api.deleteChecklistAttachment(attachmentId)
-                        }
-                        setSnackbarText={props.setSnackbarText}
-                        readOnly={isSigned}
-                    />
-                </AttachmentsWrapper>
-                {checklistDetails ? (
+                        {!isSigned && !allItemsCheckedOrNA
+                            ? null
+                            : isSigned && (
+                                  <Banner>
+                                      <Banner.Message>
+                                          This checklist is signed. Unsign to
+                                          make changes.
+                                      </Banner.Message>
+                                  </Banner>
+                              )}
+                        {checklistDetails ? (
+                            <ChecklistWrapper>
+                                {!isSigned && (
+                                    <CheckAllButton
+                                        setSnackbarText={props.setSnackbarText}
+                                        allItemsCheckedOrNA={
+                                            allItemsCheckedOrNA
+                                        }
+                                        checkItems={checkItems}
+                                        customCheckItems={customCheckItems}
+                                        setCheckItems={setCheckItems}
+                                        setCustomCheckItems={
+                                            setCustomCheckItems
+                                        }
+                                        api={api}
+                                    />
+                                )}
+                                <CheckItems
+                                    setCheckItems={setCheckItems}
+                                    checkItems={checkItems}
+                                    isSigned={isSigned}
+                                    setSnackbarText={props.setSnackbarText}
+                                    api={api}
+                                />
+                                <CustomCheckItems
+                                    customCheckItems={customCheckItems}
+                                    setCustomCheckItems={setCustomCheckItems}
+                                    isSigned={isSigned}
+                                    setSnackbarText={props.setSnackbarText}
+                                    api={api}
+                                />
+                            </ChecklistWrapper>
+                        ) : null}
+                        <AttachmentsHeader>Attachments</AttachmentsHeader>
+                        <AttachmentsWrapper>
+                            <Attachments
+                                getAttachments={(
+                                    cancelToken: CancelToken
+                                ): Promise<Attachment[]> =>
+                                    api.getChecklistAttachments(cancelToken)
+                                }
+                                getAttachment={(
+                                    cancelToken: CancelToken,
+                                    attachmentId: number
+                                ): Promise<Blob> =>
+                                    api.getChecklistAttachment(
+                                        cancelToken,
+                                        attachmentId
+                                    )
+                                }
+                                postAttachment={(
+                                    file: FormData,
+                                    title: string
+                                ): Promise<void> =>
+                                    api.postChecklistAttachment(file, title)
+                                }
+                                deleteAttachment={(
+                                    attachmentId: number
+                                ): Promise<void> =>
+                                    api.deleteChecklistAttachment(attachmentId)
+                                }
+                                setSnackbarText={props.setSnackbarText}
+                                readOnly={isSigned}
+                            />
+                        </AttachmentsWrapper>
+                    </>
+                )}
+
+                {checklistDetails && (
                     <ChecklistSignature
                         setSnackbarText={props.setSnackbarText}
                         reloadChecklist={setReloadChecklist}
@@ -271,8 +292,10 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         details={checklistDetails}
                         setIsSigned={setIsSigned}
                         api={api}
+                        setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
+                        multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                     />
-                ) : null}
+                )}
             </>
         </AsyncPage>
     );
