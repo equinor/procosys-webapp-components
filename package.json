@@ -1,6 +1,6 @@
 {
   "name": "@equinor/procosys-webapp-components",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "Standalone module for filling out, editing, signing and unsigning MCCR checklists.",
   "main": "dist/index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "lint-all": "./node_modules/.bin/eslint --ext .ts,.tsx src/"
   },
   "peerDependencies": {
-    "@equinor/eds-core-react": "^0.12.1",
-    "@equinor/eds-icons": "^0.6.2",
+    "@equinor/eds-core-react": "^0.14.0",
+    "@equinor/eds-icons": "^0.7.0",
     "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
