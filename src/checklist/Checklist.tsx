@@ -18,31 +18,13 @@ import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../components/AsyncPage';
 import Attachments from '../attachments/Attachments';
-import { List } from '@equinor/eds-core-react';
-import { Caption, COLORS } from '../style/GlobalStyles';
-import EdsIcon from '../components/icons/EdsIcon';
+import { COLORS } from '../style/GlobalStyles';
+import LoopTags from './LoopTags';
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
     display: flex;
     flex-direction: column;
-`;
-
-const LoopTagWrapper = styled.div`
-    padding: 0 4%;
-    background-color: #deecee;
-    padding-bottom: 16px;
-    & p {
-        margin: 0;
-        margin-bottom: 4px;
-    }
-    & button {
-        & p {
-            color: ${COLORS.mossGreen};
-            display: flex;
-            align-items: center;
-        }
-    }
 `;
 
 const AttachmentsHeader = styled.h5`
@@ -104,7 +86,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         []
     );
     const [loopTags, setLoopTags] = useState<LoopTag[]>([]);
-    const [showMore, setShowMore] = useState(false);
     const [multiSignOrVerifyIsOpen, setMultiSignOrVerifyIsOpen] =
         useState(false);
     const [checklistDetails, setChecklistDetails] =
@@ -148,14 +129,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         };
     }, [reloadChecklist, api]);
 
-    const handleShowMoreClick = (): void => {
-        setShowMore(true);
-    };
-
-    const handleShowLessClick = (): void => {
-        setShowMore(false);
-    };
-
     return (
         <AsyncPage
             fetchStatus={fetchChecklistStatus}
@@ -166,44 +139,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 {!multiSignOrVerifyIsOpen && (
                     <>
                         {loopTags.length > 0 && (
-                            <LoopTagWrapper>
-                                <Caption>Loop tags:</Caption>
-                                <List>
-                                    {loopTags
-                                        .slice(
-                                            0,
-                                            showMore ? loopTags.length : 3
-                                        )
-                                        .map((loopTag) => (
-                                            <List.Item key={loopTag.tagId}>
-                                                <Caption>
-                                                    {loopTag.tagNo}
-                                                </Caption>
-                                            </List.Item>
-                                        ))}
-                                </List>
-                                <button
-                                    onClick={
-                                        showMore
-                                            ? handleShowLessClick
-                                            : handleShowMoreClick
-                                    }
-                                >
-                                    <Caption>
-                                        {showMore
-                                            ? 'Show less'
-                                            : `Show all (${loopTags.length})`}
-                                        <EdsIcon
-                                            name={
-                                                showMore
-                                                    ? 'chevron_down'
-                                                    : 'chevron_right'
-                                            }
-                                            size={16}
-                                        />
-                                    </Caption>
-                                </button>
-                            </LoopTagWrapper>
+                            <LoopTags loopTags={loopTags} />
                         )}
                         {!isSigned && !allItemsCheckedOrNA
                             ? null
