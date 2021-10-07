@@ -33,6 +33,7 @@ type ChecklistMultiSignOrVerifyProps = {
     tagNo: string;
     api: ProcosysApiService;
     setSnackbarText: (message: string) => void;
+    multiSignHeaderRef: React.RefObject<HTMLParagraphElement>;
 };
 
 const ChecklistMultiSignOrVerify = ({
@@ -42,6 +43,7 @@ const ChecklistMultiSignOrVerify = ({
     tagNo,
     api,
     setSnackbarText,
+    multiSignHeaderRef,
 }: ChecklistMultiSignOrVerifyProps): JSX.Element => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
         eligibleItems.map((item) => item.id)
@@ -110,7 +112,7 @@ const ChecklistMultiSignOrVerify = ({
 
     return (
         <Wrapper>
-            <p id="multiSignVerifyHeader">
+            <p ref={multiSignHeaderRef}>
                 MCCR {isMultiVerify ? 'verified' : 'signed'} for tag: <br />
                 <strong>{tagNo}</strong>
             </p>

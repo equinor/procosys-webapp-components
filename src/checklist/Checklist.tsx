@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import {
     AsyncStatus,
     Attachment,
@@ -91,6 +91,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [checklistDetails, setChecklistDetails] =
         useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
+    const multiSignHeaderRef = useRef<HTMLParagraphElement>(null);
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const source = axios.CancelToken.source();
@@ -106,8 +107,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     }, [isSigned]);
 
     useEffect(() => {
-        const element = document.getElementById('multiSignVerifyHeader');
-        if (element) element.scrollIntoView(true);
+        multiSignHeaderRef.current &&
+            multiSignHeaderRef.current?.scrollIntoView();
     }, [multiSignOrVerifyIsOpen]);
 
     useEffect(() => {
@@ -230,6 +231,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         api={api}
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
+                        multiSignHeaderRef={multiSignHeaderRef}
                     />
                 )}
             </>
