@@ -11,6 +11,7 @@ import { COLORS } from '../../../style/GlobalStyles';
 import { ProcosysApiService } from '../../../services/procosysApi';
 import updateCheck from '../../../utils/updateCheck';
 import updateNA from '../../../utils/updateNA';
+import ShowMoreButton from '../../../components/buttons/ShowMoreButton';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: transparent;
@@ -165,25 +166,14 @@ const CheckItem = ({
                             . {item.text}
                         </p>
                         {item.detailText && (
-                            <button
-                                onClick={(): void =>
+                            <ShowMoreButton
+                                handleOnClick={(): void =>
                                     setShowDescription((current) => !current)
                                 }
-                            >
-                                <p>
-                                    {showDescription
-                                        ? 'Hide details'
-                                        : 'Show details'}
-                                </p>
-                                <EdsIcon
-                                    name={
-                                        showDescription
-                                            ? 'chevron_down'
-                                            : 'chevron_right'
-                                    }
-                                    size={16}
-                                />
-                            </button>
+                                showCondition={showDescription}
+                                showText={'Show details'}
+                                hideText={'Hide details'}
+                            />
                         )}
                     </DescriptionWrapper>
                     <CheckboxGroup>

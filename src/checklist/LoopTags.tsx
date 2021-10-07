@@ -1,9 +1,9 @@
 import { List } from '@equinor/eds-core-react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import EdsIcon from '../components/icons/EdsIcon';
 import { LoopTag } from '../services/apiTypes';
 import { Caption, COLORS } from '../style/GlobalStyles';
+import ShowMoreButton from '../components/buttons/ShowMoreButton';
 
 const LoopTagWrapper = styled.div`
     padding: 0 4%;
@@ -29,12 +29,8 @@ type LoopTagsProps = {
 const LoopTags = ({ loopTags }: LoopTagsProps): JSX.Element => {
     const [showMore, setShowMore] = useState(false);
 
-    const handleShowMoreClick = (): void => {
-        setShowMore(true);
-    };
-
-    const handleShowLessClick = (): void => {
-        setShowMore(false);
+    const handleShowClick = (): void => {
+        setShowMore(!showMore);
     };
 
     return (
@@ -49,17 +45,12 @@ const LoopTags = ({ loopTags }: LoopTagsProps): JSX.Element => {
                         </List.Item>
                     ))}
             </List>
-            <button
-                onClick={showMore ? handleShowLessClick : handleShowMoreClick}
-            >
-                <Caption>
-                    {showMore ? 'Show less' : `Show all (${loopTags.length})`}
-                    <EdsIcon
-                        name={showMore ? 'chevron_down' : 'chevron_right'}
-                        size={16}
-                    />
-                </Caption>
-            </button>
+            <ShowMoreButton
+                handleOnClick={(): void => handleShowClick()}
+                showCondition={showMore}
+                showText={`Show all (${loopTags.length})`}
+                hideText={'Show less'}
+            />
         </LoopTagWrapper>
     );
 };
