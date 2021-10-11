@@ -14,6 +14,9 @@ import Navbar from './NavBar/NavBar';
 import LoadingPage from './components/loading/LoadingPage';
 import SkeletonLoadingPage from './components/loading/SkeletonLoader';
 import removeSubdirectories from './utils/removeSubdirectories';
+import EntityDetails from './EntityDetails/EntityDetails';
+import TextIcon from './EntityDetails/TextIcon';
+import SearchTypeButton from './components/buttons/SearchTypeButton';
 import { StorageKey } from './commonTypes';
 
 export {
@@ -33,5 +36,8 @@ export {
     LoadingPage,
     SkeletonLoadingPage,
     removeSubdirectories,
+    EntityDetails,
+    TextIcon,
+    SearchTypeButton,
     StorageKey,
 };
