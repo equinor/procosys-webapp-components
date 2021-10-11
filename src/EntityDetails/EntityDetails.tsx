@@ -73,8 +73,8 @@ const EntityDetails = ({
             <ContentWrapper>
                 <HeaderWrapper isDetailsCard={isDetailsCard}>
                     <h6>{headerText}</h6>
-                    {details?.map((detail) => (
-                        <Caption key={detail}>{detail}</Caption>
+                    {details?.map((detail, index) => (
+                        <Caption key={`${index}-${detail}`}>{detail}</Caption>
                     ))}
                 </HeaderWrapper>
                 <Typography variant="caption" lines={2}>
