@@ -15,6 +15,8 @@ import LoadingPage from './components/loading/LoadingPage';
 import SkeletonLoadingPage from './components/loading/SkeletonLoader';
 import removeSubdirectories from './utils/removeSubdirectories';
 import { StorageKey } from './commonTypes';
+import PageHeader from './components/PageHeader';
+import TagPhotoRecognition from './TagOcr/TagPhotoRecognition';
 
 export {
     Checklist,
@@ -34,4 +36,6 @@ export {
     SkeletonLoadingPage,
     removeSubdirectories,
     StorageKey,
+    PageHeader,
+    TagPhotoRecognition,
 };

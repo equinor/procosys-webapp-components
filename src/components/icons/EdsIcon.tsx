@@ -41,11 +41,13 @@ import {
     tag,
     add,
     launch,
+    camera_add_photo,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
 
 Icon.add({
+    camera_add_photo,
     tag,
     attachment,
     external_link,
