@@ -5,7 +5,7 @@ import removeSubdirectories from '../../utils/removeSubdirectories';
 import EdsIcon from '../icons/EdsIcon';
 
 type BackButtonProps = {
-    to: string;
+    to?: string;
 };
 
 const BackButton = ({ to }: BackButtonProps): JSX.Element => {

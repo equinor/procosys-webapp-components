@@ -17,6 +17,7 @@ import removeSubdirectories from './utils/removeSubdirectories';
 import EntityDetails from './EntityDetails/EntityDetails';
 import TextIcon from './EntityDetails/TextIcon';
 import SearchTypeButton from './components/buttons/SearchTypeButton';
+import { StorageKey } from './commonTypes';
 
 export {
     Checklist,
@@ -38,4 +39,5 @@ export {
     EntityDetails,
     TextIcon,
     SearchTypeButton,
+    StorageKey,
 };
