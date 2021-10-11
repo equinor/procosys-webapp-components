@@ -1,6 +1,6 @@
 {
   "name": "@equinor/procosys-webapp-components",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Standalone module for filling out, editing, signing and unsigning MCCR checklists.",
   "main": "dist/index.js",
   "scripts": {
