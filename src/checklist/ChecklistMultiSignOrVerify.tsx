@@ -1,17 +1,27 @@
-import { Button, Checkbox } from '@equinor/eds-core-react';
+import { Button, Checkbox, Scrim } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AsyncStatus, ItemToMultiSignOrVerify } from '../services/apiTypes';
 import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
 
-const Wrapper = styled.div`
-    width: 100%;
+export const MultiSignVerifyContainer = styled.div`
+    border-radius: 8px;
+    height: 80vh;
+    width: 50vw;
     background-color: ${COLORS.white};
-    z-index: 100;
-    padding: 0.5rem;
-    overflow: auto;
-    box-sizing: border-box;
+    padding: 16px;
+    overflow: scroll;
+    & img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+    }
+    @media (max-width: 768px) {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
 `;
 
 const ButtonWrapper = styled.div`
@@ -33,7 +43,6 @@ type ChecklistMultiSignOrVerifyProps = {
     tagNo: string;
     api: ProcosysApiService;
     setSnackbarText: (message: string) => void;
-    multiSignHeaderRef: React.RefObject<HTMLParagraphElement>;
 };
 
 const ChecklistMultiSignOrVerify = ({
@@ -43,7 +52,6 @@ const ChecklistMultiSignOrVerify = ({
     tagNo,
     api,
     setSnackbarText,
-    multiSignHeaderRef,
 }: ChecklistMultiSignOrVerifyProps): JSX.Element => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
         eligibleItems.map((item) => item.id)
@@ -111,59 +119,65 @@ const ChecklistMultiSignOrVerify = ({
     };
 
     return (
-        <Wrapper>
-            <p ref={multiSignHeaderRef}>
-                MCCR {isMultiVerify ? 'verified' : 'signed'} for tag: <br />
-                <strong>{tagNo}</strong>
-            </p>
-            <p>
-                Do you want to {isMultiVerify ? 'verify' : 'sign'} these tags,
-                having the same form, responsible, sheet and subsheet as well?
-            </p>
-            <OptionsWrapper>
-                <Checkbox
-                    checked={allAreChecked}
-                    label={allAreChecked ? 'Unselect all' : 'Select all'}
-                    onChange={handleCheckOrUncheckAll}
-                />
-                {isMultiVerify ? null : (
+        <Scrim
+            isDismissable
+            onClose={(): void => setMultiSignOrVerifyIsOpen(false)}
+        >
+            <MultiSignVerifyContainer>
+                <p>
+                    MCCR {isMultiVerify ? 'verified' : 'signed'} for tag: <br />
+                    <strong>{tagNo}</strong>
+                </p>
+                <p>
+                    Do you want to {isMultiVerify ? 'verify' : 'sign'} these
+                    tags, having the same form, responsible, sheet and subsheet
+                    as well?
+                </p>
+                <OptionsWrapper>
                     <Checkbox
-                        checked={copyTableContents}
-                        label={'Copy table contents.'}
-                        onChange={(): void =>
-                            setCopyTableContents((prev) => !prev)
+                        checked={allAreChecked}
+                        label={allAreChecked ? 'Unselect all' : 'Select all'}
+                        onChange={handleCheckOrUncheckAll}
+                    />
+                    {isMultiVerify ? null : (
+                        <Checkbox
+                            checked={copyTableContents}
+                            label={'Copy table contents.'}
+                            onChange={(): void =>
+                                setCopyTableContents((prev) => !prev)
+                            }
+                        />
+                    )}
+                </OptionsWrapper>
+                {eligibleItems.map((item) => (
+                    <React.Fragment key={item.id}>
+                        <br />
+                        <Checkbox
+                            checked={itemsToSignOrVerify.includes(item.id)}
+                            label={item.tagNo}
+                            onChange={(): void => handleItemClick(item.id)}
+                        />
+                    </React.Fragment>
+                ))}
+                <ButtonWrapper>
+                    <Button
+                        variant={'outlined'}
+                        onClick={(): void => setMultiSignOrVerifyIsOpen(false)}
+                    >
+                        Close
+                    </Button>
+                    <Button
+                        disabled={
+                            postSignOrVerifyStatus === AsyncStatus.LOADING ||
+                            itemsToSignOrVerify.length < 1
                         }
-                    />
-                )}
-            </OptionsWrapper>
-            {eligibleItems.map((item) => (
-                <React.Fragment key={item.id}>
-                    <br />
-                    <Checkbox
-                        checked={itemsToSignOrVerify.includes(item.id)}
-                        label={item.tagNo}
-                        onChange={(): void => handleItemClick(item.id)}
-                    />
-                </React.Fragment>
-            ))}
-            <ButtonWrapper>
-                <Button
-                    variant={'outlined'}
-                    onClick={(): void => setMultiSignOrVerifyIsOpen(false)}
-                >
-                    Close
-                </Button>
-                <Button
-                    disabled={
-                        postSignOrVerifyStatus === AsyncStatus.LOADING ||
-                        itemsToSignOrVerify.length < 1
-                    }
-                    onClick={handleMultiSignOrVerify}
-                >
-                    {determineButtonText()}
-                </Button>
-            </ButtonWrapper>
-        </Wrapper>
+                        onClick={handleMultiSignOrVerify}
+                    >
+                        {determineButtonText()}
+                    </Button>
+                </ButtonWrapper>
+            </MultiSignVerifyContainer>
+        </Scrim>
     );
 };
 

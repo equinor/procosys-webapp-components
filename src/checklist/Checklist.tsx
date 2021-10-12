@@ -18,7 +18,6 @@ import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../components/AsyncPage';
 import Attachments from '../attachments/Attachments';
-import { COLORS } from '../style/GlobalStyles';
 import LoopTags from './LoopTags';
 
 const ChecklistWrapper = styled.div`
@@ -91,7 +90,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [checklistDetails, setChecklistDetails] =
         useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
-    const multiSignHeaderRef = useRef<HTMLParagraphElement>(null);
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const source = axios.CancelToken.source();
@@ -105,11 +103,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     useEffect(() => {
         props.refreshChecklistStatus((prev: boolean) => !prev);
     }, [isSigned]);
-
-    useEffect(() => {
-        multiSignHeaderRef.current &&
-            multiSignHeaderRef.current?.scrollIntoView();
-    }, [multiSignOrVerifyIsOpen]);
 
     useEffect(() => {
         (async (): Promise<void> => {
@@ -231,7 +224,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         api={api}
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
-                        multiSignHeaderRef={multiSignHeaderRef}
                     />
                 )}
             </>
