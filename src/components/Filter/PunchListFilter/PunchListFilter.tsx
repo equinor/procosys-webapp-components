@@ -179,8 +179,8 @@ const PunchListFilter = ({
                 aria-label="filter button"
             >
                 <p>
-                    {isOpen ? 'Hide' : 'Show'} filter{' '}
-                    {filterCount > 0 ? `(${filterCount})` : ''}
+                    {isOpen ? 'Hide' : 'Show'} filter
+                    {filterCount > 0 ? ` (${filterCount})` : ''}
                 </p>
                 <EdsIcon name={isOpen ? 'chevron_up' : 'chevron_down'} />
             </FilterButton>

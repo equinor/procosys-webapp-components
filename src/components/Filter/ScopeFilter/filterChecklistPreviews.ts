@@ -7,10 +7,15 @@ import {
 } from '../helperFunctions';
 import { Filter } from '../useFilter';
 
+type FilterChecklistPreviewsReturnType = {
+    filteredChecklistPreviews: ChecklistPreview[];
+    filterCount: number;
+};
+
 export const filterChecklistPreviews = (
     checklistPreviews: ChecklistPreview[],
     filter: Filter
-): { filteredChecklistPreviews: ChecklistPreview[]; filterCount: number } => {
+): FilterChecklistPreviewsReturnType => {
     let filteredChecklistPreviews = checklistPreviews;
     let filterCount = 0;
     if (filter.status.length > 0) {

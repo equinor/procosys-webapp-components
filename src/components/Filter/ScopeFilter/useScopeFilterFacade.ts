@@ -55,20 +55,19 @@ const useScopeFilterFacade = (
     }, [filter, allChecklists]);
 
     const handleStatusChange = (status: string): void => {
-        if (allChecklists != undefined) {
-            if (filter.status.indexOf(status) === -1) {
-                setFilter((prevFilter) => ({
-                    ...prevFilter,
-                    status: [...prevFilter.status, status],
-                }));
-            } else {
-                setFilter((prevFilter) => ({
-                    ...prevFilter,
-                    status: prevFilter.status.filter((item) => {
-                        return item != status;
-                    }),
-                }));
-            }
+        if (allChecklists === undefined) return;
+        if (filter.status.indexOf(status) === -1) {
+            setFilter((prevFilter) => ({
+                ...prevFilter,
+                status: [...prevFilter.status, status],
+            }));
+        } else {
+            setFilter((prevFilter) => ({
+                ...prevFilter,
+                status: prevFilter.status.filter((item) => {
+                    return item != status;
+                }),
+            }));
         }
     };
 

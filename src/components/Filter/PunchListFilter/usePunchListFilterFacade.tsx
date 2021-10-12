@@ -53,15 +53,14 @@ const usePunchListFilterFacade = (
     }, [filter, allPunches]);
 
     const handleStatusChange = (status: string): void => {
-        if (allPunches != undefined) {
-            if (status === 'All') {
-                setFilter((prevFilter) => ({ ...prevFilter, status: [] }));
-            } else {
-                setFilter((prevFilter) => ({
-                    ...prevFilter,
-                    status: [status],
-                }));
-            }
+        if (allPunches === undefined) return;
+        if (status === 'All') {
+            setFilter((prevFilter) => ({ ...prevFilter, status: [] }));
+        } else {
+            setFilter((prevFilter) => ({
+                ...prevFilter,
+                status: [status],
+            }));
         }
     };
 

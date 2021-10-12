@@ -7,10 +7,15 @@ import {
 } from '../helperFunctions';
 import { Filter } from '../useFilter';
 
+type FilterPunchPreviewsReturnType = {
+    filteredPunchPreviews: PunchPreview[];
+    filterCount: number;
+};
+
 export const filterPunchPreviews = (
     punchPreviews: PunchPreview[],
     filter: Filter
-): { filteredPunchPreviews: PunchPreview[]; filterCount: number } => {
+): FilterPunchPreviewsReturnType => {
     let filteredPunchPreviews = punchPreviews;
     let filterCount = 0;
     if (filter.status.length > 0) {
