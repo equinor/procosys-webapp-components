@@ -22,6 +22,8 @@ import EntityDetails from './EntityDetails/EntityDetails';
 import TextIcon from './EntityDetails/TextIcon';
 import SearchTypeButton from './components/buttons/SearchTypeButton';
 import { StorageKey } from './commonTypes';
+import PageHeader from './components/PageHeader';
+import TagPhotoRecognition from './TagOcr/TagPhotoRecognition';
 
 export {
     Checklist,
@@ -48,4 +50,6 @@ export {
     TextIcon,
     SearchTypeButton,
     StorageKey,
+    PageHeader,
+    TagPhotoRecognition,
 };
