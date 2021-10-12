@@ -29,10 +29,6 @@ type LoopTagsProps = {
 const LoopTags = ({ loopTags }: LoopTagsProps): JSX.Element => {
     const [showMore, setShowMore] = useState(false);
 
-    const handleShowClick = (): void => {
-        setShowMore(!showMore);
-    };
-
     return (
         <LoopTagWrapper>
             <Caption>Loop tags:</Caption>
@@ -46,7 +42,7 @@ const LoopTags = ({ loopTags }: LoopTagsProps): JSX.Element => {
                     ))}
             </List>
             <ShowMoreButton
-                handleOnClick={(): void => handleShowClick()}
+                toggleShowMore={setShowMore}
                 showCondition={showMore}
                 showText={`Show all (${loopTags.length})`}
                 hideText={'Show less'}

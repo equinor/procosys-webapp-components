@@ -167,9 +167,7 @@ const CheckItem = ({
                         </p>
                         {item.detailText && (
                             <ShowMoreButton
-                                handleOnClick={(): void =>
-                                    setShowDescription((current) => !current)
-                                }
+                                toggleShowMore={setShowDescription}
                                 showCondition={showDescription}
                                 showText={'Show details'}
                                 hideText={'Hide details'}
