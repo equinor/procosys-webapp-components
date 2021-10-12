@@ -45,6 +45,23 @@ const SelectTagWrapper = styled.div`
     }
 `;
 
+function determineModalTitle(status: AsyncStatus) {
+    if (status === AsyncStatus.ERROR) return 'An error occured';
+    if (status === AsyncStatus.EMPTY_RESPONSE) return 'No tags recognised';
+    if (status === AsyncStatus.LOADING) return 'Processing image...';
+    return 'Select your tag';
+}
+
+function determineModalSubtitle(status: AsyncStatus) {
+    if (status === AsyncStatus.ERROR)
+        return 'Please try again or enter tag number manually';
+    if (status === AsyncStatus.EMPTY_RESPONSE)
+        return 'Please try again or enter tag number manually';
+    if (status === AsyncStatus.LOADING)
+        return 'This should only take a short while.';
+    return 'If you cannot see your tag, please try again or enter tag manually.';
+}
+
 type TagSelectionModalProps = {
     setShowTagSelectionModal: React.Dispatch<React.SetStateAction<boolean>>;
     suggestedTags: TextResult[];
@@ -70,41 +87,12 @@ const TagSelectionModal = ({
         setShowTagSelectionModal(false);
     };
 
-    const determineModalHeader = (ocrStatus: AsyncStatus): JSX.Element => {
-        if (ocrStatus === AsyncStatus.ERROR) {
-            return (
-                <PageHeader
-                    title="An error occured"
-                    subtitle="Please try again or enter tag number manually"
-                />
-            );
-        } else if (ocrStatus === AsyncStatus.EMPTY_RESPONSE) {
-            return (
-                <PageHeader
-                    title="No tags recognised"
-                    subtitle="Please try again or enter tag number manually"
-                />
-            );
-        } else if (ocrStatus === AsyncStatus.LOADING) {
-            return (
-                <PageHeader
-                    title="Processing image..."
-                    subtitle="This should only take a few seconds."
-                />
-            );
-        } else {
-            return (
-                <PageHeader
-                    title="Select your tag"
-                    subtitle="If you cannot see your tag, please try again or enter tag manually."
-                />
-            );
-        }
-    };
-
     return (
         <SelectTagWrapper>
-            {determineModalHeader(ocrStatus)}
+            <PageHeader
+                title={determineModalTitle(ocrStatus)}
+                subtitle={determineModalSubtitle(ocrStatus)}
+            />
             {suggestedTags.map((tag) => (
                 <SelectorButton
                     role={'button'}
