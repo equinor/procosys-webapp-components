@@ -80,6 +80,8 @@ type ChecklistSignatureProps = {
     reloadChecklist: React.Dispatch<React.SetStateAction<boolean>>;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
+    setMultiSignOrVerifyIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    multiSignOrVerifyIsOpen: boolean;
 };
 
 const ChecklistSignature = ({
@@ -90,6 +92,8 @@ const ChecklistSignature = ({
     reloadChecklist,
     setSnackbarText,
     api,
+    setMultiSignOrVerifyIsOpen,
+    multiSignOrVerifyIsOpen,
 }: ChecklistSignatureProps): JSX.Element => {
     const [comment, setComment] = useState(details.comment);
     const [putCommentStatus, setPutCommentStatus] = useState(
@@ -104,8 +108,6 @@ const ChecklistSignature = ({
         eligibleItemsToMultiSignOrVerify,
         setEligibleItemsToMultiSignOrVerify,
     ] = useState<ItemToMultiSignOrVerify[]>([]);
-    const [multiSignOrVerifyIsOpen, setMultiSignOrVerifyIsOpen] =
-        useState(false);
     const source = axios.CancelToken.source();
     let commentBeforeFocus = '';
 
@@ -257,66 +259,84 @@ const ChecklistSignature = ({
         <ChecklistSignatureWrapper
             helperTextVisible={putCommentStatus !== AsyncStatus.INACTIVE}
         >
-            <CommentHeader>Comment and sign</CommentHeader>
-            <TextField
-                id={'comment-field'}
-                maxLength={500}
-                variant={determineVariant(putCommentStatus)}
-                disabled={isSigned || putCommentStatus === AsyncStatus.LOADING}
-                multiline
-                rows={5}
-                helperText={
-                    putCommentStatus === AsyncStatus.INACTIVE &&
-                    details.updatedAt
-                        ? updatedByText()
-                        : determineHelperText(putCommentStatus)
-                }
-                value={comment}
-                onChange={(
-                    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-                ): void => setComment(e.target.value)}
-                onFocus={(): string => (commentBeforeFocus = comment)}
-                onBlur={putComment}
-            />
-            <SignOrVerifyWrapper eligible={allItemsCheckedOrNA}>
-                <div>
-                    {determineSignatureText()} {determineVerifyText()}
-                </div>
-                <ButtonWrapper>
-                    {isVerified ? null : (
-                        <Button
-                            variant={isSigned ? 'outlined' : 'contained'}
-                            onClick={(): void => {
-                                isSigned
-                                    ? handleUnsignClick()
-                                    : handleSignClick();
-                            }}
-                            disabled={
-                                signStatus === AsyncStatus.LOADING ||
-                                !allItemsCheckedOrNA
-                            }
-                        >
-                            {determineSignButtonText(isSigned, signStatus)}
-                        </Button>
-                    )}
-                    {isSigned ? (
-                        <Button
-                            variant={isVerified ? 'outlined' : 'contained'}
-                            onClick={(): Promise<void> =>
-                                isVerified
-                                    ? handleUnverifyClick()
-                                    : handleVerifyClick()
-                            }
-                            disabled={verifyStatus === AsyncStatus.LOADING}
-                        >
-                            {determineVerifyButtonText(
-                                isVerified,
-                                verifyStatus
+            {!multiSignOrVerifyIsOpen && (
+                <>
+                    <CommentHeader>Comment and sign</CommentHeader>
+                    <TextField
+                        id={'comment-field'}
+                        maxLength={500}
+                        variant={determineVariant(putCommentStatus)}
+                        disabled={
+                            isSigned || putCommentStatus === AsyncStatus.LOADING
+                        }
+                        multiline
+                        rows={5}
+                        helperText={
+                            putCommentStatus === AsyncStatus.INACTIVE &&
+                            details.updatedAt
+                                ? updatedByText()
+                                : determineHelperText(putCommentStatus)
+                        }
+                        value={comment}
+                        onChange={(
+                            e: React.ChangeEvent<
+                                HTMLInputElement | HTMLTextAreaElement
+                            >
+                        ): void => setComment(e.target.value)}
+                        onFocus={(): string => (commentBeforeFocus = comment)}
+                        onBlur={putComment}
+                    />
+                    <SignOrVerifyWrapper eligible={allItemsCheckedOrNA}>
+                        <div>
+                            {determineSignatureText()} {determineVerifyText()}
+                        </div>
+                        <ButtonWrapper>
+                            {isVerified ? null : (
+                                <Button
+                                    variant={
+                                        isSigned ? 'outlined' : 'contained'
+                                    }
+                                    onClick={(): void => {
+                                        isSigned
+                                            ? handleUnsignClick()
+                                            : handleSignClick();
+                                    }}
+                                    disabled={
+                                        signStatus === AsyncStatus.LOADING ||
+                                        !allItemsCheckedOrNA
+                                    }
+                                >
+                                    {determineSignButtonText(
+                                        isSigned,
+                                        signStatus
+                                    )}
+                                </Button>
                             )}
-                        </Button>
-                    ) : null}
-                </ButtonWrapper>
-            </SignOrVerifyWrapper>
+                            {isSigned ? (
+                                <Button
+                                    variant={
+                                        isVerified ? 'outlined' : 'contained'
+                                    }
+                                    onClick={(): Promise<void> =>
+                                        isVerified
+                                            ? handleUnverifyClick()
+                                            : handleVerifyClick()
+                                    }
+                                    disabled={
+                                        verifyStatus === AsyncStatus.LOADING
+                                    }
+                                >
+                                    {determineVerifyButtonText(
+                                        isVerified,
+                                        verifyStatus
+                                    )}
+                                </Button>
+                            ) : null}
+                        </ButtonWrapper>
+                    </SignOrVerifyWrapper>
+                </>
+            )}
+
             {multiSignOrVerifyIsOpen ? (
                 <ChecklistMultiSignOrVerify
                     isMultiVerify={isVerified}
