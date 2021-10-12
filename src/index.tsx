@@ -18,6 +18,10 @@ import PunchList from './PunchList/PunchList';
 import Scope from './Scope/Scope';
 import FooterButton from './Footer/FooterButton';
 import NavigationFooter from './Footer/NavigationFooter';
+import EntityDetails from './EntityDetails/EntityDetails';
+import TextIcon from './EntityDetails/TextIcon';
+import SearchTypeButton from './components/buttons/SearchTypeButton';
+import { StorageKey } from './commonTypes';
 
 export {
     Checklist,
@@ -40,4 +44,8 @@ export {
     Scope,
     FooterButton,
     NavigationFooter,
+    EntityDetails,
+    TextIcon,
+    SearchTypeButton,
+    StorageKey,
 };
