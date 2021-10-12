@@ -45,14 +45,14 @@ const SelectTagWrapper = styled.div`
     }
 `;
 
-function determineModalTitle(status: AsyncStatus) {
+function determineModalTitle(status: AsyncStatus): string {
     if (status === AsyncStatus.ERROR) return 'An error occured';
     if (status === AsyncStatus.EMPTY_RESPONSE) return 'No tags recognised';
     if (status === AsyncStatus.LOADING) return 'Processing image...';
     return 'Select your tag';
 }
 
-function determineModalSubtitle(status: AsyncStatus) {
+function determineModalSubtitle(status: AsyncStatus): string {
     if (status === AsyncStatus.ERROR)
         return 'Please try again or enter tag number manually';
     if (status === AsyncStatus.EMPTY_RESPONSE)
