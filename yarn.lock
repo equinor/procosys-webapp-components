@@ -227,9 +227,9 @@
   integrity sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==
 
 "@rollup/plugin-image@^2.0.6":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-image/-/plugin-image-2.1.1.tgz#898d6b59ac0025d7971ef45640ab330cb0663b0c"
-  integrity sha512-AgP4U85zuQJdUopLUCM+hTf45RepgXeTb8EJsleExVy99dIoYpt3ZlDYJdKmAc2KLkNntCDg6BPJvgJU3uGF+g==
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@rollup/plugin-image/-/plugin-image-2.1.0.tgz"
+  integrity sha512-IiRhjv65A4Rb/9R+gTP2JdIciumkc8c+3xFoUfw3PUkX77SqqzvJ028AfX856E3ZdExMrqY9C9ZVXN46w6rh9A==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     mini-svg-data-uri "^1.2.3"
@@ -305,7 +305,7 @@
 
 "@types/react@*":
   version "17.0.17"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.17.tgz#1772d3d5425128e0635a716f49ef57c2955df055"
+  resolved "https://registry.npmjs.org/@types/react/-/react-17.0.17.tgz"
   integrity sha512-nrfi7I13cAmrd0wje8czYpf5SFbryczCtPzFc6ijqvdjKcyA3tCvGxwchOUlxb2ucBPuJ9Y3oUqKrRqZvrz0lw==
   dependencies:
     "@types/prop-types" "*"
