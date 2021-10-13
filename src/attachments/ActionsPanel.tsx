@@ -1,6 +1,7 @@
 import { Menu, Typography } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
+import ActionButton from '../components/buttons/ActionButton';
 import EdsIcon from '../components/icons/EdsIcon';
 import { AsyncStatus } from '../services/apiTypes';
 import handleDownload from '../utils/handleDownload';
@@ -14,11 +15,6 @@ export const ModalActionPanel = styled.div`
     bottom: 0;
     left: 0;
     border-radius: 20px 20px 0 0;
-    & > li,
-    & > li:hover {
-        list-style-type: none;
-        background: none;
-    }
 `;
 
 type ActionsPanelProps = {
@@ -42,31 +38,35 @@ const ActionsPanel = ({
 }: ActionsPanelProps): JSX.Element => {
     return (
         <ModalActionPanel>
-            <Menu.Item
+            <ActionButton
                 onClick={(): void => {
                     setSnackbarText('Attachment successfully downloaded.');
                     handleDownload(attachmentFileURL, fileName);
                 }}
-            >
-                <EdsIcon name="cloud_download" />
-                <Typography group="navigation" variant="menu_title" as="span">
-                    Download
-                </Typography>
-            </Menu.Item>
+                icon={<EdsIcon name="cloud_download" />}
+                label={'Download'}
+            />
             {readOnly || !handleDelete ? null : (
-                <Menu.Item color={'danger'} onClick={handleDelete}>
-                    <EdsIcon name="delete_to_trash" alt="Delete attachment" />
-                    {deleteStatus === AsyncStatus.LOADING
-                        ? 'Deleting...'
-                        : 'Delete'}
-                </Menu.Item>
+                <ActionButton
+                    onClick={handleDelete}
+                    icon={
+                        <EdsIcon
+                            name="delete_to_trash"
+                            alt="Delete attachment"
+                        />
+                    }
+                    label={
+                        deleteStatus === AsyncStatus.LOADING
+                            ? 'Deleting...'
+                            : 'Delete'
+                    }
+                />
             )}
-            <Menu.Item onClick={(): void => setShowFullScreenImage(false)}>
-                <EdsIcon name="close" />
-                <Typography group="navigation" variant="menu_title" as="span">
-                    Close
-                </Typography>
-            </Menu.Item>
+            <ActionButton
+                onClick={(): void => setShowFullScreenImage(false)}
+                icon={<EdsIcon name="close" />}
+                label={'Close'}
+            />
         </ModalActionPanel>
     );
 };
