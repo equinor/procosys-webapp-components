@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { CheckItem as CheckItemType } from '../../../typings/apiTypes';
+import { CheckItem as CheckItemType } from '../../../../typings/apiTypes';
 import { Checkbox } from '@equinor/eds-core-react';
 import MetaTable from './MetaTable/MetaTable';
-import EdsIcon from '../../../components/icons/EdsIcon';
-import { COLORS } from '../../../style/GlobalStyles';
-import { ProcosysApiService } from '../../../services/procosysApi';
-import updateCheck from '../../../utils/updateCheck';
-import updateNA from '../../../utils/updateNA';
-import ShowMoreButton from '../../../components/buttons/ShowMoreButton';
-import { AsyncStatus } from '../../../typings/enums';
+import EdsIcon from '../../../../components/icons/EdsIcon';
+import { COLORS } from '../../../../style/GlobalStyles';
+import { ProcosysApiService } from '../../../../services/procosysApi';
+import updateCheck from '../../../../utils/updateCheck';
+import updateNA from '../../../../utils/updateNA';
+import ShowMoreButton from '../../../../components/buttons/ShowMoreButton';
+import { AsyncStatus } from '../../../../typings/enums';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: transparent;

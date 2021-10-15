@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { CheckItem, CustomCheckItem } from '../../typings/apiTypes';
+import { CheckItem, CustomCheckItem } from '../../../typings/apiTypes';
 import { Button } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { ProcosysApiService } from '../../services/procosysApi';
-import updateCheck from '../../utils/updateCheck';
-import updateCustomCheck from '../../utils/updateCustomCheck';
-import updateNA from '../../utils/updateNA';
-import { AsyncStatus } from '../../typings/enums';
+import { ProcosysApiService } from '../../../services/procosysApi';
+import updateCheck from '../../../utils/updateCheck';
+import updateCustomCheck from '../../../utils/updateCustomCheck';
+import updateNA from '../../../utils/updateNA';
+import { AsyncStatus } from '../../../typings/enums';
 
 const StyledCheckAllButton = styled(Button)`
     :disabled {

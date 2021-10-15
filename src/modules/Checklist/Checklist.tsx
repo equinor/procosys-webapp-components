@@ -5,20 +5,20 @@ import {
     ChecklistDetails,
     CustomCheckItem,
     LoopTag,
-} from '../typings/apiTypes';
+} from '../../typings/apiTypes';
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
 import axios, { CancelToken } from 'axios';
 import { Banner } from '@equinor/eds-core-react';
-import procosysApiService from '../services/procosysApi';
-import baseApi, { ProcosysApiSettings } from '../services/baseApi';
+import procosysApiService from '../../services/procosysApi';
+import baseApi, { ProcosysApiSettings } from '../../services/baseApi';
 import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
-import AsyncPage from '../components/AsyncPage';
-import Attachments from '../modules/Attachments/Attachments';
+import AsyncPage from '../../components/AsyncPage';
+import Attachments from '../Attachments/Attachments';
 import LoopTags from './LoopTags';
-import { AsyncStatus } from '../typings/enums';
+import { AsyncStatus } from '../../typings/enums';
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;

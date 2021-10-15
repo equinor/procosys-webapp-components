@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ChecklistDetails, ItemToMultiSignOrVerify } from '../typings/apiTypes';
+import {
+    ChecklistDetails,
+    ItemToMultiSignOrVerify,
+} from '../../typings/apiTypes';
 import { Button, TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import {
     determineHelperText,
     determineVariant,
-} from '../utils/textFieldHelpers';
-import { ProcosysApiService } from '../services/procosysApi';
+} from '../../utils/textFieldHelpers';
+import { ProcosysApiService } from '../../services/procosysApi';
 import ChecklistMultiSignOrVerify from './ChecklistMultiSignOrVerify';
 import axios from 'axios';
-import { AsyncStatus } from '../typings/enums';
+import { AsyncStatus } from '../../typings/enums';
 
 const ChecklistSignatureWrapper = styled.div<{ helperTextVisible: boolean }>`
     display: flex;

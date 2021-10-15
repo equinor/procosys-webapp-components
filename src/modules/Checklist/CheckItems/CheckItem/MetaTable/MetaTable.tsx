@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ColumnLabel, Row } from '../../../../typings/apiTypes';
+import { ColumnLabel, Row } from '../../../../../typings/apiTypes';
 import styled from 'styled-components';
 import MetaTableCell from './MetaTableCell';
-import EdsIcon from '../../../../components/icons/EdsIcon';
-import { COLORS } from '../../../../style/GlobalStyles';
-import { ProcosysApiService } from '../../../../services/procosysApi';
+import EdsIcon from '../../../../../components/icons/EdsIcon';
+import { COLORS } from '../../../../../style/GlobalStyles';
+import { ProcosysApiService } from '../../../../../services/procosysApi';
 
 const MetaTableWrapper = styled.table`
     border-spacing: 4px;

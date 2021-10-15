@@ -1,4 +1,4 @@
-import Checklist from './checklist/Checklist';
+import Checklist from './modules/Checklist/Checklist';
 import AsyncCard from './components/AsyncCard';
 import TempAttachments from './modules/Attachments/TempAttachments';
 import Attachments from './modules/Attachments/Attachments';

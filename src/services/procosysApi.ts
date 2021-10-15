@@ -1,5 +1,5 @@
 import { AxiosInstance, CancelToken } from 'axios';
-import { CustomCheckItemDto } from '../checklist/CheckItems/CustomCheckItems';
+import { CustomCheckItemDto } from '../modules/Checklist/CheckItems/CustomCheckItems';
 import {
     isArrayOfAttachments,
     isArrayOfItemToMultiSignOrVerify,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { ProcosysApiService } from '../../../../services/procosysApi';
-import { AsyncStatus } from '../../../../typings/enums';
+import { ProcosysApiService } from '../../../../../services/procosysApi';
+import { AsyncStatus } from '../../../../../typings/enums';
 
 const HelperText = styled.div`
     height: 12px;
