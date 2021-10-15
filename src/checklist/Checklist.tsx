@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import {
-    AsyncStatus,
     Attachment,
     CheckItem,
     ChecklistDetails,
     CustomCheckItem,
     LoopTag,
-} from '../services/apiTypes';
+} from '../typings/apiTypes';
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
@@ -17,8 +16,9 @@ import baseApi, { ProcosysApiSettings } from '../services/baseApi';
 import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../components/AsyncPage';
-import Attachments from '../attachments/Attachments';
+import Attachments from '../modules/Attachments/Attachments';
 import LoopTags from './LoopTags';
+import { AsyncStatus } from '../typings/enums';
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;

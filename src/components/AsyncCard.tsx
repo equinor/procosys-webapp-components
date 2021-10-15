@@ -1,8 +1,8 @@
 import React from 'react';
 import SkeletonLoadingPage from './loading/SkeletonLoader';
 import { Accordion } from '@equinor/eds-core-react';
-import { AsyncStatus } from '../services/apiTypes';
 import styled from 'styled-components';
+import { AsyncStatus } from '../typings/enums';
 
 const AccordionWrapper = styled.div`
     margin-bottom: 16px;

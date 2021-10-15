@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-    AsyncStatus,
-    CheckItem as CheckItemType,
-} from '../../../services/apiTypes';
+import { CheckItem as CheckItemType } from '../../../typings/apiTypes';
 import { Checkbox } from '@equinor/eds-core-react';
 import MetaTable from './MetaTable/MetaTable';
 import EdsIcon from '../../../components/icons/EdsIcon';
@@ -12,6 +9,7 @@ import { ProcosysApiService } from '../../../services/procosysApi';
 import updateCheck from '../../../utils/updateCheck';
 import updateNA from '../../../utils/updateNA';
 import ShowMoreButton from '../../../components/buttons/ShowMoreButton';
+import { AsyncStatus } from '../../../typings/enums';
 
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: transparent;
@@ -104,6 +102,7 @@ const CheckItem = ({
             setPostNAStatus(AsyncStatus.SUCCESS);
             setPostCheckStatus(AsyncStatus.SUCCESS);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setSnackbarText(error.toString());
             setPostNAStatus(AsyncStatus.ERROR);
             setPostCheckStatus(AsyncStatus.ERROR);
@@ -127,6 +126,7 @@ const CheckItem = ({
             });
             setPostNAStatus(AsyncStatus.SUCCESS);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setSnackbarText(error.message.toString());
             setPostNAStatus(AsyncStatus.ERROR);
         }
@@ -149,6 +149,7 @@ const CheckItem = ({
             });
             setPostCheckStatus(AsyncStatus.SUCCESS);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setSnackbarText(error.toString());
             setPostCheckStatus(AsyncStatus.ERROR);
         }

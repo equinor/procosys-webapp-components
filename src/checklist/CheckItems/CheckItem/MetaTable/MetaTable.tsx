@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ColumnLabel, Row } from '../../../../services/apiTypes';
+import { ColumnLabel, Row } from '../../../../typings/apiTypes';
 import styled from 'styled-components';
 import MetaTableCell from './MetaTableCell';
 import EdsIcon from '../../../../components/icons/EdsIcon';

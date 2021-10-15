@@ -1,9 +1,10 @@
 import { Button, Checkbox, Scrim } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AsyncStatus, ItemToMultiSignOrVerify } from '../services/apiTypes';
+import { ItemToMultiSignOrVerify } from '../typings/apiTypes';
 import { ProcosysApiService } from '../services/procosysApi';
 import { COLORS } from '../style/GlobalStyles';
+import { AsyncStatus } from '../typings/enums';
 
 export const MultiSignVerifyContainer = styled.div`
     border-radius: 8px;
@@ -80,6 +81,7 @@ const ChecklistMultiSignOrVerify = ({
             setPostSignOrVerifyStatus(AsyncStatus.SUCCESS);
             setMultiSignOrVerifyIsOpen(false);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setPostSignOrVerifyStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }

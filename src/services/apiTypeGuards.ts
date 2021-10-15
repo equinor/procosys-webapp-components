@@ -6,7 +6,7 @@ import {
     CustomCheckItem,
     ItemToMultiSignOrVerify,
     LoopTag,
-} from './apiTypes';
+} from '../typings/apiTypes';
 
 export const isOfType = <T>(
     varToBeChecked: unknown,

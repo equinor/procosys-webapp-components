@@ -1,9 +1,9 @@
 import { Button, DotProgress, Scrim } from '@equinor/eds-core-react';
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { AsyncStatus } from '../services/apiTypes';
-import { COLORS } from '../style/GlobalStyles';
-import { TempAttachment } from './TempAttachments';
+import { COLORS } from '../../style/GlobalStyles';
+import { AsyncStatus } from '../../typings/enums';
+import { TempAttachment } from '../Attachments/TempAttachments';
 
 export const UploadContainer = styled.div`
     border-radius: 5px;
@@ -109,7 +109,7 @@ const UploadAttachment = ({
             setSnackbarText('File successfully added.');
             setShowModal(false);
         } catch (error) {
-            console.log(error);
+            if (!(error instanceof Error)) return;
             setPostAttachmentStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }

@@ -10,7 +10,7 @@ import {
     ChecklistResponse,
     Attachment,
     ItemToMultiSignOrVerify,
-} from './apiTypes';
+} from '../typings/apiTypes';
 
 type ProcosysApiServiceProps = {
     axios: AxiosInstance;

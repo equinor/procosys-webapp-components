@@ -1,16 +1,17 @@
-export enum AsyncStatus {
-    INACTIVE,
-    LOADING,
-    SUCCESS,
-    ERROR,
-    EMPTY_RESPONSE,
+import { CompletionStatus } from './enums';
+
+// GENERAL
+export interface Project {
+    description: string;
+    id: number;
+    title: string;
 }
 
-export enum CompletionStatus {
-    OS = 'OS',
-    PA = 'PA',
-    PB = 'PB',
-    OK = 'OK',
+export interface Plant {
+    id: string;
+    title: string;
+    slug: string;
+    projects?: Project[];
 }
 
 // CHECKLIST

@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../components/icons/EdsIcon';
-import { AsyncStatus } from '../services/apiTypes';
+import { AsyncStatus } from '../typings/enums';
 import TagSelectionModal from './TagSelectionModal';
 
 const CaptureInput = styled.input`

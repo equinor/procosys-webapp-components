@@ -24,21 +24,17 @@ const baseApiService = ({
             request.headers['Authorization'] = `Bearer ${token}`;
             return request;
         } catch (error) {
+            if (!(error instanceof Error)) return;
             throw new Error(error.message);
         }
     });
     axiosInstance.interceptors.response.use(
         (response) => {
-            if (
-                typeof response.data === 'object' &&
-                !(response.data instanceof Blob)
-            ) {
-                response.data = objectToCamelCase(response.data);
-            }
+            if (response.data instanceof Blob) return response;
+            response.data = objectToCamelCase(response.data);
             return response;
         },
         (error) => {
-            console.dir(error);
             if (axios.isCancel(error)) {
                 throw error;
             }

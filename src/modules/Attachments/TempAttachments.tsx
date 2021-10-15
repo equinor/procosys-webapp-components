@@ -1,7 +1,7 @@
 import { Button, Menu, Scrim, Typography } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
-import EdsIcon from '../components/icons/EdsIcon';
-import { ModalActionPanel } from './ActionsPanel';
+import EdsIcon from '../../components/icons/EdsIcon';
+import { ModalActionPanel } from '../Attachments/ActionsPanel';
 import { ImageModal } from './Attachment';
 import { AttachmentsWrapper } from './Attachments';
 import UploadAttachment from './UploadAttachment';

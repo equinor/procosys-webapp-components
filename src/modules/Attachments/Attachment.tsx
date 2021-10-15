@@ -3,19 +3,15 @@ import {
     CircularProgress,
     Scrim,
     Typography,
-    Menu,
 } from '@equinor/eds-core-react';
 import Axios, { CancelToken } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import EdsIcon from '../components/icons/EdsIcon';
-import {
-    AsyncStatus,
-    Attachment as AttachmentType,
-} from '../services/apiTypes';
-import { COLORS } from '../style/GlobalStyles';
-import handleDownload from '../utils/handleDownload';
+import EdsIcon from '../../components/icons/EdsIcon';
+import { Attachment as AttachmentType } from '../../typings/apiTypes';
+import { COLORS } from '../../style/GlobalStyles';
 import ActionsPanel from './ActionsPanel';
+import { AsyncStatus } from '../../typings/enums';
 
 const AttachmentWrapper = styled.div`
     display: flex;
@@ -113,6 +109,7 @@ const Attachment = ({
             setDeleteStatus(AsyncStatus.SUCCESS);
             setShowFullScreenImage(false);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             if (!Axios.isCancel(error)) {
                 setDeleteStatus(AsyncStatus.ERROR);
                 setSnackbarText(error.toString());

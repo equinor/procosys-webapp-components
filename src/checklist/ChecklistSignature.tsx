@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    AsyncStatus,
-    ChecklistDetails,
-    ItemToMultiSignOrVerify,
-} from '../services/apiTypes';
+import { ChecklistDetails, ItemToMultiSignOrVerify } from '../typings/apiTypes';
 import { Button, TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import {
@@ -13,6 +9,7 @@ import {
 import { ProcosysApiService } from '../services/procosysApi';
 import ChecklistMultiSignOrVerify from './ChecklistMultiSignOrVerify';
 import axios from 'axios';
+import { AsyncStatus } from '../typings/enums';
 
 const ChecklistSignatureWrapper = styled.div<{ helperTextVisible: boolean }>`
     display: flex;
@@ -132,6 +129,7 @@ const ChecklistSignature = ({
             setSignStatus(AsyncStatus.SUCCESS);
             setIsSigned(false);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setSignStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }
@@ -158,6 +156,7 @@ const ChecklistSignature = ({
                 setMultiSignOrVerifyIsOpen(true);
             }
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setSignStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }
@@ -172,6 +171,7 @@ const ChecklistSignature = ({
             setSnackbarText('Checklist successfully unverified');
             reloadChecklist((reloadStatus) => !reloadStatus);
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setVerifyStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }
@@ -195,6 +195,7 @@ const ChecklistSignature = ({
                 setMultiSignOrVerifyIsOpen(true);
             }
         } catch (error) {
+            if (!(error instanceof Error)) return;
             setVerifyStatus(AsyncStatus.ERROR);
             setSnackbarText(error.toString());
         }

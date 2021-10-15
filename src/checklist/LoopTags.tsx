@@ -1,9 +1,9 @@
 import { List } from '@equinor/eds-core-react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { LoopTag } from '../services/apiTypes';
 import { Caption, COLORS } from '../style/GlobalStyles';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
+import { LoopTag } from '../typings/apiTypes';
 
 const LoopTagWrapper = styled.div`
     padding: 0 4%;

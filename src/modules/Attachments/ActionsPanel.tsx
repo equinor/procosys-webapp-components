@@ -1,9 +1,9 @@
 import { Menu, Typography } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
-import EdsIcon from '../components/icons/EdsIcon';
-import { AsyncStatus } from '../services/apiTypes';
-import handleDownload from '../utils/handleDownload';
+import EdsIcon from '../../components/icons/EdsIcon';
+import { AsyncStatus } from '../../typings/enums';
+import handleDownload from '../../utils/handleDownload';
 
 export const ModalActionPanel = styled.div`
     width: 100%;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { AsyncStatus } from '../../../../services/apiTypes';
 import { ProcosysApiService } from '../../../../services/procosysApi';
+import { AsyncStatus } from '../../../../typings/enums';
 
 const HelperText = styled.div`
     height: 12px;
@@ -60,7 +60,8 @@ const MetaTableCell = ({
             );
             setSubmitStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            setErrorMessage(error);
+            if (!(error instanceof Error)) return;
+            setErrorMessage(error.toString());
             setSubmitStatus(AsyncStatus.ERROR);
         }
     };

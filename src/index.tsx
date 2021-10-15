@@ -1,7 +1,7 @@
 import Checklist from './checklist/Checklist';
 import AsyncCard from './components/AsyncCard';
-import TempAttachments from './attachments/TempAttachments';
-import Attachments from './attachments/Attachments';
+import TempAttachments from './modules/Attachments/TempAttachments';
+import Attachments from './modules/Attachments/Attachments';
 import CollapsibleCard from './components/CollapsibleCard';
 import InfoItem from './InfoItem/InfoItem';
 import StatusColumn from './InfoItem/StatusColumn';
@@ -17,7 +17,7 @@ import removeSubdirectories from './utils/removeSubdirectories';
 import EntityDetails from './EntityDetails/EntityDetails';
 import TextIcon from './EntityDetails/TextIcon';
 import SearchTypeButton from './components/buttons/SearchTypeButton';
-import { StorageKey } from './commonTypes';
+import { StorageKey } from './typings/enums';
 import PageHeader from './components/PageHeader';
 import TagPhotoRecognition from './TagOcr/TagPhotoRecognition';
 
