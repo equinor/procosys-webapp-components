@@ -7,11 +7,11 @@ import {
 import Axios, { CancelToken } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import EdsIcon from '../../components/icons/EdsIcon';
-import { Attachment as AttachmentType } from '../../typings/apiTypes';
-import { COLORS } from '../../style/GlobalStyles';
 import ActionsPanel from './ActionsPanel';
 import { AsyncStatus } from '../../typings/enums';
+import { COLORS } from '../../style/GlobalStyles';
+import { Attachment as AttachmentType } from '../../typings/apiTypes';
+import EdsIcon from '../../components/icons/EdsIcon';
 
 const AttachmentWrapper = styled.div`
     display: flex;

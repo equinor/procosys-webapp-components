@@ -1,13 +1,18 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { Button } from '@equinor/eds-core-react';
 import clearHomePlantAndProject from '../../utils/clearHomePlantAndProject';
 
+function getCurrentApp(): string {
+    const url = window.location.href;
+    if (url.includes('/mc')) return 'mc';
+    if (url.includes('/comm')) return 'comm';
+    return '';
+}
+
 const HomeButton = (): JSX.Element => {
-    const history = useHistory();
     const handleHomeClick = (): void => {
         clearHomePlantAndProject();
-        history.push('');
+        window.location.href = window.location.origin + '/' + getCurrentApp();
     };
     return <Button onClick={handleHomeClick}>Home</Button>;
 };

@@ -1,10 +1,11 @@
 import { Button, Menu, Scrim, Typography } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
 import EdsIcon from '../../components/icons/EdsIcon';
-import { ModalActionPanel } from '../Attachments/ActionsPanel';
+import { ModalActionPanel } from './ActionsPanel';
 import { ImageModal } from './Attachment';
 import { AttachmentsWrapper } from './Attachments';
 import UploadAttachment from './UploadAttachment';
+import ActionButton from '../../components/buttons/ActionButton';
 
 export type TempAttachment = { id: string; file: File };
 
@@ -58,8 +59,7 @@ const TempAttachments = ({
                             alt={'Temp attachment ' + attachmentToShow.id}
                         />
                         <ModalActionPanel>
-                            <Menu.Item
-                                color={'danger'}
+                            <ActionButton
                                 onClick={(): void => {
                                     setTempAttachments((prev) =>
                                         prev.filter(
@@ -70,25 +70,19 @@ const TempAttachments = ({
                                     );
                                     setAttachmentToShow(null);
                                 }}
-                            >
-                                <EdsIcon
-                                    name="delete_to_trash"
-                                    alt="Delete attachment"
-                                />
-                                Delete
-                            </Menu.Item>
-                            <Menu.Item
+                                icon={
+                                    <EdsIcon
+                                        name="delete_to_trash"
+                                        alt="Delete attachment"
+                                    />
+                                }
+                                label={'Delete'}
+                            />
+                            <ActionButton
                                 onClick={(): void => setAttachmentToShow(null)}
-                            >
-                                <EdsIcon name="close" />
-                                <Typography
-                                    group="navigation"
-                                    variant="menu_title"
-                                    as="span"
-                                >
-                                    Close
-                                </Typography>
-                            </Menu.Item>
+                                icon={<EdsIcon name="close" />}
+                                label={'Close'}
+                            />
                         </ModalActionPanel>
                     </ImageModal>
                 </Scrim>
