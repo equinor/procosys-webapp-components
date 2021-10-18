@@ -14,6 +14,18 @@ export interface Plant {
     projects?: Project[];
 }
 
+export interface Attachment {
+    id: number;
+    uri: string;
+    title: string;
+    createdAt: Date;
+    classification: string;
+    mimeType: string;
+    thumbnailAsBase64: string;
+    hasFile: boolean;
+    fileName: string;
+}
+
 // CHECKLIST
 export interface ChecklistDetails {
     id: number;
@@ -110,16 +122,4 @@ export interface ChecklistResponse {
     checkList: ChecklistDetails;
     checkItems: CheckItem[];
     customCheckItems: CustomCheckItem[];
-}
-
-export interface Attachment {
-    id: number;
-    uri: string;
-    title: string;
-    createdAt: Date;
-    classification: string;
-    mimeType: string;
-    thumbnailAsBase64: string;
-    hasFile: boolean;
-    fileName: string;
 }

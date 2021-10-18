@@ -1,10 +1,10 @@
 import { Button } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../style/GlobalStyles';
+import { COLORS } from '../../style/GlobalStyles';
 import { TextResult } from './TagPhotoRecognition';
-import PageHeader from '../components/PageHeader';
-import { AsyncStatus } from '../typings/enums';
+import PageHeader from '../../components/PageHeader';
+import { AsyncStatus } from '../../typings/enums';
 
 const CloseButton = styled(Button)`
     margin-bottom: 50px;

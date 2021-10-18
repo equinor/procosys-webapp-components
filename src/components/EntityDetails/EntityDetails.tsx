@@ -1,7 +1,7 @@
 import { Typography } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
-import { Caption, COLORS } from '../style/GlobalStyles';
+import { Caption, COLORS } from '../../style/GlobalStyles';
 
 const EntityDetailsWrapper = styled.article<{ isDetailsCard?: boolean }>`
     cursor: ${(props): string => (props.isDetailsCard ? 'default' : 'pointer')};

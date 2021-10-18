@@ -1,10 +1,10 @@
 import { Chip, Typography } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
-import CompletionStatusIcon from '../components/icons/CompletionStatusIcon';
-import EdsIcon from '../components/icons/EdsIcon';
-import { COLORS } from '../style/GlobalStyles';
-import { CompletionStatus } from '../typings/enums';
+import CompletionStatusIcon from '../icons/CompletionStatusIcon';
+import EdsIcon from '../icons/EdsIcon';
+import { COLORS } from '../../style/GlobalStyles';
+import { CompletionStatus } from '../../typings/enums';
 import StatusColumn, { StatusLetters } from './StatusColumn';
 
 const InfoItemWrapper = styled.div<{
