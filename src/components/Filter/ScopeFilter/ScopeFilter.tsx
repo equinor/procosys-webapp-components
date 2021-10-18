@@ -7,8 +7,8 @@ import useScopeFilterFacade from './useScopeFilterFacade';
 import {
     FilterButton,
     FilterWrapper,
-    SelectFieldsWrapper,
 } from '../PunchListFilter/PunchListFilter';
+import { SelectFieldsWrapper } from '../PunchListFilter/SelectFields';
 
 type FilterProps = {
     setShownScope: React.Dispatch<
@@ -37,55 +37,6 @@ const ScopeFilter = ({
         handleFormTypeChange,
     } = useScopeFilterFacade(setFilterCount, setShownScope, scopeItems);
 
-    const determineStatusFieldsToRender = (): JSX.Element => {
-        return (
-            <div>
-                {statuses?.map((status) => {
-                    return (
-                        <Checkbox
-                            key={status}
-                            label={status}
-                            onChange={(): void => {
-                                handleStatusChange(status);
-                            }}
-                        />
-                    );
-                })}
-            </div>
-        );
-    };
-
-    const determineSignatureFieldsToRender = (): JSX.Element => {
-        return (
-            <>
-                <Radio
-                    label="All"
-                    checked={signatureChosen === 'All'}
-                    onChange={(): void => {
-                        handleSignatureChange('');
-                        setSignatureChosen('All');
-                    }}
-                />
-                <Radio
-                    label={Signatures.NOT_SIGNED}
-                    checked={signatureChosen === Signatures.NOT_SIGNED}
-                    onChange={(): void => {
-                        handleSignatureChange(Signatures.NOT_SIGNED);
-                        setSignatureChosen(Signatures.NOT_SIGNED);
-                    }}
-                />
-                <Radio
-                    label={Signatures.SIGNED}
-                    checked={signatureChosen === Signatures.SIGNED}
-                    onChange={(): void => {
-                        handleSignatureChange(Signatures.SIGNED);
-                        setSignatureChosen(Signatures.SIGNED);
-                    }}
-                />
-            </>
-        );
-    };
-
     return (
         <FilterWrapper>
             <FilterButton
@@ -105,9 +56,46 @@ const ScopeFilter = ({
             {isOpen ? (
                 <div>
                     <Label label="Status" />
-                    {determineStatusFieldsToRender()}
+                    <div>
+                        {statuses?.map((status) => {
+                            return (
+                                <Checkbox
+                                    key={status}
+                                    label={status}
+                                    onChange={(): void => {
+                                        handleStatusChange(status);
+                                    }}
+                                />
+                            );
+                        })}
+                    </div>
                     <Label label="Signatures" />
-                    {determineSignatureFieldsToRender()}
+                    <>
+                        <Radio
+                            label="All"
+                            checked={signatureChosen === 'All'}
+                            onChange={(): void => {
+                                handleSignatureChange('');
+                                setSignatureChosen('All');
+                            }}
+                        />
+                        <Radio
+                            label={Signatures.NOT_SIGNED}
+                            checked={signatureChosen === Signatures.NOT_SIGNED}
+                            onChange={(): void => {
+                                handleSignatureChange(Signatures.NOT_SIGNED);
+                                setSignatureChosen(Signatures.NOT_SIGNED);
+                            }}
+                        />
+                        <Radio
+                            label={Signatures.SIGNED}
+                            checked={signatureChosen === Signatures.SIGNED}
+                            onChange={(): void => {
+                                handleSignatureChange(Signatures.SIGNED);
+                                setSignatureChosen(Signatures.SIGNED);
+                            }}
+                        />
+                    </>
                     <SelectFieldsWrapper>
                         <NativeSelect
                             id="ResponsibleSelect"

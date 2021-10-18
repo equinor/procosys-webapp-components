@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Label, NativeSelect, Radio } from '@equinor/eds-core-react';
+import { Label, Radio } from '@equinor/eds-core-react';
 import { CompletionStatus, PunchPreview } from '../../../services/apiTypes';
 import { Signatures } from '../useFilter';
 import styled from 'styled-components';
 import { COLORS } from '../../../style/GlobalStyles';
 import EdsIcon from '../../icons/EdsIcon';
 import usePunchListFilterFacade from './usePunchListFilterFacade';
+import SelectFields from './SelectFields';
 
 export const FilterWrapper = styled.div`
     padding: 0 4%;
@@ -23,12 +24,6 @@ export const FilterButton = styled.div<{ isActive: boolean }>`
         margin: 0;
         color: ${(props): string =>
             props.isActive ? COLORS.danger : COLORS.mossGreen};
-    }
-`;
-
-export const SelectFieldsWrapper = styled.form`
-    & > div {
-        margin-bottom: 16px;
     }
 `;
 
@@ -60,113 +55,11 @@ const PunchListFilter = ({
         handleResponsibleChange,
         handleFormTypeChange,
     } = usePunchListFilterFacade(setFilterCount, setShownPunches, punchItems);
-
-    const getStatusFieldsToRender = (): JSX.Element => {
-        const statusList = [
-            `All`,
-            `${CompletionStatus.PA}`,
-            `${CompletionStatus.PB}`,
-        ];
-        return (
-            <div>
-                {statusList.map((status) => (
-                    <Radio
-                        key={status}
-                        label={status}
-                        checked={statusChosen === status}
-                        onChange={(): void => {
-                            handleStatusChange(status);
-                            setStatusChosen(status);
-                        }}
-                    />
-                ))}
-            </div>
-        );
-    };
-
-    const getSignatureFieldsToRender = (): JSX.Element => {
-        return (
-            <>
-                <Radio
-                    label="All"
-                    checked={signatureChosen === 'All'}
-                    onChange={(): void => {
-                        handleSignatureChange('');
-                        setSignatureChosen('All');
-                    }}
-                />
-                <Radio
-                    label={Signatures.NOT_CLEARED}
-                    checked={signatureChosen === Signatures.NOT_CLEARED}
-                    onChange={(): void => {
-                        handleSignatureChange(Signatures.NOT_CLEARED);
-                        setSignatureChosen(Signatures.NOT_CLEARED);
-                    }}
-                />
-                <Radio
-                    label={Signatures.CLEARED}
-                    checked={signatureChosen === Signatures.CLEARED}
-                    onChange={(): void => {
-                        handleSignatureChange(Signatures.CLEARED);
-                        setSignatureChosen(Signatures.CLEARED);
-                    }}
-                />
-            </>
-        );
-    };
-
-    const determineSelectFieldsToRender = (): JSX.Element => {
-        if (isChecklistPunchList) return <></>;
-        return (
-            <SelectFieldsWrapper>
-                <NativeSelect
-                    id="ResponsibleSelect"
-                    label="Responsible"
-                    defaultValue={
-                        filter.responsible
-                            ? responsibles?.find(
-                                  (responsible) =>
-                                      responsible === filter.responsible
-                              )
-                            : ''
-                    }
-                    onChange={handleResponsibleChange}
-                >
-                    <option key="Empty" value="">
-                        Select
-                    </option>
-                    {responsibles?.map((responsible) => (
-                        <option key={responsible} value={responsible}>
-                            {responsible}
-                        </option>
-                    ))}
-                </NativeSelect>
-                {isPoPunchList ? null : (
-                    <NativeSelect
-                        id="FormTypeSelect"
-                        label="Form type"
-                        defaultValue={
-                            filter.formType
-                                ? formTypes?.find(
-                                      (formType) => formType === filter.formType
-                                  )
-                                : ''
-                        }
-                        onChange={handleFormTypeChange}
-                    >
-                        <option key="Empty" value="">
-                            Select
-                        </option>
-                        {formTypes?.map((formType) => (
-                            <option key={formType} value={formType}>
-                                {formType}
-                            </option>
-                        ))}
-                    </NativeSelect>
-                )}
-            </SelectFieldsWrapper>
-        );
-    };
+    const statusList = [
+        `All`,
+        `${CompletionStatus.PA}`,
+        `${CompletionStatus.PB}`,
+    ];
 
     return (
         <FilterWrapper>
@@ -187,10 +80,55 @@ const PunchListFilter = ({
             {isOpen ? (
                 <div>
                     <Label label="Status" />
-                    {getStatusFieldsToRender()}
+                    <div>
+                        {statusList.map((status) => (
+                            <Radio
+                                key={status}
+                                label={status}
+                                checked={statusChosen === status}
+                                onChange={(): void => {
+                                    handleStatusChange(status);
+                                    setStatusChosen(status);
+                                }}
+                            />
+                        ))}
+                    </div>
                     <Label label="Signatures" />
-                    {getSignatureFieldsToRender()}
-                    {determineSelectFieldsToRender()}
+                    <>
+                        <Radio
+                            label="All"
+                            checked={signatureChosen === 'All'}
+                            onChange={(): void => {
+                                handleSignatureChange('');
+                                setSignatureChosen('All');
+                            }}
+                        />
+                        <Radio
+                            label={Signatures.NOT_CLEARED}
+                            checked={signatureChosen === Signatures.NOT_CLEARED}
+                            onChange={(): void => {
+                                handleSignatureChange(Signatures.NOT_CLEARED);
+                                setSignatureChosen(Signatures.NOT_CLEARED);
+                            }}
+                        />
+                        <Radio
+                            label={Signatures.CLEARED}
+                            checked={signatureChosen === Signatures.CLEARED}
+                            onChange={(): void => {
+                                handleSignatureChange(Signatures.CLEARED);
+                                setSignatureChosen(Signatures.CLEARED);
+                            }}
+                        />
+                    </>
+                    <SelectFields
+                        filter={filter}
+                        responsibles={responsibles}
+                        handleResponsibleChange={handleResponsibleChange}
+                        formTypes={formTypes}
+                        handleFormTypeChange={handleFormTypeChange}
+                        isChecklistPunchList={isChecklistPunchList}
+                        isPoPunchList={isPoPunchList}
+                    />
                 </div>
             ) : null}
         </FilterWrapper>
