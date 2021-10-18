@@ -3,7 +3,6 @@ import {
     CircularProgress,
     Scrim,
     Typography,
-    Menu,
 } from '@equinor/eds-core-react';
 import Axios, { CancelToken } from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -14,7 +13,6 @@ import {
     Attachment as AttachmentType,
 } from '../services/apiTypes';
 import { COLORS } from '../style/GlobalStyles';
-import handleDownload from '../utils/handleDownload';
 import ActionsPanel from './ActionsPanel';
 
 const AttachmentWrapper = styled.div`
@@ -115,7 +113,8 @@ const Attachment = ({
         } catch (error) {
             if (!Axios.isCancel(error)) {
                 setDeleteStatus(AsyncStatus.ERROR);
-                setSnackbarText(error.toString());
+                const pcsError = error as string;
+                setSnackbarText(pcsError);
             }
         }
     };
