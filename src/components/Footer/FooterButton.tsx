@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../style/GlobalStyles';
+import { COLORS } from '../../style/GlobalStyles';
 
 const FooterButtonWrapper = styled.button<{ active: boolean }>`
     display: flex;

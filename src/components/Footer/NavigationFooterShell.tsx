@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../style/GlobalStyles';
+import { COLORS } from '../../style/GlobalStyles';
 
 export const NavigationFooterBase = styled.div`
     width: 100%;

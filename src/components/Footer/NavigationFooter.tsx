@@ -1,7 +1,7 @@
 import { DotProgress } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AsyncStatus } from '../services/apiTypes';
+import { AsyncStatus } from '../../typings/enums';
 import NavigationFooterShell, {
     NavigationFooterBase,
 } from './NavigationFooterShell';

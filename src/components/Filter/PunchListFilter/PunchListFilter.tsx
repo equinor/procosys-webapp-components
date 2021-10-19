@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Label, Radio } from '@equinor/eds-core-react';
-import { CompletionStatus, PunchPreview } from '../../../services/apiTypes';
 import { Signatures } from '../useFilter';
 import styled from 'styled-components';
 import { COLORS } from '../../../style/GlobalStyles';
 import EdsIcon from '../../icons/EdsIcon';
 import usePunchListFilterFacade from './usePunchListFilterFacade';
 import SelectFields from './SelectFields';
+import { PunchPreview } from '../../../typings/apiTypes';
+import { CompletionStatus } from '../../../typings/enums';
 
 export const FilterWrapper = styled.div`
     padding: 0 4%;
@@ -94,32 +95,30 @@ const PunchListFilter = ({
                         ))}
                     </div>
                     <Label label="Signatures" />
-                    <>
-                        <Radio
-                            label="All"
-                            checked={signatureChosen === 'All'}
-                            onChange={(): void => {
-                                handleSignatureChange('');
-                                setSignatureChosen('All');
-                            }}
-                        />
-                        <Radio
-                            label={Signatures.NOT_CLEARED}
-                            checked={signatureChosen === Signatures.NOT_CLEARED}
-                            onChange={(): void => {
-                                handleSignatureChange(Signatures.NOT_CLEARED);
-                                setSignatureChosen(Signatures.NOT_CLEARED);
-                            }}
-                        />
-                        <Radio
-                            label={Signatures.CLEARED}
-                            checked={signatureChosen === Signatures.CLEARED}
-                            onChange={(): void => {
-                                handleSignatureChange(Signatures.CLEARED);
-                                setSignatureChosen(Signatures.CLEARED);
-                            }}
-                        />
-                    </>
+                    <Radio
+                        label="All"
+                        checked={signatureChosen === 'All'}
+                        onChange={(): void => {
+                            handleSignatureChange('');
+                            setSignatureChosen('All');
+                        }}
+                    />
+                    <Radio
+                        label={Signatures.NOT_CLEARED}
+                        checked={signatureChosen === Signatures.NOT_CLEARED}
+                        onChange={(): void => {
+                            handleSignatureChange(Signatures.NOT_CLEARED);
+                            setSignatureChosen(Signatures.NOT_CLEARED);
+                        }}
+                    />
+                    <Radio
+                        label={Signatures.CLEARED}
+                        checked={signatureChosen === Signatures.CLEARED}
+                        onChange={(): void => {
+                            handleSignatureChange(Signatures.CLEARED);
+                            setSignatureChosen(Signatures.CLEARED);
+                        }}
+                    />
                     <SelectFields
                         filter={filter}
                         responsibles={responsibles}

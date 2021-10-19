@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
-import { AsyncStatus, PunchPreview } from '../services/apiTypes';
-import AsyncPage from '../components/AsyncPage';
-import InfoItem from '../InfoItem/InfoItem';
-import PunchListFilter from '../components/Filter/PunchListFilter/PunchListFilter';
+import { PunchPreview } from '../typings/apiTypes';
+import { AsyncStatus } from '../typings/enums';
+import AsyncPage from './AsyncPage';
+import PunchListFilter from './Filter/PunchListFilter/PunchListFilter';
+import InfoItem from './InfoItem/InfoItem';
 
 type PunchListProps = {
     fetchPunchListStatus: AsyncStatus;

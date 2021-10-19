@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import AsyncPage from '../components/AsyncPage';
-import ScopeFilter from '../components/Filter/ScopeFilter/ScopeFilter';
-import InfoItem from '../InfoItem/InfoItem';
-import { AsyncStatus, ChecklistPreview } from '../services/apiTypes';
+import AsyncPage from './AsyncPage';
+import ScopeFilter from './Filter/ScopeFilter/ScopeFilter';
+import InfoItem from './InfoItem/InfoItem';
+import { ChecklistPreview } from '../typings/apiTypes';
+import { AsyncStatus } from '../typings/enums';
 
 type ScopeProps = {
     fetchScopeStatus: AsyncStatus;
