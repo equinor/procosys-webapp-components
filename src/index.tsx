@@ -38,8 +38,11 @@ import matchProjectInURL from './utils/matchProjectInURL';
 import objectToCamelCase from './utils/objectToCamelCase';
 import useFormFields from './utils/useFormFields';
 import useSnackbar from './utils/useSnackbar';
+import { isOfType, isArrayOfType } from './utils/typeguard';
 
 export {
+    isArrayOfType,
+    isOfType,
     ensure,
     matchPlantInURL,
     matchProjectInURL,
