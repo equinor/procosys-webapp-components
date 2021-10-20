@@ -39,8 +39,10 @@ import objectToCamelCase from './utils/objectToCamelCase';
 import useFormFields from './utils/useFormFields';
 import useSnackbar from './utils/useSnackbar';
 import { isOfType, isArrayOfType } from './utils/typeguard';
+import { removeHtmlFromText } from './utils/removeHtmlFromText';
 
 export {
+    removeHtmlFromText,
     isArrayOfType,
     isOfType,
     ensure,
