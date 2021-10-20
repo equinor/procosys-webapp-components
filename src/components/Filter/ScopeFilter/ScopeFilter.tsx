@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Checkbox, Label, NativeSelect, Radio } from '@equinor/eds-core-react';
-import { ChecklistPreview } from '../../../services/apiTypes';
 import { Signatures } from '../useFilter';
 import EdsIcon from '../../icons/EdsIcon';
 import useScopeFilterFacade from './useScopeFilterFacade';
@@ -9,6 +8,7 @@ import {
     FilterWrapper,
 } from '../PunchListFilter/PunchListFilter';
 import { SelectFieldsWrapper } from '../PunchListFilter/SelectFields';
+import { ChecklistPreview } from '../../../typings/apiTypes';
 
 type FilterProps = {
     setShownScope: React.Dispatch<

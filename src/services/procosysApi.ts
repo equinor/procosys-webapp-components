@@ -1,5 +1,5 @@
 import { AxiosInstance, CancelToken } from 'axios';
-import { CustomCheckItemDto } from '../checklist/CheckItems/CustomCheckItems';
+import { CustomCheckItemDto } from '../modules/Checklist/CheckItems/CustomCheckItems';
 import {
     isArrayOfAttachments,
     isArrayOfItemToMultiSignOrVerify,
@@ -10,7 +10,7 @@ import {
     ChecklistResponse,
     Attachment,
     ItemToMultiSignOrVerify,
-} from './apiTypes';
+} from '../typings/apiTypes';
 
 type ProcosysApiServiceProps = {
     axios: AxiosInstance;

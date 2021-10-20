@@ -1,7 +1,7 @@
 import { Banner } from '@equinor/eds-core-react';
 import React from 'react';
-import { AsyncStatus } from '../services/apiTypes';
 import { COLORS } from '../style/GlobalStyles';
+import { AsyncStatus } from '../typings/enums';
 import EdsIcon from './icons/EdsIcon';
 import SkeletonLoadingPage from './loading/SkeletonLoader';
 

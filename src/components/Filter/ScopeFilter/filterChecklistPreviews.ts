@@ -1,4 +1,4 @@
-import { ChecklistPreview } from '../../../services/apiTypes';
+import { ChecklistPreview } from '../../../typings/apiTypes';
 import {
     filterOnFormType,
     filterOnResponsible,

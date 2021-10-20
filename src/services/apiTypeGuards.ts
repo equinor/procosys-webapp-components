@@ -6,24 +6,7 @@ import {
     CustomCheckItem,
     ItemToMultiSignOrVerify,
     LoopTag,
-} from './apiTypes';
-
-export const isOfType = <T>(
-    varToBeChecked: unknown,
-    propertyToCheckFor: keyof T
-): varToBeChecked is T => {
-    return (varToBeChecked as T)[propertyToCheckFor] !== undefined;
-};
-
-export const isArrayOfType = <T>(
-    dataToBeChecked: unknown,
-    propertyToCheckFor: keyof T
-): dataToBeChecked is T[] => {
-    return (
-        Array.isArray(dataToBeChecked) &&
-        dataToBeChecked.every((item) => isOfType<T>(item, propertyToCheckFor))
-    );
-};
+} from '../typings/apiTypes';
 
 const isAttachment = (data: unknown): data is Attachment => {
     return data != null && typeof (data as Attachment).hasFile === 'boolean';

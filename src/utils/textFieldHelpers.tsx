@@ -1,8 +1,6 @@
 import { Variants } from '@equinor/eds-core-react/dist/types/components/TextField/types';
 import React from 'react';
-import EdsIcon from '../components/icons/EdsIcon';
-import { AsyncStatus } from '../services/apiTypes';
-import { COLORS } from '../style/GlobalStyles';
+import { AsyncStatus } from '../typings/enums';
 
 export const determineVariant = (status: AsyncStatus): Variants => {
     if (status === AsyncStatus.ERROR) return 'error';

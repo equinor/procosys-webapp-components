@@ -1,4 +1,4 @@
-import { StorageKey } from '../commonTypes';
+import { StorageKey } from '../typings/enums';
 
 const clearHomePlantAndProject = (): void => {
     window.localStorage.removeItem(StorageKey.PLANT);

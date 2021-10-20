@@ -1,4 +1,4 @@
-import { CheckItem, CustomCheckItem } from '../services/apiTypes';
+import { CheckItem } from '../typings/apiTypes';
 
 type UpdateCheckProps = {
     value: boolean;

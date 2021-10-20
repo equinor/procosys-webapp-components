@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { ChecklistPreview } from '../../../services/apiTypes';
+import { ChecklistPreview } from '../../../typings/apiTypes';
 import useFilterFacade, { Filter } from '../useFilter';
 import { filterChecklistPreviews } from './filterChecklistPreviews';
 

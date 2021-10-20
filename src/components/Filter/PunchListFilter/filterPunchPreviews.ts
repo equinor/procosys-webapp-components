@@ -1,4 +1,4 @@
-import { PunchPreview } from '../../../services/apiTypes';
+import { PunchPreview } from '../../../typings/apiTypes';
 import {
     filterOnFormType,
     filterOnResponsible,

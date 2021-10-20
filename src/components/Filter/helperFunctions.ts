@@ -1,8 +1,4 @@
-import {
-    ChecklistPreview,
-    CompletionStatus,
-    PunchPreview,
-} from '../../services/apiTypes';
+import { CompletionStatus } from '../../typings/enums';
 import { Signatures } from './useFilter';
 
 export const filterOnStatus = <T extends { status: CompletionStatus }>(

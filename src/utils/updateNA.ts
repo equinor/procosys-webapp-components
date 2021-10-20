@@ -1,4 +1,4 @@
-import { CheckItem } from '../services/apiTypes';
+import { CheckItem } from '../typings/apiTypes';
 
 type UpdateNAProps = {
     value: boolean;
