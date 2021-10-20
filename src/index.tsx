@@ -76,13 +76,9 @@ export {
     SearchTypeButton,
     PageHeader,
     TagPhotoRecognition,
-};
-
-export type {
     AsyncStatus,
     StorageKey,
     CompletionStatus,
-    Project,
-    Plant,
-    Attachment,
 };
+
+export type { Project, Plant, Attachment };
