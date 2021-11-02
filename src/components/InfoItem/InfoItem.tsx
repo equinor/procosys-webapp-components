@@ -113,9 +113,9 @@ const InfoItem = (props: InfoItemProps): JSX.Element => {
                         {props.tag}
                     </Chip>
                 ) : null}
-                {props.chips?.map((item) => (
-                    <Chip key={item}>{item}</Chip>
-                ))}
+                {props.chips?.map((item) => {
+                    return item ? <Chip key={item}>{item}</Chip> : null;
+                })}
                 {props.attachments ? (
                     <Chip>
                         <EdsIcon name={'attachment'} color={'black'} />
