@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { PunchPreview } from '../typings/apiTypes';
 import { AsyncStatus } from '../typings/enums';
@@ -23,7 +23,11 @@ const PunchList = ({
 }: PunchListProps): JSX.Element => {
     const [filteredPunchList, setFilteredPunchList] = useState<
         PunchPreview[] | undefined
-    >(punchList);
+    >();
+
+    useEffect(() => {
+        setFilteredPunchList(punchList);
+    }, [punchList]);
 
     return (
         <AsyncPage
