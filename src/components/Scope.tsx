@@ -10,6 +10,7 @@ type ScopeProps = {
     onChecklistClick: (checklistId: number) => void;
     scope?: ChecklistPreview[];
     isPoScope?: boolean;
+    renderFilter?: boolean;
 };
 
 const Scope = ({
@@ -17,6 +18,7 @@ const Scope = ({
     onChecklistClick,
     scope,
     isPoScope,
+    renderFilter,
 }: ScopeProps): JSX.Element => {
     const [shownScope, setShownScope] = useState<
         ChecklistPreview[] | undefined
@@ -29,11 +31,13 @@ const Scope = ({
             fetchStatus={fetchScopeStatus}
         >
             <div>
-                <ScopeFilter
-                    setShownScope={setShownScope}
-                    scopeItems={scope}
-                    isPoScope={isPoScope}
-                />
+                {renderFilter ? (
+                    <ScopeFilter
+                        setShownScope={setShownScope}
+                        scopeItems={scope}
+                        isPoScope={isPoScope}
+                    />
+                ) : null}
                 {shownScope?.map((checklist) => (
                     <InfoItem
                         isScope
