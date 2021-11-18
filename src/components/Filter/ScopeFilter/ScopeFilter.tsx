@@ -11,7 +11,7 @@ import { SelectFieldsWrapper } from '../PunchListFilter/SelectFields';
 import { ChecklistPreview } from '../../../typings/apiTypes';
 
 type FilterProps = {
-    setShownScope: React.Dispatch<
+    setFilteredScope: React.Dispatch<
         React.SetStateAction<ChecklistPreview[] | undefined>
     >;
     scopeItems?: ChecklistPreview[];
@@ -19,7 +19,7 @@ type FilterProps = {
 };
 
 const ScopeFilter = ({
-    setShownScope,
+    setFilteredScope,
     scopeItems,
     isPoScope,
 }: FilterProps): JSX.Element => {
@@ -35,7 +35,7 @@ const ScopeFilter = ({
         handleSignatureChange,
         handleResponsibleChange,
         handleFormTypeChange,
-    } = useScopeFilterFacade(setFilterCount, setShownScope, scopeItems);
+    } = useScopeFilterFacade(setFilterCount, setFilteredScope, scopeItems);
 
     return (
         <FilterWrapper>

@@ -8,7 +8,7 @@ import { filterChecklistPreviews } from './filterChecklistPreviews';
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useScopeFilterFacade = (
     setFilterCount: React.Dispatch<React.SetStateAction<number>>,
-    setShownScope: React.Dispatch<
+    setFilteredScope: React.Dispatch<
         React.SetStateAction<ChecklistPreview[] | undefined>
     >,
     allChecklists?: ChecklistPreview[]
@@ -47,7 +47,7 @@ const useScopeFilterFacade = (
         if (allChecklists != undefined) {
             const { filteredChecklistPreviews, filterCount } =
                 filterChecklistPreviews(allChecklists, filter);
-            setShownScope(filteredChecklistPreviews);
+            setFilteredScope(filteredChecklistPreviews);
             setFilterCount(filterCount);
         } else {
             return;
