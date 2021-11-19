@@ -101,10 +101,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     }, [checkItems, customCheckItems]);
 
     useEffect(() => {
-        props.refreshChecklistStatus((prev: boolean) => !prev);
-    }, [isSigned]);
-
-    useEffect(() => {
         (async (): Promise<void> => {
             try {
                 const checklistResponse = await api.getChecklist(source.token);
@@ -224,6 +220,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         api={api}
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
+                        refreshChecklistStatus={props.refreshChecklistStatus}
                     />
                 )}
             </>
