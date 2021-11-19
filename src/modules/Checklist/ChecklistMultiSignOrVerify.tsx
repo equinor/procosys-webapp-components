@@ -45,6 +45,7 @@ type ChecklistMultiSignOrVerifyProps = {
     tagNo: string;
     api: ProcosysApiService;
     setSnackbarText: (message: string) => void;
+    refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ChecklistMultiSignOrVerify = ({
@@ -54,6 +55,7 @@ const ChecklistMultiSignOrVerify = ({
     tagNo,
     api,
     setSnackbarText,
+    refreshChecklistStatus,
 }: ChecklistMultiSignOrVerifyProps): JSX.Element => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
         eligibleItems.map((item) => item.id)
@@ -68,6 +70,11 @@ const ChecklistMultiSignOrVerify = ({
         setAllAreChecked(itemsToSignOrVerify.length === eligibleItems.length);
     }, [itemsToSignOrVerify]);
 
+    const closeMultiSignOrVerifyAndRefresh = (): void => {
+        setMultiSignOrVerifyIsOpen(false);
+        refreshChecklistStatus((prev: boolean) => !prev);
+    };
+
     const handleMultiSignOrVerify = async (): Promise<void> => {
         setPostSignOrVerifyStatus(AsyncStatus.LOADING);
         try {
@@ -79,7 +86,7 @@ const ChecklistMultiSignOrVerify = ({
                 setSnackbarText('Additional MCCRs signed.');
             }
             setPostSignOrVerifyStatus(AsyncStatus.SUCCESS);
-            setMultiSignOrVerifyIsOpen(false);
+            closeMultiSignOrVerifyAndRefresh();
         } catch (error) {
             if (!(error instanceof Error)) return;
             setPostSignOrVerifyStatus(AsyncStatus.ERROR);
@@ -122,10 +129,7 @@ const ChecklistMultiSignOrVerify = ({
     };
 
     return (
-        <Scrim
-            isDismissable
-            onClose={(): void => setMultiSignOrVerifyIsOpen(false)}
-        >
+        <Scrim isDismissable onClose={closeMultiSignOrVerifyAndRefresh}>
             <MultiSignVerifyContainer>
                 <p>
                     MCCR {isMultiVerify ? 'verified' : 'signed'} for tag: <br />
@@ -165,7 +169,7 @@ const ChecklistMultiSignOrVerify = ({
                 <ButtonWrapper>
                     <Button
                         variant={'outlined'}
-                        onClick={(): void => setMultiSignOrVerifyIsOpen(false)}
+                        onClick={closeMultiSignOrVerifyAndRefresh}
                     >
                         Close
                     </Button>

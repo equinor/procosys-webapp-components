@@ -82,6 +82,7 @@ type ChecklistSignatureProps = {
     api: ProcosysApiService;
     setMultiSignOrVerifyIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     multiSignOrVerifyIsOpen: boolean;
+    refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ChecklistSignature = ({
@@ -94,6 +95,7 @@ const ChecklistSignature = ({
     api,
     setMultiSignOrVerifyIsOpen,
     multiSignOrVerifyIsOpen,
+    refreshChecklistStatus,
 }: ChecklistSignatureProps): JSX.Element => {
     const [comment, setComment] = useState(details.comment);
     const [putCommentStatus, setPutCommentStatus] = useState(
@@ -131,6 +133,7 @@ const ChecklistSignature = ({
             reloadChecklist((reloadStatus) => !reloadStatus);
             setSignStatus(AsyncStatus.SUCCESS);
             setIsSigned(false);
+            refreshChecklistStatus((prev: boolean) => !prev);
         } catch (error) {
             if (!(error instanceof Error)) return;
             setSignStatus(AsyncStatus.ERROR);
@@ -155,6 +158,7 @@ const ChecklistSignature = ({
                 setSnackbarText(
                     isSigned ? 'Unsign complete.' : 'Signing complete.'
                 );
+                refreshChecklistStatus((prev: boolean) => !prev);
             } else {
                 setMultiSignOrVerifyIsOpen(true);
             }
@@ -349,6 +353,7 @@ const ChecklistSignature = ({
                     api={api}
                     setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                     setSnackbarText={setSnackbarText}
+                    refreshChecklistStatus={refreshChecklistStatus}
                 />
             ) : null}
         </ChecklistSignatureWrapper>
