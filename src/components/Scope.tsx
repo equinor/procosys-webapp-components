@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AsyncPage from './AsyncPage';
 import ScopeFilter from './Filter/ScopeFilter/ScopeFilter';
 import InfoItem from './InfoItem/InfoItem';
@@ -10,7 +10,7 @@ type ScopeProps = {
     onChecklistClick: (checklistId: number) => void;
     scope?: ChecklistPreview[];
     isPoScope?: boolean;
-    renderFilter?: boolean;
+    hideFilter?: boolean;
 };
 
 const Scope = ({
@@ -18,11 +18,15 @@ const Scope = ({
     onChecklistClick,
     scope,
     isPoScope,
-    renderFilter,
+    hideFilter,
 }: ScopeProps): JSX.Element => {
-    const [shownScope, setShownScope] = useState<
+    const [filteredScope, setFilteredScope] = useState<
         ChecklistPreview[] | undefined
-    >(scope);
+    >();
+
+    useEffect(() => {
+        setFilteredScope(scope);
+    }, [scope]);
 
     return (
         <AsyncPage
@@ -31,14 +35,14 @@ const Scope = ({
             fetchStatus={fetchScopeStatus}
         >
             <div>
-                {renderFilter ? (
+                {hideFilter ? null : (
                     <ScopeFilter
-                        setShownScope={setShownScope}
+                        setFilteredScope={setFilteredScope}
                         scopeItems={scope}
                         isPoScope={isPoScope}
                     />
-                ) : null}
-                {shownScope?.map((checklist) => (
+                )}
+                {filteredScope?.map((checklist) => (
                     <InfoItem
                         isScope
                         key={checklist.id}
