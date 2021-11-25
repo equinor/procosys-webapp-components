@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { TextField } from '@equinor/eds-core-react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ProcosysApiService } from '../../../../../services/procosysApi';
 import { AsyncStatus } from '../../../../../typings/enums';
+import DatePicker from '../../../../components/datePicker/DatePicker';
 
 const HelperText = styled.div`
     height: 12px;
@@ -14,6 +15,8 @@ const HelperText = styled.div`
     }
 `;
 
+type MetaTableCellType = 'text' | 'date';
+
 export type MetaTableCellProps = {
     checkItemId: number;
     rowId: number;
@@ -23,6 +26,7 @@ export type MetaTableCellProps = {
     disabled: boolean;
     label: string;
     api: ProcosysApiService;
+    type: MetaTableCellType;
 };
 
 function determineHelperText(submitStatus: AsyncStatus): string {
@@ -41,6 +45,7 @@ const MetaTableCell = ({
     checkItemId,
     label,
     api,
+    type,
 }: MetaTableCellProps): JSX.Element => {
     const [inputValue, setInputValue] = useState(value);
     const [submitStatus, setSubmitStatus] = useState<AsyncStatus>(
@@ -76,27 +81,44 @@ const MetaTableCell = ({
 
     return (
         <td>
-            <TextField
-                id={rowId.toString() + columnId.toString() + 'textfield'}
-                meta={unit}
-                label={label}
-                value={inputValue ? inputValue : ''}
-                disabled={disabled}
-                variant={
-                    (submitStatus === AsyncStatus.ERROR && 'error') ||
-                    (submitStatus === AsyncStatus.SUCCESS && 'success') ||
-                    'default'
-                }
-                onFocus={(): string => (valueBeforeFocus = value)}
-                onBlur={(): void => {
-                    value !== valueBeforeFocus && submitData();
-                }}
-                onChange={(
-                    event: React.ChangeEvent<
-                        HTMLTextAreaElement | HTMLInputElement
-                    >
-                ): void => setInputValue(event.target.value)}
-            />
+            {type === 'date' ? (
+                <DatePicker
+                    label={label}
+                    id={rowId.toString() + columnId.toString() + 'textfield'}
+                    value={inputValue ? inputValue : ''}
+                    disabled={disabled}
+                    onBlur={(): void => {
+                        value !== valueBeforeFocus && submitData();
+                    }}
+                    onChange={(
+                        event: React.ChangeEvent<
+                            HTMLTextAreaElement | HTMLInputElement
+                        >
+                    ): void => setInputValue(event.target.value)}
+                />
+            ) : (
+                <TextField
+                    id={rowId.toString() + columnId.toString() + 'textfield'}
+                    meta={unit}
+                    label={label}
+                    value={inputValue ? inputValue : ''}
+                    disabled={disabled}
+                    variant={
+                        (submitStatus === AsyncStatus.ERROR && 'error') ||
+                        (submitStatus === AsyncStatus.SUCCESS && 'success') ||
+                        'default'
+                    }
+                    onFocus={(): string => (valueBeforeFocus = value)}
+                    onBlur={(): void => {
+                        value !== valueBeforeFocus && submitData();
+                    }}
+                    onChange={(
+                        event: React.ChangeEvent<
+                            HTMLTextAreaElement | HTMLInputElement
+                        >
+                    ): void => setInputValue(event.target.value)}
+                />
+            )}
             <HelperText>
                 <p>{determineHelperText(submitStatus)}</p>
             </HelperText>
