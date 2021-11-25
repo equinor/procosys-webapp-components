@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ColumnLabel, Row } from '../../../../../typings/apiTypes';
 import styled from 'styled-components';
-import MetaTableCell from './MetaTableCell';
 import EdsIcon from '../../../../../components/icons/EdsIcon';
-import { COLORS } from '../../../../../style/GlobalStyles';
 import { ProcosysApiService } from '../../../../../services/procosysApi';
+import { COLORS } from '../../../../../style/GlobalStyles';
+import { ColumnLabel, Row } from '../../../../../typings/apiTypes';
+import MetaTableCell from './MetaTableCell';
 
 const MetaTableWrapper = styled.table`
     border-spacing: 4px;
@@ -99,6 +99,7 @@ const MetaTable = ({
                     value={cell.value}
                     label={row.cells.length < 2 ? row.label : ''}
                     api={api}
+                    type={''}
                 />
             );
         });
@@ -115,7 +116,7 @@ const MetaTable = ({
     useEffect(() => {
         setTableIsScrollable(
             tableContainerRef.current.scrollWidth >
-                tableContainerRef.current.clientWidth
+            tableContainerRef.current.clientWidth
         );
     }, [tableContainerRef]);
 

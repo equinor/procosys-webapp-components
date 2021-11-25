@@ -1,6 +1,9 @@
-import typescript from 'rollup-plugin-typescript2';
 import image from '@rollup/plugin-image';
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
+
+const external = Object.keys(pkg.peerDependencies)
 
 export default {
     input: 'src/index.tsx',
@@ -13,6 +16,6 @@ export default {
             strict: false,
         },
     ],
-    plugins: [typescript(), image()],
-    external: ['react', 'react-dom'],
+    plugins: [typescript(), image(), nodeResolve()],
+    external,
 };
