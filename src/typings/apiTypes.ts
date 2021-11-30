@@ -87,6 +87,8 @@ export interface ColumnLabel {
 
 export interface Cell {
     value: string;
+    valueDate: string;
+    isValueDate: boolean;
     unit: string;
     columnId: number;
 }

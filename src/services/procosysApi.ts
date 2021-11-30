@@ -131,7 +131,7 @@ const procosysApiService = ({
         return data;
     };
 
-    const putMetaTableCell = async (
+    const putMetaTableStringCell = async (
         checkItemId: number,
         columnId: number,
         rowId: number,
@@ -139,6 +139,24 @@ const procosysApiService = ({
     ): Promise<void> => {
         await axios.put(
             `CheckList/Item/MetaTableCell?plantId=PCS$${plantId}${apiVersion}`,
+            {
+                CheckListId: checklistId,
+                CheckItemId: checkItemId,
+                ColumnId: columnId,
+                RowId: rowId,
+                Value: value,
+            }
+        );
+    };
+
+    const putMetaTableDateCell = async (
+        checkItemId: number,
+        columnId: number,
+        rowId: number,
+        value: string
+    ): Promise<void> => {
+        await axios.put(
+            `CheckList/Item/MetaTableCellDate?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
                 CheckItemId: checkItemId,
@@ -328,7 +346,8 @@ const procosysApiService = ({
         postUnsign,
         postChecklistAttachment,
         putChecklistComment,
-        putMetaTableCell,
+        putMetaTableStringCell,
+        putMetaTableDateCell,
     };
 };
 
