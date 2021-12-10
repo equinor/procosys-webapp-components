@@ -88,20 +88,23 @@ const MetaTable = ({
     ));
     const rowsToDisplay = rows.map((row) => {
         const cells = row.cells.map((cell) => {
+            const key = cell.columnId.toString() + row.id.toString();
+            // For tables with only one column, show the label on top of the cells..
+            const label = row.cells.length < 2 ? row.label : '';
             return (
                 <MetaTableCell
-                    key={cell.columnId.toString() + row.id.toString()}
+                    key={key + 'text'}
                     disabled={disabled}
                     checkItemId={checkItemId}
                     rowId={row.id}
-                    columnId={cell.columnId}
-                    unit={cell.unit}
-                    value={cell.value}
-                    label={row.cells.length < 2 ? row.label : ''}
+                    cell={cell}
+                    label={label}
                     api={api}
                 />
             );
         });
+
+        // For tables with more than one column, insert label to the left of each rows.
         return (
             <tr key={row.id}>
                 <th>

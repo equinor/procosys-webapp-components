@@ -1,3 +1,20 @@
-This package was created to enable integration of MC checklist functionality across multiple Equinor solutions. 
+This library exists to share visual components as well as entire modules between the Procosys MC webapp, commissioning webapp and other Equinor solutions, such as Echo Infield.
 
-The package provides a react component that can be utilized on any page, provided the parent application can provide a valid checklist ID, and a valid access token to access the ProCoSys Web Api. 
+These are the existing and planned modules:
+* Attachments 
+* MCCR checklists
+* Tag OCR (pending major upgrade)
+* CPCL checklists (planned)
+* Punch (planned)
+* Commissioning Action log (planned)
+* Commissioning Tasks (not planned, but expected)
+
+Most modules require your app, represented by an Azure App Registration, to have access to the relevant Procosys API. Please contact the Procosys team to obtain this access.
+
+How to use this library:
+* Run "yarn" in the root of this repo
+* Run "yarn link"
+* Run "rollup -c --watch"
+* Run "yarn link @equinor/procosys-webapp-components" in the app you want to test the code in.
+
+For info on how to contribute and publish changes to the package, please check out the guide in the Procosys Wiki Frontend section.

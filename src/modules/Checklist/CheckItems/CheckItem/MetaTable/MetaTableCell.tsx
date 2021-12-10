@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { TextField } from '@equinor/eds-core-react';
+import { Label, TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { ProcosysApiService } from '../../../../../services/procosysApi';
 import { AsyncStatus } from '../../../../../typings/enums';
+import { Cell } from '../../../../../typings/apiTypes';
+import { COLORS } from '../../../../../style/GlobalStyles';
 
 const HelperText = styled.div`
     height: 12px;
@@ -14,12 +16,28 @@ const HelperText = styled.div`
     }
 `;
 
+const MetaTableDateCellWrapper = styled.div`
+    & > input {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 95%;
+        background-color: ${COLORS.greyBackground};
+        height: 40px;
+        border: none;
+        box-shadow: inset 0 -1px 0 0 var(--eds_text__static_ic, rgba(111, 111, 111, 1)); // TODO: fix(?)
+        font-family: Equinor;
+        padding: 0 8px;
+    }
+    & > input:focus-visible {
+        outline: 2px solid ${COLORS.mossGreen};
+        box-shadow: none;
+    }
+`;
+
 export type MetaTableCellProps = {
     checkItemId: number;
     rowId: number;
-    columnId: number;
-    value: string;
-    unit: string;
+    cell: Cell;
     disabled: boolean;
     label: string;
     api: ProcosysApiService;
@@ -33,31 +51,47 @@ function determineHelperText(submitStatus: AsyncStatus): string {
 }
 
 const MetaTableCell = ({
-    value,
-    unit,
     disabled,
     rowId,
-    columnId,
+    cell,
     checkItemId,
     label,
     api,
 }: MetaTableCellProps): JSX.Element => {
-    const [inputValue, setInputValue] = useState(value);
+    const formattedValueDate = cell.valueDate
+        ? cell.valueDate.substring(0, 10)
+        : '';
+    const formattedValueString = cell.value ?? '';
+    const [inputValueDate, setInputValueDate] = useState(formattedValueDate);
+    const [inputValueString, setInputValueString] =
+        useState(formattedValueString);
     const [submitStatus, setSubmitStatus] = useState<AsyncStatus>(
         AsyncStatus.INACTIVE
     );
     const [errorMessage, setErrorMessage] = useState('');
+    const putStringCellApiCall = (): Promise<void> =>
+        api.putMetaTableStringCell(
+            checkItemId,
+            cell.columnId,
+            rowId,
+            inputValueDate
+        );
+    const putDateCellApiCall = (): Promise<void> =>
+        api.putMetaTableDateCell(
+            checkItemId,
+            cell.columnId,
+            rowId,
+            inputValueDate
+        );
+    const dateId = `${cell.columnId}-date`;
     let valueBeforeFocus = '';
 
-    const submitData = async (): Promise<void> => {
+    const submitData = async (
+        updateDataApiCall: () => Promise<void>
+    ): Promise<void> => {
         setSubmitStatus(AsyncStatus.LOADING);
         try {
-            await api.putMetaTableCell(
-                checkItemId,
-                columnId,
-                rowId,
-                inputValue
-            );
+            await updateDataApiCall();
             setSubmitStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             if (!(error instanceof Error)) return;
@@ -76,27 +110,56 @@ const MetaTableCell = ({
 
     return (
         <td>
-            <TextField
-                id={rowId.toString() + columnId.toString() + 'textfield'}
-                meta={unit}
-                label={label}
-                value={inputValue ? inputValue : ''}
-                disabled={disabled}
-                variant={
-                    (submitStatus === AsyncStatus.ERROR && 'error') ||
-                    (submitStatus === AsyncStatus.SUCCESS && 'success') ||
-                    'default'
-                }
-                onFocus={(): string => (valueBeforeFocus = value)}
-                onBlur={(): void => {
-                    value !== valueBeforeFocus && submitData();
-                }}
-                onChange={(
-                    event: React.ChangeEvent<
-                        HTMLTextAreaElement | HTMLInputElement
-                    >
-                ): void => setInputValue(event.target.value)}
-            />
+            {cell.isValueDate ? (
+                <MetaTableDateCellWrapper>
+                    {label && <Label label={label} htmlFor={dateId} />}
+                    <input
+                        disabled={disabled}
+                        type="date"
+                        id={dateId}
+                        role="datepicker"
+                        value={inputValueDate}
+                        onFocus={(): string => (valueBeforeFocus = cell.value)}
+                        onBlur={(): void => {
+                            cell.value !== valueBeforeFocus &&
+                                submitData(putDateCellApiCall);
+                        }}
+                        onChange={(
+                            event: React.ChangeEvent<
+                                HTMLTextAreaElement | HTMLInputElement
+                            >
+                        ): void => setInputValueDate(event.target.value)}
+                    />
+                </MetaTableDateCellWrapper>
+            ) : (
+                <TextField
+                    id={
+                        rowId.toString() +
+                        cell.columnId.toString() +
+                        'textfield'
+                    }
+                    meta={cell.unit}
+                    label={label}
+                    value={inputValueString}
+                    disabled={disabled}
+                    variant={
+                        (submitStatus === AsyncStatus.ERROR && 'error') ||
+                        (submitStatus === AsyncStatus.SUCCESS && 'success') ||
+                        'default'
+                    }
+                    onFocus={(): string => (valueBeforeFocus = cell.value)}
+                    onBlur={(): void => {
+                        cell.value !== valueBeforeFocus &&
+                            submitData(putStringCellApiCall);
+                    }}
+                    onChange={(
+                        event: React.ChangeEvent<
+                            HTMLTextAreaElement | HTMLInputElement
+                        >
+                    ): void => setInputValueString(event.target.value)}
+                />
+            )}
+
             <HelperText>
                 <p>{determineHelperText(submitStatus)}</p>
             </HelperText>
