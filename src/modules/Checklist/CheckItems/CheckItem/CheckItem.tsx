@@ -14,8 +14,7 @@ import { AsyncStatus } from '../../../../typings/enums';
 const CheckItemWrapper = styled.div<{ disabled: boolean }>`
     background-color: transparent;
     margin-top: 8px;
-    & p,
-    button {
+    & button {
         color: ${(props): string =>
             props.disabled ? COLORS.darkGrey : '#3D3D3D'};
     }
