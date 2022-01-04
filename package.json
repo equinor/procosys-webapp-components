@@ -1,6 +1,6 @@
 {
   "name": "@equinor/procosys-webapp-components",
-  "version": "1.12.6",
+  "version": "1.12.7",
   "description": "Library for sharing components and modules between Procosys MC webapp, Comm webapp and Echo.",
   "main": "dist/index.js",
   "scripts": {
