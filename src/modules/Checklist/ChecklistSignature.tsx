@@ -3,7 +3,7 @@ import {
     ChecklistDetails,
     ItemToMultiSignOrVerify,
 } from '../../typings/apiTypes';
-import { Button, TextField } from '@equinor/eds-core-react';
+import { Button, Input, TextField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import {
     determineHelperText,
@@ -13,8 +13,9 @@ import { ProcosysApiService } from '../../services/procosysApi';
 import ChecklistMultiSignOrVerify from './ChecklistMultiSignOrVerify';
 import axios from 'axios';
 import { AsyncStatus } from '../../typings/enums';
+import { Caption, COLORS } from '../../style/GlobalStyles';
 
-const ChecklistSignatureWrapper = styled.div<{ helperTextVisible: boolean }>`
+const ChecklistSignatureWrapper = styled.div`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -43,6 +44,30 @@ const ButtonWrapper = styled.div`
     & > :last-child {
         margin: 0;
         margin-left: 12px;
+    }
+`;
+
+const CommentField = styled.div`
+    overflow: hidden;
+    & > textarea {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%
+        min-width: 95%;
+        background-color: ${COLORS.greyBackground};
+        border: none;
+        font-family: Equinor;
+        padding: 8px;
+    }
+    & > textarea:focus-visible {
+        outline: 2px solid ${COLORS.mossGreen};
+    }
+    & > textarea:disabled {
+        color: ${COLORS.black};
+        cursor: not-allowed;
+    }
+    & > p {
+        color: ${COLORS.darkGrey};
     }
 `;
 
@@ -264,36 +289,39 @@ const ChecklistSignature = ({
     };
 
     return (
-        <ChecklistSignatureWrapper
-            helperTextVisible={putCommentStatus !== AsyncStatus.INACTIVE}
-        >
+        <ChecklistSignatureWrapper>
             {!multiSignOrVerifyIsOpen && (
                 <>
                     <CommentHeader>Comment and sign</CommentHeader>
-                    <TextField
-                        id={'comment-field'}
-                        maxLength={500}
-                        variant={determineVariant(putCommentStatus)}
-                        disabled={
-                            isSigned || putCommentStatus === AsyncStatus.LOADING
-                        }
-                        multiline
-                        rows={5}
-                        helperText={
-                            putCommentStatus === AsyncStatus.INACTIVE &&
+
+                    <CommentField>
+                        <textarea
+                            id={'comment-field'}
+                            maxLength={500}
+                            disabled={
+                                isSigned ||
+                                putCommentStatus === AsyncStatus.LOADING
+                            }
+                            rows={10}
+                            value={comment}
+                            onChange={(
+                                e: React.ChangeEvent<
+                                    HTMLInputElement | HTMLTextAreaElement
+                                >
+                            ): void => setComment(e.target.value)}
+                            onFocus={(): string =>
+                                (commentBeforeFocus = comment)
+                            }
+                            onBlur={putComment}
+                        />
+                        <Caption>
+                            {putCommentStatus === AsyncStatus.INACTIVE &&
                             details.updatedAt
                                 ? updatedByText()
-                                : determineHelperText(putCommentStatus)
-                        }
-                        value={comment}
-                        onChange={(
-                            e: React.ChangeEvent<
-                                HTMLInputElement | HTMLTextAreaElement
-                            >
-                        ): void => setComment(e.target.value)}
-                        onFocus={(): string => (commentBeforeFocus = comment)}
-                        onBlur={putComment}
-                    />
+                                : determineHelperText(putCommentStatus)}
+                        </Caption>
+                    </CommentField>
+
                     <SignOrVerifyWrapper eligible={allItemsCheckedOrNA}>
                         <div>
                             {determineSignatureText()} {determineVerifyText()}
