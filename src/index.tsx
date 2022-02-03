@@ -25,6 +25,7 @@ import FooterButton from './components/Footer/FooterButton';
 import NavigationFooter from './components/Footer/NavigationFooter';
 import SearchTypeButton from './components/buttons/SearchTypeButton';
 import PageHeader from './components/PageHeader';
+import TagInfo from './components/TagInfo';
 
 //types
 import { StorageKey, AsyncStatus, CompletionStatus } from './typings/enums';
@@ -76,6 +77,7 @@ export {
     SearchTypeButton,
     PageHeader,
     TagPhotoRecognition,
+    TagInfo,
     AsyncStatus,
     StorageKey,
     CompletionStatus,
