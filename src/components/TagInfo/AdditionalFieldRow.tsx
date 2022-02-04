@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../style/GlobalStyles';
 
 export const TagInfoWrapper = styled.main`
     min-height: calc(100vh - 203px);
@@ -8,12 +7,6 @@ export const TagInfoWrapper = styled.main`
     box-sizing: border-box;
     padding: 16px 4%;
 `;
-
-// type InfoRowProps = {
-//     label: string;
-//     value: string | null | undefined;
-//     code?: string | null;
-// };
 
 const isValidValue = (value: string | null): boolean => {
     if (typeof value === 'string' && value.length > 0) return true;

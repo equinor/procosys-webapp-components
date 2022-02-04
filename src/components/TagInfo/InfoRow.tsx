@@ -12,17 +12,13 @@ const InfoRowWrapper = styled.div`
     }
 `;
 
-// type InfoRowProps = {
-//     label: string;
-//     value: string | null | undefined;
-//     code?: string | null;
-// };
+type InfoRowProps = {
+    label: string;
+    value: string | null | undefined;
+    code?: string | null;
+};
 
-const InfoRow = (
-    label: string,
-    value: string | null | undefined,
-    code?: string | null
-): JSX.Element => {
+const InfoRow = ({ label, value, code }: InfoRowProps): JSX.Element => {
     return (
         <InfoRowWrapper>
             <label>{label}</label>
