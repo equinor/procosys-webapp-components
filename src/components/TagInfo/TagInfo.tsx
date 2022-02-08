@@ -106,14 +106,14 @@ const TagInfo = ({
                     <InfoRow label="Remark" value={tagInfo?.remark} />
                 </CollapsibleCard>
                 <CollapsibleCard cardTitle={'Details'}>
-                    {additionalFields.map((field) =>
-                        AdditionalFieldRow(
-                            field.label,
-                            field.value,
-                            field.unit,
-                            field.id
-                        )
-                    )}
+                    {additionalFields.map((field) => (
+                        <AdditionalFieldRow
+                            label={field.label}
+                            value={field.value}
+                            unit={field.unit}
+                            key={field.id}
+                        />
+                    ))}
                 </CollapsibleCard>
             </TagInfoWrapper>
         </AsyncPage>

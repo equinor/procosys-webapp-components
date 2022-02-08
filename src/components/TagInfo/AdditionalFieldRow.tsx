@@ -13,17 +13,24 @@ const isValidValue = (value: string | null): boolean => {
     return false;
 };
 
-const AdditionalFieldRow = (
-    label: string,
-    value: string | null,
-    unit: string | null,
-    key: number
-): JSX.Element => {
+type AdditionalFieldRowProps = {
+    label: string;
+    value: string | null;
+    unit: string | null;
+    key: number;
+};
+
+const AdditionalFieldRow = ({
+    label,
+    value,
+    unit,
+    key,
+}: AdditionalFieldRowProps): JSX.Element => {
     return (
         <TagInfoWrapper key={key}>
             <label>{label}</label>
             <p>
-                {isValidValue(value) ? value : '-'}{' '}
+                {isValidValue(value) ? value : '-'}
                 {isValidValue(value) && isValidValue(unit) ? unit : ''}
             </p>
         </TagInfoWrapper>
