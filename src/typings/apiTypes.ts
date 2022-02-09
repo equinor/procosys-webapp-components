@@ -176,3 +176,46 @@ export interface PunchPreview {
     attachmentCount: number;
     callOffNo?: string;
 }
+
+// Tag
+
+export interface TagDetails {
+    id: number;
+    tagNo: string;
+    description: string;
+    registerCode: string;
+    registerDescription: string;
+    statusCode: string;
+    statusDescription: string;
+    tagFunctionCode: string;
+    tagFunctionDescription: string;
+    commPkgNo: string;
+    mcPkgNo: string;
+    purchaseOrderNo: string;
+    callOffNo: string;
+    purchaseOrderTitle: string;
+    projectDescription: string;
+    sequence: string;
+    mountedOnTagNo: string;
+    remark: string;
+    systemCode: string;
+    systemDescription: string;
+    disciplineCode: string;
+    disciplineDescription: string;
+    areaCode: string;
+    areaDescription: string;
+    engineeringCodeCode: string;
+    engineeringCodeDescription: string;
+    contractorCode: string;
+    contractorDescription: string;
+    hasPreservation: boolean;
+    preservationMigrated: boolean;
+}
+
+export interface AdditionalTagField {
+    id: number;
+    label: string;
+    value: string;
+    type: string;
+    unit: string;
+}
