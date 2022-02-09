@@ -13,7 +13,7 @@ export const COLORS = {
     midnight: '#243746',
     red: '#ff1343',
     white: '#fff',
-    darkGrey: '#777',
+    darkGrey: '#757575',
     lightGrey: '#fafafa',
     greyBackground: tokens.colors.ui.background__light.hex,
     black: '#000',
