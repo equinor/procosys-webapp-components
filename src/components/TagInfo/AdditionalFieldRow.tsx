@@ -30,7 +30,7 @@ const AdditionalFieldRow = ({
         <TagInfoWrapper key={key}>
             <label>{label}</label>
             <p>
-                {isValidValue(value) ? value : '-'}
+                {isValidValue(value) ? value : '-'}{' '}
                 {isValidValue(value) && isValidValue(unit) ? unit : ''}
             </p>
         </TagInfoWrapper>
