@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../style/GlobalStyles';
 
-const InfoRowWrapper = styled.div`
+export const InfoRowWrapper = styled.div`
     & > p {
         margin: 0;
         margin-bottom: 12px;
