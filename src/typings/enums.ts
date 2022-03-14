@@ -20,3 +20,10 @@ export enum CompletionStatus {
     PB = 'PB',
     OK = 'OK',
 }
+
+export enum SearchStatus {
+    INACTIVE,
+    LOADING,
+    SUCCESS,
+    ERROR,
+}

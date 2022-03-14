@@ -219,3 +219,13 @@ export interface AdditionalTagField {
     type: string;
     unit: string;
 }
+
+// Punch pages
+export interface Person {
+    id: number;
+    azureOid: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+}

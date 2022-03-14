@@ -16,6 +16,7 @@ export const COLORS = {
     darkGrey: '#757575',
     lightGrey: '#fafafa',
     greyBackground: tokens.colors.ui.background__light.hex,
+    disabledText: tokens.colors.interactive.disabled__text.hex,
     black: '#000',
 };
 
