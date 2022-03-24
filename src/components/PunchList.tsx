@@ -8,7 +8,7 @@ import InfoItem from './InfoItem/InfoItem';
 
 type PunchListProps = {
     fetchPunchListStatus: AsyncStatus;
-    onPunchClick: (punchId: number) => void;
+    onPunchClick: (punch: PunchPreview) => void;
     punchList?: PunchPreview[];
     isChecklistPunchList?: boolean;
     isPoPunchList?: boolean;
@@ -59,7 +59,7 @@ const PunchList = ({
                                 : [punch.formularType, punch.responsibleCode]
                         }
                         tag={isChecklistPunchList ? undefined : punch.tagNo}
-                        onClick={(): void => onPunchClick(punch.id)}
+                        onClick={(): void => onPunchClick(punch)}
                     />
                 ))}
             </>
