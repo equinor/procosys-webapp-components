@@ -277,3 +277,50 @@ export interface NewPunch {
     Estimate?: number;
     TemporaryFileIds: string[];
 }
+
+export interface PunchItem {
+    id: number;
+    checklistId: number;
+    formularType: string;
+    status: CompletionStatus;
+    description: string;
+    typeCode: string;
+    typeDescription: string;
+    raisedByCode: string;
+    raisedByDescription: string;
+    clearingByCode: string;
+    clearingByDescription: string;
+    clearedAt: string | null;
+    clearedByUser: string | null;
+    clearedByFirstName: string | null;
+    clearedByLastName: string | null;
+    verifiedAt: string | null;
+    verifiedByUser: string | null;
+    verifiedByFirstName: string | null;
+    verifiedByLastName: string | null;
+    rejectedAt: string | null;
+    rejectedByUser: string | null;
+    rejectedByFirstName: string | null;
+    rejectedByLastName: string | null;
+    dueDate: string | null;
+    estimate: number | null;
+    priorityId: number | null;
+    priorityCode: string | null;
+    priorityDescription: string | null;
+    actionByPerson: number | null;
+    actionByPersonFirstName: string | null;
+    actionByPersonLastName: string | null;
+    materialRequired: boolean;
+    materialEta: string | null;
+    materialNo: string | null;
+    systemModule: string;
+    tagDescription: string;
+    tagId: number;
+    tagNo: string;
+    responsibleCode: string;
+    responsibleDescription: string;
+    sorting: string | null;
+    statusControlledBySwcr: boolean;
+    isRestrictedForUser: boolean;
+    attachmentCount: number;
+}
