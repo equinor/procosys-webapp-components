@@ -48,11 +48,7 @@ type PersonsSearchProps = {
     setChosenPerson: (id: number, firstName: string, lastName: string) => void;
     setShowPersonSearch: React.Dispatch<React.SetStateAction<boolean>>;
     plantId: string;
-    getPersonsByName: (
-        plantId: string,
-        query: string,
-        cancelToken: CancelToken
-    ) => Promise<Person[]>;
+    getPersonsByName: (query: string) => Promise<Person[]>;
 };
 
 const PersonsSearch = ({

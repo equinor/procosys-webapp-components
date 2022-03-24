@@ -49,17 +49,11 @@ const fetchReducer = (state: SearchState, action: Action): SearchState => {
 const fetchHits = async (
     query: string,
     dispatch: React.Dispatch<Action>,
-    plantId: string,
-    cancelToken: CancelToken,
-    getPersonsByName: (
-        plantId: string,
-        query: string,
-        cancelToken: CancelToken
-    ) => Promise<Person[]>
+    getPersonsByName: (query: string) => Promise<Person[]>
 ): Promise<void> => {
     dispatch({ type: 'FETCH_START' });
     try {
-        const persons = await getPersonsByName(plantId, query, cancelToken);
+        const persons = await getPersonsByName(query);
         dispatch({
             type: 'FETCH_SUCCESS',
             payload: { persons },
@@ -72,11 +66,7 @@ const fetchHits = async (
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const usePersonsSearchFacade = (
     plantId: string,
-    getPersonsByName: (
-        plantId: string,
-        query: string,
-        cancelToken: CancelToken
-    ) => Promise<Person[]>
+    getPersonsByName: (query: string) => Promise<Person[]>
 ) => {
     const [{ hits, searchStatus }, dispatch] = useReducer(fetchReducer, {
         hits: { persons: [] },
@@ -91,7 +81,7 @@ const usePersonsSearchFacade = (
         }
         const { cancel, token } = axios.CancelToken.source();
         const timeOutId = setTimeout(
-            () => fetchHits(query, dispatch, plantId, token, getPersonsByName),
+            () => fetchHits(query, dispatch, getPersonsByName),
             300
         );
         return (): void => {

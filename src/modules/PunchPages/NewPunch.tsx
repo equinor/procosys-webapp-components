@@ -57,11 +57,7 @@ interface NewPunchProps {
     handleSubmit: (e: React.FormEvent) => Promise<void>;
     submitPunchStatus: AsyncStatus;
     plantId: string;
-    getPersonsByName: (
-        plantId: string,
-        query: string,
-        cancelToken: CancelToken
-    ) => Promise<Person[]>;
+    getPersonsByName: (query: string) => Promise<Person[]>;
     chosenPerson: ChosenPerson;
     setChosenPerson: React.Dispatch<React.SetStateAction<ChosenPerson>>;
     fetchNewPunchStatus: AsyncStatus;

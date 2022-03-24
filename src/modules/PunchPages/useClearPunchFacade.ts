@@ -193,8 +193,8 @@ const useClearPunchFacade = (
     };
 
     return {
-        setSnackbarText,
         snackbar,
+        setSnackbarText,
         clearPunchItem,
         handleCategoryChange,
         handleTypeChange,
