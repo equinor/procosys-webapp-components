@@ -38,7 +38,6 @@ const useClearPunchFacade = (
     redirectAfterClearing: () => void,
     clearPunch: () => Promise<void>
 ) => {
-    const { snackbar, setSnackbarText } = useSnackbar();
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
 
     const getDefaultOrganization = (code: string): number => {
@@ -193,8 +192,6 @@ const useClearPunchFacade = (
     };
 
     return {
-        snackbar,
-        setSnackbarText,
         clearPunchItem,
         handleCategoryChange,
         handleTypeChange,

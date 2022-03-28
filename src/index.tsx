@@ -4,6 +4,7 @@ import TempAttachments from './modules/Attachments/TempAttachments';
 import Attachments from './modules/Attachments/Attachments';
 import TagPhotoRecognition from './modules/TagOcr/TagPhotoRecognition';
 import NewPunch from './modules/PunchPages/NewPunch';
+import ClearPunch from './modules/PunchPages/ClearPunch';
 
 //Components
 import AsyncCard from './components/AsyncCard';
@@ -31,7 +32,12 @@ import TagInfo from './components/TagInfo/TagInfo';
 //types
 import { StorageKey, AsyncStatus, CompletionStatus } from './typings/enums';
 import { Project, Plant, Attachment } from './typings/apiTypes';
-import { ChosenPerson, PunchFormData } from './typings/helperTypes';
+import {
+    ChosenPerson,
+    PunchFormData,
+    PunchEndpoints,
+    UpdatePunchData,
+} from './typings/helperTypes';
 
 //Utils
 import ensure from './utils/ensure';
@@ -46,6 +52,7 @@ import { removeHtmlFromText } from './utils/removeHtmlFromText';
 
 export {
     NewPunch,
+    ClearPunch,
     removeHtmlFromText,
     isArrayOfType,
     isOfType,
@@ -86,4 +93,12 @@ export {
     CompletionStatus,
 };
 
-export type { Project, Plant, Attachment, ChosenPerson, PunchFormData };
+export type {
+    Project,
+    Plant,
+    Attachment,
+    ChosenPerson,
+    PunchFormData,
+    PunchEndpoints,
+    UpdatePunchData,
+};

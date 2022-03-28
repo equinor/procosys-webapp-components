@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Button,
     Label,
     NativeSelect,
     TextField,
 } from '@equinor/eds-core-react';
-import styled from 'styled-components';
-import { Cancel, CancelToken } from 'axios';
+import { CancelToken } from 'axios';
 import useClearPunchFacade from './useClearPunchFacade';
 import ReloadButton from '../../components/buttons/ReloadButton';
 import ErrorPage from '../../components/error/ErrorPage';
@@ -80,6 +79,8 @@ type ClearPunchProps = {
         punchItemId: number,
         attachmentId: number
     ) => Promise<void>;
+    snackbar: JSX.Element;
+    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const ClearPunch = ({
@@ -106,10 +107,10 @@ const ClearPunch = ({
     getPunchAttachment,
     postPunchAttachment,
     deletePunchAttachment,
+    snackbar,
+    setSnackbarText,
 }: ClearPunchProps): JSX.Element => {
     const {
-        snackbar,
-        setSnackbarText,
         clearPunchItem,
         handleCategoryChange,
         handleDescriptionChange,
