@@ -177,17 +177,14 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         <AttachmentsHeader>Attachments</AttachmentsHeader>
                         <AttachmentsWrapper>
                             <Attachments
-                                getAttachments={(
-                                    cancelToken: CancelToken
-                                ): Promise<Attachment[]> =>
-                                    api.getChecklistAttachments(cancelToken)
+                                getAttachments={(): Promise<Attachment[]> =>
+                                    api.getChecklistAttachments(source.token)
                                 }
                                 getAttachment={(
-                                    cancelToken: CancelToken,
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
-                                        cancelToken,
+                                        source.token,
                                         attachmentId
                                     )
                                 }
@@ -204,6 +201,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                 }
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={isSigned}
+                                source={source}
                             />
                         </AttachmentsWrapper>
                     </>

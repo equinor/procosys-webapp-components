@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import axios, { CancelToken } from 'axios';
+import axios, { CancelToken, CancelTokenSource } from 'axios';
 import { SearchStatus } from '../../../typings/enums';
 import { Person } from '../../../typings/apiTypes';
 
@@ -66,7 +66,8 @@ const fetchHits = async (
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const usePersonsSearchFacade = (
     plantId: string,
-    getPersonsByName: (query: string) => Promise<Person[]>
+    getPersonsByName: (query: string) => Promise<Person[]>,
+    source: CancelTokenSource
 ) => {
     const [{ hits, searchStatus }, dispatch] = useReducer(fetchReducer, {
         hits: { persons: [] },
@@ -79,13 +80,12 @@ const usePersonsSearchFacade = (
             dispatch({ type: 'FETCH_INACTIVE' });
             return;
         }
-        const { cancel, token } = axios.CancelToken.source();
         const timeOutId = setTimeout(
             () => fetchHits(query, dispatch, getPersonsByName),
             300
         );
         return (): void => {
-            cancel('A new search has taken place instead');
+            source.cancel('A new search has taken place instead');
             clearTimeout(timeOutId);
         };
     }, [query, plantId]);

@@ -1,9 +1,9 @@
-import { CancelToken } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Attachment as AttachmentType } from '../../typings/apiTypes';
 import Attachment, { DocumentAttachmentWrapper } from './Attachment';
-import Axios from 'axios';
+import axios from 'axios';
 import { Button } from '@equinor/eds-core-react';
 import EdsIcon from '../../components/icons/EdsIcon';
 import UploadAttachment from './UploadAttachment';
@@ -23,37 +23,40 @@ export const AttachmentsWrapper = styled.div`
 `;
 
 type AttachmentsProps = {
-    getAttachments: (cancelToken: CancelToken) => Promise<AttachmentType[]>;
+    getAttachments: (cancelToken?: CancelToken) => Promise<AttachmentType[]>;
     getAttachment: (
-        cancelToken: CancelToken,
-        attachmentId: number
+        attachmentId: number,
+        cancelToken?: CancelToken
     ) => Promise<Blob>;
     postAttachment?: (file: FormData, title: string) => Promise<void>;
     deleteAttachment?: (attachmentId: number) => Promise<void>;
     setSnackbarText: (message: string) => void;
     readOnly: boolean;
+    source: CancelTokenSource;
 };
 
 const Attachments = (props: AttachmentsProps): JSX.Element => {
     const [refreshAttachments, setRefreshAttachments] = useState(false);
     const [attachments, setAttachments] = useState<AttachmentType[]>([]);
     const [showUploadModal, setShowUploadModal] = useState(false);
-    const source = Axios.CancelToken.source();
 
     useEffect(() => {
         (async (): Promise<void> => {
             try {
                 const attachmentsFromApi = await props.getAttachments(
-                    source.token
+                    props.source.token
                 );
                 setAttachments(attachmentsFromApi);
+                console.log('set attachments');
             } catch (error) {
-                if (!Axios.isCancel(error)) {
+                console.log('error in getting attachments');
+                console.log(error);
+                if (!axios.isCancel(error)) {
                     props.setSnackbarText('Failed to load attachments.');
                 }
             }
         })();
-        return (): void => source.cancel();
+        return (): void => props.source.cancel();
     }, [refreshAttachments]);
 
     return (
@@ -63,12 +66,13 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                     key={attachment.id}
                     readOnly={props.readOnly}
                     getAttachment={(cancelToken: CancelToken): Promise<Blob> =>
-                        props.getAttachment(cancelToken, attachment.id)
+                        props.getAttachment(attachment.id, cancelToken)
                     }
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}
                     refreshAttachments={setRefreshAttachments}
                     deleteAttachment={props.deleteAttachment}
+                    source={props.source}
                 />
             ))}
             {props.readOnly ? null : (

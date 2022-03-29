@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CancelToken } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
 import { Attachment, PunchItem } from '../../typings/apiTypes';
@@ -24,6 +24,7 @@ const ButtonGroup = styled.div`
 `;
 
 type VerifyPunchProps = {
+    plantId: string;
     punchItem: PunchItem;
     canUnclear: boolean;
     canVerify: boolean;
@@ -32,13 +33,24 @@ type VerifyPunchProps = {
     handleReject: () => Promise<void>;
     handleVerify: () => Promise<void>;
     punchActionStatus: AsyncStatus;
-    getPunchAttachments: () => Promise<Attachment[]>;
-    getPunchAttachment: (attachmentId: number) => Promise<Blob>;
+    getPunchAttachments: (
+        plantId: string,
+        punchItemId: number,
+        cancelToken: CancelToken
+    ) => Promise<Attachment[]>;
+    getPunchAttachment: (
+        cancelToken: CancelToken,
+        plantId: string,
+        punchItemId: number,
+        attachmentId: number
+    ) => Promise<Blob>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    source: CancelTokenSource;
 };
 
 const VerifyPunch = ({
+    plantId,
     punchItem,
     canUnclear,
     canVerify,
@@ -51,6 +63,7 @@ const VerifyPunch = ({
     getPunchAttachment,
     snackbar,
     setSnackbarText,
+    source,
 }: VerifyPunchProps): JSX.Element => {
     const determineButtonsToRender = (): JSX.Element => {
         if (punchItem.verifiedByFirstName) {
@@ -165,14 +178,19 @@ const VerifyPunch = ({
 
             <Attachments
                 readOnly
-                getAttachments={(
-                    cancelToken: CancelToken
-                ): Promise<Attachment[]> => getPunchAttachments()}
-                getAttachment={(
-                    cancelToken: CancelToken,
-                    attachmentId: number
-                ): Promise<Blob> => getPunchAttachment(attachmentId)}
+                getAttachments={(): Promise<Attachment[]> =>
+                    getPunchAttachments(plantId, punchItem.id, source.token)
+                }
+                getAttachment={(attachmentId: number): Promise<Blob> =>
+                    getPunchAttachment(
+                        source.token,
+                        plantId,
+                        punchItem.id,
+                        attachmentId
+                    )
+                }
                 setSnackbarText={setSnackbarText}
+                source={source}
             />
             <ButtonGroup>{determineButtonsToRender()}</ButtonGroup>
             {snackbar}

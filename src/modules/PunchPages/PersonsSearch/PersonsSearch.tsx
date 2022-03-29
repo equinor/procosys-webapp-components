@@ -1,5 +1,5 @@
 import { Button } from '@equinor/eds-core-react';
-import { CancelToken } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 import React, { ChangeEvent, useEffect, useRef } from 'react';
 import { Search as SearchField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
@@ -49,6 +49,7 @@ type PersonsSearchProps = {
     setShowPersonSearch: React.Dispatch<React.SetStateAction<boolean>>;
     plantId: string;
     getPersonsByName: (query: string) => Promise<Person[]>;
+    source: CancelTokenSource;
 };
 
 const PersonsSearch = ({
@@ -56,13 +57,15 @@ const PersonsSearch = ({
     setShowPersonSearch,
     plantId,
     getPersonsByName,
+    source,
 }: PersonsSearchProps): JSX.Element => {
     const searchbarRef = useRef<HTMLInputElement>(
         document.createElement('input')
     );
     const { hits, searchStatus, query, setQuery } = usePersonsSearchFacade(
         plantId,
-        getPersonsByName
+        getPersonsByName,
+        source
     );
 
     useEffect(() => {

@@ -5,7 +5,7 @@ import {
     NativeSelect,
     TextField,
 } from '@equinor/eds-core-react';
-import { CancelToken } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 import useClearPunchFacade from './useClearPunchFacade';
 import ReloadButton from '../../components/buttons/ReloadButton';
 import ErrorPage from '../../components/error/ErrorPage';
@@ -81,6 +81,7 @@ type ClearPunchProps = {
     ) => Promise<void>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    source: CancelTokenSource;
 };
 
 const ClearPunch = ({
@@ -109,6 +110,7 @@ const ClearPunch = ({
     deletePunchAttachment,
     snackbar,
     setSnackbarText,
+    source,
 }: ClearPunchProps): JSX.Element => {
     const {
         clearPunchItem,
@@ -152,6 +154,7 @@ const ClearPunch = ({
                             setShowPersonSearch={setShowPersonsSearch}
                             plantId={plantId}
                             getPersonsByName={getPersonsByName}
+                            source={source}
                         />
                     ) : null}
                     <PunchFormWrapper onSubmit={clearPunchItem}>
@@ -426,21 +429,18 @@ const ClearPunch = ({
                         <h5>Attachments</h5>
                         <AttachmentsWrapper>
                             <Attachments
-                                getAttachments={(
-                                    cancelToken: CancelToken
-                                ): Promise<Attachment[]> =>
+                                getAttachments={(): Promise<Attachment[]> =>
                                     getPunchAttachments(
                                         plantId,
                                         punchItem.id,
-                                        cancelToken
+                                        source.token
                                     )
                                 }
                                 getAttachment={(
-                                    cancelToken: CancelToken,
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     getPunchAttachment(
-                                        cancelToken,
+                                        source.token,
                                         plantId,
                                         punchItem.id,
                                         attachmentId
@@ -468,6 +468,7 @@ const ClearPunch = ({
                                 }
                                 setSnackbarText={setSnackbarText}
                                 readOnly={canEdit === false}
+                                source={source}
                             />
                         </AttachmentsWrapper>
                         <FormButtonWrapper>

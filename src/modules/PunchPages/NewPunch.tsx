@@ -19,7 +19,7 @@ import {
     Label,
     Button,
 } from '@equinor/eds-core-react';
-import { CancelToken } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 import EdsIcon from '../../components/icons/EdsIcon';
 import PersonsSearch from './PersonsSearch/PersonsSearch';
 import { ChosenPerson, PunchFormData } from '../../typings/helperTypes';
@@ -67,6 +67,7 @@ interface NewPunchProps {
         formData: FormData,
         title: string
     ) => Promise<string>;
+    source: CancelTokenSource;
 }
 
 const NewPunch = ({
@@ -86,6 +87,7 @@ const NewPunch = ({
     fetchNewPunchStatus,
     setTempIds,
     postTempAttachment,
+    source,
 }: NewPunchProps): JSX.Element => {
     const { snackbar, setSnackbarText } = useSnackbar();
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
@@ -115,6 +117,7 @@ const NewPunch = ({
                             setShowPersonSearch={setShowPersonsSearch}
                             plantId={plantId}
                             getPersonsByName={getPersonsByName}
+                            source={source}
                         />
                     ) : null}
                     <PunchFormWrapper onSubmit={handleSubmit}>
