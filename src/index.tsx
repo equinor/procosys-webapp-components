@@ -5,6 +5,7 @@ import Attachments from './modules/Attachments/Attachments';
 import TagPhotoRecognition from './modules/TagOcr/TagPhotoRecognition';
 import NewPunch from './modules/PunchPages/NewPunch';
 import ClearPunch from './modules/PunchPages/ClearPunch';
+import VerifyPunch from './modules/PunchPages/VerifyPunch';
 
 //Components
 import AsyncCard from './components/AsyncCard';
@@ -53,6 +54,7 @@ import { removeHtmlFromText } from './utils/removeHtmlFromText';
 export {
     NewPunch,
     ClearPunch,
+    VerifyPunch,
     removeHtmlFromText,
     isArrayOfType,
     isOfType,

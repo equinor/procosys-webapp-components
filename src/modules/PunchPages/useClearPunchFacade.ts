@@ -13,14 +13,6 @@ import ensure from '../../utils/ensure';
 import useSnackbar from '../../utils/useSnackbar';
 import { PunchEndpoints, UpdatePunchData } from '../../typings/helperTypes';
 
-export enum PunchAction {
-    CLEAR = 'Clear',
-    UNCLEAR = 'Unclear',
-    REJECT = 'Reject',
-    VERIFY = 'Verify',
-    UNVERIFY = 'Unverify',
-}
-
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useClearPunchFacade = (
     setPunchItem: React.Dispatch<React.SetStateAction<PunchItem>>,

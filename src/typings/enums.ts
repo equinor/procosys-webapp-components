@@ -27,3 +27,11 @@ export enum SearchStatus {
     SUCCESS,
     ERROR,
 }
+
+export enum PunchAction {
+    CLEAR = 'Clear',
+    UNCLEAR = 'Unclear',
+    REJECT = 'Reject',
+    VERIFY = 'Verify',
+    UNVERIFY = 'Unverify',
+}
