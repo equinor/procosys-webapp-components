@@ -36,6 +36,7 @@ import {
     AsyncStatus,
     CompletionStatus,
     PunchAction,
+    SearchStatus,
 } from './typings/enums';
 import { Project, Plant, Attachment } from './typings/apiTypes';
 import {
@@ -43,6 +44,8 @@ import {
     PunchFormData,
     PunchEndpoints,
     UpdatePunchData,
+    SearchResult,
+    SearchState,
 } from './typings/helperTypes';
 
 //Utils
@@ -99,6 +102,7 @@ export {
     StorageKey,
     CompletionStatus,
     PunchAction,
+    SearchStatus,
 };
 
 export type {
@@ -109,4 +113,6 @@ export type {
     PunchFormData,
     PunchEndpoints,
     UpdatePunchData,
+    SearchResult,
+    SearchState,
 };
