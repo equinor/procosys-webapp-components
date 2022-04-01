@@ -1,3 +1,6 @@
+import { Person } from './apiTypes';
+import { SearchStatus } from './enums';
+
 export type ChosenPerson = {
     id: number | null;
     name: string;
@@ -39,3 +42,12 @@ export type UpdatePunchData =
     | { SortingId: number }
     | { PriorityId: number }
     | { Estimate: number | null };
+
+export type SearchResult = {
+    persons: Person[];
+};
+
+export type SearchState = {
+    searchStatus: SearchStatus;
+    hits: SearchResult;
+};

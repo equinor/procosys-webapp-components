@@ -3,7 +3,7 @@ import useSnackbar from '../../utils/useSnackbar';
 import AsyncPage from '../../components/AsyncPage';
 import styled from 'styled-components';
 import { COLORS } from '../../style/GlobalStyles';
-import { AsyncStatus } from '../../typings/enums';
+import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import TempAttachments from '../Attachments/TempAttachments';
 import {
     Person,
@@ -22,7 +22,11 @@ import {
 import { CancelToken, CancelTokenSource } from 'axios';
 import EdsIcon from '../../components/icons/EdsIcon';
 import PersonsSearch from './PersonsSearch/PersonsSearch';
-import { ChosenPerson, PunchFormData } from '../../typings/helperTypes';
+import {
+    ChosenPerson,
+    PunchFormData,
+    SearchResult,
+} from '../../typings/helperTypes';
 import {
     DateField,
     AttachmentsWrapper,
@@ -57,7 +61,6 @@ interface NewPunchProps {
     handleSubmit: (e: React.FormEvent) => Promise<void>;
     submitPunchStatus: AsyncStatus;
     plantId: string;
-    getPersonsByName: (query: string) => Promise<Person[]>;
     chosenPerson: ChosenPerson;
     setChosenPerson: React.Dispatch<React.SetStateAction<ChosenPerson>>;
     fetchNewPunchStatus: AsyncStatus;
@@ -67,7 +70,10 @@ interface NewPunchProps {
         formData: FormData,
         title: string
     ) => Promise<string>;
-    source: CancelTokenSource;
+    hits: SearchResult;
+    searchStatus: SearchStatus;
+    query: string;
+    setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const NewPunch = ({
@@ -81,13 +87,15 @@ const NewPunch = ({
     handleSubmit,
     submitPunchStatus,
     plantId,
-    getPersonsByName,
     chosenPerson,
     setChosenPerson,
     fetchNewPunchStatus,
     setTempIds,
     postTempAttachment,
-    source,
+    hits,
+    searchStatus,
+    query,
+    setQuery,
 }: NewPunchProps): JSX.Element => {
     const { snackbar, setSnackbarText } = useSnackbar();
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
@@ -115,9 +123,10 @@ const NewPunch = ({
                         <PersonsSearch
                             setChosenPerson={handlePersonChosen}
                             setShowPersonSearch={setShowPersonsSearch}
-                            plantId={plantId}
-                            getPersonsByName={getPersonsByName}
-                            source={source}
+                            hits={hits}
+                            searchStatus={searchStatus}
+                            query={query}
+                            setQuery={setQuery}
                         />
                     ) : null}
                     <PunchFormWrapper onSubmit={handleSubmit}>

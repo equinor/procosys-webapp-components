@@ -12,7 +12,7 @@ import ErrorPage from '../../components/error/ErrorPage';
 import EdsIcon from '../../components/icons/EdsIcon';
 import SkeletonLoadingPage from '../../components/loading/SkeletonLoader';
 import { COLORS } from '../../style/GlobalStyles';
-import { AsyncStatus } from '../../typings/enums';
+import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
 import Attachments from '../Attachments/Attachments';
 import PersonsSearch from './PersonsSearch/PersonsSearch';
@@ -32,7 +32,12 @@ import {
     PunchSort,
     PunchType,
 } from '../../typings/apiTypes';
-import { PunchEndpoints, UpdatePunchData } from '../../typings/helperTypes';
+import {
+    PunchEndpoints,
+    SearchResult,
+    SearchState,
+    UpdatePunchData,
+} from '../../typings/helperTypes';
 
 type ClearPunchProps = {
     plantId: string;
@@ -54,7 +59,6 @@ type ClearPunchProps = {
     setClearPunchStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>;
     clearPunch: () => Promise<void>;
     redirectAfterClearing: () => void;
-    getPersonsByName: (query: string) => Promise<Person[]>;
     fetchOptionsStatus: AsyncStatus;
     updatePunchStatus: AsyncStatus;
     getPunchAttachments: (
@@ -81,6 +85,10 @@ type ClearPunchProps = {
     ) => Promise<void>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+    hits: SearchResult;
+    searchStatus: SearchStatus;
+    query: string;
+    setQuery: React.Dispatch<React.SetStateAction<string>>;
     source: CancelTokenSource;
 };
 
@@ -101,7 +109,6 @@ const ClearPunch = ({
     setClearPunchStatus,
     clearPunch,
     redirectAfterClearing,
-    getPersonsByName,
     fetchOptionsStatus,
     updatePunchStatus,
     getPunchAttachments,
@@ -110,6 +117,10 @@ const ClearPunch = ({
     deletePunchAttachment,
     snackbar,
     setSnackbarText,
+    hits,
+    searchStatus,
+    query,
+    setQuery,
     source,
 }: ClearPunchProps): JSX.Element => {
     const {
@@ -152,9 +163,10 @@ const ClearPunch = ({
                         <PersonsSearch
                             setChosenPerson={handleActionByPersonChange}
                             setShowPersonSearch={setShowPersonsSearch}
-                            plantId={plantId}
-                            getPersonsByName={getPersonsByName}
-                            source={source}
+                            hits={hits}
+                            searchStatus={searchStatus}
+                            query={query}
+                            setQuery={setQuery}
                         />
                     ) : null}
                     <PunchFormWrapper onSubmit={clearPunchItem}>

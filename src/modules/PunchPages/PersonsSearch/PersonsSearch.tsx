@@ -6,8 +6,9 @@ import styled from 'styled-components';
 import SkeletonLoadingPage from '../../../components/loading/SkeletonLoader';
 import { COLORS } from '../../../style/GlobalStyles';
 import { Person } from '../../../typings/apiTypes';
-import { SearchStatus } from '../../../typings/enums';
+import { AsyncStatus, SearchStatus } from '../../../typings/enums';
 import usePersonsSearchFacade from './usePersonsSearchFacade';
+import { SearchResult } from '../../../typings/helperTypes';
 
 const PersonsSearchWrapper = styled.div`
     position: fixed;
@@ -47,25 +48,22 @@ const TallSearchField = styled(SearchField)`
 type PersonsSearchProps = {
     setChosenPerson: (id: number, firstName: string, lastName: string) => void;
     setShowPersonSearch: React.Dispatch<React.SetStateAction<boolean>>;
-    plantId: string;
-    getPersonsByName: (query: string) => Promise<Person[]>;
-    source: CancelTokenSource;
+    hits: SearchResult;
+    searchStatus: SearchStatus;
+    query: string;
+    setQuery: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const PersonsSearch = ({
     setChosenPerson,
     setShowPersonSearch,
-    plantId,
-    getPersonsByName,
-    source,
+    hits,
+    searchStatus,
+    query,
+    setQuery,
 }: PersonsSearchProps): JSX.Element => {
     const searchbarRef = useRef<HTMLInputElement>(
         document.createElement('input')
-    );
-    const { hits, searchStatus, query, setQuery } = usePersonsSearchFacade(
-        plantId,
-        getPersonsByName,
-        source
     );
 
     useEffect(() => {
