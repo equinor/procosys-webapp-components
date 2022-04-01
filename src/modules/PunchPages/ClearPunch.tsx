@@ -24,7 +24,6 @@ import {
 } from './shared.style';
 import {
     Attachment,
-    Person,
     PunchCategory,
     PunchItem,
     PunchOrganization,
@@ -35,7 +34,6 @@ import {
 import {
     PunchEndpoints,
     SearchResult,
-    SearchState,
     UpdatePunchData,
 } from '../../typings/helperTypes';
 

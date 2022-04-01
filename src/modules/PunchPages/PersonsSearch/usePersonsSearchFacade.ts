@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import axios, { CancelToken, CancelTokenSource } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 import { SearchStatus } from '../../../typings/enums';
 import { Person } from '../../../typings/apiTypes';
 import { SearchResult, SearchState } from '../../../typings/helperTypes';
@@ -50,19 +50,13 @@ const fetchHits = async (
     cancelToken: CancelToken
 ): Promise<void> => {
     dispatch({ type: 'FETCH_START' });
-    console.log(query);
     try {
-        console.log('try');
         const persons = await getPersonsByName(plantId, query, cancelToken);
         dispatch({
             type: 'FETCH_SUCCESS',
             payload: { persons },
         });
     } catch (err) {
-        console.log('error in fetch hits');
-        console.log(err);
-        console.log(query);
-        console.log('caused error');
         dispatch({ type: 'FETCH_ERROR', error: 'err' });
     }
 };
@@ -84,7 +78,6 @@ const usePersonsSearchFacade = (
     const [query, setQuery] = useState('');
 
     useEffect(() => {
-        console.log(query);
         if (query.length < 2) {
             dispatch({ type: 'FETCH_INACTIVE' });
             return;
@@ -101,7 +94,6 @@ const usePersonsSearchFacade = (
             300
         );
         return (): void => {
-            // source.cancel('A new search has taken place instead');
             clearTimeout(timeOutId);
         };
     }, [query, plantId]);

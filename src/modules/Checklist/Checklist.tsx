@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
     Attachment,
     CheckItem,
@@ -9,7 +9,7 @@ import {
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
-import axios, { CancelToken } from 'axios';
+import axios from 'axios';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../../services/procosysApi';
 import baseApi, { ProcosysApiSettings } from '../../services/baseApi';

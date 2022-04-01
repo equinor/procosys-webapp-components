@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CancelToken, CancelTokenSource } from 'axios';
 import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
 import { Attachment, PunchItem } from '../../typings/apiTypes';
-import { AsyncStatus, PunchAction } from '../../typings/enums';
+import { AsyncStatus } from '../../typings/enums';
 import Attachments from '../Attachments/Attachments';
 
 const VerifyPunchWrapper = styled.div`

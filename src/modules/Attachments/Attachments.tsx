@@ -1,9 +1,8 @@
-import { CancelToken, CancelTokenSource } from 'axios';
+import axios, { CancelToken, CancelTokenSource } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Attachment as AttachmentType } from '../../typings/apiTypes';
 import Attachment, { DocumentAttachmentWrapper } from './Attachment';
-import axios from 'axios';
 import { Button } from '@equinor/eds-core-react';
 import EdsIcon from '../../components/icons/EdsIcon';
 import UploadAttachment from './UploadAttachment';
@@ -47,10 +46,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                     props.source.token
                 );
                 setAttachments(attachmentsFromApi);
-                console.log('set attachments');
             } catch (error) {
-                console.log('error in getting attachments');
-                console.log(error);
                 if (!axios.isCancel(error)) {
                     props.setSnackbarText('Failed to load attachments.');
                 }

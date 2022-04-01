@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
+import React, { useState } from 'react';
 import {
     PunchCategory,
     PunchType,
@@ -10,7 +9,6 @@ import {
 } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
-import useSnackbar from '../../utils/useSnackbar';
 import { PunchEndpoints, UpdatePunchData } from '../../typings/helperTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

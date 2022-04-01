@@ -1,13 +1,10 @@
 import { Button } from '@equinor/eds-core-react';
-import { CancelToken, CancelTokenSource } from 'axios';
 import React, { ChangeEvent, useEffect, useRef } from 'react';
 import { Search as SearchField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import SkeletonLoadingPage from '../../../components/loading/SkeletonLoader';
 import { COLORS } from '../../../style/GlobalStyles';
-import { Person } from '../../../typings/apiTypes';
-import { AsyncStatus, SearchStatus } from '../../../typings/enums';
-import usePersonsSearchFacade from './usePersonsSearchFacade';
+import { SearchStatus } from '../../../typings/enums';
 import { SearchResult } from '../../../typings/helperTypes';
 
 const PersonsSearchWrapper = styled.div`

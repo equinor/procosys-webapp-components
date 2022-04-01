@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import useSnackbar from '../../utils/useSnackbar';
 import AsyncPage from '../../components/AsyncPage';
-import styled from 'styled-components';
 import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import TempAttachments from '../Attachments/TempAttachments';
 import {
-    Person,
     PunchCategory,
     PunchOrganization,
     PunchPriority,
@@ -19,7 +17,6 @@ import {
     Label,
     Button,
 } from '@equinor/eds-core-react';
-import { CancelToken, CancelTokenSource } from 'axios';
 import EdsIcon from '../../components/icons/EdsIcon';
 import PersonsSearch from './PersonsSearch/PersonsSearch';
 import {
