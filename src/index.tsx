@@ -31,7 +31,12 @@ import PageHeader from './components/PageHeader';
 import TagInfo from './components/TagInfo/TagInfo';
 
 //types
-import { StorageKey, AsyncStatus, CompletionStatus } from './typings/enums';
+import {
+    StorageKey,
+    AsyncStatus,
+    CompletionStatus,
+    PunchAction,
+} from './typings/enums';
 import { Project, Plant, Attachment } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -93,6 +98,7 @@ export {
     AsyncStatus,
     StorageKey,
     CompletionStatus,
+    PunchAction,
 };
 
 export type {
