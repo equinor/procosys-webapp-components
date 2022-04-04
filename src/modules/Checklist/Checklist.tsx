@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
     Attachment,
     CheckItem,
@@ -9,7 +9,7 @@ import {
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
-import axios, { CancelToken } from 'axios';
+import axios from 'axios';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../../services/procosysApi';
 import baseApi, { ProcosysApiSettings } from '../../services/baseApi';
@@ -177,17 +177,14 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         <AttachmentsHeader>Attachments</AttachmentsHeader>
                         <AttachmentsWrapper>
                             <Attachments
-                                getAttachments={(
-                                    cancelToken: CancelToken
-                                ): Promise<Attachment[]> =>
-                                    api.getChecklistAttachments(cancelToken)
+                                getAttachments={(): Promise<Attachment[]> =>
+                                    api.getChecklistAttachments(source.token)
                                 }
                                 getAttachment={(
-                                    cancelToken: CancelToken,
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
-                                        cancelToken,
+                                        source.token,
                                         attachmentId
                                     )
                                 }
@@ -204,6 +201,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                 }
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={isSigned}
+                                source={source}
                             />
                         </AttachmentsWrapper>
                     </>

@@ -20,3 +20,30 @@ export enum CompletionStatus {
     PB = 'PB',
     OK = 'OK',
 }
+
+export enum SearchStatus {
+    INACTIVE,
+    LOADING,
+    SUCCESS,
+    ERROR,
+}
+
+export enum PunchAction {
+    CLEAR = 'Clear',
+    UNCLEAR = 'Unclear',
+    REJECT = 'Reject',
+    VERIFY = 'Verify',
+    UNVERIFY = 'Unverify',
+}
+export enum PunchFields {
+    CATEGORY = 'category',
+    DESCRIPTION = 'description',
+    RAISED_BY = 'raisedBy',
+    CLEARING_BY = 'clearingBy',
+    PERSON = 'actionByPerson',
+    DUE_DATE = 'dueDate',
+    TYPE = 'type',
+    SORTING = 'sorting',
+    PRIORITY = 'priority',
+    ESTIMATE = 'estimate',
+}

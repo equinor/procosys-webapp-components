@@ -4,7 +4,7 @@ import {
     Scrim,
     Typography,
 } from '@equinor/eds-core-react';
-import Axios, { CancelToken } from 'axios';
+import Axios, { CancelToken, CancelTokenSource } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ActionsPanel from './ActionsPanel';
@@ -55,6 +55,7 @@ type AttachmentProps = {
     deleteAttachment?: (attachmentId: number) => Promise<void>;
     getAttachment: (cancelToken: CancelToken) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
+    source: CancelTokenSource;
 };
 
 const Attachment = ({
@@ -64,13 +65,13 @@ const Attachment = ({
     refreshAttachments,
     setSnackbarText,
     readOnly,
+    source,
 }: AttachmentProps): JSX.Element => {
     const [showFullScreenImage, setShowFullScreenImage] = useState(false);
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
     const [loadingStatus, setLoadingStatus] = useState(AsyncStatus.INACTIVE);
     const [deleteStatus, setDeleteStatus] = useState(AsyncStatus.INACTIVE);
     const isDocument = attachment.mimeType.substr(0, 5) !== 'image';
-    const source = Axios.CancelToken.source();
 
     useEffect(() => {
         return (): void => {

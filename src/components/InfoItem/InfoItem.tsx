@@ -13,7 +13,7 @@ const InfoItemWrapper = styled.div<{
 }>`
     background-color: ${(props): string =>
         props.isDetailsCard ? COLORS.fadedBlue : COLORS.white};
-    cursor: ${(props): string => (props.isDetailsCard ? 'none' : 'pointer')};
+    cursor: ${(props): string => (props.isDetailsCard ? 'default' : 'pointer')};
     width: 100%;
     padding: 12px 4% 12px 4%;
     box-sizing: border-box;

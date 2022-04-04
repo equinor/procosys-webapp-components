@@ -3,6 +3,9 @@ import Checklist from './modules/Checklist/Checklist';
 import TempAttachments from './modules/Attachments/TempAttachments';
 import Attachments from './modules/Attachments/Attachments';
 import TagPhotoRecognition from './modules/TagOcr/TagPhotoRecognition';
+import NewPunch from './modules/PunchPages/NewPunch';
+import ClearPunch from './modules/PunchPages/ClearPunch';
+import VerifyPunch from './modules/PunchPages/VerifyPunch';
 
 //Components
 import AsyncCard from './components/AsyncCard';
@@ -28,8 +31,22 @@ import PageHeader from './components/PageHeader';
 import TagInfo from './components/TagInfo/TagInfo';
 
 //types
-import { StorageKey, AsyncStatus, CompletionStatus } from './typings/enums';
+import {
+    StorageKey,
+    AsyncStatus,
+    CompletionStatus,
+    PunchAction,
+    SearchStatus,
+} from './typings/enums';
 import { Project, Plant, Attachment } from './typings/apiTypes';
+import {
+    ChosenPerson,
+    PunchFormData,
+    PunchEndpoints,
+    UpdatePunchData,
+    SearchResult,
+    SearchState,
+} from './typings/helperTypes';
 
 //Utils
 import ensure from './utils/ensure';
@@ -43,6 +60,9 @@ import { isOfType, isArrayOfType } from './utils/typeguard';
 import { removeHtmlFromText } from './utils/removeHtmlFromText';
 
 export {
+    NewPunch,
+    ClearPunch,
+    VerifyPunch,
     removeHtmlFromText,
     isArrayOfType,
     isOfType,
@@ -81,6 +101,18 @@ export {
     AsyncStatus,
     StorageKey,
     CompletionStatus,
+    PunchAction,
+    SearchStatus,
 };
 
-export type { Project, Plant, Attachment };
+export type {
+    Project,
+    Plant,
+    Attachment,
+    ChosenPerson,
+    PunchFormData,
+    PunchEndpoints,
+    UpdatePunchData,
+    SearchResult,
+    SearchState,
+};
