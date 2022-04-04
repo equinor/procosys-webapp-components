@@ -84,23 +84,21 @@ const PersonsSearch = ({
         if (searchStatus === SearchStatus.SUCCESS && hits.persons.length > 0) {
             return (
                 <div>
-                    {hits.persons.map((person) => {
-                        return (
-                            <NameWrapper
-                                key={person.id}
-                                role="button"
-                                onClick={(): void =>
-                                    setChosenPerson(
-                                        person.id,
-                                        person.firstName,
-                                        person.lastName
-                                    )
-                                }
-                            >
-                                {person.firstName} {person.lastName}
-                            </NameWrapper>
-                        );
-                    })}
+                    {hits.persons.map((person) => (
+                        <NameWrapper
+                            key={person.id}
+                            role="button"
+                            onClick={(): void =>
+                                setChosenPerson(
+                                    person.id,
+                                    person.firstName,
+                                    person.lastName
+                                )
+                            }
+                        >
+                            {person.firstName} {person.lastName}
+                        </NameWrapper>
+                    ))}
                 </div>
             );
         }
