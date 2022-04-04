@@ -162,8 +162,8 @@ const VerifyPunch = ({
             {punchItem.verifiedAt ? (
                 <p>
                     Verified at{' '}
-                    {new Date(punchItem.verifiedAt).toLocaleDateString()} by{' '}
-                    {punchItem.verifiedByFirstName}{' '}
+                    {new Date(punchItem.verifiedAt).toLocaleDateString('en-GB')}{' '}
+                    by {punchItem.verifiedByFirstName}{' '}
                     {punchItem.verifiedByLastName} ({punchItem.verifiedByUser})
                 </p>
             ) : null}
