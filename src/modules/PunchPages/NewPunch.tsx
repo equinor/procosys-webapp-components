@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useSnackbar from '../../utils/useSnackbar';
 import AsyncPage from '../../components/AsyncPage';
 import { COLORS } from '../../style/GlobalStyles';
-import { AsyncStatus, SearchStatus } from '../../typings/enums';
+import { AsyncStatus, PunchFields, SearchStatus } from '../../typings/enums';
 import TempAttachments from '../Attachments/TempAttachments';
 import {
     PunchCategory,
@@ -34,17 +34,7 @@ import {
 interface NewPunchProps {
     formFields: PunchFormData;
     createChangeHandler: (
-        key:
-            | 'category'
-            | 'description'
-            | 'raisedBy'
-            | 'clearingBy'
-            | 'actionByPerson'
-            | 'dueDate'
-            | 'type'
-            | 'sorting'
-            | 'priority'
-            | 'estimate'
+        key: PunchFields
     ) => (
         e: React.ChangeEvent<
             HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement
@@ -132,7 +122,7 @@ const NewPunch = ({
                             id="PunchCategorySelect"
                             label="Punch category *"
                             disabled={submitPunchStatus === AsyncStatus.LOADING}
-                            onChange={createChangeHandler('category')}
+                            onChange={createChangeHandler(PunchFields.CATEGORY)}
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
@@ -147,7 +137,9 @@ const NewPunch = ({
                             required
                             maxLength={255}
                             value={formFields.description}
-                            onChange={createChangeHandler('description')}
+                            onChange={createChangeHandler(
+                                PunchFields.DESCRIPTION
+                            )}
                             label="Description *"
                             multiline
                             rows={5}
@@ -159,7 +151,9 @@ const NewPunch = ({
                             label="Raised by *"
                             id="RaisedBySelect"
                             disabled={submitPunchStatus === AsyncStatus.LOADING}
-                            onChange={createChangeHandler('raisedBy')}
+                            onChange={createChangeHandler(
+                                PunchFields.RAISED_BY
+                            )}
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
@@ -177,7 +171,9 @@ const NewPunch = ({
                             id="ClearingBySelect"
                             label="Clearing by *"
                             disabled={submitPunchStatus === AsyncStatus.LOADING}
-                            onChange={createChangeHandler('clearingBy')}
+                            onChange={createChangeHandler(
+                                PunchFields.CLEARING_BY
+                            )}
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
@@ -220,7 +216,9 @@ const NewPunch = ({
                                 type="date"
                                 id="dueDate"
                                 role="datepicker"
-                                onChange={createChangeHandler('dueDate')}
+                                onChange={createChangeHandler(
+                                    PunchFields.DUE_DATE
+                                )}
                             />
                         </DateField>
                         <NativeSelect
@@ -230,7 +228,7 @@ const NewPunch = ({
                                 submitPunchStatus === AsyncStatus.LOADING ||
                                 types.length < 1
                             }
-                            onChange={createChangeHandler('type')}
+                            onChange={createChangeHandler(PunchFields.TYPE)}
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
@@ -248,7 +246,7 @@ const NewPunch = ({
                                 submitPunchStatus === AsyncStatus.LOADING ||
                                 sortings.length < 1
                             }
-                            onChange={createChangeHandler('sorting')}
+                            onChange={createChangeHandler(PunchFields.SORTING)}
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
@@ -266,7 +264,7 @@ const NewPunch = ({
                                 submitPunchStatus === AsyncStatus.LOADING ||
                                 priorities.length < 1
                             }
-                            onChange={createChangeHandler('priority')}
+                            onChange={createChangeHandler(PunchFields.PRIORITY)}
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
@@ -282,7 +280,7 @@ const NewPunch = ({
                             label="Estimate"
                             id="estimate"
                             value={formFields.estimate}
-                            onChange={createChangeHandler('estimate')}
+                            onChange={createChangeHandler(PunchFields.ESTIMATE)}
                             disabled={submitPunchStatus === AsyncStatus.LOADING}
                         />
                         <h5>Attachments</h5>

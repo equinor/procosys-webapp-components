@@ -35,3 +35,15 @@ export enum PunchAction {
     VERIFY = 'Verify',
     UNVERIFY = 'Unverify',
 }
+export enum PunchFields {
+    CATEGORY = 'category',
+    DESCRIPTION = 'description',
+    RAISED_BY = 'raisedBy',
+    CLEARING_BY = 'clearingBy',
+    PERSON = 'actionByPerson',
+    DUE_DATE = 'dueDate',
+    TYPE = 'type',
+    SORTING = 'sorting',
+    PRIORITY = 'priority',
+    ESTIMATE = 'estimate',
+}
