@@ -15,7 +15,7 @@ import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
 import Attachments from '../Attachments/Attachments';
-import PersonsSearch from './PersonsSearch/PersonsSearch';
+import PersonsSearch from './PersonsSearch';
 import {
     PunchFormWrapper,
     DateField,

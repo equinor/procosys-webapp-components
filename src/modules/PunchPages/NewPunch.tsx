@@ -18,7 +18,7 @@ import {
     Button,
 } from '@equinor/eds-core-react';
 import EdsIcon from '../../components/icons/EdsIcon';
-import PersonsSearch from './PersonsSearch/PersonsSearch';
+import PersonsSearch from './PersonsSearch';
 import {
     ChosenPerson,
     PunchFormData,

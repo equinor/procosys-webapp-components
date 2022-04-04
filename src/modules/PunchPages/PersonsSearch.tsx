@@ -2,10 +2,10 @@ import { Button } from '@equinor/eds-core-react';
 import React, { ChangeEvent, useEffect, useRef } from 'react';
 import { Search as SearchField } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import SkeletonLoadingPage from '../../../components/loading/SkeletonLoader';
-import { COLORS } from '../../../style/GlobalStyles';
-import { SearchStatus } from '../../../typings/enums';
-import { SearchResult } from '../../../typings/helperTypes';
+import SkeletonLoadingPage from '../../components/loading/SkeletonLoader';
+import { COLORS } from '../../style/GlobalStyles';
+import { SearchStatus } from '../../typings/enums';
+import { SearchResult } from '../../typings/helperTypes';
 
 const PersonsSearchWrapper = styled.div`
     position: fixed;
