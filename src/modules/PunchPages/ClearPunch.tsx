@@ -153,10 +153,10 @@ const ClearPunch = ({
     let descriptionBeforeEntering = '';
     let estimateBeforeEntering: number | null = 0;
 
-    const content = (): JSX.Element => {
-        if (fetchOptionsStatus === AsyncStatus.SUCCESS) {
-            return (
-                <>
+    if (fetchOptionsStatus === AsyncStatus.SUCCESS) {
+        return (
+            <>
+                <main>
                     {showPersonsSearch ? (
                         <PersonsSearch
                             setChosenPerson={handleActionByPersonChange}
@@ -494,27 +494,31 @@ const ClearPunch = ({
                             </Button>
                         </FormButtonWrapper>
                     </PunchFormWrapper>
-                </>
-            );
-        } else if (fetchOptionsStatus === AsyncStatus.ERROR) {
-            return (
-                <ErrorPage
-                    title="Unable to load punch item."
-                    description="Please check your connection, reload this page or try again later."
-                    actions={[<ReloadButton key={'reload'} />]}
-                />
-            );
-        } else {
-            return <SkeletonLoadingPage text="Loading punch item" />;
-        }
-    };
-
-    return (
-        <>
-            <main>{content()}</main>
-            {snackbar}
-        </>
-    );
+                </main>
+                {snackbar}
+            </>
+        );
+    } else if (fetchOptionsStatus === AsyncStatus.ERROR) {
+        return (
+            <>
+                <main>
+                    <ErrorPage
+                        title="Unable to load punch item."
+                        description="Please check your connection, reload this page or try again later."
+                        actions={[<ReloadButton key={'reload'} />]}
+                    />
+                </main>
+                {snackbar}
+            </>
+        );
+    } else {
+        return (
+            <>
+                <SkeletonLoadingPage text="Loading punch item" />
+                {snackbar}
+            </>
+        );
+    }
 };
 
 export default ClearPunch;
