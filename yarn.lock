@@ -95,6 +95,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.17.8":
+  version "7.17.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.9.tgz#d19fbf802d01a8cb6cf053a64e472d42c434ba72"
+  integrity sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.15.4":
   version "7.15.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.15.4.tgz#51898d35dcf3faa670c4ee6afcfd517ee139f194"
@@ -149,19 +156,26 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@equinor/eds-core-react@^0.14.1":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@equinor/eds-core-react/-/eds-core-react-0.14.2.tgz#b2469550cc98b1082ba034b1c3724229c46622ed"
-  integrity sha512-upp46xX601fhhqnWkq4TB4IKbK0QRmEjRUqPnDkHISPgId+e0TXixCB4OwdO3IxJHBdTwD1MW8Z66H5EpqyxZw==
+"@equinor/eds-core-react@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@equinor/eds-core-react/-/eds-core-react-0.19.0.tgz#220b356a3c73eed8f094c842b7fd37d67ced0067"
+  integrity sha512-dyJ8EoCQQzGCQcLLsp5HQsS8bdvn5uPfVgi1fcwyjS0E2YFOiLoNJ/yn2VIwrcD3cTKS1fbLGnAu+0XMBH3aOg==
   dependencies:
-    "@equinor/eds-icons" "0.7.0"
+    "@babel/runtime" "^7.17.8"
+    "@equinor/eds-icons" "0.10.0"
     "@equinor/eds-tokens" "0.7.0"
+    "@equinor/eds-utils" "0.2.1"
     "@popperjs/core" "2.9.2"
     downshift "^6.1.7"
     react-fast-compare "3.2.0"
     react-popper "2.2.5"
 
-"@equinor/eds-icons@0.7.0", "@equinor/eds-icons@^0.7.0":
+"@equinor/eds-icons@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@equinor/eds-icons/-/eds-icons-0.10.0.tgz#3e3227d07b26bba4732feab34af2f4c5f2858032"
+  integrity sha512-oYnbMtBLiwp30TzN8Q/MEJdqhyAQs87oD/x/mHFQ+BpFGlbbrcsWeTOD+rNY6JhxtJl5qfi9mAhJQgRMtauXsA==
+
+"@equinor/eds-icons@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@equinor/eds-icons/-/eds-icons-0.7.0.tgz#1141eaa7c664adb0a288fc5dcb2f170353ffcb4b"
   integrity sha512-DjbZjsKKxvsXoZV+hRO/Gg5tXH9tbq/ekrymL8YJR9tE73Wt8TbsDnjLZPWocs/Oj61xJUcY+yCoDmidSJVZ6w==
@@ -170,6 +184,16 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@equinor/eds-tokens/-/eds-tokens-0.7.0.tgz#e6fe587e414c7470183b8778bf826aaf909766ba"
   integrity sha512-QdlX1Ndz6CmgdLMVHAZi+4GBEfU5OOnNGtXX1m7aTQbzWDTdxB6e7c5XxT/UnJHue1i5vT3RKMBDAhE2YjiXYA==
+
+"@equinor/eds-utils@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@equinor/eds-utils/-/eds-utils-0.2.1.tgz#6e84cc1153e60e264456156e98e8ef89488ce657"
+  integrity sha512-Stlk+Q2w6jbEwJwKayee/SKrC5LbUEDs3r4fkEnxem0ZM3edusqEGeE+ilVZtviV6eYwDSjjBvkoroNOH37Z9Q==
+  dependencies:
+    "@babel/runtime" "^7.17.8"
+    "@equinor/eds-tokens" "0.7.0"
+    "@popperjs/core" "2.9.2"
+    react-popper "2.2.5"
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
