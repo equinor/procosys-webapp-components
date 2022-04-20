@@ -34,7 +34,7 @@
   "dependencies": {},
   "devDependencies": {
     "@equinor/eds-core-react": "^0.14.1",
-    "@equinor/eds-icons": "^0.7.0",
+    "@equinor/eds-icons": "^0.10.0",
     "@rollup/plugin-image": "^2.0.6",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
