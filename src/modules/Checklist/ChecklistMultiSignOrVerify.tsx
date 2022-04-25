@@ -129,7 +129,11 @@ const ChecklistMultiSignOrVerify = ({
     };
 
     return (
-        <Scrim isDismissable onClose={closeMultiSignOrVerifyAndRefresh}>
+        <Scrim
+            isDismissable
+            onClose={closeMultiSignOrVerifyAndRefresh}
+            open={true}
+        >
             <MultiSignVerifyContainer>
                 <p>
                     MCCR {isMultiVerify ? 'verified' : 'signed'} for tag: <br />

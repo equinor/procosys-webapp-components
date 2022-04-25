@@ -116,7 +116,11 @@ const UploadAttachment = ({
     };
 
     return (
-        <Scrim isDismissable onClose={(): void => setShowModal(false)}>
+        <Scrim
+            isDismissable
+            onClose={(): void => setShowModal(false)}
+            open={true}
+        >
             <UploadContainer>
                 {selectedFile ? (
                     isDocument ? (
