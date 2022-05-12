@@ -247,6 +247,7 @@ const CustomCheckItems = ({
                 <Scrim
                     isDismissable
                     onClose={(): void => setItemToBeDeleted(0)}
+                    open={true}
                 >
                     <DeletionPopup>
                         <p>Really delete this item?</p>

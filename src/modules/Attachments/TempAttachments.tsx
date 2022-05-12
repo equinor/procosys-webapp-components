@@ -1,4 +1,4 @@
-import { Button, Menu, Scrim, Typography } from '@equinor/eds-core-react';
+import { Button, Scrim } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
 import EdsIcon from '../../components/icons/EdsIcon';
 import { ModalActionPanel } from './ActionsPanel';
@@ -52,6 +52,7 @@ const TempAttachments = ({
                 <Scrim
                     isDismissable
                     onClose={(): void => setAttachmentToShow(null)}
+                    open={true}
                 >
                     <ImageModal pushImageUp={false}>
                         <img
