@@ -108,13 +108,13 @@ export interface MetaTable {
 export interface CheckItem {
     id: number;
     sequenceNumber: string;
-    text: string;
-    detailText: string;
+    text: string | null;
+    detailText: string | null;
     isHeading: boolean;
     hasImage: boolean;
     imageFileId: number;
     hasMetaTable: boolean;
-    metaTable: MetaTable;
+    metaTable: MetaTable | null;
     isOk: boolean;
     isNotApplicable: boolean;
 }
