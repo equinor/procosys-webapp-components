@@ -24,7 +24,7 @@ const GreyText = styled.p`
 `;
 
 type CheckHeaderProps = {
-    text: string;
+    text: string | null;
     addLabels?: boolean;
 };
 
