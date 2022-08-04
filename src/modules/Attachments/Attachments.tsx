@@ -1,4 +1,3 @@
-import axios, { CancelToken, CancelTokenSource } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Attachment as AttachmentType } from '../../typings/apiTypes';
@@ -22,16 +21,16 @@ export const AttachmentsWrapper = styled.div`
 `;
 
 type AttachmentsProps = {
-    getAttachments: (cancelToken?: CancelToken) => Promise<AttachmentType[]>;
+    getAttachments: (abortSignal?: AbortSignal) => Promise<AttachmentType[]>;
     getAttachment: (
         attachmentId: number,
-        cancelToken?: CancelToken
+        abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postAttachment?: (file: FormData, title: string) => Promise<void>;
     deleteAttachment?: (attachmentId: number) => Promise<void>;
     setSnackbarText: (message: string) => void;
     readOnly: boolean;
-    source: CancelTokenSource;
+    abortController: AbortController;
 };
 
 const Attachments = (props: AttachmentsProps): JSX.Element => {
@@ -43,16 +42,16 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
         (async (): Promise<void> => {
             try {
                 const attachmentsFromApi = await props.getAttachments(
-                    props.source.token
+                    props.abortController.signal
                 );
                 setAttachments(attachmentsFromApi);
             } catch (error) {
-                if (!axios.isCancel(error)) {
+                if (!props.abortController.signal.aborted) {
                     props.setSnackbarText('Failed to load attachments.');
                 }
             }
         })();
-        return (): void => props.source.cancel();
+        return (): void => props.abortController.abort();
     }, [refreshAttachments]);
 
     return (
@@ -61,14 +60,14 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 <Attachment
                     key={attachment.id}
                     readOnly={props.readOnly}
-                    getAttachment={(cancelToken: CancelToken): Promise<Blob> =>
-                        props.getAttachment(attachment.id, cancelToken)
+                    getAttachment={(abortSignal: AbortSignal): Promise<Blob> =>
+                        props.getAttachment(attachment.id, abortSignal)
                     }
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}
                     refreshAttachments={setRefreshAttachments}
                     deleteAttachment={props.deleteAttachment}
-                    source={props.source}
+                    abortController={props.abortController}
                 />
             ))}
             {props.readOnly ? null : (

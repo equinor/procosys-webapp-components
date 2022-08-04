@@ -4,7 +4,6 @@ import {
     Scrim,
     Typography,
 } from '@equinor/eds-core-react';
-import Axios, { CancelToken, CancelTokenSource } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ActionsPanel from './ActionsPanel';
@@ -53,9 +52,9 @@ type AttachmentProps = {
     refreshAttachments?: React.Dispatch<React.SetStateAction<boolean>>;
     readOnly: boolean;
     deleteAttachment?: (attachmentId: number) => Promise<void>;
-    getAttachment: (cancelToken: CancelToken) => Promise<Blob>;
+    getAttachment: (abortSignal: AbortSignal) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
-    source: CancelTokenSource;
+    abortController: AbortController;
 };
 
 const Attachment = ({
@@ -65,7 +64,7 @@ const Attachment = ({
     refreshAttachments,
     setSnackbarText,
     readOnly,
-    source,
+    abortController,
 }: AttachmentProps): JSX.Element => {
     const [showFullScreenImage, setShowFullScreenImage] = useState(false);
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
@@ -75,14 +74,14 @@ const Attachment = ({
 
     useEffect(() => {
         return (): void => {
-            source.cancel();
+            abortController.abort();
         };
     }, []);
 
     const loadAttachment = async (): Promise<void> => {
         setLoadingStatus(AsyncStatus.LOADING);
         try {
-            const blob = await getAttachment(source.token);
+            const blob = await getAttachment(abortController.signal);
             let imageUrl = '';
             try {
                 imageUrl = window.URL.createObjectURL(blob);
@@ -93,7 +92,7 @@ const Attachment = ({
             setShowFullScreenImage(true);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            if (!Axios.isCancel(error)) {
+            if (!abortController.signal.aborted) {
                 setSnackbarText('Unable to load attachment.');
                 setLoadingStatus(AsyncStatus.ERROR);
             }
@@ -111,7 +110,7 @@ const Attachment = ({
             setShowFullScreenImage(false);
         } catch (error) {
             if (!(error instanceof Error)) return;
-            if (!Axios.isCancel(error)) {
+            if (!abortController.signal.aborted) {
                 setDeleteStatus(AsyncStatus.ERROR);
                 setSnackbarText(error.toString());
             }

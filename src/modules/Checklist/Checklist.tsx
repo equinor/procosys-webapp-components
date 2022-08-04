@@ -93,6 +93,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const source = axios.CancelToken.source();
+    const abortController = new AbortController();
+    const abortSignal = abortController.signal;
 
     useEffect(() => {
         setAllItemsCheckedOrNA(
@@ -201,7 +203,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                 }
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={isSigned}
-                                source={source}
+                                abortController={abortController}
                             />
                         </AttachmentsWrapper>
                     </>
