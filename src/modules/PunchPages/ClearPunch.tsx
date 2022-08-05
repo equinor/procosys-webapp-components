@@ -5,7 +5,6 @@ import {
     NativeSelect,
     TextField,
 } from '@equinor/eds-core-react';
-import { CancelToken, CancelTokenSource } from 'axios';
 import useClearPunchFacade from './useClearPunchFacade';
 import ReloadButton from '../../components/buttons/ReloadButton';
 import ErrorPage from '../../components/error/ErrorPage';
@@ -62,10 +61,10 @@ type ClearPunchProps = {
     getPunchAttachments: (
         plantId: string,
         punchItemId: number,
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
-        cancelToken: CancelToken,
+        abortSignal: AbortSignal,
         plantId: string,
         punchItemId: number,
         attachmentId: number
@@ -87,7 +86,7 @@ type ClearPunchProps = {
     searchStatus: SearchStatus;
     query: string;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
-    source: CancelTokenSource;
+    abortController: AbortController;
 };
 
 const ClearPunch = ({
@@ -119,7 +118,7 @@ const ClearPunch = ({
     searchStatus,
     query,
     setQuery,
-    source,
+    abortController,
 }: ClearPunchProps): JSX.Element => {
     const {
         clearPunchItem,
@@ -443,14 +442,14 @@ const ClearPunch = ({
                                     getPunchAttachments(
                                         plantId,
                                         punchItem.id,
-                                        source.token
+                                        abortController.signal
                                     )
                                 }
                                 getAttachment={(
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     getPunchAttachment(
-                                        source.token,
+                                        abortController.signal,
                                         plantId,
                                         punchItem.id,
                                         attachmentId
@@ -478,7 +477,7 @@ const ClearPunch = ({
                                 }
                                 setSnackbarText={setSnackbarText}
                                 readOnly={canEdit === false}
-                                source={source}
+                                abortController={abortController}
                             />
                         </AttachmentsWrapper>
                         <FormButtonWrapper>

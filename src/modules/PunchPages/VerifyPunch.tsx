@@ -1,5 +1,4 @@
 import React from 'react';
-import { CancelToken, CancelTokenSource } from 'axios';
 import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
 import { Attachment, PunchItem } from '../../typings/apiTypes';
@@ -36,17 +35,17 @@ type VerifyPunchProps = {
     getPunchAttachments: (
         plantId: string,
         punchItemId: number,
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
-        cancelToken: CancelToken,
+        abortSignal: AbortSignal,
         plantId: string,
         punchItemId: number,
         attachmentId: number
     ) => Promise<Blob>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
-    source: CancelTokenSource;
+    abortController: AbortController;
 };
 
 const VerifyPunch = ({
@@ -63,7 +62,7 @@ const VerifyPunch = ({
     getPunchAttachment,
     snackbar,
     setSnackbarText,
-    source,
+    abortController,
 }: VerifyPunchProps): JSX.Element => {
     const determineButtonsToRender = (): JSX.Element => {
         if (punchItem.verifiedByFirstName) {
@@ -179,18 +178,18 @@ const VerifyPunch = ({
             <Attachments
                 readOnly
                 getAttachments={(): Promise<Attachment[]> =>
-                    getPunchAttachments(plantId, punchItem.id, source.token)
+                    getPunchAttachments(plantId, punchItem.id, abortController.signal)
                 }
                 getAttachment={(attachmentId: number): Promise<Blob> =>
                     getPunchAttachment(
-                        source.token,
+                        abortController.signal,
                         plantId,
                         punchItem.id,
                         attachmentId
                     )
                 }
                 setSnackbarText={setSnackbarText}
-                source={source}
+                abortController={abortController}
             />
             <ButtonGroup>{determineButtonsToRender()}</ButtonGroup>
             {snackbar}
