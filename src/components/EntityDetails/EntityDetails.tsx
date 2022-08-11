@@ -48,7 +48,6 @@ const HeaderWrapper = styled.div<{ isDetailsCard?: boolean }>`
 `;
 
 const BookmarkWrapper = styled.div`
-    margin-left: 80px;
     margin-top: -15px;
 `;
 
