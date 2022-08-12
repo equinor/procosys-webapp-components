@@ -1,7 +1,8 @@
-import { Typography } from '@equinor/eds-core-react';
+import { Button, Typography } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
 import { Caption, COLORS } from '../../style/GlobalStyles';
+import EdsIcon from '../icons/EdsIcon';
 
 const EntityDetailsWrapper = styled.article<{ isDetailsCard?: boolean }>`
     cursor: ${(props): string => (props.isDetailsCard ? 'default' : 'pointer')};
@@ -46,6 +47,10 @@ const HeaderWrapper = styled.div<{ isDetailsCard?: boolean }>`
     }
 `;
 
+const BookmarkWrapper = styled.div`
+    margin-top: -15px;
+`;
+
 type EntityDetailsProps = {
     isDetailsCard?: boolean;
     icon: JSX.Element;
@@ -53,6 +58,9 @@ type EntityDetailsProps = {
     description?: string;
     details?: string[];
     onClick?: () => void;
+    isBookmarked?: boolean;
+    offlinePlanningState?: boolean;
+    handleBookmarkClicked?: () => Promise<void>;
 };
 
 const EntityDetails = ({
@@ -62,6 +70,9 @@ const EntityDetails = ({
     description,
     details,
     onClick,
+    isBookmarked,
+    offlinePlanningState,
+    handleBookmarkClicked,
 }: EntityDetailsProps): JSX.Element => {
     return (
         <EntityDetailsWrapper
@@ -81,6 +92,26 @@ const EntityDetails = ({
                     {description}
                 </Typography>
             </ContentWrapper>
+            {offlinePlanningState && handleBookmarkClicked && (
+                <BookmarkWrapper>
+                    <Button
+                        variant="ghost_icon"
+                        onClick={(e: React.MouseEvent<HTMLElement>): void => {
+                            e.stopPropagation();
+                            handleBookmarkClicked();
+                        }}
+                    >
+                        <EdsIcon
+                            color={COLORS.mossGreen}
+                            name={
+                                isBookmarked
+                                    ? 'bookmark_filled'
+                                    : 'bookmark_outlined'
+                            }
+                        />
+                    </Button>
+                </BookmarkWrapper>
+            )}
         </EntityDetailsWrapper>
     );
 };
