@@ -87,6 +87,7 @@ type ClearPunchProps = {
     query: string;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
     abortController: AbortController;
+    disablePersonsSearch?: boolean;
 };
 
 const ClearPunch = ({
@@ -119,6 +120,7 @@ const ClearPunch = ({
     query,
     setQuery,
     abortController,
+    disablePersonsSearch,
 }: ClearPunchProps): JSX.Element => {
     const {
         clearPunchItem,
@@ -279,7 +281,7 @@ const ClearPunch = ({
                                     ? `${punchItem.actionByPersonFirstName} ${punchItem.actionByPersonLastName}`
                                     : ''
                             }
-                            disabled={canEdit === false}
+                            disabled={canEdit === false || disablePersonsSearch}
                             inputIcon={
                                 punchItem.actionByPerson && canEdit ? (
                                     <div
