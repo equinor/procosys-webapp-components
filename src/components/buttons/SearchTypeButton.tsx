@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
 import { COLORS } from '../../style/GlobalStyles';
 
-const SearchTypeButtonWrapper = styled(Button)<{ active: boolean }>`
+const SearchTypeButtonWrapper = styled(Button)<{
+    active: boolean;
+}>`
     background-color: ${(props): string =>
         props.active ? COLORS.fadedBlue : COLORS.white};
     flex: 1;
@@ -16,12 +18,14 @@ type SearchTypeButtonProps = {
     setCurrentSearchType: React.Dispatch<
         React.SetStateAction<string | undefined>
     >;
+    disabled?: boolean;
 };
 
 const SearchTypeButton = ({
     searchType,
     currentSearchType,
     setCurrentSearchType,
+    disabled,
 }: SearchTypeButtonProps): JSX.Element => {
     return (
         <SearchTypeButtonWrapper
@@ -32,6 +36,7 @@ const SearchTypeButton = ({
                 );
             }}
             active={searchType === currentSearchType}
+            disabled={disabled}
         >
             {searchType}
         </SearchTypeButtonWrapper>
