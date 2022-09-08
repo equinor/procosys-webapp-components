@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { BREAKPOINT, COLORS } from '../style/GlobalStyles';
 
-const NavbarWrapper = styled.nav<{ noBorder: boolean }>`
+const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean }>`
     height: 54px;
     width: 100%;
     max-width: 768px;
     background-color: ${COLORS.white};
-    border-bottom: ${(props): string =>
-        props.noBorder ? 'none' : `1px solid ${COLORS.fadedBlue}`};
+    border-bottom: ${({ noBorder }): string =>
+        noBorder ? 'none' : `1px solid ${COLORS.fadedBlue}`};
+    border-top: ${({ isOffline }): string =>
+        isOffline ? `3px solid ${COLORS.danger}` : `none`};
     display: flex;
     flex-grow: 100;
     justify-content: space-between;
@@ -45,6 +47,7 @@ type NavbarProps = {
     midContent?: string;
     rightContent?: JSX.Element;
     noBorder?: boolean;
+    isOffline?: boolean;
 };
 
 const Navbar = ({
@@ -52,10 +55,11 @@ const Navbar = ({
     midContent = '',
     rightContent,
     noBorder = false,
+    isOffline = false,
 }: NavbarProps): JSX.Element => {
     return (
         <>
-            <NavbarWrapper noBorder={noBorder}>
+            <NavbarWrapper noBorder={noBorder} isOffline={isOffline}>
                 {leftContent}
                 <h4>{midContent}</h4>
                 {rightContent}
