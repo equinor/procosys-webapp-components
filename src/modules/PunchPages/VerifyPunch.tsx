@@ -83,7 +83,8 @@ const VerifyPunch = ({
                     <Button
                         disabled={
                             punchActionStatus === AsyncStatus.LOADING ||
-                            canUnclear === false
+                            canUnclear === false ||
+                            punchItem.statusControlledBySwcr
                         }
                         onClick={handleUnclear}
                     >
@@ -92,7 +93,8 @@ const VerifyPunch = ({
                     <Button
                         disabled={
                             punchActionStatus === AsyncStatus.LOADING ||
-                            canVerify === false
+                            canVerify === false ||
+                            punchItem.statusControlledBySwcr
                         }
                         onClick={handleReject}
                     >
@@ -102,7 +104,8 @@ const VerifyPunch = ({
                     <Button
                         disabled={
                             punchActionStatus === AsyncStatus.LOADING ||
-                            canVerify === false
+                            canVerify === false ||
+                            punchItem.statusControlledBySwcr
                         }
                         onClick={handleVerify}
                     >
@@ -178,7 +181,11 @@ const VerifyPunch = ({
             <Attachments
                 readOnly
                 getAttachments={(): Promise<Attachment[]> =>
-                    getPunchAttachments(plantId, punchItem.id, abortController.signal)
+                    getPunchAttachments(
+                        plantId,
+                        punchItem.id,
+                        abortController.signal
+                    )
                 }
                 getAttachment={(attachmentId: number): Promise<Blob> =>
                     getPunchAttachment(
