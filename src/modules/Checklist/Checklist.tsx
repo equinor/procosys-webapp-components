@@ -43,7 +43,9 @@ const determineIfAllAreCheckedOrNA = (
     return (
         checkItemsToDetermine.every(
             (item) => item.isOk || item.isNotApplicable
-        ) && customCheckItemsToDetermine.every((item) => item.isOk)
+        ) &&
+        customCheckItemsToDetermine.every((item) => item.isOk) &&
+        !checkItemsToDetermine.every((item) => item.isNotApplicable)
     );
 };
 
@@ -91,7 +93,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [checklistDetails, setChecklistDetails] =
         useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
-    const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
+    const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(false);
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const source = axios.CancelToken.source();
     const abortController = new AbortController();
