@@ -108,6 +108,7 @@ type ChecklistSignatureProps = {
     setMultiSignOrVerifyIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     multiSignOrVerifyIsOpen: boolean;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    offlineState?: boolean;
 };
 
 const ChecklistSignature = ({
@@ -121,6 +122,7 @@ const ChecklistSignature = ({
     setMultiSignOrVerifyIsOpen,
     multiSignOrVerifyIsOpen,
     refreshChecklistStatus,
+    offlineState = false,
 }: ChecklistSignatureProps): JSX.Element => {
     const [comment, setComment] = useState(details.comment);
     const [putCommentStatus, setPutCommentStatus] = useState(
@@ -170,12 +172,15 @@ const ChecklistSignature = ({
         setSignStatus(AsyncStatus.LOADING);
         try {
             await api.postSign();
-            const eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
-                source.token
-            );
-            setEligibleItemsToMultiSignOrVerify(
-                eligibleItemsToMultiSignFromApi
-            );
+            let eligibleItemsToMultiSignFromApi = [];
+            if (!offlineState) {
+                eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
+                    source.token
+                );
+                setEligibleItemsToMultiSignOrVerify(
+                    eligibleItemsToMultiSignFromApi
+                );
+            }
             setIsSigned(true);
             setSignStatus(AsyncStatus.SUCCESS);
             reloadChecklist((reloadStatus) => !reloadStatus);

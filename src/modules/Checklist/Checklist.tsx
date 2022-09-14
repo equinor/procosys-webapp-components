@@ -47,15 +47,6 @@ const determineIfAllAreCheckedOrNA = (
     );
 };
 
-type ChecklistProps = {
-    checklistId: string;
-    plantId: string;
-    apiSettings: ProcosysApiSettings;
-    refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    getAccessToken: (scope: string[]) => Promise<string>;
-    setSnackbarText: (message: string) => void;
-};
-
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const initializeApi = ({
     checklistId,
@@ -70,6 +61,16 @@ const initializeApi = ({
         plantId,
         checklistId,
     });
+};
+
+type ChecklistProps = {
+    checklistId: string;
+    plantId: string;
+    apiSettings: ProcosysApiSettings;
+    refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    getAccessToken: (scope: string[]) => Promise<string>;
+    setSnackbarText: (message: string) => void;
+    offlineState?: boolean;
 };
 
 const Checklist = (props: ChecklistProps): JSX.Element => {
@@ -94,7 +95,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const source = axios.CancelToken.source();
     const abortController = new AbortController();
-    const abortSignal = abortController.signal;
 
     useEffect(() => {
         setAllItemsCheckedOrNA(
@@ -125,7 +125,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         <AsyncPage
             fetchStatus={fetchChecklistStatus}
             errorMessage={'Unable to get checklist.'}
-            loadingMessage={''}
         >
             <>
                 {!multiSignOrVerifyIsOpen && (
@@ -221,6 +220,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
+                        offlineState={props.offlineState}
                     />
                 )}
             </>
