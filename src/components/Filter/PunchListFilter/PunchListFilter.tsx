@@ -35,6 +35,7 @@ type FilterProps = {
     punchItems?: PunchPreview[];
     isChecklistPunchList?: boolean;
     isPoPunchList?: boolean;
+    isIpoPunchList?: boolean;
 };
 
 const PunchListFilter = ({
@@ -42,6 +43,7 @@ const PunchListFilter = ({
     punchItems,
     isChecklistPunchList,
     isPoPunchList,
+    isIpoPunchList,
 }: FilterProps): JSX.Element => {
     const [filterCount, setFilterCount] = useState<number>(0);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -51,10 +53,12 @@ const PunchListFilter = ({
         filter,
         responsibles,
         formTypes,
+        mcPkgs,
         handleStatusChange,
         handleSignatureChange,
         handleResponsibleChange,
         handleFormTypeChange,
+        handleMcPkgChange,
     } = usePunchListFilterFacade(setFilterCount, setShownPunches, punchItems);
     const statusList = [
         `All`,
@@ -124,9 +128,12 @@ const PunchListFilter = ({
                         responsibles={responsibles}
                         handleResponsibleChange={handleResponsibleChange}
                         formTypes={formTypes}
+                        mcPkgs={mcPkgs}
                         handleFormTypeChange={handleFormTypeChange}
+                        handleMcPkgChange={handleMcPkgChange}
                         isChecklistPunchList={isChecklistPunchList}
                         isPoPunchList={isPoPunchList}
+                        isIpoPunchList={isIpoPunchList}
                     />
                 </div>
             ) : null}
