@@ -38,6 +38,7 @@ const usePunchListFilterFacade = (
         allPunches?.map((item) => {
             uniqueResponsibles.add(item.responsibleCode);
             uniqueFormTypes.add(item.formularType);
+            item.mcPkgNo ? uniqueMcPkgs.add(item.mcPkgNo) : null;
         });
         setResponsibles(Array.from(uniqueResponsibles));
         setFormTypes(Array.from(uniqueFormTypes));
