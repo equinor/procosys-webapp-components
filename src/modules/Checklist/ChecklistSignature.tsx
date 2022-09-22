@@ -344,7 +344,9 @@ const ChecklistSignature = ({
                                     }}
                                     disabled={
                                         signStatus === AsyncStatus.LOADING ||
-                                        !allItemsCheckedOrNA
+                                        !allItemsCheckedOrNA ||
+                                        (isSigned &&
+                                            details.partOfCertificateSentToCommissioning)
                                     }
                                 >
                                     {determineSignButtonText(
@@ -364,7 +366,9 @@ const ChecklistSignature = ({
                                             : handleVerifyClick()
                                     }
                                     disabled={
-                                        verifyStatus === AsyncStatus.LOADING
+                                        verifyStatus === AsyncStatus.LOADING ||
+                                        (isVerified &&
+                                            details.partOfCertificateSentToCommissioning)
                                     }
                                 >
                                     {determineVerifyButtonText(
