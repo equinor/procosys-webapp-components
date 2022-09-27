@@ -488,7 +488,8 @@ const ClearPunch = ({
                                 disabled={
                                     updatePunchStatus === AsyncStatus.LOADING ||
                                     clearPunchStatus === AsyncStatus.LOADING ||
-                                    canClear === false
+                                    canClear === false ||
+                                    punchItem.statusControlledBySwcr
                                 }
                             >
                                 Clear
