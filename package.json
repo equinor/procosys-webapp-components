@@ -42,7 +42,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "@typescript-eslint/parser": "^5.20.0",
+    "@typescript-eslint/parser": "^5.38.1",
     "axios": "^0.21.4",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
