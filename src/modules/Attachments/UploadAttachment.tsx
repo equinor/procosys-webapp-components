@@ -81,8 +81,8 @@ const UploadAttachment = ({
         return false;
     };
 
-    const isMaxFileSize = (fileSize: number): boolean => {
-        const maxSize = 60000;
+    const isOverMaxFileSize = (fileSize: number): boolean => {
+        const maxSize = 60000000;
         if (fileSize >= maxSize) {
             setSnackbarText('File size must be below 60 MB.');
             return true;
@@ -93,7 +93,7 @@ const UploadAttachment = ({
     const onFileUpload = async (): Promise<void> => {
         if (!selectedFile) return;
         if (isUnsupportedFileType(selectedFile.name)) return;
-        if (isMaxFileSize(selectedFile.size)) return;
+        if (isOverMaxFileSize(selectedFile.size)) return;
 
         setPostAttachmentStatus(AsyncStatus.LOADING);
         const formData = new FormData();
