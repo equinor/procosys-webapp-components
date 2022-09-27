@@ -81,26 +81,9 @@ const UploadAttachment = ({
         return false;
     };
 
-<<<<<<< HEAD
     const onFileUpload = async (): Promise<void> => {
         if (!selectedFile) return;
         if (isUnsupportedFileType(selectedFile.name)) return;
-=======
-    const isMaxFileSize = (fileSize: number): boolean => {
-        const maxSize = 60000;
-        if (fileSize >= maxSize) {
-            setSnackbarText('File size must be below 60 MB.');
-            return true;
-        }
-        return false;
-    };
-
-    const onFileUpload = async (): Promise<void> => {
-        if (!selectedFile) return;
-        if (isUnsupportedFileType(selectedFile.name)) return;
-        if (isMaxFileSize(selectedFile.size)) return;
-
->>>>>>> parent of 6f48875 (Updated naming and max file size number format)
         setPostAttachmentStatus(AsyncStatus.LOADING);
         const formData = new FormData();
         formData.append(selectedFile.name, selectedFile);
