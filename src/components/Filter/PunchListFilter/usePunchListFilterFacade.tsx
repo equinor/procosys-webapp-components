@@ -18,25 +18,31 @@ const usePunchListFilterFacade = (
         signature: '',
         responsible: '',
         formType: '',
+        mcPkg: '',
     });
     const [responsibles, setResponsibles] = useState<string[]>();
     const [formTypes, setFormTypes] = useState<string[]>();
+    const [mcPkgs, setMcPkgs] = useState<string[]>();
 
     const {
         handleSignatureChange,
         handleResponsibleChange,
         handleFormTypeChange,
+        handleMcPkgChange,
     } = useFilterFacade(setFilter);
 
     useEffect(() => {
         const uniqueResponsibles = new Set<string>();
         const uniqueFormTypes = new Set<string>();
+        const uniqueMcPkgs = new Set<string>();
         allPunches?.map((item) => {
             uniqueResponsibles.add(item.responsibleCode);
             uniqueFormTypes.add(item.formularType);
+            item.mcPkgNo ? uniqueMcPkgs.add(item.mcPkgNo) : null;
         });
         setResponsibles(Array.from(uniqueResponsibles));
         setFormTypes(Array.from(uniqueFormTypes));
+        setMcPkgs(Array.from(uniqueMcPkgs));
     }, [allPunches]);
 
     useEffect(() => {
@@ -68,10 +74,12 @@ const usePunchListFilterFacade = (
         filter,
         responsibles,
         formTypes,
+        mcPkgs,
         handleStatusChange,
         handleSignatureChange,
         handleResponsibleChange,
         handleFormTypeChange,
+        handleMcPkgChange,
     };
 };
 

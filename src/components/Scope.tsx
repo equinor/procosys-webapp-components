@@ -10,6 +10,7 @@ type ScopeProps = {
     onChecklistClick: (checklistId: number) => void;
     scope?: ChecklistPreview[];
     isPoScope?: boolean;
+    isIpoScope?: boolean;
     hideFilter?: boolean;
 };
 
@@ -18,6 +19,7 @@ const Scope = ({
     onChecklistClick,
     scope,
     isPoScope,
+    isIpoScope,
     hideFilter,
 }: ScopeProps): JSX.Element => {
     const [filteredScope, setFilteredScope] = useState<
@@ -40,6 +42,7 @@ const Scope = ({
                         setFilteredScope={setFilteredScope}
                         scopeItems={scope}
                         isPoScope={isPoScope}
+                        isIpoScope={isIpoScope}
                     />
                 )}
                 {filteredScope?.map((checklist) => (
@@ -57,6 +60,7 @@ const Scope = ({
                         chips={[
                             checklist.formularType,
                             checklist.responsibleCode,
+                            checklist.mcPkgNo ? checklist.mcPkgNo : '',
                         ]}
                         onClick={(): void => onChecklistClick(checklist.id)}
                     />

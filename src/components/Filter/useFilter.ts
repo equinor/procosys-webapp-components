@@ -12,6 +12,7 @@ export type Filter = {
     signature: string;
     responsible: string;
     formType: string;
+    mcPkg: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -40,10 +41,20 @@ const useFilterFacade = (
         }));
     };
 
+    const handleMcPkgChange = (
+        e: React.ChangeEvent<HTMLSelectElement>
+    ): void => {
+        setFilter((prevFilter) => ({
+            ...prevFilter,
+            mcPkg: e.target.value,
+        }));
+    };
+
     return {
         handleSignatureChange,
         handleResponsibleChange,
         handleFormTypeChange,
+        handleMcPkgChange,
     };
 };
 

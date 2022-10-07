@@ -131,12 +131,14 @@ export interface ChecklistPreview {
     tagId: number;
     tagNo: string;
     tagDescription: string;
+    mcPkgId?: number;
+    mcPkgNo?: string;
     responsibleCode: string;
     status: CompletionStatus;
     formularType: string;
     formularGroup: string;
-    sheetNo: number;
-    subSheetNo: number;
+    sheetNo?: number;
+    subSheetNo?: number;
     isRestrictedForUser: boolean;
     hasElectronicForm: boolean;
     attachmentCount: number;
@@ -166,6 +168,8 @@ export interface PunchPreview {
     tagDescription: string;
     tagId: number;
     tagNo: string;
+    mcPkgId?: number;
+    mcPkgNo?: string;
     formularType: string;
     responsibleCode: string;
     isRestrictedForUser: boolean;
