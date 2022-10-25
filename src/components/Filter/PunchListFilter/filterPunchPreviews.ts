@@ -4,6 +4,7 @@ import {
     filterOnResponsible,
     filterOnSignature,
     filterOnStatus,
+    filterOnMcPkg,
 } from '../helperFunctions';
 import { Filter } from '../useFilter';
 
@@ -45,6 +46,13 @@ export const filterPunchPreviews = (
         filteredPunchPreviews = filterOnFormType(
             filteredPunchPreviews,
             filter.formType
+        );
+        filterCount++;
+    }
+    if (filter.mcPkg) {
+        filteredPunchPreviews = filterOnMcPkg(
+            filteredPunchPreviews,
+            filter.mcPkg
         );
         filterCount++;
     }

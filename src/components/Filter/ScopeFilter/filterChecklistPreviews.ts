@@ -4,6 +4,7 @@ import {
     filterOnResponsible,
     filterOnSignature,
     filterOnStatus,
+    filterOnMcPkg,
 } from '../helperFunctions';
 import { Filter } from '../useFilter';
 
@@ -45,6 +46,13 @@ export const filterChecklistPreviews = (
         filteredChecklistPreviews = filterOnFormType(
             filteredChecklistPreviews,
             filter.formType
+        );
+        filterCount++;
+    }
+    if (filter.mcPkg) {
+        filteredChecklistPreviews = filterOnMcPkg(
+            filteredChecklistPreviews,
+            filter.mcPkg
         );
         filterCount++;
     }

@@ -79,8 +79,8 @@ const DescriptionWrapper = styled.div`
 type InfoItemProps = {
     isScope?: boolean;
     isDetailsCard?: boolean;
-    status: CompletionStatus;
-    statusLetters: StatusLetters;
+    status?: CompletionStatus;
+    statusLetters?: StatusLetters;
     headerText: string;
     description: string;
     tag?: string;
@@ -97,12 +97,17 @@ const InfoItem = (props: InfoItemProps): JSX.Element => {
             onClick={props.onClick}
             role={props.isDetailsCard ? 'heading' : 'button'}
         >
-            <StatusWrapper>
-                <StatusColumn
-                    statusIcon={<CompletionStatusIcon status={props.status} />}
-                    statusLetters={props.statusLetters}
-                />
-            </StatusWrapper>
+            {props.status && props.statusLetters ? (
+                <StatusWrapper>
+                    <StatusColumn
+                        statusIcon={
+                            <CompletionStatusIcon status={props.status} />
+                        }
+                        statusLetters={props.statusLetters}
+                    />
+                </StatusWrapper>
+            ) : null}
+
             <HeaderWrapper>
                 <h6>{props.headerText}</h6>
             </HeaderWrapper>

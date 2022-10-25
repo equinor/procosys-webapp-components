@@ -47,3 +47,12 @@ export const filterOnFormType = <T extends { formularType: string }>(
         return item.formularType === formType;
     });
 };
+
+export const filterOnMcPkg = <T extends { mcPkgNo?: string }>(
+    arrayToFilter: T[],
+    mcPkg: string
+): T[] => {
+    return arrayToFilter.filter((item) => {
+        return item.mcPkgNo === mcPkg;
+    });
+};

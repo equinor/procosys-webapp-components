@@ -16,12 +16,14 @@ type FilterProps = {
     >;
     scopeItems?: ChecklistPreview[];
     isPoScope?: boolean;
+    isIpoScope?: boolean;
 };
 
 const ScopeFilter = ({
     setFilteredScope,
     scopeItems,
     isPoScope,
+    isIpoScope,
 }: FilterProps): JSX.Element => {
     const [filterCount, setFilterCount] = useState<number>(0);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -31,10 +33,12 @@ const ScopeFilter = ({
         statuses,
         responsibles,
         formTypes,
+        mcPkgs,
         handleStatusChange,
         handleSignatureChange,
         handleResponsibleChange,
         handleFormTypeChange,
+        handleMcPkgChange,
     } = useScopeFilterFacade(setFilterCount, setFilteredScope, scopeItems);
 
     return (
@@ -143,6 +147,30 @@ const ScopeFilter = ({
                                 ))}
                             </NativeSelect>
                         )}
+
+                        {isIpoScope ? (
+                            <NativeSelect
+                                id="MCPackageSelect"
+                                label="MCpkg"
+                                defaultValue={
+                                    filter.mcPkg
+                                        ? mcPkgs?.find(
+                                              (mcpkg) => mcpkg === filter.mcPkg
+                                          )
+                                        : ''
+                                }
+                                onChange={handleMcPkgChange}
+                            >
+                                <option key="Empty" value="">
+                                    Select
+                                </option>
+                                {mcPkgs?.map((mcpkg) => (
+                                    <option key={mcpkg} value={mcpkg}>
+                                        {mcpkg}
+                                    </option>
+                                ))}
+                            </NativeSelect>
+                        ) : null}
                     </SelectFieldsWrapper>
                 </div>
             ) : null}

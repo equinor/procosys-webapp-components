@@ -12,6 +12,7 @@ type PunchListProps = {
     punchList?: PunchPreview[];
     isChecklistPunchList?: boolean;
     isPoPunchList?: boolean;
+    isIpoPunchList?: boolean;
 };
 
 const PunchList = ({
@@ -20,6 +21,7 @@ const PunchList = ({
     punchList,
     isChecklistPunchList,
     isPoPunchList,
+    isIpoPunchList,
 }: PunchListProps): JSX.Element => {
     const [filteredPunchList, setFilteredPunchList] = useState<
         PunchPreview[] | undefined
@@ -41,6 +43,7 @@ const PunchList = ({
                     punchItems={punchList}
                     isChecklistPunchList={isChecklistPunchList}
                     isPoPunchList={isPoPunchList}
+                    isIpoPunchList={isIpoPunchList}
                 />
                 {filteredPunchList?.map((punch) => (
                     <InfoItem
@@ -56,7 +59,11 @@ const PunchList = ({
                         chips={
                             isChecklistPunchList
                                 ? undefined
-                                : [punch.formularType, punch.responsibleCode]
+                                : [
+                                      punch.formularType,
+                                      punch.responsibleCode,
+                                      punch.mcPkgNo ? punch.mcPkgNo : '',
+                                  ]
                         }
                         tag={isChecklistPunchList ? undefined : punch.tagNo}
                         onClick={(): void => onPunchClick(punch)}

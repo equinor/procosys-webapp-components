@@ -73,6 +73,7 @@ const Attachment = ({
     const isDocument = attachment.mimeType.substr(0, 5) !== 'image';
 
     useEffect(() => {
+        loadAttachment();
         return (): void => {
             abortController.abort();
         };
@@ -89,7 +90,6 @@ const Attachment = ({
                 console.log('Failed to create object URL from blob: ', blob);
             }
             setAttachmentFileURL(imageUrl);
-            setShowFullScreenImage(true);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
             if (!abortController.signal.aborted) {
@@ -213,9 +213,11 @@ const Attachment = ({
                     </AttachmentWrapper>
                 ) : (
                     <img
-                        src={`data:image/png;base64, ${attachment.thumbnailAsBase64}`}
+                        src={attachmentFileURL}
                         alt={`${attachment.title} thumbnail`}
-                        onClick={loadAttachment}
+                        onClick={(): void => {
+                            setShowFullScreenImage(true);
+                        }}
                     />
                 )}
             </>

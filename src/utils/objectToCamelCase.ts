@@ -6,8 +6,8 @@ function isObject(subject: unknown): subject is Record<string, unknown> {
     );
 }
 
-const stringToCamelCase = (input: string): Uncapitalize<string> => {
-    return input[0].toLowerCase() + input.substr(1, input.length);
+const stringToCamelCase = (input: string): string => {
+    return input[0].toLowerCase() + input.substring(1, input.length);
 };
 
 const objectToCamelCase = (input: unknown): unknown => {
