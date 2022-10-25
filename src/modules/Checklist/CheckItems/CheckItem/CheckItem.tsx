@@ -209,7 +209,7 @@ const CheckItem = ({
                 </CheckItemDescriptionWrapper>
                 {item.metaTable && !item.isNotApplicable && (
                     <MetaTable
-                        disabled={item.isNotApplicable || isSigned}
+                        disabled={item.isNotApplicable || isSigned || disabled}
                         labels={item.metaTable.columnLabels}
                         rows={item.metaTable.rows}
                         isSigned={isSigned}
