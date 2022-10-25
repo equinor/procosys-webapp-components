@@ -80,6 +80,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
     );
+    const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
     );
@@ -103,6 +104,13 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
             determineIfAllAreCheckedOrNA(checkItems, customCheckItems)
         );
     }, [checkItems, customCheckItems]);
+
+    useEffect(() => {
+        (async (): Promise<void> => {
+            const permissionsResponse = await api.getPermissions();
+            setPermissions(permissionsResponse);
+        })();
+    }, [api]);
 
     useEffect(() => {
         (async (): Promise<void> => {
@@ -159,6 +167,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                             setCustomCheckItems
                                         }
                                         api={api}
+                                        disabled={
+                                            !permissions.includes('MCCR/SIGN')
+                                        }
                                     />
                                 )}
                                 <CheckItems
@@ -167,6 +178,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
+                                    disabled={
+                                        !permissions.includes('MCCR/SIGN')
+                                    }
                                 />
                                 <CustomCheckItems
                                     customCheckItems={customCheckItems}
