@@ -223,7 +223,10 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     api.deleteChecklistAttachment(attachmentId)
                                 }
                                 setSnackbarText={props.setSnackbarText}
-                                readOnly={isSigned}
+                                readOnly={
+                                    isSigned ||
+                                    !permissions.includes('MCCR/ATTACHFILE')
+                                }
                                 abortController={abortController}
                             />
                         </AttachmentsWrapper>
