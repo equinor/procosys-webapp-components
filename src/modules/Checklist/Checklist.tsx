@@ -236,6 +236,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
+                        canAddComment={permissions.includes('MCCR/WRITE')}
+                        canSign={permissions.includes('MCCR/SIGN')}
+                        canVerify={permissions.includes('MCCR/VERIFY')}
                         offlineState={props.offlineState}
                     />
                 )}
