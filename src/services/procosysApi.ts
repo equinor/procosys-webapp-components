@@ -28,7 +28,7 @@ const procosysApiService = ({
 }: ProcosysApiServiceProps) => {
     const getPermissions = async (): Promise<string[]> => {
         const { data } = await axios.get(
-            `Permissions?plantId=${plantId}${apiVersion}`
+            `Permissions?plantId=PCS$${plantId}${apiVersion}`
         );
         return data as string[];
     };
