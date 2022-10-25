@@ -188,6 +188,12 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
+                                    canEdit={
+                                        !permissions.includes('MCCR/WRITE')
+                                    }
+                                    canCheck={
+                                        !permissions.includes('MCCR/SIGN')
+                                    }
                                 />
                             </ChecklistWrapper>
                         ) : null}
