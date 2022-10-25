@@ -218,11 +218,15 @@ const ChecklistSignature = ({
         setVerifyStatus(AsyncStatus.LOADING);
         try {
             await api.postVerify();
-            const eligibleItemsToMultiVerifyFromApi =
-                await api.getCanMultiVerify(source.token);
-            setEligibleItemsToMultiSignOrVerify(
-                eligibleItemsToMultiVerifyFromApi
-            );
+            let eligibleItemsToMultiVerifyFromApi = [];
+            if (!offlineState) {
+                eligibleItemsToMultiVerifyFromApi = await api.getCanMultiVerify(
+                    source.token
+                );
+                setEligibleItemsToMultiSignOrVerify(
+                    eligibleItemsToMultiVerifyFromApi
+                );
+            }
             setIsVerified(true);
             setVerifyStatus(AsyncStatus.SUCCESS);
             reloadChecklist((reloadStatus) => !reloadStatus);
