@@ -24,6 +24,7 @@ type CheckItemsProps = {
     isSigned: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
+    disabled: boolean;
 };
 
 const CheckItems = ({
@@ -32,6 +33,7 @@ const CheckItems = ({
     isSigned,
     setSnackbarText,
     api,
+    disabled,
 }: CheckItemsProps): JSX.Element => {
     const determineCheckItem = (
         item: CheckItemType,
@@ -52,6 +54,7 @@ const CheckItems = ({
                     isSigned={isSigned}
                     setSnackbarText={setSnackbarText}
                     api={api}
+                    disabled={disabled}
                 />
             </>
         );

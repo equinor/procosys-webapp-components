@@ -70,6 +70,7 @@ type CheckItemProps = {
     isSigned: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
+    disabled: boolean;
 };
 
 const CheckItem = ({
@@ -78,6 +79,7 @@ const CheckItem = ({
     setCheckItems,
     setSnackbarText,
     api,
+    disabled,
 }: CheckItemProps): JSX.Element => {
     const [postCheckStatus, setPostCheckStatus] = useState(
         AsyncStatus.INACTIVE
@@ -179,7 +181,8 @@ const CheckItem = ({
                             disabled={
                                 isSigned ||
                                 item.isNotApplicable ||
-                                postCheckStatus === AsyncStatus.LOADING
+                                postCheckStatus === AsyncStatus.LOADING ||
+                                disabled
                             }
                             enterKeyHint={'send'}
                             onChange={handleSetOk}
@@ -189,7 +192,9 @@ const CheckItem = ({
                         />
                         <Checkbox
                             disabled={
-                                isSigned || postNAStatus === AsyncStatus.LOADING
+                                isSigned ||
+                                postNAStatus === AsyncStatus.LOADING ||
+                                disabled
                             }
                             enterKeyHint={'send'}
                             onChange={handleSetNA}
