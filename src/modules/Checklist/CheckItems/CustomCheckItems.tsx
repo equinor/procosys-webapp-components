@@ -64,6 +64,8 @@ type CustomCheckItemsProps = {
     isSigned: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
+    canEdit: boolean;
+    canCheck: boolean;
 };
 
 const CustomCheckItems = ({
@@ -72,6 +74,8 @@ const CustomCheckItems = ({
     isSigned,
     setSnackbarText,
     api,
+    canEdit,
+    canCheck,
 }: CustomCheckItemsProps): JSX.Element => {
     const [postCustomCheckStatus, setPostCustomCheckStatus] = useState(
         AsyncStatus.INACTIVE
@@ -187,7 +191,8 @@ const CustomCheckItems = ({
                         <Checkbox
                             disabled={
                                 isSigned ||
-                                postCustomCheckStatus === AsyncStatus.LOADING
+                                postCustomCheckStatus === AsyncStatus.LOADING ||
+                                !canCheck
                             }
                             enterKeyHint={'send'}
                             onChange={(): Promise<void> =>
@@ -201,7 +206,9 @@ const CustomCheckItems = ({
                             variant={'ghost_icon'}
                             disabled={
                                 deleteCustomCheckStatus ===
-                                    AsyncStatus.LOADING || isSigned
+                                    AsyncStatus.LOADING ||
+                                isSigned ||
+                                !canEdit
                             }
                             onClick={(): void => setItemToBeDeleted(item.id)}
                         >
@@ -222,7 +229,8 @@ const CustomCheckItems = ({
                     value={customItemText}
                     disabled={
                         isSigned ||
-                        postCustomCheckItemStatus === AsyncStatus.LOADING
+                        postCustomCheckItemStatus === AsyncStatus.LOADING ||
+                        !canEdit
                     }
                     onChange={(
                         e: React.ChangeEvent<
@@ -235,7 +243,8 @@ const CustomCheckItems = ({
                     variant={'outlined'}
                     disabled={
                         isSigned ||
-                        postCustomCheckItemStatus === AsyncStatus.LOADING
+                        postCustomCheckItemStatus === AsyncStatus.LOADING ||
+                        !canEdit
                     }
                     onClick={handleCreateNewItem}
                 >

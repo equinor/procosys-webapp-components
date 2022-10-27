@@ -14,7 +14,7 @@ Most modules require your app, represented by an Azure App Registration, to have
 How to use this library:
 * Run "yarn" in the root of this repo
 * Run "yarn link"
-* Run "rollup -c --watch"
+* Run "yarn start"
 * Run "yarn link @equinor/procosys-webapp-components" in the app you want to test the code in.
 
 For info on how to contribute and publish changes to the package, please check out the guide in the Procosys Wiki Frontend section.

@@ -25,6 +25,7 @@ type CheckAllButtonProps = {
     allItemsCheckedOrNA: boolean;
     setSnackbarText: (message: string) => void;
     api: ProcosysApiService;
+    disabled: boolean;
 };
 
 const CheckAllButton = ({
@@ -35,6 +36,7 @@ const CheckAllButton = ({
     allItemsCheckedOrNA,
     setSnackbarText,
     api,
+    disabled,
 }: CheckAllButtonProps): JSX.Element => {
     const [checkAllStatus, setCheckAllStatus] = useState(AsyncStatus.INACTIVE);
     const checkAll = async (): Promise<void> => {
@@ -125,7 +127,7 @@ const CheckAllButton = ({
     return (
         <StyledCheckAllButton
             onClick={allItemsCheckedOrNA ? clearAll : checkAll}
-            disabled={checkAllStatus === AsyncStatus.LOADING}
+            disabled={checkAllStatus === AsyncStatus.LOADING || disabled}
             variant={'outlined'}
         >
             {/* <EdsIcon
