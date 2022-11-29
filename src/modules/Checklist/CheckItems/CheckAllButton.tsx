@@ -48,16 +48,12 @@ const CheckAllButton = ({
             (item) => !item.isOk
         );
         try {
-            await Promise.all(
-                itemsToCheck.map((item) => {
-                    return api.postSetOk(item.id);
-                })
-            );
-            await Promise.all(
-                customItemsToCheck.map((item) => {
-                    return api.postCustomSetOk(item.id);
-                })
-            );
+            for (const item of itemsToCheck) {
+                await api.postSetOk(item.id);
+            }
+            for (const item of customItemsToCheck) {
+                await api.postCustomSetOk(item.id);
+            }
             itemsToCheck.forEach((item) =>
                 updateCheck({
                     value: true,
@@ -87,16 +83,13 @@ const CheckAllButton = ({
         );
         const customItemsToClear = customCheckItems.filter((item) => item.isOk);
         try {
-            await Promise.all(
-                itemsToClear.map((item) => {
-                    return api.postClear(item.id);
-                })
-            );
-            await Promise.all(
-                customItemsToClear.map((item) => {
-                    return api.postCustomClear(item.id);
-                })
-            );
+            for (const item of itemsToClear) {
+                await api.postClear(item.id);
+            }
+            for (const item of customItemsToClear) {
+                await api.postCustomClear(item.id);
+            }
+
             itemsToClear.forEach((item) => {
                 updateCheck({
                     value: false,
