@@ -1,5 +1,5 @@
-import { Button, Typography } from '@equinor/eds-core-react';
-import React from 'react';
+import { Button, Progress, Typography } from '@equinor/eds-core-react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Caption, COLORS } from '../../style/GlobalStyles';
 import EdsIcon from '../icons/EdsIcon';
@@ -74,6 +74,12 @@ const EntityDetails = ({
     offlinePlanningState,
     handleBookmarkClicked,
 }: EntityDetailsProps): JSX.Element => {
+    const [loadingBookmark, setLoadingBookmark] = useState<boolean>(false);
+
+    useEffect(() => {
+        setLoadingBookmark(false);
+    }, [isBookmarked]);
+
     return (
         <EntityDetailsWrapper
             isDetailsCard={isDetailsCard}
@@ -98,17 +104,22 @@ const EntityDetails = ({
                         variant="ghost_icon"
                         onClick={(e: React.MouseEvent<HTMLElement>): void => {
                             e.stopPropagation();
+                            setLoadingBookmark(true);
                             handleBookmarkClicked();
                         }}
                     >
-                        <EdsIcon
-                            color={COLORS.mossGreen}
-                            name={
-                                isBookmarked
-                                    ? 'bookmark_filled'
-                                    : 'bookmark_outlined'
-                            }
-                        />
+                        {loadingBookmark ? (
+                            <Progress.Circular size={16} />
+                        ) : (
+                            <EdsIcon
+                                color={COLORS.mossGreen}
+                                name={
+                                    isBookmarked
+                                        ? 'bookmark_filled'
+                                        : 'bookmark_outlined'
+                                }
+                            />
+                        )}
                     </Button>
                 </BookmarkWrapper>
             )}
