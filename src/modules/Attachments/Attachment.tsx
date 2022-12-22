@@ -164,7 +164,11 @@ const Attachment = ({
                         <CircularProgress />
                     </AttachmentWrapper>
                 ) : (
-                    <DocumentAttachmentWrapper onClick={loadAttachment}>
+                    <DocumentAttachmentWrapper
+                        onClick={(): void => {
+                            setShowFullScreenImage(true);
+                        }}
+                    >
                         <Typography lines={3}>{attachment.title}</Typography>
                         <Button variant={'ghost_icon'}>
                             <EdsIcon
