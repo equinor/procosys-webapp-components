@@ -61,13 +61,13 @@ type ClearPunchProps = {
     getPunchAttachments: (
         plantId: string,
         punchItemId: number,
-        abortSignal: AbortSignal
+        abortSignal?: AbortSignal
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
-        abortSignal: AbortSignal,
         plantId: string,
         punchItemId: number,
-        attachmentId: number
+        attachmentId: number,
+        abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postPunchAttachment: (
         plantId: string,
@@ -86,7 +86,7 @@ type ClearPunchProps = {
     searchStatus: SearchStatus;
     query: string;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
-    abortController: AbortController;
+    abortController?: AbortController;
     disablePersonsSearch?: boolean;
 };
 
@@ -444,17 +444,17 @@ const ClearPunch = ({
                                     getPunchAttachments(
                                         plantId,
                                         punchItem.id,
-                                        abortController.signal
+                                        abortController?.signal
                                     )
                                 }
                                 getAttachment={(
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     getPunchAttachment(
-                                        abortController.signal,
                                         plantId,
                                         punchItem.id,
-                                        attachmentId
+                                        attachmentId,
+                                        abortController?.signal
                                     )
                                 }
                                 postAttachment={(
