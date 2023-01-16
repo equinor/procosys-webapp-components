@@ -52,9 +52,9 @@ type AttachmentProps = {
     refreshAttachments?: React.Dispatch<React.SetStateAction<boolean>>;
     readOnly: boolean;
     deleteAttachment?: (attachmentId: number) => Promise<void>;
-    getAttachment: (abortSignal: AbortSignal) => Promise<Blob>;
+    getAttachment: (abortSignal?: AbortSignal) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
-    abortController: AbortController;
+    abortController?: AbortController;
 };
 
 const Attachment = ({
@@ -75,14 +75,14 @@ const Attachment = ({
     useEffect(() => {
         loadAttachment();
         return (): void => {
-            abortController.abort();
+            abortController?.abort();
         };
     }, []);
 
     const loadAttachment = async (): Promise<void> => {
         setLoadingStatus(AsyncStatus.LOADING);
         try {
-            const blob = await getAttachment(abortController.signal);
+            const blob = await getAttachment(abortController?.signal);
             let imageUrl = '';
             try {
                 imageUrl = window.URL.createObjectURL(blob);
@@ -92,7 +92,7 @@ const Attachment = ({
             setAttachmentFileURL(imageUrl);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            if (!abortController.signal.aborted) {
+            if (!abortController?.signal.aborted) {
                 setSnackbarText('Unable to load attachment.');
                 setLoadingStatus(AsyncStatus.ERROR);
             }
@@ -110,7 +110,7 @@ const Attachment = ({
             setShowFullScreenImage(false);
         } catch (error) {
             if (!(error instanceof Error)) return;
-            if (!abortController.signal.aborted) {
+            if (!abortController?.signal.aborted) {
                 setDeleteStatus(AsyncStatus.ERROR);
                 setSnackbarText(error.toString());
             }

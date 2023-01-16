@@ -30,7 +30,7 @@ type AttachmentsProps = {
     deleteAttachment?: (attachmentId: number) => Promise<void>;
     setSnackbarText: (message: string) => void;
     readOnly: boolean;
-    abortController: AbortController;
+    abortController?: AbortController;
 };
 
 const Attachments = (props: AttachmentsProps): JSX.Element => {
@@ -42,16 +42,16 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
         (async (): Promise<void> => {
             try {
                 const attachmentsFromApi = await props.getAttachments(
-                    props.abortController.signal
+                    props.abortController?.signal
                 );
                 setAttachments(attachmentsFromApi);
             } catch (error) {
-                if (!props.abortController.signal.aborted) {
+                if (!props.abortController?.signal.aborted) {
                     props.setSnackbarText('Failed to load attachments.');
                 }
             }
         })();
-        return (): void => props.abortController.abort();
+        return (): void => props.abortController?.abort();
     }, [refreshAttachments]);
 
     return (
@@ -60,7 +60,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 <Attachment
                     key={attachment.id}
                     readOnly={props.readOnly}
-                    getAttachment={(abortSignal: AbortSignal): Promise<Blob> =>
+                    getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>
                         props.getAttachment(attachment.id, abortSignal)
                     }
                     setSnackbarText={props.setSnackbarText}
