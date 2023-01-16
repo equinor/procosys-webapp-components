@@ -35,17 +35,17 @@ type VerifyPunchProps = {
     getPunchAttachments: (
         plantId: string,
         punchItemId: number,
-        abortSignal: AbortSignal
+        abortSignal?: AbortSignal
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
-        abortSignal: AbortSignal,
         plantId: string,
         punchItemId: number,
-        attachmentId: number
+        attachmentId: number,
+        abortSignal?: AbortSignal
     ) => Promise<Blob>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
-    abortController: AbortController;
+    abortController?: AbortController;
 };
 
 const VerifyPunch = ({
@@ -184,15 +184,15 @@ const VerifyPunch = ({
                     getPunchAttachments(
                         plantId,
                         punchItem.id,
-                        abortController.signal
+                        abortController?.signal
                     )
                 }
                 getAttachment={(attachmentId: number): Promise<Blob> =>
                     getPunchAttachment(
-                        abortController.signal,
                         plantId,
                         punchItem.id,
-                        attachmentId
+                        attachmentId,
+                        abortController?.signal
                     )
                 }
                 setSnackbarText={setSnackbarText}
