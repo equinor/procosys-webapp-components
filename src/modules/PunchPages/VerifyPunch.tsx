@@ -1,5 +1,4 @@
 import React from 'react';
-import { CancelToken, CancelTokenSource } from 'axios';
 import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
 import { Attachment, PunchItem } from '../../typings/apiTypes';
@@ -36,17 +35,17 @@ type VerifyPunchProps = {
     getPunchAttachments: (
         plantId: string,
         punchItemId: number,
-        cancelToken: CancelToken
+        abortSignal?: AbortSignal
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
-        cancelToken: CancelToken,
         plantId: string,
         punchItemId: number,
-        attachmentId: number
+        attachmentId: number,
+        abortSignal?: AbortSignal
     ) => Promise<Blob>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
-    source: CancelTokenSource;
+    abortController?: AbortController;
 };
 
 const VerifyPunch = ({
@@ -63,7 +62,7 @@ const VerifyPunch = ({
     getPunchAttachment,
     snackbar,
     setSnackbarText,
-    source,
+    abortController,
 }: VerifyPunchProps): JSX.Element => {
     const determineButtonsToRender = (): JSX.Element => {
         if (punchItem.verifiedByFirstName) {
@@ -84,7 +83,8 @@ const VerifyPunch = ({
                     <Button
                         disabled={
                             punchActionStatus === AsyncStatus.LOADING ||
-                            canUnclear === false
+                            canUnclear === false ||
+                            punchItem.statusControlledBySwcr
                         }
                         onClick={handleUnclear}
                     >
@@ -93,7 +93,8 @@ const VerifyPunch = ({
                     <Button
                         disabled={
                             punchActionStatus === AsyncStatus.LOADING ||
-                            canVerify === false
+                            canVerify === false ||
+                            punchItem.statusControlledBySwcr
                         }
                         onClick={handleReject}
                     >
@@ -103,7 +104,8 @@ const VerifyPunch = ({
                     <Button
                         disabled={
                             punchActionStatus === AsyncStatus.LOADING ||
-                            canVerify === false
+                            canVerify === false ||
+                            punchItem.statusControlledBySwcr
                         }
                         onClick={handleVerify}
                     >
@@ -179,18 +181,22 @@ const VerifyPunch = ({
             <Attachments
                 readOnly
                 getAttachments={(): Promise<Attachment[]> =>
-                    getPunchAttachments(plantId, punchItem.id, source.token)
+                    getPunchAttachments(
+                        plantId,
+                        punchItem.id,
+                        abortController?.signal
+                    )
                 }
                 getAttachment={(attachmentId: number): Promise<Blob> =>
                     getPunchAttachment(
-                        source.token,
                         plantId,
                         punchItem.id,
-                        attachmentId
+                        attachmentId,
+                        abortController?.signal
                     )
                 }
                 setSnackbarText={setSnackbarText}
-                source={source}
+                abortController={abortController}
             />
             <ButtonGroup>{determineButtonsToRender()}</ButtonGroup>
             {snackbar}

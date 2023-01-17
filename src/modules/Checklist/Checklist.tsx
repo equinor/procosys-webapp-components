@@ -43,17 +43,10 @@ const determineIfAllAreCheckedOrNA = (
     return (
         checkItemsToDetermine.every(
             (item) => item.isOk || item.isNotApplicable
-        ) && customCheckItemsToDetermine.every((item) => item.isOk)
+        ) &&
+        customCheckItemsToDetermine.every((item) => item.isOk) &&
+        !checkItemsToDetermine.every((item) => item.isNotApplicable)
     );
-};
-
-type ChecklistProps = {
-    checklistId: string;
-    plantId: string;
-    apiSettings: ProcosysApiSettings;
-    refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    getAccessToken: (scope: string[]) => Promise<string>;
-    setSnackbarText: (message: string) => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -72,11 +65,22 @@ const initializeApi = ({
     });
 };
 
+type ChecklistProps = {
+    checklistId: string;
+    plantId: string;
+    apiSettings: ProcosysApiSettings;
+    refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    getAccessToken: (scope: string[]) => Promise<string>;
+    setSnackbarText: (message: string) => void;
+    offlineState?: boolean;
+};
+
 const Checklist = (props: ChecklistProps): JSX.Element => {
     const api = useMemo(
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
     );
+    const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
     );
@@ -90,15 +94,23 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [checklistDetails, setChecklistDetails] =
         useState<ChecklistDetails>();
     const [isSigned, setIsSigned] = useState(false);
-    const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(true);
+    const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(false);
     const [reloadChecklist, setReloadChecklist] = useState(false);
     const source = axios.CancelToken.source();
+    const abortController = new AbortController();
 
     useEffect(() => {
         setAllItemsCheckedOrNA(
             determineIfAllAreCheckedOrNA(checkItems, customCheckItems)
         );
     }, [checkItems, customCheckItems]);
+
+    useEffect(() => {
+        (async (): Promise<void> => {
+            const permissionsResponse = await api.getPermissions();
+            setPermissions(permissionsResponse);
+        })();
+    }, [api]);
 
     useEffect(() => {
         (async (): Promise<void> => {
@@ -123,7 +135,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         <AsyncPage
             fetchStatus={fetchChecklistStatus}
             errorMessage={'Unable to get checklist.'}
-            loadingMessage={''}
         >
             <>
                 {!multiSignOrVerifyIsOpen && (
@@ -156,6 +167,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                             setCustomCheckItems
                                         }
                                         api={api}
+                                        disabled={
+                                            !permissions.includes('MCCR/SIGN')
+                                        }
                                     />
                                 )}
                                 <CheckItems
@@ -164,6 +178,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
+                                    disabled={
+                                        !permissions.includes('MCCR/SIGN')
+                                    }
                                 />
                                 <CustomCheckItems
                                     customCheckItems={customCheckItems}
@@ -171,6 +188,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
+                                    canEdit={permissions.includes('MCCR/WRITE')}
+                                    canCheck={permissions.includes('MCCR/SIGN')}
                                 />
                             </ChecklistWrapper>
                         ) : null}
@@ -200,8 +219,11 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     api.deleteChecklistAttachment(attachmentId)
                                 }
                                 setSnackbarText={props.setSnackbarText}
-                                readOnly={isSigned}
-                                source={source}
+                                readOnly={
+                                    isSigned ||
+                                    !permissions.includes('MCCR/ATTACHFILE')
+                                }
+                                abortController={abortController}
                             />
                         </AttachmentsWrapper>
                     </>
@@ -219,6 +241,10 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
+                        canAddComment={permissions.includes('MCCR/WRITE')}
+                        canSign={permissions.includes('MCCR/SIGN')}
+                        canVerify={permissions.includes('MCCR/VERIFY')}
+                        offlineState={props.offlineState}
                     />
                 )}
             </>

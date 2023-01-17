@@ -108,6 +108,10 @@ type ChecklistSignatureProps = {
     setMultiSignOrVerifyIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     multiSignOrVerifyIsOpen: boolean;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    canAddComment: boolean;
+    canSign: boolean;
+    canVerify: boolean;
+    offlineState?: boolean;
 };
 
 const ChecklistSignature = ({
@@ -121,6 +125,10 @@ const ChecklistSignature = ({
     setMultiSignOrVerifyIsOpen,
     multiSignOrVerifyIsOpen,
     refreshChecklistStatus,
+    canAddComment,
+    canSign,
+    canVerify,
+    offlineState = false,
 }: ChecklistSignatureProps): JSX.Element => {
     const [comment, setComment] = useState(details.comment);
     const [putCommentStatus, setPutCommentStatus] = useState(
@@ -170,12 +178,15 @@ const ChecklistSignature = ({
         setSignStatus(AsyncStatus.LOADING);
         try {
             await api.postSign();
-            const eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
-                source.token
-            );
-            setEligibleItemsToMultiSignOrVerify(
-                eligibleItemsToMultiSignFromApi
-            );
+            let eligibleItemsToMultiSignFromApi = [];
+            if (!offlineState) {
+                eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
+                    source.token
+                );
+                setEligibleItemsToMultiSignOrVerify(
+                    eligibleItemsToMultiSignFromApi
+                );
+            }
             setIsSigned(true);
             setSignStatus(AsyncStatus.SUCCESS);
             reloadChecklist((reloadStatus) => !reloadStatus);
@@ -213,11 +224,15 @@ const ChecklistSignature = ({
         setVerifyStatus(AsyncStatus.LOADING);
         try {
             await api.postVerify();
-            const eligibleItemsToMultiVerifyFromApi =
-                await api.getCanMultiVerify(source.token);
-            setEligibleItemsToMultiSignOrVerify(
-                eligibleItemsToMultiVerifyFromApi
-            );
+            let eligibleItemsToMultiVerifyFromApi = [];
+            if (!offlineState) {
+                eligibleItemsToMultiVerifyFromApi = await api.getCanMultiVerify(
+                    source.token
+                );
+                setEligibleItemsToMultiSignOrVerify(
+                    eligibleItemsToMultiVerifyFromApi
+                );
+            }
             setIsVerified(true);
             setVerifyStatus(AsyncStatus.SUCCESS);
             reloadChecklist((reloadStatus) => !reloadStatus);
@@ -300,7 +315,8 @@ const ChecklistSignature = ({
                             maxLength={500}
                             disabled={
                                 isSigned ||
-                                putCommentStatus === AsyncStatus.LOADING
+                                putCommentStatus === AsyncStatus.LOADING ||
+                                !canAddComment
                             }
                             rows={10}
                             value={comment}
@@ -338,8 +354,11 @@ const ChecklistSignature = ({
                                             : handleSignClick();
                                     }}
                                     disabled={
+                                        !canSign ||
                                         signStatus === AsyncStatus.LOADING ||
-                                        !allItemsCheckedOrNA
+                                        !allItemsCheckedOrNA ||
+                                        (isSigned &&
+                                            details.partOfCertificateSentToCommissioning)
                                     }
                                 >
                                     {determineSignButtonText(
@@ -359,7 +378,10 @@ const ChecklistSignature = ({
                                             : handleVerifyClick()
                                     }
                                     disabled={
-                                        verifyStatus === AsyncStatus.LOADING
+                                        !canVerify ||
+                                        verifyStatus === AsyncStatus.LOADING ||
+                                        (isVerified &&
+                                            details.partOfCertificateSentToCommissioning)
                                     }
                                 >
                                     {determineVerifyButtonText(

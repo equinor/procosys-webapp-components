@@ -61,6 +61,7 @@ interface NewPunchProps {
     searchStatus: SearchStatus;
     query: string;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
+    disablePersonsSearch?: boolean;
 }
 
 const NewPunch = ({
@@ -83,6 +84,7 @@ const NewPunch = ({
     searchStatus,
     query,
     setQuery,
+    disablePersonsSearch,
 }: NewPunchProps): JSX.Element => {
     const { snackbar, setSnackbarText } = useSnackbar();
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
@@ -209,6 +211,7 @@ const NewPunch = ({
                             }
                             onClick={(): void => setShowPersonsSearch(true)}
                             label={'Action by person'}
+                            disabled={disablePersonsSearch}
                         />
                         <DateField>
                             <Label label="Due Date" htmlFor="dueDate2" />

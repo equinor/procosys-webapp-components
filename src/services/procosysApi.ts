@@ -26,6 +26,13 @@ const procosysApiService = ({
     plantId,
     checklistId,
 }: ProcosysApiServiceProps) => {
+    const getPermissions = async (): Promise<string[]> => {
+        const { data } = await axios.get(
+            `Permissions?plantId=PCS$${plantId}${apiVersion}`
+        );
+        return data as string[];
+    };
+
     const getChecklist = async (
         cancelToken: CancelToken
     ): Promise<ChecklistResponse> => {
@@ -324,6 +331,7 @@ const procosysApiService = ({
     };
 
     return {
+        getPermissions,
         postVerify,
         postUnverify,
         postMultiSign,

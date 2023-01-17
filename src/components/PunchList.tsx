@@ -54,7 +54,11 @@ const PunchList = ({
                             punch.verified ? 'V' : null,
                         ]}
                         attachments={punch.attachmentCount}
-                        headerText={punch.id.toString()}
+                        headerText={
+                            punch.id < 0
+                                ? `${punch.id.toString()} (temp. offline ID)`
+                                : punch.id.toString()
+                        }
                         description={punch.description}
                         chips={
                             isChecklistPunchList

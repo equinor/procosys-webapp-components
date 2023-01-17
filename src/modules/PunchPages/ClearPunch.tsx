@@ -5,7 +5,6 @@ import {
     NativeSelect,
     TextField,
 } from '@equinor/eds-core-react';
-import { CancelToken, CancelTokenSource } from 'axios';
 import useClearPunchFacade from './useClearPunchFacade';
 import ReloadButton from '../../components/buttons/ReloadButton';
 import ErrorPage from '../../components/error/ErrorPage';
@@ -62,13 +61,13 @@ type ClearPunchProps = {
     getPunchAttachments: (
         plantId: string,
         punchItemId: number,
-        cancelToken: CancelToken
+        abortSignal?: AbortSignal
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
-        cancelToken: CancelToken,
         plantId: string,
         punchItemId: number,
-        attachmentId: number
+        attachmentId: number,
+        abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postPunchAttachment: (
         plantId: string,
@@ -87,7 +86,8 @@ type ClearPunchProps = {
     searchStatus: SearchStatus;
     query: string;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
-    source: CancelTokenSource;
+    abortController?: AbortController;
+    disablePersonsSearch?: boolean;
 };
 
 const ClearPunch = ({
@@ -119,7 +119,8 @@ const ClearPunch = ({
     searchStatus,
     query,
     setQuery,
-    source,
+    abortController,
+    disablePersonsSearch,
 }: ClearPunchProps): JSX.Element => {
     const {
         clearPunchItem,
@@ -280,7 +281,7 @@ const ClearPunch = ({
                                     ? `${punchItem.actionByPersonFirstName} ${punchItem.actionByPersonLastName}`
                                     : ''
                             }
-                            disabled={canEdit === false}
+                            disabled={canEdit === false || disablePersonsSearch}
                             inputIcon={
                                 punchItem.actionByPerson && canEdit ? (
                                     <div
@@ -443,17 +444,17 @@ const ClearPunch = ({
                                     getPunchAttachments(
                                         plantId,
                                         punchItem.id,
-                                        source.token
+                                        abortController?.signal
                                     )
                                 }
                                 getAttachment={(
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     getPunchAttachment(
-                                        source.token,
                                         plantId,
                                         punchItem.id,
-                                        attachmentId
+                                        attachmentId,
+                                        abortController?.signal
                                     )
                                 }
                                 postAttachment={(
@@ -478,7 +479,7 @@ const ClearPunch = ({
                                 }
                                 setSnackbarText={setSnackbarText}
                                 readOnly={canEdit === false}
-                                source={source}
+                                abortController={abortController}
                             />
                         </AttachmentsWrapper>
                         <FormButtonWrapper>
@@ -487,7 +488,8 @@ const ClearPunch = ({
                                 disabled={
                                     updatePunchStatus === AsyncStatus.LOADING ||
                                     clearPunchStatus === AsyncStatus.LOADING ||
-                                    canClear === false
+                                    canClear === false ||
+                                    punchItem.statusControlledBySwcr
                                 }
                             >
                                 Clear
