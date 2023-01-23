@@ -62,6 +62,7 @@ interface NewPunchProps {
     query: string;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
     disablePersonsSearch?: boolean;
+    disableAttahments?: boolean;
 }
 
 const NewPunch = ({
@@ -85,6 +86,7 @@ const NewPunch = ({
     query,
     setQuery,
     disablePersonsSearch,
+    disableAttahments,
 }: NewPunchProps): JSX.Element => {
     const { snackbar, setSnackbarText } = useSnackbar();
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
@@ -286,19 +288,29 @@ const NewPunch = ({
                             onChange={createChangeHandler(PunchFields.ESTIMATE)}
                             disabled={submitPunchStatus === AsyncStatus.LOADING}
                         />
-                        <h5>Attachments</h5>
-                        <AttachmentsWrapper>
-                            <TempAttachments
-                                setSnackbarText={setSnackbarText}
-                                setTempAttachmentIds={setTempIds}
-                                postTempAttachment={(
-                                    formData: FormData,
-                                    title: string
-                                ): Promise<string> =>
-                                    postTempAttachment(plantId, formData, title)
-                                }
-                            />
-                        </AttachmentsWrapper>
+                        {disableAttahments ? (
+                            <></>
+                        ) : (
+                            <>
+                                <h5>Attachments</h5>
+                                <AttachmentsWrapper>
+                                    <TempAttachments
+                                        setSnackbarText={setSnackbarText}
+                                        setTempAttachmentIds={setTempIds}
+                                        postTempAttachment={(
+                                            formData: FormData,
+                                            title: string
+                                        ): Promise<string> =>
+                                            postTempAttachment(
+                                                plantId,
+                                                formData,
+                                                title
+                                            )
+                                        }
+                                    />
+                                </AttachmentsWrapper>
+                            </>
+                        )}
                         <FormButtonWrapper>
                             <Button
                                 type="submit"
