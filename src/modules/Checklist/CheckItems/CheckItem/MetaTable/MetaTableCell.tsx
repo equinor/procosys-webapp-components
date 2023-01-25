@@ -74,7 +74,7 @@ const MetaTableCell = ({
             checkItemId,
             cell.columnId,
             rowId,
-            inputValueDate
+            inputValueString
         );
     const putDateCellApiCall = (): Promise<void> =>
         api.putMetaTableDateCell(
