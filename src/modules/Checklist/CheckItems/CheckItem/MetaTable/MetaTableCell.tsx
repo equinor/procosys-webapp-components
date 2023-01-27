@@ -69,13 +69,15 @@ const MetaTableCell = ({
         AsyncStatus.INACTIVE
     );
     const [errorMessage, setErrorMessage] = useState('');
-    const putStringCellApiCall = (): Promise<void> =>
+    const putStringCellApiCall = async (): Promise<void> => {
+        console.log('PUTSTRINGCELL, inputvaluestring=' + inputValueString);
         api.putMetaTableStringCell(
             checkItemId,
             cell.columnId,
             rowId,
             inputValueString
         );
+    };
     const putDateCellApiCall = (): Promise<void> =>
         api.putMetaTableDateCell(
             checkItemId,
@@ -148,7 +150,21 @@ const MetaTableCell = ({
                         'default'
                     }
                     onFocus={(): string => (valueBeforeFocus = cell.value)}
-                    onBlur={(): void => {
+                    onBlur={(
+                        e: React.FocusEvent<
+                            HTMLTextAreaElement | HTMLInputElement
+                        >
+                    ): void => {
+                        console.log(
+                            'ON BLUR: cell.value=' +
+                                cell.value +
+                                '  before=' +
+                                valueBeforeFocus +
+                                '  event.target.value=' +
+                                e.target.value +
+                                '  event.target.defaultValue=' +
+                                e.target.defaultValue
+                        );
                         cell.value !== valueBeforeFocus &&
                             submitData(putStringCellApiCall);
                     }}
