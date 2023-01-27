@@ -78,6 +78,7 @@ const MetaTableCell = ({
             rowId,
             inputValueString
         );
+        setValueBeforeFocus(inputValueString);
     };
     const putDateCellApiCall = (): Promise<void> =>
         api.putMetaTableDateCell(

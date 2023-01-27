@@ -59,6 +59,7 @@ import useSnackbar from './utils/useSnackbar';
 import { isOfType, isArrayOfType } from './utils/typeguard';
 import { removeHtmlFromText } from './utils/removeHtmlFromText';
 
+console.log(`Procosys-web-app-components version is 1.14.12`);
 export {
     NewPunch,
     ClearPunch,
