@@ -29,6 +29,7 @@ import NavigationFooter from './components/Footer/NavigationFooter';
 import SearchTypeButton from './components/buttons/SearchTypeButton';
 import PageHeader from './components/PageHeader';
 import TagInfo from './components/TagInfo/TagInfo';
+import AttachmentsFromList from './modules/Attachments/AttachmentsFromList';
 
 //types
 import {
@@ -98,6 +99,7 @@ export {
     PageHeader,
     TagPhotoRecognition,
     TagInfo,
+    AttachmentsFromList,
     AsyncStatus,
     StorageKey,
     CompletionStatus,
