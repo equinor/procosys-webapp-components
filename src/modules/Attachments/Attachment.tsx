@@ -9,7 +9,10 @@ import styled from 'styled-components';
 import ActionsPanel from './ActionsPanel';
 import { AsyncStatus } from '../../typings/enums';
 import { COLORS } from '../../style/GlobalStyles';
-import { Attachment as AttachmentType } from '../../typings/apiTypes';
+import {
+    Attachment as AttachmentType,
+    AttachmentInList,
+} from '../../typings/apiTypes';
 import EdsIcon from '../../components/icons/EdsIcon';
 
 const AttachmentWrapper = styled.div`
@@ -48,7 +51,7 @@ export const ImageModal = styled.div<{ pushImageUp: boolean }>`
 `;
 
 type AttachmentProps = {
-    attachment: AttachmentType;
+    attachment: AttachmentType | AttachmentInList;
     refreshAttachments?: React.Dispatch<React.SetStateAction<boolean>>;
     readOnly: boolean;
     deleteAttachment?: (attachmentId: number) => Promise<void>;

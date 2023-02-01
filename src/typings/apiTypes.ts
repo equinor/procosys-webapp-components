@@ -26,6 +26,16 @@ export interface Attachment {
     fileName: string;
 }
 
+export interface AttachmentInList {
+    id: number;
+    fileName: string;
+    title: string;
+    mimeType: string;
+    fileId: number; // TODO: What's the difference between this and ID?
+    sortKey: number;
+    uri?: string;
+}
+
 // CHECKLIST
 export interface ChecklistDetails {
     id: number;

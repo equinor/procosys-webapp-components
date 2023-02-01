@@ -1,10 +1,13 @@
 import React from 'react';
-import { Attachment as AttachmentType } from '../../typings/apiTypes';
+import {
+    Attachment as AttachmentType,
+    AttachmentInList,
+} from '../../typings/apiTypes';
 import Attachment from './Attachment';
 import { AttachmentsWrapper } from './Attachments';
 
 interface AttachmentsFromListProps {
-    attachments: AttachmentType[];
+    attachments: AttachmentInList[];
     getAttachment: (
         attachmentId: number,
         abortSignal?: AbortSignal
