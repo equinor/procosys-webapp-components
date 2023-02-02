@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import { Caption, COLORS } from '../../style/GlobalStyles';
 import EdsIcon from '../icons/EdsIcon';
 
-const EntityDetailsWrapper = styled.article<{ isDetailsCard?: boolean }>`
-    cursor: ${(props): string => (props.isDetailsCard ? 'default' : 'pointer')};
+const EntityDetailsWrapper = styled.article<{
+    isDetailsCard?: boolean;
+    isClickable?: boolean;
+}>`
+    cursor: ${(props): string => (props.isClickable ? 'default' : 'pointer')};
     display: flex;
     border-top: 1px solid ${COLORS.lightGrey};
     padding: 16px 4%;
@@ -14,7 +17,7 @@ const EntityDetailsWrapper = styled.article<{ isDetailsCard?: boolean }>`
     background-color: ${(props): string =>
         props.isDetailsCard ? COLORS.fadedBlue : COLORS.white};
     &:hover {
-        opacity: ${(props): number => (props.isDetailsCard ? 1 : 0.7)};
+        opacity: ${(props): number => (props.isClickable ? 1 : 0.7)};
     }
 `;
 
@@ -52,11 +55,11 @@ const BookmarkWrapper = styled.div`
 `;
 
 type EntityDetailsProps = {
-    isDetailsCard?: boolean;
     icon: JSX.Element;
     headerText: string;
     description?: string;
     details?: string[];
+    isDetailsCard?: boolean;
     onClick?: () => void;
     isBookmarked?: boolean;
     offlinePlanningState?: boolean;
@@ -64,11 +67,11 @@ type EntityDetailsProps = {
 };
 
 const EntityDetails = ({
-    isDetailsCard,
     icon,
     headerText,
     description,
     details,
+    isDetailsCard,
     onClick,
     isBookmarked,
     offlinePlanningState,
@@ -83,6 +86,7 @@ const EntityDetails = ({
     return (
         <EntityDetailsWrapper
             isDetailsCard={isDetailsCard}
+            isClickable={onClick != undefined ? true : false}
             onClick={onClick}
             role={isDetailsCard ? 'heading' : 'link'}
         >
