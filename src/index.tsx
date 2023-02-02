@@ -31,15 +31,22 @@ import PageHeader from './components/PageHeader';
 import TagInfo from './components/TagInfo/TagInfo';
 import AttachmentsFromList from './modules/Attachments/AttachmentsFromList';
 
-//types
+//types and enums
 import {
     StorageKey,
     AsyncStatus,
     CompletionStatus,
     PunchAction,
     SearchStatus,
+    DocumentRelationType,
 } from './typings/enums';
-import { Project, Plant, Attachment } from './typings/apiTypes';
+import {
+    Project,
+    Plant,
+    Attachment,
+    Document,
+    DocumentAttachment,
+} from './typings/apiTypes';
 import {
     ChosenPerson,
     PunchFormData,
@@ -105,6 +112,7 @@ export {
     CompletionStatus,
     PunchAction,
     SearchStatus,
+    DocumentRelationType,
 };
 
 export type {
@@ -117,4 +125,6 @@ export type {
     UpdatePunchData,
     SearchResult,
     SearchState,
+    Document,
+    DocumentAttachment,
 };

@@ -47,3 +47,8 @@ export enum PunchFields {
     PRIORITY = 'priority',
     ESTIMATE = 'estimate',
 }
+
+export enum DocumentRelationType {
+    BOUNDARY = 'Boundary',
+    OTHER = 'Other',
+}
