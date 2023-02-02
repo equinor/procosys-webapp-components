@@ -30,6 +30,7 @@ import SearchTypeButton from './components/buttons/SearchTypeButton';
 import PageHeader from './components/PageHeader';
 import TagInfo from './components/TagInfo/TagInfo';
 import AttachmentsFromList from './modules/Attachments/AttachmentsFromList';
+import DocumentFilter from './components/Filter/DocumentFilter/DocumentFilter';
 
 //types and enums
 import {
@@ -107,6 +108,7 @@ export {
     TagPhotoRecognition,
     TagInfo,
     AttachmentsFromList,
+    DocumentFilter,
     AsyncStatus,
     StorageKey,
     CompletionStatus,

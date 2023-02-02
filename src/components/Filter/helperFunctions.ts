@@ -1,4 +1,4 @@
-import { CompletionStatus } from '../../typings/enums';
+import { CompletionStatus, DocumentRelationType } from '../../typings/enums';
 import { Signatures } from './useFilter';
 
 export const filterOnStatus = <T extends { status: CompletionStatus }>(
@@ -54,5 +54,16 @@ export const filterOnMcPkg = <T extends { mcPkgNo?: string }>(
 ): T[] => {
     return arrayToFilter.filter((item) => {
         return item.mcPkgNo === mcPkg;
+    });
+};
+
+export const filterOnDocumentRelationType = <
+    T extends { relationType: DocumentRelationType }
+>(
+    arrayToFilter: T[],
+    relationTypes: string[]
+): T[] => {
+    return arrayToFilter.filter((item) => {
+        return relationTypes.indexOf(item.relationType) != -1;
     });
 };
