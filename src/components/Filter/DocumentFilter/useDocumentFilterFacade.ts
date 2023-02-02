@@ -44,14 +44,19 @@ const useDocumentFilterFacade = (
         if (filter.documentRelationType.indexOf(relationType) === -1) {
             setFilter((prevFilter) => ({
                 ...prevFilter,
-                status: [...prevFilter.documentRelationType, relationType],
+                documentRelationType: [
+                    ...prevFilter.documentRelationType,
+                    relationType,
+                ],
             }));
         } else {
             setFilter((prevFilter) => ({
                 ...prevFilter,
-                status: prevFilter.documentRelationType.filter((item) => {
-                    return item != relationType;
-                }),
+                documentRelationType: prevFilter.documentRelationType.filter(
+                    (item) => {
+                        return item != relationType;
+                    }
+                ),
             }));
         }
     };

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Checkbox, Label, NativeSelect, Radio } from '@equinor/eds-core-react';
+import { Checkbox, Label } from '@equinor/eds-core-react';
 import EdsIcon from '../../icons/EdsIcon';
 import {
     FilterButton,
     FilterWrapper,
 } from '../PunchListFilter/PunchListFilter';
-import { SelectFieldsWrapper } from '../PunchListFilter/SelectFields';
 import { Document } from '../../../typings/apiTypes';
 import useDocumentFilterFacade from './useDocumentFilterFacade';
 
@@ -22,11 +21,19 @@ const DocumentFilter = ({
 }: FilterProps): JSX.Element => {
     const [filterCount, setFilterCount] = useState<number>(0);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const { handleRelationTypeChange, relationTypes } = useDocumentFilterFacade(
-        setFilterCount,
-        setFilteredDocuments,
-        documents
-    );
+    const { filter, handleRelationTypeChange, relationTypes } =
+        useDocumentFilterFacade(
+            setFilterCount,
+            setFilteredDocuments,
+            documents
+        );
+
+    const isChecked = (relationType: string): boolean => {
+        if (relationTypes == undefined) return false;
+        return filter.documentRelationType.indexOf(relationType) == -1
+            ? false
+            : true;
+    };
 
     return (
         <FilterWrapper>
@@ -56,6 +63,7 @@ const DocumentFilter = ({
                                     onChange={(): void => {
                                         handleRelationTypeChange(relationType);
                                     }}
+                                    checked={isChecked(relationType)}
                                 />
                             );
                         })}
