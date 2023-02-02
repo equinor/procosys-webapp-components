@@ -8,7 +8,7 @@ const EntityDetailsWrapper = styled.article<{
     isDetailsCard?: boolean;
     isClickable?: boolean;
 }>`
-    cursor: ${(props): string => (props.isClickable ? 'default' : 'pointer')};
+    cursor: ${(props): string => (props.isClickable ? 'pointer' : 'default')};
     display: flex;
     border-top: 1px solid ${COLORS.lightGrey};
     padding: 16px 4%;
@@ -17,7 +17,7 @@ const EntityDetailsWrapper = styled.article<{
     background-color: ${(props): string =>
         props.isDetailsCard ? COLORS.fadedBlue : COLORS.white};
     &:hover {
-        opacity: ${(props): number => (props.isClickable ? 1 : 0.7)};
+        opacity: ${(props): number => (props.isClickable ? 0.7 : 1)};
     }
 `;
 
@@ -86,7 +86,7 @@ const EntityDetails = ({
     return (
         <EntityDetailsWrapper
             isDetailsCard={isDetailsCard}
-            isClickable={onClick != undefined ? true : false}
+            isClickable={onClick ? true : false}
             onClick={onClick}
             role={isDetailsCard ? 'heading' : 'link'}
         >
