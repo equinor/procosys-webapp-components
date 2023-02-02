@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     Button,
+    Icon,
     Label,
     NativeSelect,
     TextField,
@@ -14,6 +15,7 @@ import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
 import Attachments from '../Attachments/Attachments';
+import Comments from '../Comments/Comments';
 import PersonsSearch from './PersonsSearch';
 import {
     PunchFormWrapper,
@@ -22,7 +24,9 @@ import {
     FormButtonWrapper,
 } from './shared.style';
 import {
+    APIComment,
     Attachment,
+    PunchComment,
     PunchCategory,
     PunchItem,
     PunchOrganization,
@@ -35,6 +39,7 @@ import {
     SearchResult,
     UpdatePunchData,
 } from '../../typings/helperTypes';
+import CollapsibleCard from '../../components/CollapsibleCard';
 
 type ClearPunchProps = {
     plantId: string;
@@ -80,6 +85,12 @@ type ClearPunchProps = {
         punchItemId: number,
         attachmentId: number
     ) => Promise<void>;
+    getPunchComments: (
+        plantId: string,
+        punchItemId: number,
+        abortSignal?: AbortSignal
+    ) => Promise<APIComment[]>;
+    postPunchComment: (plantId: string, comment: PunchComment) => Promise<void>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
     hits: SearchResult;
@@ -113,6 +124,8 @@ const ClearPunch = ({
     getPunchAttachment,
     postPunchAttachment,
     deletePunchAttachment,
+    getPunchComments,
+    postPunchComment,
     snackbar,
     setSnackbarText,
     hits,
@@ -137,6 +150,11 @@ const ClearPunch = ({
         showPersonsSearch,
         setShowPersonsSearch,
         getDefaultOrganization,
+        handleCommentChange,
+        punchComment,
+        setPunchComment,
+        setCommentList,
+        commentList,
     } = useClearPunchFacade(
         setPunchItem,
         punchEndpoints,
@@ -153,6 +171,16 @@ const ClearPunch = ({
 
     let descriptionBeforeEntering = '';
     let estimateBeforeEntering: number | null = 0;
+
+    /*const fetchComments = async (): Promise<void> => {
+        console.log('Fetching comments..');
+        const comments = await getPunchComments(
+            plantId,
+            punchItem.id,
+            abortController?.signal
+        );
+        comments.forEach((comment) => console.log(comment));
+    };*/
 
     if (fetchOptionsStatus === AsyncStatus.SUCCESS) {
         return (
@@ -482,6 +510,47 @@ const ClearPunch = ({
                                 abortController={abortController}
                             />
                         </AttachmentsWrapper>
+                        <CollapsibleCard cardTitle="Comments" expanded={false}>
+                            <TextField
+                                maxLength={255}
+                                value={punchComment}
+                                label="Comment"
+                                multiline
+                                rows={5}
+                                id="NewPunchComment"
+                                disabled={
+                                    clearPunchStatus === AsyncStatus.LOADING ||
+                                    canEdit === false
+                                }
+                                onChange={handleCommentChange}
+                            />
+                            <Button
+                                disabled={
+                                    clearPunchStatus === AsyncStatus.LOADING
+                                }
+                                onClick={(): void => {
+                                    if (punchComment) {
+                                        postPunchComment(plantId, {
+                                            PunchItemId: punchItem.id,
+                                            Text: punchComment,
+                                        });
+                                        setPunchComment('');
+                                    }
+                                }}
+                            >
+                                Add comment
+                            </Button>
+                            <Comments
+                                getComments={(): Promise<APIComment[]> =>
+                                    getPunchComments(
+                                        plantId,
+                                        punchItem.id,
+                                        abortController?.signal
+                                    )
+                                }
+                                abortController={abortController}
+                            ></Comments>
+                        </CollapsibleCard>
                         <FormButtonWrapper>
                             <Button
                                 type="submit"
