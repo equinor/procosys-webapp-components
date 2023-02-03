@@ -84,12 +84,15 @@ type ClearPunchProps = {
         punchItemId: number,
         attachmentId: number
     ) => Promise<void>;
-    getPunchComments: (
+    getPunchComments?: (
         plantId: string,
         punchItemId: number,
         abortSignal?: AbortSignal
     ) => Promise<APIComment[]>;
-    postPunchComment: (plantId: string, comment: PunchComment) => Promise<void>;
+    postPunchComment?: (
+        plantId: string,
+        comment: PunchComment
+    ) => Promise<void>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
     hits: SearchResult;
@@ -494,13 +497,17 @@ const ClearPunch = ({
                                 abortController={abortController}
                             />
                         </AttachmentsWrapper>
-                        <CommentCard
-                            plantId={plantId}
-                            punchItem={punchItem}
-                            getPunchComments={getPunchComments}
-                            postPunchComment={postPunchComment}
-                            showCommentTextField={true}
-                        ></CommentCard>
+                        {getPunchComments && postPunchComment ? (
+                            <CommentCard
+                                plantId={plantId}
+                                punchItem={punchItem}
+                                getPunchComments={getPunchComments}
+                                postPunchComment={postPunchComment}
+                                showCommentTextField={true}
+                            ></CommentCard>
+                        ) : (
+                            <></>
+                        )}
                         <FormButtonWrapper>
                             <Button
                                 type="submit"
