@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     Button,
+    Icon,
     Label,
     NativeSelect,
     TextField,
@@ -14,6 +15,7 @@ import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
 import Attachments from '../Attachments/Attachments';
+import CommentCard from '../Comments/CommentCard';
 import PersonsSearch from './PersonsSearch';
 import {
     PunchFormWrapper,
@@ -22,7 +24,9 @@ import {
     FormButtonWrapper,
 } from './shared.style';
 import {
+    APIComment,
     Attachment,
+    PunchComment,
     PunchCategory,
     PunchItem,
     PunchOrganization,
@@ -80,6 +84,15 @@ type ClearPunchProps = {
         punchItemId: number,
         attachmentId: number
     ) => Promise<void>;
+    getPunchComments?: (
+        plantId: string,
+        punchItemId: number,
+        abortSignal?: AbortSignal
+    ) => Promise<APIComment[]>;
+    postPunchComment?: (
+        plantId: string,
+        comment: PunchComment
+    ) => Promise<void>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
     hits: SearchResult;
@@ -113,6 +126,8 @@ const ClearPunch = ({
     getPunchAttachment,
     postPunchAttachment,
     deletePunchAttachment,
+    getPunchComments,
+    postPunchComment,
     snackbar,
     setSnackbarText,
     hits,
@@ -482,6 +497,17 @@ const ClearPunch = ({
                                 abortController={abortController}
                             />
                         </AttachmentsWrapper>
+                        {getPunchComments && postPunchComment ? (
+                            <CommentCard
+                                plantId={plantId}
+                                punchItem={punchItem}
+                                getPunchComments={getPunchComments}
+                                postPunchComment={postPunchComment}
+                                showCommentTextField={true}
+                            ></CommentCard>
+                        ) : (
+                            <></>
+                        )}
                         <FormButtonWrapper>
                             <Button
                                 type="submit"

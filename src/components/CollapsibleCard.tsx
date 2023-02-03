@@ -9,16 +9,22 @@ const AccordionWrapper = styled.div`
 type CollapsibleCardProps = {
     children: JSX.Element | JSX.Element[];
     cardTitle: string;
+    expanded?: boolean;
 };
 
 const CollapsibleCard = ({
     cardTitle,
     children,
+    expanded = true,
 }: CollapsibleCardProps): JSX.Element => {
+    const click = async (e: React.FormEvent): Promise<void> => {
+        e.preventDefault();
+    };
+
     return (
         <AccordionWrapper>
-            <Accordion headerLevel="h3" chevronPosition="left">
-                <Accordion.Item isExpanded={true}>
+            <Accordion onClick={click} headerLevel="h3" chevronPosition="left">
+                <Accordion.Item isExpanded={expanded}>
                     <Accordion.Header>{cardTitle}</Accordion.Header>
                     <Accordion.Panel>{children}</Accordion.Panel>
                 </Accordion.Item>

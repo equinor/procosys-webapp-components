@@ -182,6 +182,21 @@ export interface PunchPreview {
     callOffNo?: string;
 }
 
+// Punch Comment
+export interface PunchComment {
+    PunchItemId: number;
+    Text: string;
+}
+
+// Punch API Comment
+export interface APIComment {
+    createdAt: string;
+    firstName: string;
+    lastName: string;
+    text: string;
+    id: number;
+}
+
 // Tag
 
 export interface TagDetails {
