@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import EntityDetails from '../../components/EntityDetails/EntityDetails';
 import { APIComment } from '../../typings/apiTypes';
-const Comments = styled.div`
-    background: lightgrey;
-    border: 1px;
-`;
+
 type CommentProps = {
     comment: APIComment;
 };
-const Comment = (props: CommentProps): JSX.Element => {
-    if (props.comment) {
+const Comment = ({ comment }: CommentProps): JSX.Element => {
+    if (comment) {
+        const name = comment.firstName + ' ' + comment.lastName;
+
+        const date = new Date(comment.createdAt).toLocaleDateString('en-GB');
         return (
             <EntityDetails
-                headerText={
-                    props.comment.createdAt +
-                    props.comment.firstName +
-                    props.comment.lastName
-                }
-                isDetailsCard={true}
-                description={props.comment.text}
+                headerText={name}
+                details={[date]}
+                description={comment.text}
             ></EntityDetails>
         );
     } else {
