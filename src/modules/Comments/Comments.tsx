@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { APIComment } from '../../typings/apiTypes';
+import { AsyncStatus } from '../../typings/enums';
 import Comment from './Comment';
 
 const CommentsWrapper = styled.div`
@@ -8,31 +9,15 @@ const CommentsWrapper = styled.div`
 `;
 
 type CommentsProps = {
-    getComments: (abortSignal?: AbortSignal) => Promise<APIComment[]>;
+    commentList?: APIComment[];
     abortController?: AbortController;
 };
 
-const Comments = (props: CommentsProps): JSX.Element => {
-    const [comments, setComments] = useState<APIComment[]>([]);
-    const [refreshComments, setRefreshComments] = useState(false);
-
-    useEffect(() => {
-        (async (): Promise<void> => {
-            try {
-                const commentsFromApi = await props.getComments();
-                setComments(commentsFromApi);
-                console.log(comments);
-            } catch (error) {
-                console.log(error);
-            }
-        })();
-        return (): void => props.abortController?.abort();
-    }, [refreshComments]);
-
-    if (comments) {
+const Comments = ({ commentList }: CommentsProps): JSX.Element => {
+    if (commentList) {
         return (
             <CommentsWrapper>
-                {comments.map((comment) => (
+                {commentList.map((comment) => (
                     <Comment key={comment.id} comment={comment}></Comment>
                 ))}
             </CommentsWrapper>

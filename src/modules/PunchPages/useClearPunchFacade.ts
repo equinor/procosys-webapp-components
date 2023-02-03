@@ -31,8 +31,6 @@ const useClearPunchFacade = (
     clearPunch: () => Promise<void>
 ) => {
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
-    const [punchComment, setPunchComment] = useState('');
-    const [commentList, setCommentList] = useState<APIComment[]>([]);
 
     const getDefaultOrganization = (code: string): number => {
         const defaultId = organizations?.find((org) => org.code === code)?.id;
@@ -61,10 +59,6 @@ const useClearPunchFacade = (
             ...prev,
             description: e.target.value,
         }));
-
-    const handleCommentChange = (
-        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    ): void => setPunchComment(e.target.value);
 
     const handleRaisedByChange = (
         e: React.ChangeEvent<HTMLSelectElement>
@@ -196,17 +190,12 @@ const useClearPunchFacade = (
         handleRaisedByChange,
         handleClearingByChange,
         handleDescriptionChange,
-        handleCommentChange,
         handleActionByPersonChange,
         handleDueDateChange,
         handleSortingChange,
         handlePriorityChange,
         handleEstimateChange,
         showPersonsSearch,
-        punchComment,
-        setPunchComment,
-        commentList,
-        setCommentList,
         setShowPersonsSearch,
         getDefaultOrganization,
     };
