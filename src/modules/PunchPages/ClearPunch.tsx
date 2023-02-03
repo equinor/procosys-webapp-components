@@ -15,7 +15,7 @@ import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
 import Attachments from '../Attachments/Attachments';
-import Comments from '../Comments/Comments';
+import CommentCard from '../Comments/CommentCard';
 import PersonsSearch from './PersonsSearch';
 import {
     PunchFormWrapper,
@@ -39,7 +39,6 @@ import {
     SearchResult,
     UpdatePunchData,
 } from '../../typings/helperTypes';
-import CollapsibleCard from '../../components/CollapsibleCard';
 
 type ClearPunchProps = {
     plantId: string;
@@ -150,11 +149,6 @@ const ClearPunch = ({
         showPersonsSearch,
         setShowPersonsSearch,
         getDefaultOrganization,
-        handleCommentChange,
-        punchComment,
-        setPunchComment,
-        setCommentList,
-        commentList,
     } = useClearPunchFacade(
         setPunchItem,
         punchEndpoints,
@@ -171,16 +165,6 @@ const ClearPunch = ({
 
     let descriptionBeforeEntering = '';
     let estimateBeforeEntering: number | null = 0;
-
-    /*const fetchComments = async (): Promise<void> => {
-        console.log('Fetching comments..');
-        const comments = await getPunchComments(
-            plantId,
-            punchItem.id,
-            abortController?.signal
-        );
-        comments.forEach((comment) => console.log(comment));
-    };*/
 
     if (fetchOptionsStatus === AsyncStatus.SUCCESS) {
         return (
@@ -510,47 +494,13 @@ const ClearPunch = ({
                                 abortController={abortController}
                             />
                         </AttachmentsWrapper>
-                        <CollapsibleCard cardTitle="Comments" expanded={false}>
-                            <TextField
-                                maxLength={255}
-                                value={punchComment}
-                                label="Comment"
-                                multiline
-                                rows={5}
-                                id="NewPunchComment"
-                                disabled={
-                                    clearPunchStatus === AsyncStatus.LOADING ||
-                                    canEdit === false
-                                }
-                                onChange={handleCommentChange}
-                            />
-                            <Button
-                                disabled={
-                                    clearPunchStatus === AsyncStatus.LOADING
-                                }
-                                onClick={(): void => {
-                                    if (punchComment) {
-                                        postPunchComment(plantId, {
-                                            PunchItemId: punchItem.id,
-                                            Text: punchComment,
-                                        });
-                                        setPunchComment('');
-                                    }
-                                }}
-                            >
-                                Add comment
-                            </Button>
-                            <Comments
-                                getComments={(): Promise<APIComment[]> =>
-                                    getPunchComments(
-                                        plantId,
-                                        punchItem.id,
-                                        abortController?.signal
-                                    )
-                                }
-                                abortController={abortController}
-                            ></Comments>
-                        </CollapsibleCard>
+                        <CommentCard
+                            plantId={plantId}
+                            punchItem={punchItem}
+                            getPunchComments={getPunchComments}
+                            postPunchComment={postPunchComment}
+                            showCommentTextField={true}
+                        ></CommentCard>
                         <FormButtonWrapper>
                             <Button
                                 type="submit"
