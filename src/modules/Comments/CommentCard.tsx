@@ -6,8 +6,8 @@ import { APIComment, PunchComment, PunchItem } from '../../typings/apiTypes';
 import CollapsibleCard from '../../components/CollapsibleCard';
 import styled from 'styled-components';
 
-const CommentField = styled(CollapsibleCard)`
-    margin: 100px;
+const CommentField = styled.div`
+    margin-top: 16px;
 `;
 
 type CommentCardProps = {
@@ -84,35 +84,38 @@ const CommentCard = ({
     };
 
     return (
-        <CommentField cardTitle="Comments" expanded={false}>
-            {showCommentTextField ? (
-                <div>
-                    {' '}
-                    <TextField
-                        maxLength={255}
-                        value={punchComment}
-                        label="Comment"
-                        multiline
-                        rows={5}
-                        id="NewPunchComment"
-                        onChange={handleCommentChange}
-                    />
-                    <Button onClick={buttonClick}>Add comment</Button>{' '}
-                    {loadingStatus === AsyncStatus.LOADING ? (
-                        <Progress.Circular size={16} />
-                    ) : (
-                        <Comments
-                            commentList={commentList}
-                            abortController={abortController}
-                        ></Comments>
-                    )}
-                </div>
-            ) : (
-                <Comments
-                    commentList={commentList}
-                    abortController={abortController}
-                ></Comments>
-            )}
+        <CommentField>
+            {' '}
+            <CollapsibleCard cardTitle="Comments" expanded={false}>
+                {showCommentTextField ? (
+                    <div>
+                        {' '}
+                        <TextField
+                            maxLength={255}
+                            value={punchComment}
+                            label="Comment"
+                            multiline
+                            rows={5}
+                            id="NewPunchComment"
+                            onChange={handleCommentChange}
+                        />
+                        <Button onClick={buttonClick}>Add comment</Button>{' '}
+                        {loadingStatus === AsyncStatus.LOADING ? (
+                            <Progress.Circular size={16} />
+                        ) : (
+                            <Comments
+                                commentList={commentList}
+                                abortController={abortController}
+                            ></Comments>
+                        )}
+                    </div>
+                ) : (
+                    <Comments
+                        commentList={commentList}
+                        abortController={abortController}
+                    ></Comments>
+                )}
+            </CollapsibleCard>
         </CommentField>
     );
 };
