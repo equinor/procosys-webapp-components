@@ -6,6 +6,8 @@ import {
     PunchSort,
     PunchPriority,
     PunchItem,
+    PunchComment,
+    APIComment,
 } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';

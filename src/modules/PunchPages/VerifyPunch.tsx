@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
-import { Attachment, PunchItem } from '../../typings/apiTypes';
+import { APIComment, Attachment, PunchItem } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import Attachments from '../Attachments/Attachments';
+import CommentCard from '../Comments/CommentCard';
 
 const VerifyPunchWrapper = styled.div`
     padding: 16px 4% 78px 4%;
@@ -43,6 +44,11 @@ type VerifyPunchProps = {
         attachmentId: number,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
+    getPunchComments: (
+        plantId: string,
+        punchItemId: number,
+        abortSignal?: AbortSignal
+    ) => Promise<APIComment[]>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
     abortController?: AbortController;
@@ -60,6 +66,7 @@ const VerifyPunch = ({
     punchActionStatus,
     getPunchAttachments,
     getPunchAttachment,
+    getPunchComments,
     snackbar,
     setSnackbarText,
     abortController,
@@ -198,6 +205,12 @@ const VerifyPunch = ({
                 setSnackbarText={setSnackbarText}
                 abortController={abortController}
             />
+            <CommentCard
+                plantId={plantId}
+                punchItem={punchItem}
+                getPunchComments={getPunchComments}
+                showCommentTextField={false}
+            ></CommentCard>
             <ButtonGroup>{determineButtonsToRender()}</ButtonGroup>
             {snackbar}
         </VerifyPunchWrapper>

@@ -55,8 +55,8 @@ const BookmarkWrapper = styled.div`
 `;
 
 type EntityDetailsProps = {
-    icon: JSX.Element;
     headerText: string;
+    icon?: JSX.Element;
     description?: string;
     details?: string[];
     isDetailsCard?: boolean;
@@ -67,8 +67,8 @@ type EntityDetailsProps = {
 };
 
 const EntityDetails = ({
-    icon,
     headerText,
+    icon,
     description,
     details,
     isDetailsCard,
@@ -90,7 +90,7 @@ const EntityDetails = ({
             onClick={onClick}
             role={isDetailsCard ? 'heading' : 'link'}
         >
-            <IconWrapper>{icon}</IconWrapper>
+            {icon ? <IconWrapper>{icon}</IconWrapper> : <></>}
             <ContentWrapper>
                 <HeaderWrapper isDetailsCard={isDetailsCard}>
                     <h6>{headerText}</h6>
