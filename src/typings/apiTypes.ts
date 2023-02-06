@@ -31,7 +31,7 @@ export interface AttachmentInList {
     fileName: string;
     title: string;
     mimeType: string;
-    fileId: number; // TODO: What's the difference between this and ID?
+    fileId: number;
     sortKey: number;
     uri?: string;
 }
