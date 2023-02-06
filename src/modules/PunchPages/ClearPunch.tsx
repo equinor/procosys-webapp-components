@@ -15,7 +15,7 @@ import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
 import Attachments from '../Attachments/Attachments';
-import CommentCard from '../Comments/CommentCard';
+import CommentCard from '../../components/Comments/CommentCard';
 import PersonsSearch from './PersonsSearch';
 import {
     PunchFormWrapper,
