@@ -4,7 +4,7 @@ import { Button } from '@equinor/eds-core-react';
 import { APIComment, Attachment, PunchItem } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import Attachments from '../Attachments/Attachments';
-import CommentCard from '../Comments/CommentCard';
+import CommentCard from '../../components/Comments/CommentCard';
 
 const VerifyPunchWrapper = styled.div`
     padding: 16px 4% 78px 4%;
