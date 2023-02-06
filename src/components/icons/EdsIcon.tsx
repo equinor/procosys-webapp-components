@@ -43,6 +43,7 @@ import {
     add,
     launch,
     camera_add_photo,
+    download,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
@@ -92,6 +93,7 @@ Icon.add({
     check,
     add,
     launch,
+    download,
 });
 
 type IconProps = {

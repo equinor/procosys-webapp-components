@@ -175,7 +175,7 @@ const Attachment = ({
                         <Typography lines={3}>{attachment.title}</Typography>
                         <Button variant={'ghost_icon'}>
                             <EdsIcon
-                                name="launch"
+                                name="download"
                                 color={COLORS.mossGreen}
                                 alt={'open action menu'}
                             />
