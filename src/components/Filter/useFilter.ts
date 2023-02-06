@@ -1,4 +1,5 @@
 import React from 'react';
+import { DocumentFilterType } from './DocumentFilter/filterDocuments';
 
 export enum Signatures {
     NOT_CLEARED = 'Not cleared',

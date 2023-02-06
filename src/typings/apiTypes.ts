@@ -1,4 +1,4 @@
-import { CompletionStatus } from './enums';
+import { CompletionStatus, DocumentRelationType } from './enums';
 
 // GENERAL
 export interface Project {
@@ -24,6 +24,16 @@ export interface Attachment {
     thumbnailAsBase64: string;
     hasFile: boolean;
     fileName: string;
+}
+
+export interface AttachmentInList {
+    id: number;
+    fileName: string;
+    title: string;
+    mimeType: string;
+    fileId: number;
+    sortKey: number;
+    uri?: string;
 }
 
 // CHECKLIST
@@ -343,4 +353,25 @@ export interface PunchItem {
     statusControlledBySwcr: boolean;
     isRestrictedForUser: boolean;
     attachmentCount: number;
+}
+
+// Documents
+
+export interface Document {
+    documentId: number;
+    documentNo: string;
+    title: string;
+    revisionNo: string;
+    relationType: DocumentRelationType;
+    attachments: DocumentAttachment[];
+}
+
+export interface DocumentAttachment {
+    id: number;
+    fileName: string;
+    title: string;
+    mimeType: string;
+    fileId: number;
+    sortKey: number;
+    uri?: string;
 }

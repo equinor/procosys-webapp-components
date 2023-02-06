@@ -29,16 +29,25 @@ import NavigationFooter from './components/Footer/NavigationFooter';
 import SearchTypeButton from './components/buttons/SearchTypeButton';
 import PageHeader from './components/PageHeader';
 import TagInfo from './components/TagInfo/TagInfo';
+import AttachmentsFromList from './modules/Attachments/AttachmentsFromList';
+import DocumentFilter from './components/Filter/DocumentFilter/DocumentFilter';
 
-//types
+//types and enums
 import {
     StorageKey,
     AsyncStatus,
     CompletionStatus,
     PunchAction,
     SearchStatus,
+    DocumentRelationType,
 } from './typings/enums';
-import { Project, Plant, Attachment } from './typings/apiTypes';
+import {
+    Project,
+    Plant,
+    Attachment,
+    Document,
+    DocumentAttachment,
+} from './typings/apiTypes';
 import {
     ChosenPerson,
     PunchFormData,
@@ -98,11 +107,14 @@ export {
     PageHeader,
     TagPhotoRecognition,
     TagInfo,
+    AttachmentsFromList,
+    DocumentFilter,
     AsyncStatus,
     StorageKey,
     CompletionStatus,
     PunchAction,
     SearchStatus,
+    DocumentRelationType,
 };
 
 export type {
@@ -115,4 +127,6 @@ export type {
     UpdatePunchData,
     SearchResult,
     SearchState,
+    Document,
+    DocumentAttachment,
 };
