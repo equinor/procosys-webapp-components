@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import EntityDetails from '../../components/EntityDetails/EntityDetails';
+import EntityDetails from '../EntityDetails/EntityDetails';
 import { APIComment } from '../../typings/apiTypes';
 
 type CommentProps = {

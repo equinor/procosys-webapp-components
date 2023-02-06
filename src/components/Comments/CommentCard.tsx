@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Progress, TextField } from '@equinor/eds-core-react';
 import { AsyncStatus } from '../../typings/enums';
-import Comments from '../Comments/Comments';
+import Comments from './Comments';
 import { APIComment, PunchComment, PunchItem } from '../../typings/apiTypes';
-import CollapsibleCard from '../../components/CollapsibleCard';
+import CollapsibleCard from '../CollapsibleCard';
 import styled from 'styled-components';
 
 const CommentField = styled.div`
