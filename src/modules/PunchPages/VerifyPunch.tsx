@@ -44,7 +44,7 @@ type VerifyPunchProps = {
         attachmentId: number,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
-    getPunchComments: (
+    getPunchComments?: (
         plantId: string,
         punchItemId: number,
         abortSignal?: AbortSignal
@@ -205,12 +205,16 @@ const VerifyPunch = ({
                 setSnackbarText={setSnackbarText}
                 abortController={abortController}
             />
-            <CommentCard
-                plantId={plantId}
-                punchItem={punchItem}
-                getPunchComments={getPunchComments}
-                showCommentTextField={false}
-            ></CommentCard>
+            {getPunchComments ? (
+                <CommentCard
+                    plantId={plantId}
+                    punchItem={punchItem}
+                    getPunchComments={getPunchComments}
+                    showCommentTextField={false}
+                ></CommentCard>
+            ) : (
+                <></>
+            )}
             <ButtonGroup>{determineButtonsToRender()}</ButtonGroup>
             {snackbar}
         </VerifyPunchWrapper>
