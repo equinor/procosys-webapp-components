@@ -124,11 +124,7 @@ const MetaTableCell = ({
                         id={dateId}
                         role="datepicker"
                         value={inputValueDate}
-                        onBlur={(
-                            e: React.FocusEvent<
-                                HTMLTextAreaElement | HTMLInputElement
-                            >
-                        ): void => {
+                        onBlur={(): void => {
                             submitData(putDateCellApiCall);
                         }}
                         onChange={(
