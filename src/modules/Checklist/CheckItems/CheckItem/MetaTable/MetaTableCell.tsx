@@ -129,7 +129,7 @@ const MetaTableCell = ({
                                 HTMLTextAreaElement | HTMLInputElement
                             >
                         ): void => {
-                                submitData(putDateCellApiCall);
+                            submitData(putDateCellApiCall);
                         }}
                         onChange={(
                             event: React.ChangeEvent<
