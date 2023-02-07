@@ -35,6 +35,7 @@ export enum PunchAction {
     VERIFY = 'Verify',
     UNVERIFY = 'Unverify',
 }
+
 export enum PunchFields {
     CATEGORY = 'category',
     DESCRIPTION = 'description',
