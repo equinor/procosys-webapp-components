@@ -21,7 +21,9 @@ const baseApiService = ({
     axiosInstance.interceptors.request.use(async (request) => {
         try {
             const token = await getAccessToken(apiSettings.scope);
-            request.headers['Authorization'] = `Bearer ${token}`;
+            if (request.headers != undefined) {
+                request.headers['Authorization'] = `Bearer ${token}`;
+            }
             return request;
         } catch (error) {
             if (!(error instanceof Error)) return;

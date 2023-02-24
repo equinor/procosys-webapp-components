@@ -1,11 +1,10 @@
-import { Variants } from '@equinor/eds-core-react/dist/types/components/TextField/types';
 import React from 'react';
 import { AsyncStatus } from '../typings/enums';
 
-export const determineVariant = (status: AsyncStatus): Variants => {
+export const determineVariant = (status: AsyncStatus): any => {
     if (status === AsyncStatus.ERROR) return 'error';
     if (status === AsyncStatus.SUCCESS) return 'success';
-    return 'default';
+    return undefined;
 };
 
 export const determineHelperText = (status: AsyncStatus): string => {
