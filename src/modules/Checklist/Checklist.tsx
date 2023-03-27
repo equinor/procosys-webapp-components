@@ -76,10 +76,7 @@ type ChecklistProps = {
 };
 
 const Checklist = (props: ChecklistProps): JSX.Element => {
-    const api = useMemo(
-        () => initializeApi({ ...props }),
-        [props.checklistId, props.plantId]
-    );
+    const api = initializeApi({ ...props });
     const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
