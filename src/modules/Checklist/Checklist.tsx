@@ -19,7 +19,6 @@ import AsyncPage from '../../components/AsyncPage';
 import Attachments from '../Attachments/Attachments';
 import LoopTags from './LoopTags';
 import { AsyncStatus } from '../../typings/enums';
-import { assertIsError } from '../../utils/typeguard';
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
@@ -112,7 +111,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 const permissionsResponse = await api.getPermissions();
                 setPermissions(permissionsResponse);
             } catch (err) {
-                assertIsError(err);
+                if (!(err instanceof Error)) return;
                 props.setSnackbarText(err.message);
             }
         })();
@@ -130,7 +129,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 setFetchChecklistStatus(AsyncStatus.SUCCESS);
             } catch (err) {
                 setFetchChecklistStatus(AsyncStatus.ERROR);
-                assertIsError(err);
+                if (!(err instanceof Error)) return;
                 props.setSnackbarText(err.message);
             }
         })();
