@@ -7,6 +7,7 @@ import updateCheck from '../../../utils/updateCheck';
 import updateCustomCheck from '../../../utils/updateCustomCheck';
 import updateNA from '../../../utils/updateNA';
 import { AsyncStatus } from '../../../typings/enums';
+import { assertIsError } from '../../../utils/typeguard';
 
 const StyledCheckAllButton = styled(Button)`
     :disabled {
@@ -72,7 +73,8 @@ const CheckAllButton = ({
             setSnackbarText('Changes saved.');
         } catch (error) {
             setCheckAllStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to save changes.');
+            assertIsError(error);
+            setSnackbarText(error.message);
         }
     };
 
@@ -113,7 +115,8 @@ const CheckAllButton = ({
             setSnackbarText('Clear complete.');
         } catch (error) {
             setCheckAllStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to clear fields.');
+            assertIsError(error);
+            setSnackbarText(error.message);
         }
     };
 
