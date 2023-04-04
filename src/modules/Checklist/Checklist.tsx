@@ -19,6 +19,7 @@ import AsyncPage from '../../components/AsyncPage';
 import Attachments from '../Attachments/Attachments';
 import LoopTags from './LoopTags';
 import { AsyncStatus } from '../../typings/enums';
+import { assertIsError } from '../../utils/typeguard';
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
@@ -107,8 +108,13 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const permissionsResponse = await api.getPermissions();
-            setPermissions(permissionsResponse);
+            try {
+                const permissionsResponse = await api.getPermissions();
+                setPermissions(permissionsResponse);
+            } catch (err) {
+                assertIsError(err);
+                props.setSnackbarText(err.message);
+            }
         })();
     }, [api]);
 
@@ -124,6 +130,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 setFetchChecklistStatus(AsyncStatus.SUCCESS);
             } catch (err) {
                 setFetchChecklistStatus(AsyncStatus.ERROR);
+                assertIsError(err);
+                props.setSnackbarText(err.message);
             }
         })();
         return (): void => {
