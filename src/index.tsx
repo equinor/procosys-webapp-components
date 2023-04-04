@@ -65,7 +65,7 @@ import matchProjectInURL from './utils/matchProjectInURL';
 import objectToCamelCase from './utils/objectToCamelCase';
 import useFormFields from './utils/useFormFields';
 import useSnackbar from './utils/useSnackbar';
-import { isOfType, isArrayOfType } from './utils/typeguard';
+import { isOfType, isArrayOfType, assertIsError } from './utils/typeguard';
 import { removeHtmlFromText } from './utils/removeHtmlFromText';
 
 export {
@@ -75,6 +75,7 @@ export {
     removeHtmlFromText,
     isArrayOfType,
     isOfType,
+    assertIsError,
     ensure,
     matchPlantInURL,
     matchProjectInURL,
