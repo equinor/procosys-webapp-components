@@ -46,9 +46,8 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 );
                 setAttachments(attachmentsFromApi);
             } catch (error) {
-                if (!props.abortController?.signal.aborted) {
-                    props.setSnackbarText('Failed to load attachments.');
-                }
+                if (!(error instanceof Error)) return;
+                props.setSnackbarText(error.message);
             }
         })();
         return (): void => props.abortController?.abort();
