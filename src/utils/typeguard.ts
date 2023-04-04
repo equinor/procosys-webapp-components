@@ -14,9 +14,3 @@ export const isArrayOfType = <T>(
         dataToBeChecked.every((item) => isOfType<T>(item, propertyToCheckFor))
     );
 };
-
-export function assertIsError(error: unknown): asserts error is Error {
-    if (!(error instanceof Error)) {
-        throw error;
-    }
-}
