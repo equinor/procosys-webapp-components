@@ -23,6 +23,7 @@ type CommentCardProps = {
         comment: PunchComment
     ) => Promise<void>;
     showCommentTextField: boolean;
+    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
     abortController?: AbortController;
 };
 
@@ -32,6 +33,7 @@ const CommentCard = ({
     getPunchComments,
     postPunchComment,
     showCommentTextField,
+    setSnackbarText,
     abortController,
 }: CommentCardProps): JSX.Element => {
     const [punchComment, setPunchComment] = useState('');
@@ -66,9 +68,9 @@ const CommentCard = ({
             setCommentList(fetchedComments);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            if (!abortController?.signal.aborted) {
-                setLoadingStatus(AsyncStatus.ERROR);
-            }
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
+            setLoadingStatus(AsyncStatus.ERROR);
         }
     };
 
