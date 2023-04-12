@@ -150,7 +150,7 @@ const MetaTableCell = ({
                     variant={
                         (submitStatus === AsyncStatus.ERROR && 'error') ||
                         (submitStatus === AsyncStatus.SUCCESS && 'success') ||
-                        'default'
+                        undefined
                     }
                     onFocus={(
                         e: React.FocusEvent<
