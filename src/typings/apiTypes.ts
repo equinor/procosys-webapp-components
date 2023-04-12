@@ -200,7 +200,7 @@ export interface PunchComment {
 
 // Punch API Comment
 export interface APIComment {
-    createdAt: string;
+    createdAt: Date;
     firstName: string;
     lastName: string;
     text: string;
