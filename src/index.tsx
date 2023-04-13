@@ -73,6 +73,7 @@ import {
     removeBaseUrlFromUrl,
     updateOfflineEntityObj,
 } from './services/apiHelpers';
+import { HTTPError } from './services/HTTPError';
 
 export {
     NewPunch,
@@ -117,6 +118,7 @@ export {
     DocumentFilter,
     removeBaseUrlFromUrl,
     updateOfflineEntityObj,
+    HTTPError,
     AsyncStatus,
     StorageKey,
     CompletionStatus,
