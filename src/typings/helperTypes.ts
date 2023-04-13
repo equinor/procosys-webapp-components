@@ -67,3 +67,8 @@ export type GetOperationProps = {
     headers: any;
     responseType?: string;
 };
+
+export type ProcosysApiServiceProps = {
+    baseUrl: string;
+    token: string;
+};

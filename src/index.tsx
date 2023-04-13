@@ -57,6 +57,7 @@ import {
     SearchState,
     IEntity,
     GetOperationProps,
+    ProcosysApiServiceProps,
 } from './typings/helperTypes';
 
 //Utils
@@ -141,4 +142,5 @@ export type {
     DocumentAttachment,
     IEntity,
     GetOperationProps,
+    ProcosysApiServiceProps,
 };
