@@ -60,3 +60,10 @@ export type IEntity = {
     parententityid?: number;
     searchtype?: McSearchType;
 };
+
+export type GetOperationProps = {
+    abortSignal?: AbortSignal;
+    method: string;
+    headers: any;
+    responseType?: string;
+};

@@ -56,6 +56,7 @@ import {
     SearchResult,
     SearchState,
     IEntity,
+    GetOperationProps,
 } from './typings/helperTypes';
 
 //Utils
@@ -137,4 +138,5 @@ export type {
     Document,
     DocumentAttachment,
     IEntity,
+    GetOperationProps,
 };
