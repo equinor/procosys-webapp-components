@@ -55,6 +55,7 @@ import {
     UpdatePunchData,
     SearchResult,
     SearchState,
+    IEntity,
 } from './typings/helperTypes';
 
 //Utils
@@ -129,4 +130,5 @@ export type {
     SearchState,
     Document,
     DocumentAttachment,
+    IEntity,
 };

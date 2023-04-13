@@ -1,5 +1,5 @@
 import { Person } from './apiTypes';
-import { SearchStatus } from './enums';
+import { McSearchType, SearchStatus } from './enums';
 
 export type ChosenPerson = {
     id: number | null;
@@ -50,4 +50,13 @@ export type SearchResult = {
 export type SearchState = {
     searchStatus: SearchStatus;
     hits: SearchResult;
+};
+
+export type IEntity = {
+    apipath: string;
+    responseObj: any;
+    entitytype: string;
+    entityid?: number;
+    parententityid?: number;
+    searchtype?: McSearchType;
 };
