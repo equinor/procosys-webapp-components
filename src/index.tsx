@@ -74,6 +74,11 @@ import {
     removeBaseUrlFromUrl,
     updateOfflineEntityObj,
     getErrorMessage,
+    getAttachmentByFetch,
+    getByFetch,
+    postByFetch,
+    putByFetch,
+    deleteByFetch,
 } from './services/apiHelpers';
 import { HTTPError } from './services/HTTPError';
 
@@ -121,6 +126,11 @@ export {
     removeBaseUrlFromUrl,
     updateOfflineEntityObj,
     getErrorMessage,
+    getAttachmentByFetch,
+    getByFetch,
+    postByFetch,
+    putByFetch,
+    deleteByFetch,
     HTTPError,
     AsyncStatus,
     StorageKey,
