@@ -73,6 +73,7 @@ import { removeHtmlFromText } from './utils/removeHtmlFromText';
 import {
     removeBaseUrlFromUrl,
     updateOfflineEntityObj,
+    getErrorMessage,
 } from './services/apiHelpers';
 import { HTTPError } from './services/HTTPError';
 
@@ -119,6 +120,7 @@ export {
     DocumentFilter,
     removeBaseUrlFromUrl,
     updateOfflineEntityObj,
+    getErrorMessage,
     HTTPError,
     AsyncStatus,
     StorageKey,
