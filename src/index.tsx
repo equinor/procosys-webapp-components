@@ -40,6 +40,7 @@ import {
     PunchAction,
     SearchStatus,
     DocumentRelationType,
+    SearchType,
 } from './typings/enums';
 import {
     Project,
@@ -138,6 +139,7 @@ export {
     PunchAction,
     SearchStatus,
     DocumentRelationType,
+    SearchType,
 };
 
 export type {

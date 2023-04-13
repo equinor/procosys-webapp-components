@@ -54,7 +54,7 @@ export enum DocumentRelationType {
     OTHER = 'Other',
 }
 
-export enum McSearchType {
+export enum SearchType {
     PO = 'PO',
     MC = 'MC',
     WO = 'WO',
