@@ -1,7 +1,7 @@
 import {
     GetOperationProps,
     IEntity,
-    ProcosysApiServiceProps,
+    ProcosysApiSettings,
 } from '../typings/helperTypes';
 import objectToCamelCase from '../utils/objectToCamelCase';
 import { HTTPError } from './HTTPError';
@@ -41,7 +41,7 @@ export const getErrorMessage = async (response: Response): Promise<string> => {
  * Generic method for doing a GET call. Should be used by all GET calls with json string (or blank) as respons.
  */
 export const getByFetch = async (
-    { baseURL, token }: ProcosysApiServiceProps,
+    { baseURL, token }: ProcosysApiSettings,
     url: string,
     abortSignal?: AbortSignal,
     entity?: IEntity
@@ -69,7 +69,7 @@ export const getByFetch = async (
  * Generic method for doing a GET call with attachment blob as response.
  */
 export const getAttachmentByFetch = async (
-    { baseURL, token }: ProcosysApiServiceProps,
+    { baseURL, token }: ProcosysApiSettings,
     url: string,
     abortSignal?: AbortSignal,
     entity?: IEntity
@@ -103,7 +103,7 @@ export const getAttachmentByFetch = async (
  * Generic method for doing a DELETE call. Should be used by all DELETE calls.
  */
 export const deleteByFetch = async (
-    { baseURL, token }: ProcosysApiServiceProps,
+    { baseURL, token }: ProcosysApiSettings,
     url: string,
     data?: any
 ): Promise<any> => {
@@ -129,7 +129,7 @@ export const deleteByFetch = async (
  * If the request fails because of network issues etc, Error will be thrown.
  */
 export const postByFetch = async (
-    { baseURL, token }: ProcosysApiServiceProps,
+    { baseURL, token }: ProcosysApiSettings,
     url: string,
     bodyData?: any
 ): Promise<any> => {
@@ -168,7 +168,7 @@ export const postByFetch = async (
  * Generic method for posting attachment with form data as body data.
  */
 export const postAttachmentByFetch = async (
-    { baseURL, token }: ProcosysApiServiceProps,
+    { baseURL, token }: ProcosysApiSettings,
     url: string,
     file: FormData,
     returnId: boolean,
@@ -200,7 +200,7 @@ export const postAttachmentByFetch = async (
  * Generic method for doing a PUT call.
  */
 export const putByFetch = async (
-    { baseURL, token }: ProcosysApiServiceProps,
+    { baseURL, token }: ProcosysApiSettings,
     url: string,
     bodyData: any,
     additionalHeaders?: any

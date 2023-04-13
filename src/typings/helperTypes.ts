@@ -68,7 +68,7 @@ export type GetOperationProps = {
     responseType?: string;
 };
 
-export type ProcosysApiServiceProps = {
+export type ProcosysApiSettings = {
     baseURL: string;
     token: string;
 };
