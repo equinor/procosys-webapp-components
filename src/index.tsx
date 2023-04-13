@@ -68,6 +68,10 @@ import useFormFields from './utils/useFormFields';
 import useSnackbar from './utils/useSnackbar';
 import { isOfType, isArrayOfType } from './utils/typeguard';
 import { removeHtmlFromText } from './utils/removeHtmlFromText';
+import {
+    removeBaseUrlFromUrl,
+    updateOfflineEntityObj,
+} from './services/apiHelpers';
 
 export {
     NewPunch,
@@ -110,6 +114,8 @@ export {
     TagInfo,
     AttachmentsFromList,
     DocumentFilter,
+    removeBaseUrlFromUrl,
+    updateOfflineEntityObj,
     AsyncStatus,
     StorageKey,
     CompletionStatus,
