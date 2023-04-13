@@ -88,14 +88,14 @@ const CustomCheckItems = ({
     );
     const [itemToBeDeleted, setItemToBeDeleted] = useState(0);
     const [customItemText, setCustomItemText] = useState('');
-    const source = axios.CancelToken.source();
+    const abortController = new AbortController();
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const handleCreateNewItem = async () => {
         setPostCustomCheckItemStatus(AsyncStatus.LOADING);
         try {
             const nextAvailableNumber = await api.getNextCustomItemNumber(
-                source.token
+                abortController.signal
             );
             const newIdFromApi = await api.postCustomCheckItem({
                 ItemNo: nextAvailableNumber,
@@ -118,7 +118,7 @@ const CustomCheckItems = ({
             setSnackbarText('Unable to save new check item.');
         }
         return (): void => {
-            source.cancel('Custom check item component unmounted.');
+            abortController.abort('Custom check item component unmounted.');
         };
     };
 

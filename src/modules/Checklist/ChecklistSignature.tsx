@@ -143,7 +143,7 @@ const ChecklistSignature = ({
         eligibleItemsToMultiSignOrVerify,
         setEligibleItemsToMultiSignOrVerify,
     ] = useState<ItemToMultiSignOrVerify[]>([]);
-    const source = axios.CancelToken.source();
+    const abortController = new AbortController();
     let commentBeforeFocus = '';
 
     const putComment = async (): Promise<void> => {
@@ -181,7 +181,7 @@ const ChecklistSignature = ({
             let eligibleItemsToMultiSignFromApi = [];
             if (!offlineState) {
                 eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
-                    source.token
+                    abortController.signal
                 );
                 setEligibleItemsToMultiSignOrVerify(
                     eligibleItemsToMultiSignFromApi
@@ -227,7 +227,7 @@ const ChecklistSignature = ({
             let eligibleItemsToMultiVerifyFromApi = [];
             if (!offlineState) {
                 eligibleItemsToMultiVerifyFromApi = await api.getCanMultiVerify(
-                    source.token
+                    abortController.signal
                 );
                 setEligibleItemsToMultiSignOrVerify(
                     eligibleItemsToMultiVerifyFromApi
@@ -267,7 +267,7 @@ const ChecklistSignature = ({
 
     useEffect(() => {
         return (): void => {
-            source.cancel('Checklist signature component unmounted.');
+            abortController.abort('Checklist signature component unmounted.');
         };
     }, []);
 

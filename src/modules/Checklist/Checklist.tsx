@@ -12,13 +12,18 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../../services/procosysApi';
-import baseApi, { ProcosysApiSettings } from '../../services/baseApi';
 import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../../components/AsyncPage';
 import Attachments from '../Attachments/Attachments';
 import LoopTags from './LoopTags';
 import { AsyncStatus } from '../../typings/enums';
+
+type ProcosysApiSettings = {
+    baseUrl: string;
+    apiVersion: string;
+    scope: string[];
+};
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
@@ -50,16 +55,17 @@ const determineIfAllAreCheckedOrNA = (
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const initializeApi = ({
+const initializeApi = async ({
     checklistId,
     plantId,
     getAccessToken,
-    apiSettings,
+    settings,
 }: ChecklistProps) => {
-    const axiosInstance = baseApi({ getAccessToken, apiSettings });
+    const token = await getAccessToken(settings.scope);
+    const baseURL = settings.baseUrl;
     return procosysApiService({
-        axios: axiosInstance,
-        apiVersion: apiSettings.apiVersion,
+        apiSettings: { baseURL, token },
+        apiVersion: settings.apiVersion,
         plantId,
         checklistId,
     });
@@ -68,14 +74,14 @@ const initializeApi = ({
 type ChecklistProps = {
     checklistId: string;
     plantId: string;
-    apiSettings: ProcosysApiSettings;
+    settings: ProcosysApiSettings;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
     getAccessToken: (scope: string[]) => Promise<string>;
     setSnackbarText: (message: string) => void;
     offlineState?: boolean;
 };
 
-const Checklist = (props: ChecklistProps): JSX.Element => {
+const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
     const api = useMemo(
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
@@ -96,7 +102,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [isSigned, setIsSigned] = useState(false);
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(false);
     const [reloadChecklist, setReloadChecklist] = useState(false);
-    const source = axios.CancelToken.source();
     const abortController = new AbortController();
 
     useEffect(() => {
@@ -107,7 +112,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const permissionsResponse = await api.getPermissions();
+            const permissionsResponse = await (await api).getPermissions();
             setPermissions(permissionsResponse);
         })();
     }, [api]);
@@ -115,7 +120,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     useEffect(() => {
         (async (): Promise<void> => {
             try {
-                const checklistResponse = await api.getChecklist(source.token);
+                const checklistResponse = await (
+                    await api
+                ).getChecklist(abortController.signal);
                 setIsSigned(!!checklistResponse.checkList.signedByFirstName);
                 setCheckItems(checklistResponse.checkItems);
                 setCustomCheckItems(checklistResponse.customCheckItems);
@@ -127,7 +134,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
             }
         })();
         return (): void => {
-            source.cancel('Checklist component unmounted');
+            abortController.abort('Checklist component unmounted');
         };
     }, [reloadChecklist, api]);
 
@@ -166,7 +173,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                         setCustomCheckItems={
                                             setCustomCheckItems
                                         }
-                                        api={api}
+                                        api={await api}
                                         disabled={
                                             !permissions.includes('MCCR/SIGN')
                                         }
@@ -177,7 +184,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     checkItems={checkItems}
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
-                                    api={api}
+                                    api={await api}
                                     disabled={
                                         !permissions.includes('MCCR/SIGN')
                                     }
@@ -187,7 +194,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     setCustomCheckItems={setCustomCheckItems}
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
-                                    api={api}
+                                    api={await api}
                                     canEdit={permissions.includes('MCCR/WRITE')}
                                     canCheck={permissions.includes('MCCR/SIGN')}
                                 />
@@ -196,27 +203,36 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         <AttachmentsHeader>Attachments</AttachmentsHeader>
                         <AttachmentsWrapper>
                             <Attachments
-                                getAttachments={(): Promise<Attachment[]> =>
-                                    api.getChecklistAttachments(source.token)
+                                getAttachments={async (): Promise<
+                                    Attachment[]
+                                > =>
+                                    (await api).getChecklistAttachments(
+                                        abortController.signal
+                                    )
                                 }
-                                getAttachment={(
+                                getAttachment={async (
                                     attachmentId: number
                                 ): Promise<Blob> =>
-                                    api.getChecklistAttachment(
-                                        source.token,
+                                    (await api).getChecklistAttachment(
+                                        abortController.signal,
                                         attachmentId
                                     )
                                 }
-                                postAttachment={(
+                                postAttachment={async (
                                     file: FormData,
                                     title: string
                                 ): Promise<void> =>
-                                    api.postChecklistAttachment(file, title)
+                                    (await api).postChecklistAttachment(
+                                        file,
+                                        title
+                                    )
                                 }
-                                deleteAttachment={(
+                                deleteAttachment={async (
                                     attachmentId: number
                                 ): Promise<void> =>
-                                    api.deleteChecklistAttachment(attachmentId)
+                                    (await api).deleteChecklistAttachment(
+                                        attachmentId
+                                    )
                                 }
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={
@@ -237,7 +253,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         isSigned={isSigned}
                         details={checklistDetails}
                         setIsSigned={setIsSigned}
-                        api={api}
+                        api={await api}
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
