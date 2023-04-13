@@ -55,17 +55,24 @@ const determineIfAllAreCheckedOrNA = (
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const initializeApi = async ({
+const initializeApi = ({
     checklistId,
     plantId,
     getAccessToken,
-    settings,
+    apiSettings,
 }: ChecklistProps) => {
-    const token = await getAccessToken(settings.scope);
-    const baseURL = settings.baseUrl;
+    let token = '';
+    (async (): Promise<void> => {
+        try {
+            token = await getAccessToken(apiSettings.scope);
+        } catch (err) {
+            console.log(err);
+        }
+    })();
+    const baseURL = apiSettings.baseUrl;
     return procosysApiService({
         apiSettings: { baseURL, token },
-        apiVersion: settings.apiVersion,
+        apiVersion: apiSettings.apiVersion,
         plantId,
         checklistId,
     });
@@ -74,14 +81,14 @@ const initializeApi = async ({
 type ChecklistProps = {
     checklistId: string;
     plantId: string;
-    settings: ProcosysApiSettings;
+    apiSettings: ProcosysApiSettings;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
     getAccessToken: (scope: string[]) => Promise<string>;
     setSnackbarText: (message: string) => void;
     offlineState?: boolean;
 };
 
-const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
+const Checklist = (props: ChecklistProps): JSX.Element => {
     const api = useMemo(
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
@@ -112,7 +119,7 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const permissionsResponse = await (await api).getPermissions();
+            const permissionsResponse = await api.getPermissions();
             setPermissions(permissionsResponse);
         })();
     }, [api]);
@@ -120,9 +127,9 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
     useEffect(() => {
         (async (): Promise<void> => {
             try {
-                const checklistResponse = await (
-                    await api
-                ).getChecklist(abortController.signal);
+                const checklistResponse = await api.getChecklist(
+                    abortController.signal
+                );
                 setIsSigned(!!checklistResponse.checkList.signedByFirstName);
                 setCheckItems(checklistResponse.checkItems);
                 setCustomCheckItems(checklistResponse.customCheckItems);
@@ -173,7 +180,7 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
                                         setCustomCheckItems={
                                             setCustomCheckItems
                                         }
-                                        api={await api}
+                                        api={api}
                                         disabled={
                                             !permissions.includes('MCCR/SIGN')
                                         }
@@ -184,7 +191,7 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
                                     checkItems={checkItems}
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
-                                    api={await api}
+                                    api={api}
                                     disabled={
                                         !permissions.includes('MCCR/SIGN')
                                     }
@@ -194,7 +201,7 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
                                     setCustomCheckItems={setCustomCheckItems}
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
-                                    api={await api}
+                                    api={api}
                                     canEdit={permissions.includes('MCCR/WRITE')}
                                     canCheck={permissions.includes('MCCR/SIGN')}
                                 />
@@ -203,36 +210,29 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
                         <AttachmentsHeader>Attachments</AttachmentsHeader>
                         <AttachmentsWrapper>
                             <Attachments
-                                getAttachments={async (): Promise<
-                                    Attachment[]
-                                > =>
-                                    (await api).getChecklistAttachments(
+                                getAttachments={(): Promise<Attachment[]> =>
+                                    api.getChecklistAttachments(
                                         abortController.signal
                                     )
                                 }
-                                getAttachment={async (
+                                getAttachment={(
                                     attachmentId: number
                                 ): Promise<Blob> =>
-                                    (await api).getChecklistAttachment(
+                                    api.getChecklistAttachment(
                                         abortController.signal,
                                         attachmentId
                                     )
                                 }
-                                postAttachment={async (
+                                postAttachment={(
                                     file: FormData,
                                     title: string
                                 ): Promise<void> =>
-                                    (await api).postChecklistAttachment(
-                                        file,
-                                        title
-                                    )
+                                    api.postChecklistAttachment(file, title)
                                 }
-                                deleteAttachment={async (
+                                deleteAttachment={(
                                     attachmentId: number
                                 ): Promise<void> =>
-                                    (await api).deleteChecklistAttachment(
-                                        attachmentId
-                                    )
+                                    api.deleteChecklistAttachment(attachmentId)
                                 }
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={
@@ -253,7 +253,7 @@ const Checklist = async (props: ChecklistProps): Promise<JSX.Element> => {
                         isSigned={isSigned}
                         details={checklistDetails}
                         setIsSigned={setIsSigned}
-                        api={await api}
+                        api={api}
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
