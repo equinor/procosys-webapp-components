@@ -504,6 +504,7 @@ const ClearPunch = ({
                                 getPunchComments={getPunchComments}
                                 postPunchComment={postPunchComment}
                                 showCommentTextField={true}
+                                setSnackbarText={setSnackbarText}
                             ></CommentCard>
                         ) : (
                             <></>

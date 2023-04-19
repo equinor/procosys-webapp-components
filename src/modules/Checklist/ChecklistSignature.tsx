@@ -154,6 +154,8 @@ const ChecklistSignature = ({
             reloadChecklist((prev) => !prev);
         } catch (error) {
             setPutCommentStatus(AsyncStatus.ERROR);
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -167,9 +169,9 @@ const ChecklistSignature = ({
             setIsSigned(false);
             refreshChecklistStatus((prev: boolean) => !prev);
         } catch (error) {
-            if (!(error instanceof Error)) return;
             setSignStatus(AsyncStatus.ERROR);
-            setSnackbarText(error.toString());
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -198,9 +200,9 @@ const ChecklistSignature = ({
                 setMultiSignOrVerifyIsOpen(true);
             }
         } catch (error) {
-            if (!(error instanceof Error)) return;
             setSignStatus(AsyncStatus.ERROR);
-            setSnackbarText(error.toString());
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -213,9 +215,9 @@ const ChecklistSignature = ({
             setSnackbarText('Checklist successfully unverified');
             reloadChecklist((reloadStatus) => !reloadStatus);
         } catch (error) {
-            if (!(error instanceof Error)) return;
             setVerifyStatus(AsyncStatus.ERROR);
-            setSnackbarText(error.toString());
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -242,8 +244,8 @@ const ChecklistSignature = ({
             }
         } catch (error) {
             if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
             setVerifyStatus(AsyncStatus.ERROR);
-            setSnackbarText(error.toString());
         }
     };
 

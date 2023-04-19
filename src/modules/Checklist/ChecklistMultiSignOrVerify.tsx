@@ -89,8 +89,8 @@ const ChecklistMultiSignOrVerify = ({
             closeMultiSignOrVerifyAndRefresh();
         } catch (error) {
             if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
             setPostSignOrVerifyStatus(AsyncStatus.ERROR);
-            setSnackbarText(error.toString());
         }
     };
 

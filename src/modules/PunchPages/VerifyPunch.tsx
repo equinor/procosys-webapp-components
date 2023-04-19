@@ -211,6 +211,7 @@ const VerifyPunch = ({
                     punchItem={punchItem}
                     getPunchComments={getPunchComments}
                     showCommentTextField={false}
+                    setSnackbarText={setSnackbarText}
                 ></CommentCard>
             ) : (
                 <></>
