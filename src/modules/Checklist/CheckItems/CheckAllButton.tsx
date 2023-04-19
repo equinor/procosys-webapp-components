@@ -72,7 +72,8 @@ const CheckAllButton = ({
             setSnackbarText('Changes saved.');
         } catch (error) {
             setCheckAllStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to save changes.');
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -113,7 +114,8 @@ const CheckAllButton = ({
             setSnackbarText('Clear complete.');
         } catch (error) {
             setCheckAllStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to clear fields.');
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 

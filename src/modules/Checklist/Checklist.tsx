@@ -107,8 +107,13 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
 
     useEffect(() => {
         (async (): Promise<void> => {
-            const permissionsResponse = await api.getPermissions();
-            setPermissions(permissionsResponse);
+            try {
+                const permissionsResponse = await api.getPermissions();
+                setPermissions(permissionsResponse);
+            } catch (err) {
+                if (!(err instanceof Error)) return;
+                props.setSnackbarText(err.message);
+            }
         })();
     }, [api]);
 
@@ -124,6 +129,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                 setFetchChecklistStatus(AsyncStatus.SUCCESS);
             } catch (err) {
                 setFetchChecklistStatus(AsyncStatus.ERROR);
+                if (!(err instanceof Error)) return;
+                props.setSnackbarText(err.message);
             }
         })();
         return (): void => {

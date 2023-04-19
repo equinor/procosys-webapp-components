@@ -23,11 +23,6 @@ export type TextResult = {
     value: string;
 };
 
-type TagPhotoRecognitionProps = {
-    setQuery: React.Dispatch<React.SetStateAction<string>>;
-    tagOcrEndpoint: string;
-};
-
 function generateFormData(file: File): FormData {
     const uploadHeaders = new Headers();
     uploadHeaders.append('Content-Type', 'multipart/form-data');
@@ -37,9 +32,16 @@ function generateFormData(file: File): FormData {
     return data;
 }
 
+type TagPhotoRecognitionProps = {
+    setQuery: React.Dispatch<React.SetStateAction<string>>;
+    tagOcrEndpoint: string;
+    setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
+};
+
 const TagPhotoRecognition = ({
     setQuery,
     tagOcrEndpoint,
+    setSnackbarText,
 }: TagPhotoRecognitionProps): JSX.Element => {
     const [showTagSelectionModal, setShowTagSelectionModal] = useState(false);
     const [suggestedTags, setSuggestedTags] = useState<TextResult[]>([]);
@@ -64,7 +66,9 @@ const TagPhotoRecognition = ({
             } else {
                 setOcrStatus(AsyncStatus.SUCCESS);
             }
-        } catch {
+        } catch (error) {
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
             setOcrStatus(AsyncStatus.ERROR);
         }
         captureImageInputRef.current.files = null;

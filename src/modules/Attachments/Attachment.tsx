@@ -95,10 +95,9 @@ const Attachment = ({
             setAttachmentFileURL(imageUrl);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
-            if (!abortController?.signal.aborted) {
-                setSnackbarText('Unable to load attachment.');
-                setLoadingStatus(AsyncStatus.ERROR);
-            }
+            setLoadingStatus(AsyncStatus.ERROR);
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -112,11 +111,9 @@ const Attachment = ({
             setDeleteStatus(AsyncStatus.SUCCESS);
             setShowFullScreenImage(false);
         } catch (error) {
+            setDeleteStatus(AsyncStatus.ERROR);
             if (!(error instanceof Error)) return;
-            if (!abortController?.signal.aborted) {
-                setDeleteStatus(AsyncStatus.ERROR);
-                setSnackbarText(error.toString());
-            }
+            setSnackbarText(error.message);
         }
     };
 

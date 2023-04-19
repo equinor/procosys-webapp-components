@@ -113,9 +113,10 @@ const CustomCheckItems = ({
                 },
             ]);
             setCustomItemText('');
-        } catch {
+        } catch (error) {
             setPostCustomCheckItemStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to save new check item.');
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
         return (): void => {
             source.cancel('Custom check item component unmounted.');
@@ -133,8 +134,9 @@ const CustomCheckItems = ({
             );
             setItemToBeDeleted(0);
             setDeleteCustomCheckStatus(AsyncStatus.SUCCESS);
-        } catch {
-            setSnackbarText('Unable to delete item.');
+        } catch (error) {
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
             setDeleteCustomCheckStatus(AsyncStatus.ERROR);
         }
     };
@@ -148,9 +150,10 @@ const CustomCheckItems = ({
                 setItems: setCustomCheckItems,
             });
             setPostCustomCheckStatus(AsyncStatus.SUCCESS);
-        } catch {
+        } catch (error) {
             setPostCustomCheckStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to uncheck item.');
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
@@ -170,9 +173,10 @@ const CustomCheckItems = ({
                 setItems: setCustomCheckItems,
             });
             setPostCustomCheckStatus(AsyncStatus.SUCCESS);
-        } catch {
+        } catch (error) {
             setPostCustomCheckStatus(AsyncStatus.ERROR);
-            setSnackbarText('Unable to check item.');
+            if (!(error instanceof Error)) return;
+            setSnackbarText(error.message);
         }
     };
 
