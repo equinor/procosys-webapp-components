@@ -58,9 +58,10 @@ const initializeApi = ({
     checklistId,
     plantId,
     apiSettings,
-    token,
+    getAccessToken,
 }: ChecklistProps) => {
     const baseURL = apiSettings.baseUrl;
+    const token = getAccessToken(apiSettings.scope);
     return procosysApiService({
         apiSettings: { baseURL, token },
         apiVersion: apiSettings.apiVersion,
@@ -74,7 +75,7 @@ type ChecklistProps = {
     plantId: string;
     apiSettings: ProcosysApiSettings;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    token: Promise<string>;
+    getAccessToken: (scope: string[]) => Promise<string>;
     setSnackbarText: (message: string) => void;
     offlineState?: boolean;
 };
@@ -82,7 +83,7 @@ type ChecklistProps = {
 const Checklist = (props: ChecklistProps): JSX.Element => {
     const api = useMemo(
         () => initializeApi({ ...props }),
-        [props.checklistId, props.plantId, props.token]
+        [props.checklistId, props.plantId]
     );
     const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
