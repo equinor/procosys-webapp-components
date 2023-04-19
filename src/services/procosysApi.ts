@@ -44,7 +44,7 @@ const procosysApiService = ({
     const getChecklist = async (
         abortSignal: AbortSignal
     ): Promise<ChecklistResponse> => {
-        const { data } = await getByFetch(
+        const data = await getByFetch(
             apiSettings,
             `CheckList/MC?plantId=PCS$${plantId}&checklistId=${checklistId}${apiVersion}`,
             abortSignal

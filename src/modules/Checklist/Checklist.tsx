@@ -174,7 +174,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                         }
                                         api={api}
                                         disabled={
-                                            !permissions.includes('MCCR/SIGN')
+                                            !permissions?.includes('MCCR/SIGN')
                                         }
                                     />
                                 )}
@@ -185,7 +185,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
                                     disabled={
-                                        !permissions.includes('MCCR/SIGN')
+                                        !permissions?.includes('MCCR/SIGN')
                                     }
                                 />
                                 <CustomCheckItems
@@ -194,8 +194,8 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
-                                    canEdit={permissions.includes('MCCR/WRITE')}
-                                    canCheck={permissions.includes('MCCR/SIGN')}
+                                    canEdit={permissions?.includes('MCCR/WRITE')}
+                                    canCheck={permissions?.includes('MCCR/SIGN')}
                                 />
                             </ChecklistWrapper>
                         ) : null}
@@ -229,7 +229,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={
                                     isSigned ||
-                                    !permissions.includes('MCCR/ATTACHFILE')
+                                    !permissions?.includes('MCCR/ATTACHFILE')
                                 }
                                 abortController={abortController}
                             />
@@ -249,9 +249,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
-                        canAddComment={permissions.includes('MCCR/WRITE')}
-                        canSign={permissions.includes('MCCR/SIGN')}
-                        canVerify={permissions.includes('MCCR/VERIFY')}
+                        canAddComment={permissions?.includes('MCCR/WRITE')}
+                        canSign={permissions?.includes('MCCR/SIGN')}
+                        canVerify={permissions?.includes('MCCR/VERIFY')}
                         offlineState={props.offlineState}
                     />
                 )}
