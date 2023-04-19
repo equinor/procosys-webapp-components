@@ -1,5 +1,4 @@
 import { Button, Checkbox, Scrim, TextField } from '@equinor/eds-core-react';
-import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../../components/icons/EdsIcon';

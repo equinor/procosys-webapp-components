@@ -11,7 +11,6 @@ import {
 } from '../../utils/textFieldHelpers';
 import { ProcosysApiService } from '../../services/procosysApi';
 import ChecklistMultiSignOrVerify from './ChecklistMultiSignOrVerify';
-import axios from 'axios';
 import { AsyncStatus } from '../../typings/enums';
 import { Caption, COLORS } from '../../style/GlobalStyles';
 

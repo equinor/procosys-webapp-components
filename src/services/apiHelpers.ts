@@ -46,11 +46,12 @@ export const getByFetch = async (
     abortSignal?: AbortSignal,
     entity?: IEntity
 ): Promise<any> => {
+    const myToken = await token;
     const GetOperation: GetOperationProps = {
         abortSignal: abortSignal,
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${myToken}`,
         },
     };
     const res = await fetch(`${baseURL}/${url}`, GetOperation);
@@ -74,12 +75,13 @@ export const getAttachmentByFetch = async (
     abortSignal?: AbortSignal,
     entity?: IEntity
 ): Promise<Blob> => {
+    const myToken = await token;
     const GetOperation: GetOperationProps = {
         abortSignal: abortSignal,
         method: 'GET',
         responseType: 'blob',
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${myToken}`,
             'Content-Disposition': 'attachment; filename="filename.jpg"',
         },
     };
@@ -107,10 +109,11 @@ export const deleteByFetch = async (
     url: string,
     data?: any
 ): Promise<any> => {
+    const myToken = await token;
     const DeleteOperation = {
         method: 'DELETE',
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${myToken}`,
             'Content-Type': 'application/json',
         },
         body: data ? JSON.stringify(data) : null,
@@ -133,10 +136,11 @@ export const postByFetch = async (
     url: string,
     bodyData?: any
 ): Promise<any> => {
+    const myToken = await token;
     const PostOperation = {
         method: 'POST',
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${myToken}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(bodyData),
@@ -145,6 +149,42 @@ export const postByFetch = async (
     let response = new Response();
     try {
         response = await fetch(`${baseURL}/${url}`, PostOperation);
+    } catch (error) {
+        console.error('Something went wrong when accessing the server.', error);
+        throw new Error('Something went wrong when accessing the server.');
+    }
+
+    if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+            return await response.json();
+        } else {
+            return;
+        }
+    } else {
+        const errorMessage = await getErrorMessage(response);
+        console.error('Error occured on postByFetch', errorMessage);
+        throw new HTTPError(response.status, errorMessage);
+    }
+};
+
+/**
+ * Generic method for doing a POST call with json as body data.
+ * If the request fails because of http error code from server, HTTPError will be thrown.
+ * If the request fails because of network issues etc, Error will be thrown.
+ */
+export const postByFetchSimple = async (
+    url: string,
+    bodyData?: any
+): Promise<any> => {
+    const PostOperation = {
+        method: 'POST',
+        body: JSON.stringify(bodyData),
+    };
+
+    let response = new Response();
+    try {
+        response = await fetch(url, PostOperation);
     } catch (error) {
         console.error('Something went wrong when accessing the server.', error);
         throw new Error('Something went wrong when accessing the server.');
@@ -174,10 +214,11 @@ export const postAttachmentByFetch = async (
     returnId: boolean,
     entity?: IEntity
 ): Promise<any> => {
+    const myToken = await token;
     const PostOperation = {
         method: 'POST',
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${myToken}`,
         },
         body: file,
     };
@@ -205,10 +246,11 @@ export const putByFetch = async (
     bodyData: any,
     additionalHeaders?: any
 ): Promise<any> => {
+    const myToken = await token;
     const PutOperation = {
         method: 'PUT',
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${myToken}`,
             ...additionalHeaders,
         },
         body: JSON.stringify(bodyData),

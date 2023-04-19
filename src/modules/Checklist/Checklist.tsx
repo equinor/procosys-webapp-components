@@ -9,7 +9,6 @@ import {
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../../services/procosysApi';
 import CustomCheckItems from './CheckItems/CustomCheckItems';
@@ -58,17 +57,9 @@ const determineIfAllAreCheckedOrNA = (
 const initializeApi = ({
     checklistId,
     plantId,
-    getAccessToken,
     apiSettings,
+    token,
 }: ChecklistProps) => {
-    let token = '';
-    (async (): Promise<void> => {
-        try {
-            token = await getAccessToken(apiSettings.scope);
-        } catch (err) {
-            console.log(err);
-        }
-    })();
     const baseURL = apiSettings.baseUrl;
     return procosysApiService({
         apiSettings: { baseURL, token },
@@ -83,7 +74,7 @@ type ChecklistProps = {
     plantId: string;
     apiSettings: ProcosysApiSettings;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    getAccessToken: (scope: string[]) => Promise<string>;
+    token: Promise<string>;
     setSnackbarText: (message: string) => void;
     offlineState?: boolean;
 };
@@ -91,7 +82,7 @@ type ChecklistProps = {
 const Checklist = (props: ChecklistProps): JSX.Element => {
     const api = useMemo(
         () => initializeApi({ ...props }),
-        [props.checklistId, props.plantId]
+        [props.checklistId, props.plantId, props.token]
     );
     const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(

@@ -70,5 +70,5 @@ export type GetOperationProps = {
 
 export type ProcosysApiSettings = {
     baseURL: string;
-    token: string;
+    token: Promise<string>;
 };
