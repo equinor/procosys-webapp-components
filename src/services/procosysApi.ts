@@ -34,7 +34,7 @@ const procosysApiService = ({
     checklistId,
 }: ProcosysApiServiceProps) => {
     const getPermissions = async (): Promise<string[]> => {
-        const { data } = await getByFetch(
+        const data = await getByFetch(
             apiSettings,
             `Permissions?plantId=PCS$${plantId}${apiVersion}`
         );
@@ -144,7 +144,7 @@ const procosysApiService = ({
     const getNextCustomItemNumber = async (
         abortSignal: AbortSignal
     ): Promise<string> => {
-        const { data } = await getByFetch(
+        const data = await getByFetch(
             apiSettings,
             `CheckList/CustomItem/NextItemNo?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
             abortSignal
@@ -264,7 +264,7 @@ const procosysApiService = ({
     const getCanMultiSign = async (
         abortSignal: AbortSignal
     ): Promise<ItemToMultiSignOrVerify[]> => {
-        const { data } = await getByFetch(
+        const data = await getByFetch(
             apiSettings,
             `CheckList/MC/CanMultiSign?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
             abortSignal
@@ -280,7 +280,7 @@ const procosysApiService = ({
     const getCanMultiVerify = async (
         abortSignal: AbortSignal
     ): Promise<ItemToMultiSignOrVerify[]> => {
-        const { data } = await getByFetch(
+        const data = await getByFetch(
             apiSettings,
             `CheckList/MC/CanMultiVerify?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
             abortSignal
@@ -296,7 +296,7 @@ const procosysApiService = ({
     const getChecklistAttachments = async (
         abortSignal: AbortSignal
     ): Promise<Attachment[]> => {
-        const { data } = await getByFetch(
+        const data = await getByFetch(
             apiSettings,
             `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=128${apiVersion}`,
             abortSignal

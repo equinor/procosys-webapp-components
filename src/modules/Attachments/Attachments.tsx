@@ -44,6 +44,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 const attachmentsFromApi = await props.getAttachments(
                     props.abortController?.signal
                 );
+                console.log(attachmentsFromApi);
                 setAttachments(attachmentsFromApi);
             } catch (error) {
                 if (!(error instanceof Error)) return;
@@ -55,7 +56,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
 
     return (
         <AttachmentsWrapper>
-            {attachments.map((attachment) => (
+            {attachments?.map((attachment) => (
                 <Attachment
                     key={attachment.id}
                     readOnly={props.readOnly}

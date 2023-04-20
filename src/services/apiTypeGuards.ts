@@ -13,6 +13,8 @@ const isAttachment = (data: unknown): data is Attachment => {
 };
 
 export const isArrayOfAttachments = (data: unknown): data is Attachment[] => {
+    if (!Array.isArray(data)) return false;
+    if (data.length == 0) return true;
     return Array.isArray(data) && data.every(isAttachment);
 };
 
