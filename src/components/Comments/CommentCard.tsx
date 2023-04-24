@@ -100,16 +100,18 @@ const CommentCard = ({
                             rows={5}
                             id="NewPunchComment"
                             onChange={handleCommentChange}
-                        />
-                        <Button onClick={buttonClick}>Add comment</Button>{' '}
+                        />{' '}
                         {loadingStatus === AsyncStatus.LOADING ? (
-                            <Progress.Circular size={16} />
+                            <Button disabled={true}>
+                                <Progress.Circular size={16} />
+                            </Button>
                         ) : (
-                            <Comments
-                                commentList={commentList}
-                                abortController={abortController}
-                            ></Comments>
+                            <Button onClick={buttonClick}>Add comment</Button>
                         )}
+                        <Comments
+                            commentList={commentList}
+                            abortController={abortController}
+                        ></Comments>
                     </div>
                 ) : (
                     <Comments
