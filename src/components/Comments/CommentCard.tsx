@@ -10,6 +10,14 @@ const CommentField = styled.div`
     margin-top: 16px;
 `;
 
+const TextFieldWrapper = styled(TextField)`
+    margin-bottom: 8px;
+`;
+
+const ButtonWrapper = styled(Button)`
+    width: 150px;
+`;
+
 type CommentCardProps = {
     plantId: string;
     punchItem: PunchItem;
@@ -88,11 +96,11 @@ const CommentCard = ({
     return (
         <CommentField>
             {' '}
-            <CollapsibleCard cardTitle="Comments" expanded={true}>
+            <CollapsibleCard cardTitle="Comments">
                 {showCommentTextField ? (
                     <div>
                         {' '}
-                        <TextField
+                        <TextFieldWrapper
                             maxLength={255}
                             value={punchComment}
                             label="Comment"
@@ -102,11 +110,13 @@ const CommentCard = ({
                             onChange={handleCommentChange}
                         />{' '}
                         {loadingStatus === AsyncStatus.LOADING ? (
-                            <Button disabled={true}>
+                            <ButtonWrapper disabled={true}>
                                 <Progress.Circular size={16} />
-                            </Button>
+                            </ButtonWrapper>
                         ) : (
-                            <Button onClick={buttonClick}>Add comment</Button>
+                            <ButtonWrapper onClick={buttonClick}>
+                                Add comment
+                            </ButtonWrapper>
                         )}
                         <Comments
                             commentList={commentList}
