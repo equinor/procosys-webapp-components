@@ -362,6 +362,7 @@ export interface Document {
     documentNo: string;
     title: string;
     revisionNo: string;
+    revisionId: number;
     relationType: DocumentRelationType;
     attachments: DocumentAttachment[];
 }
