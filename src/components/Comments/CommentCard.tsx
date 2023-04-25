@@ -88,7 +88,7 @@ const CommentCard = ({
     return (
         <CommentField>
             {' '}
-            <CollapsibleCard cardTitle="Comments" expanded={false}>
+            <CollapsibleCard cardTitle="Comments" expanded={true}>
                 {showCommentTextField ? (
                     <div>
                         {' '}
