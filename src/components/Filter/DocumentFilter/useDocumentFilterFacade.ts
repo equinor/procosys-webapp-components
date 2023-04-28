@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Document } from '../../../typings/apiTypes';
-import { DocumentRelationType } from '../../../typings/enums';
 import { DocumentFilterType, filterDocuments } from './filterDocuments';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
