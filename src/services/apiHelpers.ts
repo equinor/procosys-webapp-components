@@ -169,7 +169,7 @@ export const postByFetch = async (
 };
 
 /**
- * Generic method for doing a POST call with json as body data.
+ * Generic method for doing a POST call with json as body data without the need for a token or a base URL
  * If the request fails because of http error code from server, HTTPError will be thrown.
  * If the request fails because of network issues etc, Error will be thrown.
  */
