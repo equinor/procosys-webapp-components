@@ -40,6 +40,7 @@ import {
     PunchAction,
     SearchStatus,
     DocumentRelationType,
+    SearchType,
 } from './typings/enums';
 import {
     Project,
@@ -55,6 +56,9 @@ import {
     UpdatePunchData,
     SearchResult,
     SearchState,
+    IEntity,
+    GetOperationProps,
+    ProcosysApiSettings,
 } from './typings/helperTypes';
 
 //Utils
@@ -67,6 +71,17 @@ import useFormFields from './utils/useFormFields';
 import useSnackbar from './utils/useSnackbar';
 import { isOfType, isArrayOfType } from './utils/typeguard';
 import { removeHtmlFromText } from './utils/removeHtmlFromText';
+import {
+    removeBaseUrlFromUrl,
+    updateOfflineEntityObj,
+    getErrorMessage,
+    getAttachmentByFetch,
+    getByFetch,
+    postByFetch,
+    putByFetch,
+    deleteByFetch,
+} from './services/apiHelpers';
+import { HTTPError } from './services/HTTPError';
 
 export {
     NewPunch,
@@ -109,12 +124,22 @@ export {
     TagInfo,
     AttachmentsFromList,
     DocumentFilter,
+    removeBaseUrlFromUrl,
+    updateOfflineEntityObj,
+    getErrorMessage,
+    getAttachmentByFetch,
+    getByFetch,
+    postByFetch,
+    putByFetch,
+    deleteByFetch,
+    HTTPError,
     AsyncStatus,
     StorageKey,
     CompletionStatus,
     PunchAction,
     SearchStatus,
     DocumentRelationType,
+    SearchType,
 };
 
 export type {
@@ -129,4 +154,7 @@ export type {
     SearchState,
     Document,
     DocumentAttachment,
+    IEntity,
+    GetOperationProps,
+    ProcosysApiSettings,
 };

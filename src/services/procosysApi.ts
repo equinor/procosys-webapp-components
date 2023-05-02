@@ -1,4 +1,3 @@
-import { AxiosInstance, CancelToken } from 'axios';
 import { CustomCheckItemDto } from '../modules/Checklist/CheckItems/CustomCheckItems';
 import {
     isArrayOfAttachments,
@@ -11,9 +10,17 @@ import {
     Attachment,
     ItemToMultiSignOrVerify,
 } from '../typings/apiTypes';
+import {
+    deleteByFetch,
+    getAttachmentByFetch,
+    getByFetch,
+    postByFetch,
+    putByFetch,
+} from './apiHelpers';
+import { ProcosysApiSettings } from '../typings/helperTypes';
 
 type ProcosysApiServiceProps = {
-    axios: AxiosInstance;
+    apiSettings: ProcosysApiSettings;
     apiVersion: string;
     plantId: string;
     checklistId: string;
@@ -21,24 +28,26 @@ type ProcosysApiServiceProps = {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const procosysApiService = ({
-    axios,
+    apiSettings,
     apiVersion,
     plantId,
     checklistId,
 }: ProcosysApiServiceProps) => {
     const getPermissions = async (): Promise<string[]> => {
-        const { data } = await axios.get(
+        const data = await getByFetch(
+            apiSettings,
             `Permissions?plantId=PCS$${plantId}${apiVersion}`
         );
         return data as string[];
     };
 
     const getChecklist = async (
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ): Promise<ChecklistResponse> => {
-        const { data } = await axios.get(
+        const data = await getByFetch(
+            apiSettings,
             `CheckList/MC?plantId=PCS$${plantId}&checklistId=${checklistId}${apiVersion}`,
-            { cancelToken }
+            abortSignal
         );
         if (!isChecklistResponse(data)) {
             throw new TypeError(
@@ -49,7 +58,8 @@ const procosysApiService = ({
     };
 
     const postSetOk = async (checkItemId: number): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/Item/SetOk?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -59,7 +69,8 @@ const procosysApiService = ({
     };
 
     const postSetNA = async (checkItemId: number): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/Item/SetNA?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -69,7 +80,8 @@ const procosysApiService = ({
     };
 
     const postClear = async (checkItemId: number): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/Item/Clear?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -81,7 +93,8 @@ const procosysApiService = ({
     const postCustomClear = async (
         customCheckItemId: number
     ): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/CustomItem/Clear?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -92,7 +105,8 @@ const procosysApiService = ({
     const postCustomSetOk = async (
         customCheckItemId: number
     ): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/CustomItem/SetOk?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -104,7 +118,8 @@ const procosysApiService = ({
     const postCustomCheckItem = async (
         dto: CustomCheckItemDto
     ): Promise<number> => {
-        const { data } = await axios.post(
+        const { data } = await postByFetch(
+            apiSettings,
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             { ...dto, ChecklistId: checklistId }
         );
@@ -114,7 +129,8 @@ const procosysApiService = ({
     const deleteCustomCheckItem = async (
         customCheckItemId: number
     ): Promise<void> => {
-        await axios.delete(
+        await deleteByFetch(
+            apiSettings,
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             {
                 data: {
@@ -126,11 +142,12 @@ const procosysApiService = ({
     };
 
     const getNextCustomItemNumber = async (
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ): Promise<string> => {
-        const { data } = await axios.get(
+        const data = await getByFetch(
+            apiSettings,
             `CheckList/CustomItem/NextItemNo?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
-            { cancelToken }
+            abortSignal
         );
         if (!isNextAvailableNumber(data)) {
             throw TypeError('Invalid next available number from API.');
@@ -144,7 +161,8 @@ const procosysApiService = ({
         rowId: number,
         value: string
     ): Promise<void> => {
-        await axios.put(
+        await putByFetch(
+            apiSettings,
             `CheckList/Item/MetaTableCell?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -162,7 +180,8 @@ const procosysApiService = ({
         rowId: number,
         value: string
     ): Promise<void> => {
-        await axios.put(
+        await putByFetch(
+            apiSettings,
             `CheckList/Item/MetaTableCellDate?plantId=PCS$${plantId}${apiVersion}`,
             {
                 CheckListId: checklistId,
@@ -175,41 +194,42 @@ const procosysApiService = ({
     };
 
     const putChecklistComment = async (Comment: string): Promise<void> => {
-        await axios.put(
+        await putByFetch(
+            apiSettings,
             `CheckList/MC/Comment?plantId=PCS$${plantId}${apiVersion}`,
             { CheckListId: checklistId, Comment: Comment }
         );
     };
 
     const postSign = async (): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/MC/Sign?plantId=PCS$${plantId}${apiVersion}`,
-            checklistId,
-            { headers: { 'Content-Type': 'application/json' } }
+            checklistId
         );
     };
 
     const postUnsign = async (): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/MC/Unsign?plantId=PCS$${plantId}${apiVersion}`,
-            checklistId,
-            { headers: { 'Content-Type': 'application/json' } }
+            checklistId
         );
     };
 
     const postVerify = async (): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/MC/Verify?plantId=PCS$${plantId}${apiVersion}`,
-            checklistId,
-            { headers: { 'Content-Type': 'application/json' } }
+            checklistId
         );
     };
 
     const postUnverify = async (): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/MC/Unverify?plantId=PCS$${plantId}${apiVersion}`,
-            checklistId,
-            { headers: { 'Content-Type': 'application/json' } }
+            checklistId
         );
     };
 
@@ -217,7 +237,8 @@ const procosysApiService = ({
         targetChecklistIds: number[],
         copyMetaTable: boolean
     ): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/MC/MultiSign?plantId=PCS$${plantId}${apiVersion}`,
             {
                 OriginalCheckListId: checklistId,
@@ -230,7 +251,8 @@ const procosysApiService = ({
     const postMultiVerify = async (
         targetChecklistIds: number[]
     ): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/MC/MultiVerify?plantId=PCS$${plantId}${apiVersion}`,
             {
                 OriginalCheckListId: checklistId,
@@ -240,11 +262,12 @@ const procosysApiService = ({
     };
 
     const getCanMultiSign = async (
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ): Promise<ItemToMultiSignOrVerify[]> => {
-        const { data } = await axios.get(
+        const data = await getByFetch(
+            apiSettings,
             `CheckList/MC/CanMultiSign?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
-            { cancelToken }
+            abortSignal
         );
         if (!isArrayOfItemToMultiSignOrVerify(data)) {
             throw new TypeError(
@@ -255,11 +278,12 @@ const procosysApiService = ({
     };
 
     const getCanMultiVerify = async (
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ): Promise<ItemToMultiSignOrVerify[]> => {
-        const { data } = await axios.get(
+        const data = await getByFetch(
+            apiSettings,
             `CheckList/MC/CanMultiVerify?plantId=PCS$${plantId}&checkListId=${checklistId}${apiVersion}`,
-            { cancelToken }
+            abortSignal
         );
         if (!isArrayOfItemToMultiSignOrVerify(data)) {
             throw new TypeError(
@@ -270,11 +294,12 @@ const procosysApiService = ({
     };
 
     const getChecklistAttachments = async (
-        cancelToken: CancelToken
+        abortSignal: AbortSignal
     ): Promise<Attachment[]> => {
-        const { data } = await axios.get(
+        const data = await getByFetch(
+            apiSettings,
             `CheckList/Attachments?plantId=PCS$${plantId}&checkListId=${checklistId}&thumbnailSize=128${apiVersion}`,
-            { cancelToken }
+            abortSignal
         );
         if (!isArrayOfAttachments(data)) {
             throw new TypeError(
@@ -285,19 +310,14 @@ const procosysApiService = ({
     };
 
     const getChecklistAttachment = async (
-        cancelToken: CancelToken,
+        abortSignal: AbortSignal,
         attachmentId: number
     ): Promise<Blob> => {
-        const { data } = await axios.get(
+        const data = await getAttachmentByFetch(
+            apiSettings,
             `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&attachmentId=${attachmentId}${apiVersion}`,
-            {
-                cancelToken,
-                responseType: 'blob',
-                headers: {
-                    'Content-Disposition':
-                        'attachment; filename="filename.jpg"',
-                },
-            }
+
+            abortSignal
         );
         return data as Blob;
     };
@@ -309,7 +329,8 @@ const procosysApiService = ({
             CheckListId: parseInt(checklistId),
             AttachmentId: attachmentId,
         };
-        await axios.delete(
+        await deleteByFetch(
+            apiSettings,
             `CheckList/Attachment?plantId=PCS$${plantId}&api-version=4.1`,
             { data: dto }
         );
@@ -319,14 +340,10 @@ const procosysApiService = ({
         data: FormData,
         title?: string
     ): Promise<void> => {
-        await axios.post(
+        await postByFetch(
+            apiSettings,
             `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&title=${title}${apiVersion}`,
-            data,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            }
+            data
         );
     };
 

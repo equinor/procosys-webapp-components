@@ -53,3 +53,11 @@ export enum DocumentRelationType {
     BOUNDARY = 'Boundary',
     OTHER = 'Other',
 }
+
+export enum SearchType {
+    PO = 'PO',
+    MC = 'MC',
+    WO = 'WO',
+    Tag = 'Tag',
+    IPO = 'IPO',
+}

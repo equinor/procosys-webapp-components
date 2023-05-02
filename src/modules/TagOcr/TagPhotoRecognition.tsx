@@ -1,10 +1,10 @@
 import { Button } from '@equinor/eds-core-react';
-import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../components/icons/EdsIcon';
 import { AsyncStatus } from '../../typings/enums';
 import TagSelectionModal from './TagSelectionModal';
+import { postByFetch, postByFetchSimple } from '../../services/apiHelpers';
 
 const CaptureInput = styled.input`
     display: none;
@@ -59,7 +59,7 @@ const TagPhotoRecognition = ({
         setOcrStatus(AsyncStatus.LOADING);
         setShowTagSelectionModal(true);
         try {
-            const response = await axios.post(tagOcrEndpoint, data);
+            const response = await postByFetchSimple(tagOcrEndpoint, data);
             setSuggestedTags(response.data);
             if (response.data.length < 1) {
                 setOcrStatus(AsyncStatus.EMPTY_RESPONSE);

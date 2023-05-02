@@ -1,5 +1,5 @@
 import { Person } from './apiTypes';
-import { SearchStatus } from './enums';
+import { SearchType, SearchStatus } from './enums';
 
 export type ChosenPerson = {
     id: number | null;
@@ -50,4 +50,25 @@ export type SearchResult = {
 export type SearchState = {
     searchStatus: SearchStatus;
     hits: SearchResult;
+};
+
+export type IEntity = {
+    apipath: string;
+    responseObj: any;
+    entitytype: string;
+    entityid?: number;
+    parententityid?: number;
+    searchtype?: SearchType;
+};
+
+export type GetOperationProps = {
+    abortSignal?: AbortSignal;
+    method: string;
+    headers: any;
+    responseType?: string;
+};
+
+export type ProcosysApiSettings = {
+    baseURL: string;
+    token: Promise<string>;
 };

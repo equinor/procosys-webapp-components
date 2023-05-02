@@ -9,16 +9,20 @@ import {
 import CheckItems from './CheckItems/CheckItems';
 import ChecklistSignature from './ChecklistSignature';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Banner } from '@equinor/eds-core-react';
 import procosysApiService from '../../services/procosysApi';
-import baseApi, { ProcosysApiSettings } from '../../services/baseApi';
 import CustomCheckItems from './CheckItems/CustomCheckItems';
 import CheckAllButton from './CheckItems/CheckAllButton';
 import AsyncPage from '../../components/AsyncPage';
 import Attachments from '../Attachments/Attachments';
 import LoopTags from './LoopTags';
 import { AsyncStatus } from '../../typings/enums';
+
+type ProcosysApiSettings = {
+    baseUrl: string;
+    apiVersion: string;
+    scope: string[];
+};
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
@@ -53,12 +57,13 @@ const determineIfAllAreCheckedOrNA = (
 const initializeApi = ({
     checklistId,
     plantId,
-    getAccessToken,
     apiSettings,
+    getAccessToken,
 }: ChecklistProps) => {
-    const axiosInstance = baseApi({ getAccessToken, apiSettings });
+    const baseURL = apiSettings.baseUrl;
+    const token = getAccessToken(apiSettings.scope);
     return procosysApiService({
-        axios: axiosInstance,
+        apiSettings: { baseURL, token },
         apiVersion: apiSettings.apiVersion,
         plantId,
         checklistId,
@@ -96,7 +101,6 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     const [isSigned, setIsSigned] = useState(false);
     const [allItemsCheckedOrNA, setAllItemsCheckedOrNA] = useState(false);
     const [reloadChecklist, setReloadChecklist] = useState(false);
-    const source = axios.CancelToken.source();
     const abortController = new AbortController();
 
     useEffect(() => {
@@ -120,7 +124,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
     useEffect(() => {
         (async (): Promise<void> => {
             try {
-                const checklistResponse = await api.getChecklist(source.token);
+                const checklistResponse = await api.getChecklist(
+                    abortController.signal
+                );
                 setIsSigned(!!checklistResponse.checkList.signedByFirstName);
                 setCheckItems(checklistResponse.checkItems);
                 setCustomCheckItems(checklistResponse.customCheckItems);
@@ -134,7 +140,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
             }
         })();
         return (): void => {
-            source.cancel('Checklist component unmounted');
+            abortController.abort('Checklist component unmounted');
         };
     }, [reloadChecklist, api]);
 
@@ -175,7 +181,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                         }
                                         api={api}
                                         disabled={
-                                            !permissions.includes('MCCR/SIGN')
+                                            !permissions?.includes('MCCR/SIGN')
                                         }
                                     />
                                 )}
@@ -186,7 +192,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
                                     disabled={
-                                        !permissions.includes('MCCR/SIGN')
+                                        !permissions?.includes('MCCR/SIGN')
                                     }
                                 />
                                 <CustomCheckItems
@@ -195,8 +201,12 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     isSigned={isSigned}
                                     setSnackbarText={props.setSnackbarText}
                                     api={api}
-                                    canEdit={permissions.includes('MCCR/WRITE')}
-                                    canCheck={permissions.includes('MCCR/SIGN')}
+                                    canEdit={permissions?.includes(
+                                        'MCCR/WRITE'
+                                    )}
+                                    canCheck={permissions?.includes(
+                                        'MCCR/SIGN'
+                                    )}
                                 />
                             </ChecklistWrapper>
                         ) : null}
@@ -204,13 +214,15 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         <AttachmentsWrapper>
                             <Attachments
                                 getAttachments={(): Promise<Attachment[]> =>
-                                    api.getChecklistAttachments(source.token)
+                                    api.getChecklistAttachments(
+                                        abortController.signal
+                                    )
                                 }
                                 getAttachment={(
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
-                                        source.token,
+                                        abortController.signal,
                                         attachmentId
                                     )
                                 }
@@ -228,7 +240,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                 setSnackbarText={props.setSnackbarText}
                                 readOnly={
                                     isSigned ||
-                                    !permissions.includes('MCCR/ATTACHFILE')
+                                    !permissions?.includes('MCCR/ATTACHFILE')
                                 }
                                 abortController={abortController}
                             />
@@ -248,9 +260,9 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                         setMultiSignOrVerifyIsOpen={setMultiSignOrVerifyIsOpen}
                         multiSignOrVerifyIsOpen={multiSignOrVerifyIsOpen}
                         refreshChecklistStatus={props.refreshChecklistStatus}
-                        canAddComment={permissions.includes('MCCR/WRITE')}
-                        canSign={permissions.includes('MCCR/SIGN')}
-                        canVerify={permissions.includes('MCCR/VERIFY')}
+                        canAddComment={permissions?.includes('MCCR/WRITE')}
+                        canSign={permissions?.includes('MCCR/SIGN')}
+                        canVerify={permissions?.includes('MCCR/VERIFY')}
                         offlineState={props.offlineState}
                     />
                 )}
