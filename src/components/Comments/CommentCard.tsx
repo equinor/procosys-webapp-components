@@ -10,6 +10,14 @@ const CommentField = styled.div`
     margin-top: 16px;
 `;
 
+const TextFieldWrapper = styled(TextField)`
+    margin-bottom: 8px;
+`;
+
+const ButtonWrapper = styled(Button)`
+    width: 150px;
+`;
+
 type CommentCardProps = {
     plantId: string;
     punchItem: PunchItem;
@@ -88,11 +96,11 @@ const CommentCard = ({
     return (
         <CommentField>
             {' '}
-            <CollapsibleCard cardTitle="Comments" expanded={false}>
+            <CollapsibleCard cardTitle="Comments">
                 {showCommentTextField ? (
                     <div>
                         {' '}
-                        <TextField
+                        <TextFieldWrapper
                             maxLength={255}
                             value={punchComment}
                             label="Comment"
@@ -100,16 +108,20 @@ const CommentCard = ({
                             rows={5}
                             id="NewPunchComment"
                             onChange={handleCommentChange}
-                        />
-                        <Button onClick={buttonClick}>Add comment</Button>{' '}
+                        />{' '}
                         {loadingStatus === AsyncStatus.LOADING ? (
-                            <Progress.Circular size={16} />
+                            <ButtonWrapper disabled={true}>
+                                <Progress.Circular size={16} />
+                            </ButtonWrapper>
                         ) : (
-                            <Comments
-                                commentList={commentList}
-                                abortController={abortController}
-                            ></Comments>
+                            <ButtonWrapper onClick={buttonClick}>
+                                Add comment
+                            </ButtonWrapper>
                         )}
+                        <Comments
+                            commentList={commentList}
+                            abortController={abortController}
+                        ></Comments>
                     </div>
                 ) : (
                     <Comments
