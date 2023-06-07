@@ -14,6 +14,7 @@ import {
     deleteByFetch,
     getAttachmentByFetch,
     getByFetch,
+    postAttachmentByFetch,
     postByFetch,
     putByFetch,
 } from './apiHelpers';
@@ -118,7 +119,7 @@ const procosysApiService = ({
     const postCustomCheckItem = async (
         dto: CustomCheckItemDto
     ): Promise<number> => {
-        const { data } = await postByFetch(
+        const data = await postByFetch(
             apiSettings,
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             { ...dto, ChecklistId: checklistId }
@@ -133,10 +134,8 @@ const procosysApiService = ({
             apiSettings,
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             {
-                data: {
-                    CustomCheckItemId: customCheckItemId,
-                    ChecklistId: checklistId,
-                },
+                CustomCheckItemId: customCheckItemId,
+                ChecklistId: checklistId,
             }
         );
     };
@@ -332,7 +331,7 @@ const procosysApiService = ({
         await deleteByFetch(
             apiSettings,
             `CheckList/Attachment?plantId=PCS$${plantId}&api-version=4.1`,
-            { data: dto }
+            dto
         );
     };
 
@@ -340,10 +339,11 @@ const procosysApiService = ({
         data: FormData,
         title?: string
     ): Promise<void> => {
-        await postByFetch(
+        await postAttachmentByFetch(
             apiSettings,
             `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&title=${title}${apiVersion}`,
-            data
+            data,
+            false
         );
     };
 
