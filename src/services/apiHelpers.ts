@@ -157,7 +157,12 @@ export const postByFetch = async (
     if (response.ok) {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.indexOf('application/json') !== -1) {
-            return await response.json();
+            const jsonResult = await response.json();
+            const resultObj = objectToCamelCase(jsonResult);
+            return resultObj;
+        } else if (contentType === 'text/plain;charset=UTF-8') {
+            const textResponse = await response.text();
+            return await JSON.parse(textResponse);
         } else {
             return;
         }
