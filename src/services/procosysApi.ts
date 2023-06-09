@@ -124,7 +124,7 @@ const procosysApiService = ({
             `CheckList/CustomItem?plantId=PCS$${plantId}${apiVersion}`,
             { ...dto, ChecklistId: checklistId }
         );
-        return data.Id;
+        return data.id;
     };
 
     const deleteCustomCheckItem = async (
