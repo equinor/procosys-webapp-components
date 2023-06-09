@@ -170,7 +170,8 @@ const procosysApiService = ({
                 ColumnId: columnId,
                 RowId: rowId,
                 Value: value,
-            }
+            },
+            { 'Content-Type': 'application/json' }
         );
     };
 
@@ -189,7 +190,8 @@ const procosysApiService = ({
                 ColumnId: columnId,
                 RowId: rowId,
                 Value: value,
-            }
+            },
+            { 'Content-Type': 'application/json' }
         );
     };
 
@@ -197,7 +199,8 @@ const procosysApiService = ({
         await putByFetch(
             apiSettings,
             `CheckList/MC/Comment?plantId=PCS$${plantId}${apiVersion}`,
-            { CheckListId: checklistId, Comment: Comment }
+            { CheckListId: checklistId, Comment: Comment },
+            { 'Content-Type': 'application/json' }
         );
     };
 
