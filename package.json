@@ -30,7 +30,10 @@
     "url": "https://github.com/equinor/procosys-webapp-components/issues"
   },
   "homepage": "https://github.com/equinor/procosys-webapp-components#readme",
-  "dependencies": {},
+  "dependencies": {
+    "dexie": "^3.2.4",
+    "dexie-encrypted": "^2.0.0"
+  },
   "devDependencies": {
     "@equinor/eds-core-react": "^0.29.1",
     "@equinor/eds-icons": "^0.14.0",
