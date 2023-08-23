@@ -48,6 +48,8 @@ import {
     Attachment,
     Document,
     DocumentAttachment,
+    ChecklistResponse,
+    PunchItem,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -57,7 +59,7 @@ import {
     SearchResult,
     SearchState,
     IEntity,
-    GetOperationProps,
+    FetchOperationProps,
     ProcosysApiSettings,
 } from './typings/helperTypes';
 
@@ -155,6 +157,8 @@ export type {
     Document,
     DocumentAttachment,
     IEntity,
-    GetOperationProps,
+    FetchOperationProps,
     ProcosysApiSettings,
+    ChecklistResponse,
+    PunchItem,
 };

@@ -41,6 +41,7 @@ export interface ChecklistDetails {
     id: number;
     tagNo: string;
     tagDescription: string;
+    tagId: number;
     mcPkgNo: string;
     responsibleCode: string;
     responsibleDescription: string;
@@ -49,14 +50,14 @@ export interface ChecklistDetails {
     formularType: string;
     formularGroup: string;
     comment: string;
-    signedByUser: string;
-    signedByFirstName: string;
-    signedByLastName: string;
-    signedAt: Date;
-    verifiedByUser: string;
-    verifiedByFirstName: string;
-    verifiedByLastName: string;
-    verifiedAt: Date;
+    signedByUser: string | null;
+    signedByFirstName: string | null;
+    signedByLastName: string | null;
+    signedAt: Date | null;
+    verifiedByUser: string | null;
+    verifiedByFirstName: string | null;
+    verifiedByLastName: string | null;
+    verifiedAt: Date | null;
     updatedAt: Date;
     updatedByUser: string;
     updatedByFirstName: string;
@@ -375,4 +376,23 @@ export interface DocumentAttachment {
     fileId: number;
     sortKey: number;
     uri?: string;
+}
+
+// offline
+export interface OfflineSynchronizationError {
+    Id: number;
+    Url: string;
+    Method: string;
+    ErrorMsg: string;
+    ErrorCode: number;
+}
+
+export interface OfflineSynchronizationErrors {
+    ProjectId: number;
+    CheckListErrors: OfflineSynchronizationError[];
+    PunchListItemErrors: OfflineSynchronizationError[];
+}
+
+export interface EntityId {
+    Id: number;
 }
