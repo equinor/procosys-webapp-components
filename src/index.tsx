@@ -51,6 +51,7 @@ import {
     ChecklistDetails,
     ChecklistResponse,
     ItemToMultiSignOrVerify,
+    CheckItem,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -163,4 +164,5 @@ export type {
     ChecklistDetails,
     ChecklistResponse,
     ItemToMultiSignOrVerify,
+    CheckItem,
 };

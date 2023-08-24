@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../../components/icons/EdsIcon';
 import { CustomCheckItem } from '../../../typings/apiTypes';
-import { ProcosysApiService } from '../../../services/procosysApi';
 import { COLORS, SHADOW } from '../../../style/GlobalStyles';
 import updateCustomCheck from '../../../utils/updateCustomCheck';
 import { AsyncStatus } from '../../../typings/enums';
