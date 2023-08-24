@@ -50,6 +50,7 @@ import {
     DocumentAttachment,
     ChecklistDetails,
     ChecklistResponse,
+    ItemToMultiSignOrVerify,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -161,4 +162,5 @@ export type {
     ProcosysApiSettings,
     ChecklistDetails,
     ChecklistResponse,
+    ItemToMultiSignOrVerify,
 };

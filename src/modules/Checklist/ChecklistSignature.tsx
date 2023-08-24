@@ -273,7 +273,7 @@ const ChecklistSignature = ({
     }, []);
 
     const determineSignatureText = (): JSX.Element => {
-        if (isSigned) {
+        if (isSigned && details.signedAt) {
             return (
                 <p>
                     Signed by {details.signedByFirstName}{' '}
@@ -292,7 +292,7 @@ const ChecklistSignature = ({
     };
 
     const determineVerifyText = (): JSX.Element => {
-        if (!isVerified) {
+        if (!isVerified || !details.verifiedAt) {
             return <></>;
         }
         return (
