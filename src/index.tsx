@@ -52,6 +52,9 @@ import {
     ChecklistResponse,
     ItemToMultiSignOrVerify,
     CheckItem,
+    APIComment,
+    PunchPriority,
+    PunchComment,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -165,4 +168,7 @@ export type {
     ChecklistResponse,
     ItemToMultiSignOrVerify,
     CheckItem,
+    APIComment,
+    PunchPriority,
+    PunchComment,
 };
