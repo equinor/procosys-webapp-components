@@ -48,6 +48,8 @@ import {
     Attachment,
     Document,
     DocumentAttachment,
+    ChecklistDetails,
+    ChecklistResponse,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -157,4 +159,6 @@ export type {
     IEntity,
     GetOperationProps,
     ProcosysApiSettings,
+    ChecklistDetails,
+    ChecklistResponse,
 };
