@@ -1,4 +1,5 @@
 import {
+    Attachment,
     ChecklistResponse,
     ItemToMultiSignOrVerify,
 } from '../../typings/apiTypes';
@@ -45,4 +46,13 @@ export default interface ChecklistV2Api {
         isOk: boolean
     ) => Promise<number>;
     deleteCustomCheckItem: (customCheckItemId: number) => Promise<void>;
+    getChecklistAttachments: (
+        abortSignal?: AbortSignal
+    ) => Promise<Attachment[]>;
+    getChecklistAttachment: (
+        attachmentId: number,
+        abortSignal?: AbortSignal
+    ) => Promise<Blob>;
+    postChecklistAttachment: (data: FormData, title?: string) => Promise<void>;
+    deleteChecklistAttachment: (attachmentId: number) => Promise<void>;
 }
