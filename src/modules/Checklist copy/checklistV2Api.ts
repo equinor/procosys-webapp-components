@@ -25,4 +25,5 @@ export default interface ChecklistV2Api {
     postCustomSetOk: (customCheckItemId: number) => Promise<void>;
     postClear: (checkItemId: number) => Promise<void>;
     postCustomClear: (customCheckItemId: number) => Promise<void>;
+    postSetNA: (checkItemId: number) => Promise<void>;
 }

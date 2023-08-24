@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CheckItem as CheckItemType } from '../../../typings/apiTypes';
-import CheckItem from './CheckItem/CheckItem';
+import CheckItem from './CheckItem/CheckItemV2';
 import CheckHeader from './CheckHeader';
 import { ProcosysApiService } from '../../../services/procosysApi';
 import ChecklistV2Api from '../checklistV2Api';
