@@ -41,6 +41,9 @@ import {
     SearchStatus,
     DocumentRelationType,
     SearchType,
+    EntityType,
+    OfflineStatus,
+    LocalStorage,
 } from './typings/enums';
 import {
     Project,
@@ -50,6 +53,9 @@ import {
     DocumentAttachment,
     ChecklistResponse,
     PunchItem,
+    OfflineSynchronizationErrors,
+    ChecklistDetails,
+    CheckItem,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -84,6 +90,18 @@ import {
     deleteByFetch,
 } from './services/apiHelpers';
 import { HTTPError } from './services/HTTPError';
+
+//Offline
+import { mcFetchGet, mcFetchUpdate } from './offline/FetchMethods';
+import { OfflineContentRepository } from './offline/OfflineContentRepository';
+import { getOfflineStatusfromLocalStorage } from './offline/OfflineStatus';
+import { db } from './offline/db';
+import { SyncStatus } from './offline/OfflineUpdateRequest';
+import { OfflineUpdateRepository } from './offline/OfflineUpdateRepository';
+import {
+    OfflineUpdateRequest,
+    RequestType,
+} from './offline/OfflineUpdateRequest';
 
 export {
     NewPunch,
@@ -134,6 +152,13 @@ export {
     postByFetch,
     putByFetch,
     deleteByFetch,
+    mcFetchGet,
+    mcFetchUpdate,
+    getOfflineStatusfromLocalStorage,
+    db,
+    OfflineContentRepository,
+    OfflineUpdateRepository,
+    OfflineUpdateRequest,
     HTTPError,
     AsyncStatus,
     StorageKey,
@@ -142,6 +167,11 @@ export {
     SearchStatus,
     DocumentRelationType,
     SearchType,
+    EntityType,
+    OfflineStatus,
+    LocalStorage,
+    SyncStatus,
+    RequestType,
 };
 
 export type {
@@ -161,4 +191,7 @@ export type {
     ProcosysApiSettings,
     ChecklistResponse,
     PunchItem,
+    OfflineSynchronizationErrors,
+    ChecklistDetails,
+    CheckItem,
 };

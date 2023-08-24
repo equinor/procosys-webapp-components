@@ -1,5 +1,6 @@
+import { mcFetchUpdate, mcFetchGet } from '../offline/FetchMethods';
 import {
-    GetOperationProps,
+    FetchOperationProps,
     IEntity,
     ProcosysApiSettings,
 } from '../typings/helperTypes';
@@ -47,14 +48,14 @@ export const getByFetch = async (
     entity?: IEntity
 ): Promise<any> => {
     const myToken = await token;
-    const GetOperation: GetOperationProps = {
+    const GetOperation: FetchOperationProps = {
         abortSignal: abortSignal,
         method: 'GET',
         headers: {
             Authorization: `Bearer ${myToken}`,
         },
     };
-    const res = await fetch(`${baseURL}/${url}`, GetOperation);
+    const res = await mcFetchGet(`${baseURL}/${url}`, GetOperation);
     if (res.ok) {
         const jsonResult = await res.json();
         const resultObj = objectToCamelCase(jsonResult);
@@ -76,7 +77,7 @@ export const getAttachmentByFetch = async (
     entity?: IEntity
 ): Promise<Blob> => {
     const myToken = await token;
-    const GetOperation: GetOperationProps = {
+    const GetOperation: FetchOperationProps = {
         abortSignal: abortSignal,
         method: 'GET',
         responseType: 'blob',
@@ -86,7 +87,7 @@ export const getAttachmentByFetch = async (
         },
     };
 
-    const res = await fetch(`${baseURL}/${url}`, GetOperation);
+    const res = await mcFetchGet(`${baseURL}/${url}`, GetOperation);
 
     if (res.ok) {
         const blob = await res.blob();
@@ -110,15 +111,15 @@ export const deleteByFetch = async (
     data?: any
 ): Promise<any> => {
     const myToken = await token;
-    const DeleteOperation = {
+    const DeleteOperation: FetchOperationProps = {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${myToken}`,
             'Content-Type': 'application/json',
         },
-        body: data ? JSON.stringify(data) : null,
+        body: data ? JSON.stringify(data) : undefined,
     };
-    const response = await fetch(`${baseURL}/${url}`, DeleteOperation);
+    const response = await mcFetchUpdate(`${baseURL}/${url}`, DeleteOperation);
 
     if (!response.ok) {
         const errorMessage = await getErrorMessage(response);
@@ -148,7 +149,7 @@ export const postByFetch = async (
 
     let response = new Response();
     try {
-        response = await fetch(`${baseURL}/${url}`, PostOperation);
+        response = await mcFetchUpdate(`${baseURL}/${url}`, PostOperation);
     } catch (error) {
         console.error('Something went wrong when accessing the server.', error);
         throw new Error('Something went wrong when accessing the server.');
@@ -182,14 +183,14 @@ export const postByFetchSimple = async (
     url: string,
     bodyData?: any
 ): Promise<any> => {
-    const PostOperation = {
+    const PostOperation: FetchOperationProps = {
         method: 'POST',
         body: JSON.stringify(bodyData),
     };
 
     let response = new Response();
     try {
-        response = await fetch(url, PostOperation);
+        response = await mcFetchUpdate(url, PostOperation);
     } catch (error) {
         console.error('Something went wrong when accessing the server.', error);
         throw new Error('Something went wrong when accessing the server.');
@@ -227,7 +228,7 @@ export const postAttachmentByFetch = async (
         },
         body: file,
     };
-    const response = await fetch(`${baseURL}/${url}`, PostOperation);
+    const response = await mcFetchUpdate(`${baseURL}/${url}`, PostOperation);
     if (!response.ok) {
         const errorMessage = await getErrorMessage(response);
         throw new HTTPError(response.status, errorMessage);
@@ -260,7 +261,7 @@ export const putByFetch = async (
         },
         body: JSON.stringify(bodyData),
     };
-    const response = await fetch(`${baseURL}/${url}`, PutOperation);
+    const response = await mcFetchUpdate(`${baseURL}/${url}`, PutOperation);
     if (!response.ok) {
         const errorMessage = await getErrorMessage(response);
         throw new HTTPError(response.status, errorMessage);
