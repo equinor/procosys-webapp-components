@@ -26,4 +26,16 @@ export default interface ChecklistV2Api {
     postClear: (checkItemId: number) => Promise<void>;
     postCustomClear: (customCheckItemId: number) => Promise<void>;
     postSetNA: (checkItemId: number) => Promise<void>;
+    putMetaTableStringCell: (
+        checkItemId: number,
+        columnId: number,
+        rowId: number,
+        value: string
+    ) => Promise<void>;
+    putMetaTableDateCell: (
+        checkItemId: number,
+        columnId: number,
+        rowId: number,
+        value: string
+    ) => Promise<void>;
 }
