@@ -21,4 +21,8 @@ export default interface ChecklistV2Api {
         abortSignal?: AbortSignal
     ) => Promise<ItemToMultiSignOrVerify[]>;
     getChecklist: (abortSignal?: AbortSignal) => Promise<ChecklistResponse>;
+    postSetOk: (checkItemId: number) => Promise<void>;
+    postCustomSetOk: (customCheckItemId: number) => Promise<void>;
+    postClear: (checkItemId: number) => Promise<void>;
+    postCustomClear: (customCheckItemId: number) => Promise<void>;
 }
