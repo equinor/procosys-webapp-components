@@ -38,4 +38,11 @@ export default interface ChecklistV2Api {
         rowId: number,
         value: string
     ) => Promise<void>;
+    getNextCustomItemNumber: (abortSignal?: AbortSignal) => Promise<string>;
+    postCustomCheckItem: (
+        itemNo: string,
+        text: string,
+        isOk: boolean
+    ) => Promise<number>;
+    deleteCustomCheckItem: (customCheckItemId: number) => Promise<void>;
 }

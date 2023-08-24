@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CheckItem as CheckItemType } from '../../../../typings/apiTypes';
 import { Checkbox } from '@equinor/eds-core-react';
-import MetaTable from './MetaTable/MetaTable';
+import MetaTable from './MetaTable/MetaTableV2';
 import { COLORS } from '../../../../style/GlobalStyles';
 import { ProcosysApiService } from '../../../../services/procosysApi';
 import updateCheck from '../../../../utils/updateCheck';
