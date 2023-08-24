@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ItemToMultiSignOrVerify } from '../../typings/apiTypes';
 import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus } from '../../typings/enums';
+import ChecklistV2Api from './checklistV2Api';
 
 export const MultiSignVerifyContainer = styled.div`
     border-radius: 8px;
@@ -44,11 +45,7 @@ type ChecklistMultiSignOrVerifyProps = {
     tagNo: string;
     setSnackbarText: (message: string) => void;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    postMultiVerify: (targetChecklistIds: number[]) => Promise<void>;
-    postMultiSign: (
-        targetChecklistIds: number[],
-        copyMetaTable: boolean
-    ) => Promise<void>;
+    api: ChecklistV2Api;
 };
 
 const ChecklistMultiSignOrVerify = ({
@@ -58,8 +55,7 @@ const ChecklistMultiSignOrVerify = ({
     tagNo,
     setSnackbarText,
     refreshChecklistStatus,
-    postMultiVerify,
-    postMultiSign,
+    api,
 }: ChecklistMultiSignOrVerifyProps): JSX.Element => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
         eligibleItems.map((item) => item.id)
@@ -83,10 +79,10 @@ const ChecklistMultiSignOrVerify = ({
         setPostSignOrVerifyStatus(AsyncStatus.LOADING);
         try {
             if (isMultiVerify) {
-                await postMultiVerify(itemsToSignOrVerify);
+                await api.postMultiVerify(itemsToSignOrVerify);
                 setSnackbarText('Additional MCCRs verified.');
             } else {
-                await postMultiSign(itemsToSignOrVerify, copyTableContents);
+                await api.postMultiSign(itemsToSignOrVerify, copyTableContents);
                 setSnackbarText('Additional MCCRs signed.');
             }
             setPostSignOrVerifyStatus(AsyncStatus.SUCCESS);
