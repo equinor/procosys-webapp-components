@@ -6,6 +6,7 @@ import TagPhotoRecognition from './modules/TagOcr/TagPhotoRecognition';
 import NewPunch from './modules/PunchPages/NewPunch';
 import ClearPunch from './modules/PunchPages/ClearPunch';
 import VerifyPunch from './modules/PunchPages/VerifyPunch';
+import ChecklistV2 from './modules/Checklist copy/ChecklistV2';
 
 //Components
 import AsyncCard from './components/AsyncCard';
@@ -91,6 +92,7 @@ import {
 import { HTTPError } from './services/HTTPError';
 
 export {
+    ChecklistV2,
     NewPunch,
     ClearPunch,
     VerifyPunch,
