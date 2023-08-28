@@ -68,6 +68,7 @@ import {
     GetOperationProps,
     ProcosysApiSettings,
 } from './typings/helperTypes';
+import ChecklistV2Api from './modules/Checklist copy/checklistV2Api';
 
 //Utils
 import ensure from './utils/ensure';
@@ -173,4 +174,5 @@ export type {
     APIComment,
     PunchPriority,
     PunchComment,
+    ChecklistV2Api,
 };
