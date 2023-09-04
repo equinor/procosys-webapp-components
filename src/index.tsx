@@ -65,7 +65,7 @@ import {
     SearchResult,
     SearchState,
     IEntity,
-    GetOperationProps,
+    FetchOperationProps,
     ProcosysApiSettings,
 } from './typings/helperTypes';
 import ChecklistV2Api from './modules/Checklist copy/checklistV2Api';
@@ -165,7 +165,7 @@ export type {
     Document,
     DocumentAttachment,
     IEntity,
-    GetOperationProps,
+    FetchOperationProps,
     ProcosysApiSettings,
     ChecklistDetails,
     ChecklistResponse,

@@ -61,11 +61,12 @@ export type IEntity = {
     searchtype?: SearchType;
 };
 
-export type GetOperationProps = {
+export type FetchOperationProps = {
     abortSignal?: AbortSignal;
     method: string;
-    headers: any;
+    headers?: any;
     responseType?: string;
+    body?: string | FormData;
 };
 
 export type ProcosysApiSettings = {
