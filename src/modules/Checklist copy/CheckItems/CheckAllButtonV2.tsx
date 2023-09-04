@@ -27,9 +27,11 @@ type CheckAllButtonProps = {
     setSnackbarText: (message: string) => void;
     api: ChecklistV2Api;
     disabled: boolean;
+    plantId: string;
+    checklistId: string;
 };
 
-const CheckAllButton = ({
+const CheckAllButtonV2 = ({
     checkItems,
     customCheckItems,
     setCheckItems,
@@ -38,6 +40,8 @@ const CheckAllButton = ({
     setSnackbarText,
     api,
     disabled,
+    plantId,
+    checklistId,
 }: CheckAllButtonProps): JSX.Element => {
     const [checkAllStatus, setCheckAllStatus] = useState(AsyncStatus.INACTIVE);
     const checkAll = async (): Promise<void> => {
@@ -50,10 +54,10 @@ const CheckAllButton = ({
         );
         try {
             for (const item of itemsToCheck) {
-                await api.postSetOk(item.id);
+                await api.postSetOk(plantId, checklistId, item.id);
             }
             for (const item of customItemsToCheck) {
-                await api.postCustomSetOk(item.id);
+                await api.postCustomSetOk(plantId, checklistId, item.id);
             }
             itemsToCheck.forEach((item) =>
                 updateCheck({
@@ -86,10 +90,10 @@ const CheckAllButton = ({
         const customItemsToClear = customCheckItems.filter((item) => item.isOk);
         try {
             for (const item of itemsToClear) {
-                await api.postClear(item.id);
+                await api.postClear(plantId, checklistId, item.id);
             }
             for (const item of customItemsToClear) {
-                await api.postCustomClear(item.id);
+                await api.postCustomClear(plantId, checklistId, item.id);
             }
 
             itemsToClear.forEach((item) => {
@@ -134,4 +138,4 @@ const CheckAllButton = ({
     );
 };
 
-export default CheckAllButton;
+export default CheckAllButtonV2;

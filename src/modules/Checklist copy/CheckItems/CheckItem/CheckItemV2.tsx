@@ -71,6 +71,8 @@ type CheckItemProps = {
     setSnackbarText: (message: string) => void;
     api: ChecklistV2Api;
     disabled: boolean;
+    plantId: string;
+    checklistId: string;
 };
 
 const CheckItem = ({
@@ -80,6 +82,8 @@ const CheckItem = ({
     setSnackbarText,
     api,
     disabled,
+    plantId,
+    checklistId,
 }: CheckItemProps): JSX.Element => {
     const [postCheckStatus, setPostCheckStatus] = useState(
         AsyncStatus.INACTIVE
@@ -89,7 +93,7 @@ const CheckItem = ({
 
     const clearCheckmarks = async (): Promise<void> => {
         try {
-            await api.postClear(item.id);
+            await api.postClear(plantId, checklistId, item.id);
             updateCheck({
                 value: false,
                 checkItemId: item.id,
@@ -114,7 +118,7 @@ const CheckItem = ({
         setPostNAStatus(AsyncStatus.LOADING);
         if (item.isNotApplicable) return clearCheckmarks();
         try {
-            await api.postSetNA(item.id);
+            await api.postSetNA(plantId, checklistId, item.id);
             updateCheck({
                 value: false,
                 checkItemId: item.id,
@@ -137,7 +141,7 @@ const CheckItem = ({
         setPostCheckStatus(AsyncStatus.LOADING);
         if (item.isOk) return clearCheckmarks();
         try {
-            await api.postSetOk(item.id);
+            await api.postSetOk(plantId, checklistId, item.id);
             updateNA({
                 value: false,
                 checkItemId: item.id,
@@ -215,6 +219,8 @@ const CheckItem = ({
                         isSigned={isSigned}
                         checkItemId={item.id}
                         api={api}
+                        plantId={plantId}
+                        checklistId={checklistId}
                     />
                 )}
             </CheckItemWrapper>

@@ -65,6 +65,8 @@ type MetaTableProps = {
     checkItemId: number;
     disabled: boolean;
     api: ChecklistV2Api;
+    plantId: string;
+    checklistId: string;
 };
 
 const MetaTable = ({
@@ -73,6 +75,8 @@ const MetaTable = ({
     disabled,
     checkItemId,
     api,
+    plantId,
+    checklistId,
 }: MetaTableProps): JSX.Element => {
     const [tableIsScrollable, setTableIsScrollable] = useState(false);
     const tableContainerRef = useRef<HTMLDivElement>(
@@ -101,6 +105,8 @@ const MetaTable = ({
                     cell={cell}
                     label={label}
                     api={api}
+                    plantId={plantId}
+                    checklistId={checklistId}
                 />
             );
         });

@@ -6,12 +6,12 @@ import {
     CustomCheckItem,
     LoopTag,
 } from '../../typings/apiTypes';
-import CheckItems from './CheckItems/CheckItemsV2';
+import CheckItemsV2 from './CheckItems/CheckItemsV2';
 import ChecklistSignature from './ChecklistSignatureV2';
 import styled from 'styled-components';
 import { Banner } from '@equinor/eds-core-react';
 import CustomCheckItems from './CheckItems/CustomCheckItemsV2';
-import CheckAllButton from './CheckItems/CheckAllButtonV2';
+import CheckAllButtonV2 from './CheckItems/CheckAllButtonV2';
 import AsyncPage from '../../components/AsyncPage';
 import Attachments from '../Attachments/Attachments';
 import { AsyncStatus } from '../../typings/enums';
@@ -48,22 +48,22 @@ const determineIfAllAreCheckedOrNA = (
 };
 
 type ChecklistProps = {
-    checklistId: string;
-    plantId: string;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
     setSnackbarText: (message: string) => void;
     permissions: string[];
     api: ChecklistV2Api;
+    plantId: string;
+    checklistId: string;
     offlineState?: boolean;
 };
 
 const ChecklistV2 = ({
-    checklistId,
-    plantId,
     refreshChecklistStatus,
     setSnackbarText,
     permissions,
     api,
+    plantId,
+    checklistId,
     offlineState,
 }: ChecklistProps): JSX.Element => {
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
@@ -93,6 +93,8 @@ const ChecklistV2 = ({
         (async (): Promise<void> => {
             try {
                 const checklistResponse = await api.getChecklist(
+                    plantId,
+                    checklistId,
                     abortController.signal
                 );
                 setIsSigned(!!checklistResponse.checkList.signedByFirstName);
@@ -136,7 +138,7 @@ const ChecklistV2 = ({
                         {checklistDetails ? (
                             <ChecklistWrapper>
                                 {!isSigned && (
-                                    <CheckAllButton
+                                    <CheckAllButtonV2
                                         setSnackbarText={setSnackbarText}
                                         allItemsCheckedOrNA={
                                             allItemsCheckedOrNA
@@ -151,9 +153,11 @@ const ChecklistV2 = ({
                                         disabled={
                                             !permissions?.includes('MCCR/SIGN')
                                         }
+                                        plantId={plantId}
+                                        checklistId={checklistId}
                                     />
                                 )}
-                                <CheckItems
+                                <CheckItemsV2
                                     setCheckItems={setCheckItems}
                                     checkItems={checkItems}
                                     isSigned={isSigned}
@@ -162,6 +166,8 @@ const ChecklistV2 = ({
                                     disabled={
                                         !permissions?.includes('MCCR/SIGN')
                                     }
+                                    plantId={plantId}
+                                    checklistId={checklistId}
                                 />
                                 <CustomCheckItems
                                     customCheckItems={customCheckItems}
@@ -175,6 +181,8 @@ const ChecklistV2 = ({
                                     canCheck={permissions?.includes(
                                         'MCCR/SIGN'
                                     )}
+                                    plantId={plantId}
+                                    checklistId={checklistId}
                                 />
                             </ChecklistWrapper>
                         ) : null}
@@ -183,6 +191,8 @@ const ChecklistV2 = ({
                             <Attachments
                                 getAttachments={(): Promise<Attachment[]> =>
                                     api.getChecklistAttachments(
+                                        plantId,
+                                        checklistId,
                                         abortController.signal
                                     )
                                 }
@@ -190,6 +200,8 @@ const ChecklistV2 = ({
                                     attachmentId: number
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
+                                        plantId,
+                                        checklistId,
                                         attachmentId,
                                         abortController.signal
                                     )
@@ -198,12 +210,21 @@ const ChecklistV2 = ({
                                     file: FormData,
                                     title: string
                                 ): Promise<void> =>
-                                    api.postChecklistAttachment(file, title)
+                                    api.postChecklistAttachment(
+                                        plantId,
+                                        checklistId,
+                                        file,
+                                        title
+                                    )
                                 }
                                 deleteAttachment={(
                                     attachmentId: number
                                 ): Promise<void> =>
-                                    api.deleteChecklistAttachment(attachmentId)
+                                    api.deleteChecklistAttachment(
+                                        plantId,
+                                        checklistId,
+                                        attachmentId
+                                    )
                                 }
                                 setSnackbarText={setSnackbarText}
                                 readOnly={
@@ -231,6 +252,8 @@ const ChecklistV2 = ({
                         canSign={permissions?.includes('MCCR/SIGN')}
                         canVerify={permissions?.includes('MCCR/VERIFY')}
                         api={api}
+                        plantId={plantId}
+                        checklistId={checklistId}
                         offlineState={offlineState}
                     />
                 )}

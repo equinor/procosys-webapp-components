@@ -65,6 +65,8 @@ type CustomCheckItemsProps = {
     api: ChecklistV2Api;
     canEdit: boolean;
     canCheck: boolean;
+    plantId: string;
+    checklistId: string;
 };
 
 const CustomCheckItems = ({
@@ -75,6 +77,8 @@ const CustomCheckItems = ({
     api,
     canEdit,
     canCheck,
+    plantId,
+    checklistId,
 }: CustomCheckItemsProps): JSX.Element => {
     const [postCustomCheckStatus, setPostCustomCheckStatus] = useState(
         AsyncStatus.INACTIVE
@@ -94,9 +98,13 @@ const CustomCheckItems = ({
         setPostCustomCheckItemStatus(AsyncStatus.LOADING);
         try {
             const nextAvailableNumber = await api.getNextCustomItemNumber(
+                plantId,
+                checklistId,
                 abortController.signal
             );
             const newIdFromApi = await api.postCustomCheckItem(
+                plantId,
+                checklistId,
                 nextAvailableNumber,
                 customItemText,
                 false
@@ -125,7 +133,11 @@ const CustomCheckItems = ({
     const handleDelete = async (customCheckItemId: number): Promise<void> => {
         setDeleteCustomCheckStatus(AsyncStatus.LOADING);
         try {
-            await api.deleteCustomCheckItem(customCheckItemId);
+            await api.deleteCustomCheckItem(
+                plantId,
+                checklistId,
+                customCheckItemId
+            );
             setCustomCheckItems((existingItems) =>
                 existingItems.filter(
                     (existingItem) => existingItem.id !== customCheckItemId
@@ -142,7 +154,7 @@ const CustomCheckItems = ({
 
     const handleUncheck = async (item: CustomCheckItem): Promise<void> => {
         try {
-            await api.postCustomClear(item.id);
+            await api.postCustomClear(plantId, checklistId, item.id);
             updateCustomCheck({
                 value: false,
                 checkItemId: item.id,
@@ -165,7 +177,7 @@ const CustomCheckItems = ({
             return;
         }
         try {
-            await api.postCustomSetOk(item.id);
+            await api.postCustomSetOk(plantId, checklistId, item.id);
             updateCustomCheck({
                 value: true,
                 checkItemId: item.id,

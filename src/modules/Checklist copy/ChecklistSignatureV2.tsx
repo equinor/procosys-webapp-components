@@ -111,6 +111,8 @@ type ChecklistSignatureProps = {
     canSign: boolean;
     canVerify: boolean;
     api: ChecklistV2Api;
+    plantId: string;
+    checklistId: string;
     offlineState?: boolean;
 };
 
@@ -128,6 +130,8 @@ const ChecklistSignature = ({
     canSign,
     canVerify,
     api,
+    plantId,
+    checklistId,
     offlineState = false,
 }: ChecklistSignatureProps): JSX.Element => {
     const [comment, setComment] = useState(details.comment);
@@ -150,7 +154,7 @@ const ChecklistSignature = ({
         if (comment === commentBeforeFocus) return;
         setPutCommentStatus(AsyncStatus.LOADING);
         try {
-            await api.putChecklistComment(comment);
+            await api.putChecklistComment(plantId, checklistId, comment);
             setPutCommentStatus(AsyncStatus.SUCCESS);
             reloadChecklist((prev) => !prev);
         } catch (error) {
@@ -163,7 +167,7 @@ const ChecklistSignature = ({
     const handleUnsignClick = async (): Promise<void> => {
         setSignStatus(AsyncStatus.LOADING);
         try {
-            await api.postUnsign();
+            await api.postUnsign(plantId, checklistId);
             setSnackbarText('Unsign complete.');
             reloadChecklist((reloadStatus) => !reloadStatus);
             setSignStatus(AsyncStatus.SUCCESS);
@@ -179,10 +183,12 @@ const ChecklistSignature = ({
     const handleSignClick = async (): Promise<void> => {
         setSignStatus(AsyncStatus.LOADING);
         try {
-            await api.postSign();
+            await api.postSign(plantId, checklistId);
             let eligibleItemsToMultiSignFromApi = [];
             if (!offlineState) {
                 eligibleItemsToMultiSignFromApi = await api.getCanMultiSign(
+                    plantId,
+                    checklistId,
                     abortController.signal
                 );
                 setEligibleItemsToMultiSignOrVerify(
@@ -210,7 +216,7 @@ const ChecklistSignature = ({
     const handleUnverifyClick = async (): Promise<void> => {
         setVerifyStatus(AsyncStatus.LOADING);
         try {
-            await api.postUnverify();
+            await api.postUnverify(plantId, checklistId);
             setIsVerified(false);
             setVerifyStatus(AsyncStatus.SUCCESS);
             setSnackbarText('Checklist successfully unverified');
@@ -225,10 +231,12 @@ const ChecklistSignature = ({
     const handleVerifyClick = async (): Promise<void> => {
         setVerifyStatus(AsyncStatus.LOADING);
         try {
-            await api.postVerify();
+            await api.postVerify(plantId, checklistId);
             let eligibleItemsToMultiVerifyFromApi = [];
             if (!offlineState) {
                 eligibleItemsToMultiVerifyFromApi = await api.getCanMultiVerify(
+                    plantId,
+                    checklistId,
                     abortController.signal
                 );
                 setEligibleItemsToMultiSignOrVerify(
@@ -406,6 +414,8 @@ const ChecklistSignature = ({
                     setSnackbarText={setSnackbarText}
                     refreshChecklistStatus={refreshChecklistStatus}
                     api={api}
+                    plantId={plantId}
+                    checklistId={checklistId}
                 />
             ) : null}
         </ChecklistSignatureWrapper>

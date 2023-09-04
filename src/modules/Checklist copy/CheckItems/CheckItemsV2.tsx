@@ -25,6 +25,8 @@ type CheckItemsProps = {
     setSnackbarText: (message: string) => void;
     api: ChecklistV2Api;
     disabled: boolean;
+    plantId: string;
+    checklistId: string;
 };
 
 const CheckItems = ({
@@ -34,6 +36,8 @@ const CheckItems = ({
     setSnackbarText,
     api,
     disabled,
+    plantId,
+    checklistId,
 }: CheckItemsProps): JSX.Element => {
     const determineCheckItem = (
         item: CheckItemType,
@@ -55,6 +59,8 @@ const CheckItems = ({
                     setSnackbarText={setSnackbarText}
                     api={api}
                     disabled={disabled}
+                    plantId={plantId}
+                    checklistId={checklistId}
                 />
             </>
         );

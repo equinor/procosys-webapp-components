@@ -46,6 +46,8 @@ type ChecklistMultiSignOrVerifyProps = {
     setSnackbarText: (message: string) => void;
     refreshChecklistStatus: React.Dispatch<React.SetStateAction<boolean>>;
     api: ChecklistV2Api;
+    plantId: string;
+    checklistId: string;
 };
 
 const ChecklistMultiSignOrVerify = ({
@@ -56,6 +58,8 @@ const ChecklistMultiSignOrVerify = ({
     setSnackbarText,
     refreshChecklistStatus,
     api,
+    plantId,
+    checklistId,
 }: ChecklistMultiSignOrVerifyProps): JSX.Element => {
     const [itemsToSignOrVerify, setItemsToSignOrVerify] = useState(
         eligibleItems.map((item) => item.id)
@@ -79,10 +83,19 @@ const ChecklistMultiSignOrVerify = ({
         setPostSignOrVerifyStatus(AsyncStatus.LOADING);
         try {
             if (isMultiVerify) {
-                await api.postMultiVerify(itemsToSignOrVerify);
+                await api.postMultiVerify(
+                    plantId,
+                    checklistId,
+                    itemsToSignOrVerify
+                );
                 setSnackbarText('Additional MCCRs verified.');
             } else {
-                await api.postMultiSign(itemsToSignOrVerify, copyTableContents);
+                await api.postMultiSign(
+                    plantId,
+                    checklistId,
+                    itemsToSignOrVerify,
+                    copyTableContents
+                );
                 setSnackbarText('Additional MCCRs signed.');
             }
             setPostSignOrVerifyStatus(AsyncStatus.SUCCESS);

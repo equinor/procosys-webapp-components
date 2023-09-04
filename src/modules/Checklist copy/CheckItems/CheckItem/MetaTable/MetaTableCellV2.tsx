@@ -42,6 +42,8 @@ export type MetaTableCellProps = {
     disabled: boolean;
     label: string;
     api: ChecklistV2Api;
+    plantId: string;
+    checklistId: string;
 };
 
 function determineHelperText(submitStatus: AsyncStatus): string {
@@ -58,6 +60,8 @@ const MetaTableCell = ({
     checkItemId,
     label,
     api,
+    plantId,
+    checklistId,
 }: MetaTableCellProps): JSX.Element => {
     const formattedValueDate = cell.valueDate
         ? cell.valueDate.substring(0, 10)
@@ -75,6 +79,8 @@ const MetaTableCell = ({
 
     const putStringCellApiCall = async (): Promise<void> => {
         api.putMetaTableStringCell(
+            plantId,
+            checklistId,
             checkItemId,
             cell.columnId,
             rowId,
@@ -85,6 +91,8 @@ const MetaTableCell = ({
 
     const putDateCellApiCall = (): Promise<void> =>
         api.putMetaTableDateCell(
+            plantId,
+            checklistId,
             checkItemId,
             cell.columnId,
             rowId,
