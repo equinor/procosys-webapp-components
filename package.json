@@ -1,6 +1,6 @@
 {
   "name": "@equinor/procosys-webapp-components",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "Library for sharing components and modules between Procosys MC webapp, Comm webapp and Echo.",
   "main": "dist/index.js",
   "scripts": {
@@ -40,18 +40,18 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
-    "eslint": "^8.24.0",
+    "eslint": "^8.48.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react": "^7.33.2",
     "prettier": "^2.7.1",
     "rollup": "^2.79.1",
     "rollup-plugin-typescript2": "^0.34.0",
     "styled-components": "^5.3.5",
-    "typescript": "5.0.4"
+    "typescript": "5.2.2"
   }
 }
