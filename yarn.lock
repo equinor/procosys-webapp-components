@@ -450,10 +450,10 @@
   resolved "https://registry.yarnpkg.com/@equinor/eds-icons/-/eds-icons-0.18.0.tgz#bfa581cb997bf43cf182a2ec3656b8c4ad8fdeff"
   integrity sha512-2M0XaNp5r2lIIN5bOfhE3/i/utiURDCC06WXVj/3H2H3ZUNgcYjYnU4tr2BJHRi5/ruH6z1UxWwYTB0hUZCrGQ==
 
-"@equinor/eds-icons@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@equinor/eds-icons/-/eds-icons-0.14.0.tgz#881f4c1351725f1bff63a975c21b803dd4f09c09"
-  integrity sha512-a0IzvOX3sYOhwso33gcv7EtS/pv/2EEVfPmA01yCD+QTU4kyS0/B0OUg3otQnGeLL4rk0z3YNCTHYe4d0BP7sQ==
+"@equinor/eds-icons@^0.19.3":
+  version "0.19.3"
+  resolved "https://registry.yarnpkg.com/@equinor/eds-icons/-/eds-icons-0.19.3.tgz#08ce80c1ea6edf0b4144def73d1e5d0de392434f"
+  integrity sha512-Sh0W01PrwXPCi8/p9YKj0qKNtRU9R/xYJORinIzsNNRllpiu9wvuGAsQNE0gQaDDnrprsiRBH3+MdMSRXVs3Wg==
 
 "@equinor/eds-tokens@0.9.0":
   version "0.9.0"
