@@ -64,7 +64,7 @@ export type IEntity = {
 export type FetchOperationProps = {
     abortSignal?: AbortSignal;
     method: string;
-    headers?: any;
+    headers: any;
     responseType?: string;
     body?: string | FormData;
 };
