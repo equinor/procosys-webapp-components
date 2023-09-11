@@ -1,5 +1,5 @@
 import {
-    GetOperationProps,
+    FetchOperationProps,
     IEntity,
     ProcosysApiSettings,
 } from '../typings/helperTypes';
@@ -47,7 +47,7 @@ export const getByFetch = async (
     entity?: IEntity
 ): Promise<any> => {
     const myToken = await token;
-    const GetOperation: GetOperationProps = {
+    const GetOperation: FetchOperationProps = {
         abortSignal: abortSignal,
         method: 'GET',
         headers: {
@@ -76,7 +76,7 @@ export const getAttachmentByFetch = async (
     entity?: IEntity
 ): Promise<Blob> => {
     const myToken = await token;
-    const GetOperation: GetOperationProps = {
+    const GetOperation: FetchOperationProps = {
         abortSignal: abortSignal,
         method: 'GET',
         responseType: 'blob',

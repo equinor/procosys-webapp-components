@@ -6,6 +6,7 @@ import TagPhotoRecognition from './modules/TagOcr/TagPhotoRecognition';
 import NewPunch from './modules/PunchPages/NewPunch';
 import ClearPunch from './modules/PunchPages/ClearPunch';
 import VerifyPunch from './modules/PunchPages/VerifyPunch';
+import ChecklistV2 from './modules/Checklist copy/ChecklistV2';
 
 //Components
 import AsyncCard from './components/AsyncCard';
@@ -48,6 +49,13 @@ import {
     Attachment,
     Document,
     DocumentAttachment,
+    ChecklistDetails,
+    ChecklistResponse,
+    ItemToMultiSignOrVerify,
+    CheckItem,
+    APIComment,
+    PunchPriority,
+    PunchComment,
 } from './typings/apiTypes';
 import {
     ChosenPerson,
@@ -57,9 +65,10 @@ import {
     SearchResult,
     SearchState,
     IEntity,
-    GetOperationProps,
+    FetchOperationProps,
     ProcosysApiSettings,
 } from './typings/helperTypes';
+import ChecklistV2Api from './modules/Checklist copy/checklistV2Api';
 
 //Utils
 import ensure from './utils/ensure';
@@ -84,6 +93,7 @@ import {
 import { HTTPError } from './services/HTTPError';
 
 export {
+    ChecklistV2,
     NewPunch,
     ClearPunch,
     VerifyPunch,
@@ -155,6 +165,14 @@ export type {
     Document,
     DocumentAttachment,
     IEntity,
-    GetOperationProps,
+    FetchOperationProps,
     ProcosysApiSettings,
+    ChecklistDetails,
+    ChecklistResponse,
+    ItemToMultiSignOrVerify,
+    CheckItem,
+    APIComment,
+    PunchPriority,
+    PunchComment,
+    ChecklistV2Api,
 };
