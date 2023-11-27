@@ -44,6 +44,7 @@ import {
     launch,
     camera_add_photo,
     download,
+    wifi_off,
 } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import React from 'react';
@@ -94,6 +95,7 @@ Icon.add({
     add,
     launch,
     download,
+    wifi_off,
 });
 
 type IconProps = {
