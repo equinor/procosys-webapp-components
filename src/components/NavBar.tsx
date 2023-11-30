@@ -43,6 +43,15 @@ const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean }>`
     ${BREAKPOINT.standard} {
         padding: 4px 4%;
     }
+    & > span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+    }
+    & > div {
+        width: 48px;
+    }
 `;
 
 export const NavButton = styled(Button)`
@@ -64,12 +73,11 @@ const Navbar = ({
     noBorder = false,
     isOffline = false,
 }: NavbarProps): JSX.Element => {
-    console.log(COLORS.moss);
     return (
         <>
             <NavbarWrapper noBorder={noBorder} isOffline={isOffline}>
                 {leftContent}
-                <Typography variant="h4" color={isOffline ? COLORS.white : ''}>
+                <span>
                     {isOffline && (
                         <EdsIcon
                             name={'wifi_off'}
@@ -78,10 +86,15 @@ const Navbar = ({
                             color={COLORS.white}
                         />
                     )}{' '}
-                    {midContent}
-                </Typography>
+                    <Typography
+                        variant="h4"
+                        color={isOffline ? COLORS.white : ''}
+                    >
+                        {midContent}
+                    </Typography>
+                </span>
 
-                {rightContent}
+                {rightContent ? rightContent : <div> </div>}
             </NavbarWrapper>
         </>
     );
