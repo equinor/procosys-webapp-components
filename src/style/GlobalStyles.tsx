@@ -18,6 +18,7 @@ export const COLORS = {
     greyBackground: tokens.colors.ui.background__light.hex,
     disabledText: tokens.colors.interactive.disabled__text.hex,
     black: '#000',
+    moss: tokens.colors.interactive.link_in_snackbars.hex,
 };
 
 const GlobalStyles = createGlobalStyle`

@@ -2,6 +2,7 @@ import { Button } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
 import ProcosysLogo from '../../assets/img/ProCoSys_icon.svg';
+import { NavButton } from '../NavBar';
 
 const ProcosysIcon = styled.img`
     width: 18px;
@@ -10,10 +11,10 @@ const ProcosysIcon = styled.img`
 
 const ProcosysButton = (): JSX.Element => {
     return (
-        <Button variant="ghost">
+        <NavButton variant="ghost">
             <ProcosysIcon src={ProcosysLogo} />
             ProCoSys
-        </Button>
+        </NavButton>
     );
 };
 

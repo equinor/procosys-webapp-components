@@ -1,18 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BREAKPOINT, COLORS } from '../style/GlobalStyles';
+import { Button, Icon, Typography } from '@equinor/eds-core-react';
+import EdsIcon from './icons/EdsIcon';
 
 const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean }>`
     height: 54px;
     width: 100%;
     max-width: 768px;
-    background-color: ${COLORS.white};
+    background-color: ${({ isOffline }): string =>
+        isOffline ? `${COLORS.midnight}` : `${COLORS.white}`};
     border-bottom: ${({ noBorder }): string =>
         noBorder ? 'none' : `1px solid ${COLORS.fadedBlue}`};
-    border-top: ${({ isOffline }): string =>
-        isOffline ? `3px solid ${COLORS.danger}` : `none`};
     display: flex;
     flex-grow: 100;
+    color: ${({ isOffline }): string =>
+        isOffline ? `${COLORS.moss}` : `${COLORS.mossGreen}`};
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
@@ -40,6 +43,19 @@ const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean }>`
     ${BREAKPOINT.standard} {
         padding: 4px 4%;
     }
+    & > span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+    }
+    & > div {
+        width: 48px;
+    }
+`;
+
+export const NavButton = styled(Button)`
+    color: inherit;
 `;
 
 type NavbarProps = {
@@ -61,8 +77,24 @@ const Navbar = ({
         <>
             <NavbarWrapper noBorder={noBorder} isOffline={isOffline}>
                 {leftContent}
-                <h4>{midContent}</h4>
-                {rightContent}
+                <span>
+                    {isOffline && (
+                        <EdsIcon
+                            name={'wifi_off'}
+                            title={'wifi_off'}
+                            size={24}
+                            color={COLORS.white}
+                        />
+                    )}{' '}
+                    <Typography
+                        variant="h4"
+                        color={isOffline ? COLORS.white : ''}
+                    >
+                        {midContent}
+                    </Typography>
+                </span>
+
+                {rightContent ? rightContent : <div> </div>}
             </NavbarWrapper>
         </>
     );
