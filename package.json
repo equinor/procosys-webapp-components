@@ -9,7 +9,7 @@
     "lint-all": "./node_modules/.bin/eslint --ext .ts,.tsx src/"
   },
   "peerDependencies": {
-    "@equinor/eds-core-react": "^0.29.1",
+    "@equinor/eds-core-react": "^0.31.0",
     "@equinor/eds-icons": "^0.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,8 +32,8 @@
   "homepage": "https://github.com/equinor/procosys-webapp-components#readme",
   "dependencies": {},
   "devDependencies": {
-    "@equinor/eds-core-react": "^0.29.1",
-    "@equinor/eds-icons": "^0.14.0",
+    "@equinor/eds-core-react": "^0.31.0",
+    "@equinor/eds-icons": "^0.10.0",
     "@rollup/plugin-image": "^3.0.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.2.7",
@@ -51,7 +51,7 @@
     "prettier": "^3.0.3",
     "rollup": "^4.12.0",
     "rollup-plugin-typescript2": "^0.36.0",
-    "styled-components": "^5.3.5",
+    "styled-components": "^5.3.6",
     "typescript": "5.2.2"
   }
 }
