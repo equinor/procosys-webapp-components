@@ -11,6 +11,7 @@ export default {
             exports: 'named',
             sourcemap: true,
             strict: false,
+            interop: 'compat'
         },
     ],
     plugins: [typescript(), image()],
