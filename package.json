@@ -32,10 +32,10 @@
   "homepage": "https://github.com/equinor/procosys-webapp-components#readme",
   "dependencies": {},
   "devDependencies": {
-    "@equinor/eds-core-react": "^0.31.0",
-    "@equinor/eds-icons": "^0.14.0",
+    "@equinor/eds-core-react": "^0.36.1",
+    "@equinor/eds-icons": "^0.21.0",
     "@rollup/plugin-image": "^3.0.3",
-    "@types/react": "^18.0.28",
+    "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.7",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
