@@ -66,6 +66,7 @@ const ScopeFilter = ({
                                 <Checkbox
                                     key={status}
                                     label={status}
+                                    checked={filter.status.includes(status)}
                                     onChange={(): void => {
                                         handleStatusChange(status);
                                     }}
