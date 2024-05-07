@@ -8,6 +8,7 @@ import {
     PunchItem,
     PunchComment,
     APIComment,
+    PriorityAndSorting,
 } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
@@ -24,7 +25,7 @@ const useClearPunchFacade = (
     organizations: PunchOrganization[],
     categories: PunchCategory[],
     types: PunchType[],
-    sortings: PunchSort[],
+    sortings: PriorityAndSorting[],
     priorities: PunchPriority[],
     setClearPunchStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>,
     redirectAfterClearing: () => void,
@@ -139,8 +140,8 @@ const useClearPunchFacade = (
         setPunchItem((prev) => ({
             ...prev,
             sorting: ensure(
-                sortings.find((sort) => sort.id === parseInt(e.target.value))
-            ).code,
+                sortings.find((sort) => sort.guid === e.target.value)
+            ),
         }));
         updateDatabase(punchEndpoints.updateSorting, {
             SortingId: parseInt(e.target.value),

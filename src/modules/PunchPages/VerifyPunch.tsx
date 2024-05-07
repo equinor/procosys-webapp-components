@@ -35,19 +35,17 @@ type VerifyPunchProps = {
     punchActionStatus: AsyncStatus;
     getPunchAttachments: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string,
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
         plantId: string,
-        punchItemId: number,
-        attachmentId: number,
+        punchGuid: string,
+        attachmentGuid: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     getPunchComments?: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string
     ) => Promise<APIComment[]>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
@@ -72,7 +70,7 @@ const VerifyPunch = ({
     abortController,
 }: VerifyPunchProps): JSX.Element => {
     const determineButtonsToRender = (): JSX.Element => {
-        if (punchItem.verifiedByFirstName) {
+        if (punchItem.verifiedBy?.firstName) {
             return (
                 <Button
                     disabled={
@@ -126,62 +124,62 @@ const VerifyPunch = ({
     return (
         <VerifyPunchWrapper>
             <label>Category:</label>
-            <p>{punchItem.status}</p>
+            <p>{punchItem.category}</p>
             <label>Description:</label>
             <p>{punchItem.description}</p>
             <label>Raised By:</label>
             <p>
-                {punchItem.raisedByCode}. {punchItem.raisedByDescription}
+                {punchItem.raisedByOrg?.code}. {punchItem.raisedByOrg?.description}
             </p>
             <label>Clearing by:</label>
             <p>
-                {punchItem.clearingByCode}. {punchItem.clearingByDescription}
+                {punchItem.clearingByOrg?.code}. {punchItem.clearingByOrg?.description}
             </p>
             <label>Action by person:</label>
             <p>
-                {punchItem.actionByPerson
-                    ? `${punchItem.actionByPersonFirstName} ${punchItem.actionByPersonLastName}`
+                {punchItem.actionBy?.firstName
+                    ? `${punchItem.actionBy.firstName} ${punchItem.actionBy?.lastName}`
                     : '--'}
             </p>
             <label>Due date:</label>
-            <p>{punchItem.dueDate ?? '--'}</p>
+            <p>{punchItem.dueTimeUtc ?? '--'}</p>
             <label>Type:</label>
             <p>
                 {punchItem.typeCode}. {punchItem.typeDescription}
             </p>
             <label>Sorting:</label>
-            <p>{punchItem.sorting ?? '--'}</p>
+            <p>{punchItem.sorting?.code ?? '--'}</p>
             <label>Priority:</label>
             <p>
-                {punchItem.priorityCode
-                    ? `${punchItem.priorityCode} . ${punchItem.priorityDescription}`
+                {punchItem.priority?.code
+                    ? `${punchItem.priority?.code} . ${punchItem.priority?.description}`
                     : '--'}
             </p>
             <label>Estimate:</label>
             <p>{punchItem.estimate ?? '--'}</p>
             <label>Signatures:</label>
-            {punchItem.clearedAt ? (
+            {punchItem.clearedAtUtc ? (
                 <p>
                     Cleared at{' '}
-                    {new Date(punchItem.clearedAt).toLocaleDateString('en-GB')}{' '}
-                    by {punchItem.clearedByFirstName}{' '}
-                    {punchItem.clearedByLastName} ({punchItem.clearedByUser})
+                    {new Date(punchItem.clearedAtUtc).toLocaleDateString('en-GB')}{' '}
+                    by {punchItem.clearedBy.firstName}{' '}
+                    {punchItem.clearedBy?.lastName} ({punchItem.clearedBy.userName})
                 </p>
             ) : null}
-            {punchItem.verifiedAt ? (
+            {punchItem.verifiedAtUtc ? (
                 <p>
                     Verified at{' '}
-                    {new Date(punchItem.verifiedAt).toLocaleDateString('en-GB')}{' '}
-                    by {punchItem.verifiedByFirstName}{' '}
-                    {punchItem.verifiedByLastName} ({punchItem.verifiedByUser})
+                    {new Date(punchItem.verifiedAtUtc).toLocaleDateString('en-GB')}{' '}
+                    by {punchItem.verifiedBy.firstName}{' '}
+                    {punchItem.verifiedBy.lastName} ({punchItem.verifiedBy.userName})
                 </p>
             ) : null}
-            {punchItem.rejectedAt ? (
+            {punchItem.rejectedAtUtc ? (
                 <p>
                     Rejected at{' '}
-                    {new Date(punchItem.rejectedAt).toLocaleDateString('en-GB')}{' '}
-                    by {punchItem.rejectedByFirstName}{' '}
-                    {punchItem.rejectedByLastName} ({punchItem.rejectedByUser})
+                    {new Date(punchItem.rejectedAtUtc).toLocaleDateString('en-GB')}{' '}
+                    by {punchItem.rejectedBy.firstName}{' '}
+                    {punchItem.rejectedBy.lastName} ({punchItem.rejectedBy.userName})
                 </p>
             ) : null}
 
@@ -190,15 +188,14 @@ const VerifyPunch = ({
                 getAttachments={(): Promise<Attachment[]> =>
                     getPunchAttachments(
                         plantId,
-                        punchItem.id,
-                        abortController?.signal
+                        punchItem.guid
                     )
                 }
-                getAttachment={(attachmentId: number): Promise<Blob> =>
+                getAttachment={(attachmentGuid: string): Promise<Blob> =>
                     getPunchAttachment(
                         plantId,
-                        punchItem.id,
-                        attachmentId,
+                        punchItem.guid,
+                        attachmentGuid,
                         abortController?.signal
                     )
                 }

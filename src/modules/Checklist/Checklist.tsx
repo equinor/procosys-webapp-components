@@ -219,12 +219,13 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     )
                                 }
                                 getAttachment={(
-                                    attachmentId: number
+                                    attachmentGuid: string
                                 ): Promise<Blob> =>
-                                    api.getChecklistAttachment(
-                                        abortController.signal,
-                                        attachmentId
-                                    )
+                                    // api.getChecklistAttachment(
+                                    //     abortController.signal,
+                                    //     attachmentGuid
+                                    // )
+                                    Promise.resolve(new Blob())
                                 }
                                 postAttachment={(
                                     file: FormData,

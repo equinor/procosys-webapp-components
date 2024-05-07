@@ -23,8 +23,7 @@ type CommentCardProps = {
     punchItem: PunchItem;
     getPunchComments: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string
     ) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
@@ -64,8 +63,7 @@ const CommentCard = ({
         try {
             const comments = await getPunchComments(
                 plantId,
-                punchItem.id,
-                abortController?.signal
+                punchItem.guid
             );
             let fetchedComments: APIComment[] = [];
             try {

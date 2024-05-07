@@ -33,6 +33,7 @@ import {
     PunchPriority,
     PunchSort,
     PunchType,
+    PriorityAndSorting
 } from '../../typings/apiTypes';
 import {
     PunchEndpoints,
@@ -54,7 +55,7 @@ type ClearPunchProps = {
     organizations: PunchOrganization[];
     categories: PunchCategory[];
     types: PunchType[];
-    sortings: PunchSort[];
+    sortings: PriorityAndSorting[];
     priorities: PunchPriority[];
     clearPunchStatus: AsyncStatus;
     setClearPunchStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>;
@@ -64,13 +65,12 @@ type ClearPunchProps = {
     updatePunchStatus: AsyncStatus;
     getPunchAttachments: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
         plantId: string,
-        punchItemId: number,
-        attachmentId: number,
+        punchGuid: string,
+        attachmentGuid: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postPunchAttachment: (
@@ -86,8 +86,7 @@ type ClearPunchProps = {
     ) => Promise<void>;
     getPunchComments?: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string
     ) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
@@ -382,8 +381,8 @@ const ClearPunch = ({
                                 punchItem.sorting
                                     ? sortings.find(
                                           (sort) =>
-                                              sort.code === punchItem.sorting
-                                      )?.id
+                                              sort.code === punchItem.sorting.code
+                                      )?.guid
                                     : ''
                             }
                             onChange={handleSortingChange}
@@ -391,8 +390,8 @@ const ClearPunch = ({
                             <option hidden disabled value={''} />
                             {sortings?.map((sort) => (
                                 <option
-                                    key={sort.id}
-                                    value={sort.id}
+                                    key={sort.guid}
+                                    value={sort.guid}
                                 >{`${sort.code}. ${sort.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -458,17 +457,16 @@ const ClearPunch = ({
                                 getAttachments={(): Promise<Attachment[]> =>
                                     getPunchAttachments(
                                         plantId,
-                                        punchItem.id,
-                                        abortController?.signal
+                                        punchItem.guid
                                     )
                                 }
                                 getAttachment={(
-                                    attachmentId: number
+                                    attachmentGuid: string
                                 ): Promise<Blob> =>
                                     getPunchAttachment(
                                         plantId,
-                                        punchItem.id,
-                                        attachmentId,
+                                        punchItem.guid,
+                                        attachmentGuid,
                                         abortController?.signal
                                     )
                                 }
