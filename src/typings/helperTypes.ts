@@ -31,17 +31,19 @@ export type PunchEndpoints = {
     updateEstimate: string;
 };
 
-export type UpdatePunchData =
-    | { CategoryId: number }
-    | { Description: string }
-    | { RaisedByOrganizationId: number }
-    | { ClearingByOrganizationId: number }
-    | { PersonId: number | null }
-    | { DueDate: string | null }
-    | { TypeId: number }
-    | { SortingId: number }
-    | { PriorityId: number }
-    | { Estimate: number | null };
+export type UpdatePunchData = string | number | null
+
+// export type UpdatePunchData =
+//     | { CategoryId: number }
+//     | { description: string }
+//     | { raisedByOrgGuid: string }
+//     | { clearingByOrgGuid: string }
+//     | { actionByPersonOid: number | null }
+//     | { dueTimeUtc: string | null }
+//     | { typeGuid: number }
+//     | { sortingGuid: string }
+//     | { priorityGuid: string }
+//     | { estimate: number | null };
 
 export type SearchResult = {
     persons: Person[];

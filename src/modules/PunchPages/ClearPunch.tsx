@@ -29,11 +29,7 @@ import {
     PunchComment,
     PunchCategory,
     PunchItem,
-    PunchOrganization,
-    PunchPriority,
-    PunchSort,
-    PunchType,
-    PriorityAndSorting
+    LibrayTypes
 } from '../../typings/apiTypes';
 import {
     PunchEndpoints,
@@ -52,11 +48,11 @@ type ClearPunchProps = {
         endpoint: string,
         updateData: UpdatePunchData
     ) => Promise<void>;
-    organizations: PunchOrganization[];
+    organizations: LibrayTypes[];
     categories: PunchCategory[];
-    types: PunchType[];
-    sortings: PriorityAndSorting[];
-    priorities: PunchPriority[];
+    types: LibrayTypes[];
+    sortings: LibrayTypes[];
+    priorities: LibrayTypes[];
     clearPunchStatus: AsyncStatus;
     setClearPunchStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>;
     clearPunch: () => Promise<void>;
@@ -195,7 +191,7 @@ const ClearPunch = ({
                                 ensure(
                                     categories.find(
                                         (category) =>
-                                            category.code === punchItem.status
+                                            category.code === punchItem.category
                                     )
                                 ).id
                             }
@@ -230,11 +226,7 @@ const ClearPunch = ({
                                     descriptionBeforeEntering
                                 ) {
                                     updateDatabase(
-                                        punchEndpoints.updateDescription,
-                                        {
-                                            Description: punchItem.description,
-                                        }
-                                    );
+                                        punchEndpoints.updateDescription,punchItem.description);
                                 }
                             }}
                             onChange={handleDescriptionChange}
@@ -256,8 +248,8 @@ const ClearPunch = ({
 
                             {organizations.map((organization) => (
                                 <option
-                                    key={organization.id}
-                                    value={organization.id}
+                                    key={organization.guid}
+                                    value={organization.guid}
                                 >
                                     {organization.description}
                                 </option>
@@ -280,8 +272,8 @@ const ClearPunch = ({
 
                             {organizations.map((organization) => (
                                 <option
-                                    key={organization.id}
-                                    value={organization.id}
+                                    key={organization.guid}
+                                    value={organization.guid}
                                 >
                                     {organization.description}
                                 </option>
@@ -336,9 +328,7 @@ const ClearPunch = ({
                                 onBlur={(): void => {
                                     updateDatabase(
                                         punchEndpoints.updateDueDate,
-                                        {
-                                            DueDate: punchItem.dueDate,
-                                        }
+                                        punchItem.dueDate,
                                     );
                                 }}
                             />
@@ -356,7 +346,7 @@ const ClearPunch = ({
                                     ? types.find(
                                           (type) =>
                                               type.code === punchItem.typeCode
-                                      )?.id
+                                      )?.guid
                                     : ''
                             }
                             onChange={handleTypeChange}
@@ -364,8 +354,8 @@ const ClearPunch = ({
                             <option hidden disabled value={''} />
                             {types?.map((type) => (
                                 <option
-                                    key={type.id}
-                                    value={type.id}
+                                    key={type.guid}
+                                    value={type.guid}
                                 >{`${type.code}. ${type.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -409,7 +399,7 @@ const ClearPunch = ({
                                           (priority) =>
                                               priority.code ===
                                               punchItem.priorityCode
-                                      )?.id
+                                      )?.guid
                                     : ''
                             }
                             onChange={handlePriorityChange}
@@ -417,8 +407,8 @@ const ClearPunch = ({
                             <option hidden disabled value={''} />
                             {priorities?.map((priority) => (
                                 <option
-                                    key={priority.id}
-                                    value={priority.id}
+                                    key={priority.guid}
+                                    value={priority.guid}
                                 >{`${priority.code}. ${priority.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -443,9 +433,7 @@ const ClearPunch = ({
                                 ) {
                                     updateDatabase(
                                         punchEndpoints.updateEstimate,
-                                        {
-                                            Estimate: punchItem.estimate,
-                                        }
+                                        punchItem.estimate,
                                     );
                                 }
                             }}

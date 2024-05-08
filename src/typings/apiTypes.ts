@@ -404,6 +404,14 @@ interface OrganizationDetail {
     code: string;
     description: string;
   }
+
+  export interface LibrayTypes {
+    guid: string;
+    libraryType: string;
+    code: string;
+    description: string;
+  }
+
   export interface SWCR {
     guid: Guid;
     no: number;

@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import {
     PunchCategory,
-    PunchType,
-    PunchOrganization,
-    PunchSort,
-    PunchPriority,
     PunchItem,
-    PunchComment,
-    APIComment,
-    PriorityAndSorting,
+    LibrayTypes,
 } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import ensure from '../../utils/ensure';
@@ -22,20 +16,20 @@ const useClearPunchFacade = (
         endpoint: string,
         updateData: UpdatePunchData
     ) => Promise<void>,
-    organizations: PunchOrganization[],
+    organizations: LibrayTypes[],
     categories: PunchCategory[],
-    types: PunchType[],
-    sortings: PriorityAndSorting[],
-    priorities: PunchPriority[],
+    types: LibrayTypes[],
+    sortings: LibrayTypes[],
+    priorities: LibrayTypes[],
     setClearPunchStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>,
     redirectAfterClearing: () => void,
     clearPunch: () => Promise<void>
 ) => {
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
 
-    const getDefaultOrganization = (code: string): number => {
-        const defaultId = organizations?.find((org) => org.code === code)?.id;
-        return defaultId ? defaultId : -1;
+    const getDefaultOrganization = (code: string): string => {
+        const defaultId = organizations?.find((org) => org.code === code)?.guid;
+        return defaultId ? defaultId : "-1";
     };
 
     const handleCategoryChange = (
@@ -48,9 +42,7 @@ const useClearPunchFacade = (
                 categories.find((category) => category.id === newCategoryId)
             ).code,
         }));
-        updateDatabase(punchEndpoints.updateCategory, {
-            CategoryId: newCategoryId,
-        });
+        updateDatabase(punchEndpoints.updateCategory, newCategoryId);
     };
 
     const handleDescriptionChange = (
@@ -64,35 +56,31 @@ const useClearPunchFacade = (
     const handleRaisedByChange = (
         e: React.ChangeEvent<HTMLSelectElement>
     ): void => {
-        const newRaisedByOrganizationId = parseInt(e.target.value);
+        const raisedByOrgGuid = e.target.value
         setPunchItem((prev) => ({
             ...prev,
             raisedByCode: ensure(
                 organizations.find(
-                    (org) => org.id === newRaisedByOrganizationId
+                    (org) => org.guid === raisedByOrgGuid
                 )
             ).code,
         }));
-        updateDatabase(punchEndpoints.updateRaisedBy, {
-            RaisedByOrganizationId: newRaisedByOrganizationId,
-        });
+        updateDatabase(punchEndpoints.updateRaisedBy, raisedByOrgGuid);
     };
 
     const handleClearingByChange = (
         e: React.ChangeEvent<HTMLSelectElement>
     ): void => {
-        const newClearingByOrganizationId = parseInt(e.target.value);
+        const clearingByOrgGuid = e.target.value;
         setPunchItem((prev) => ({
             ...prev,
             clearingByCode: ensure(
                 organizations.find(
-                    (org) => org.id === newClearingByOrganizationId
+                    (org) => org.guid === clearingByOrgGuid
                 )
             ).code,
         }));
-        updateDatabase(punchEndpoints.updateClearingBy, {
-            ClearingByOrganizationId: newClearingByOrganizationId,
-        });
+        updateDatabase(punchEndpoints.updateClearingBy, clearingByOrgGuid);
     };
 
     const handleActionByPersonChange = (
@@ -106,9 +94,7 @@ const useClearPunchFacade = (
             actionByPersonFirstName: firstName,
             actionByPersonLastName: lastName,
         }));
-        updateDatabase(punchEndpoints.updateActionByPerson, {
-            PersonId: id,
-        });
+        updateDatabase(punchEndpoints.updateActionByPerson, id);
         setShowPersonsSearch(false);
     };
 
@@ -126,12 +112,10 @@ const useClearPunchFacade = (
         setPunchItem((prev) => ({
             ...prev,
             typeCode: ensure(
-                types.find((type) => type.id === parseInt(e.target.value))
+                types.find((type) => type.guid === e.target.value)
             ).code,
         }));
-        updateDatabase(punchEndpoints.updateType, {
-            TypeId: parseInt(e.target.value),
-        });
+        updateDatabase(punchEndpoints.updateType, e.target.value);
     };
 
     const handleSortingChange = (
@@ -143,9 +127,7 @@ const useClearPunchFacade = (
                 sortings.find((sort) => sort.guid === e.target.value)
             ),
         }));
-        updateDatabase(punchEndpoints.updateSorting, {
-            SortingId: parseInt(e.target.value),
-        });
+        updateDatabase(punchEndpoints.updateSorting, e.target.value);
     };
 
     const handlePriorityChange = (
@@ -155,13 +137,11 @@ const useClearPunchFacade = (
             ...prev,
             priorityCode: ensure(
                 priorities.find(
-                    (priority) => priority.id === parseInt(e.target.value)
+                    (priority) => priority.guid === e.target.value
                 )
             ).code,
         }));
-        updateDatabase(punchEndpoints.updatePriority, {
-            PriorityId: parseInt(e.target.value),
-        });
+        updateDatabase(punchEndpoints.updatePriority, e.target.value);
     };
 
     const handleEstimateChange = (
