@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Button, Progress, TextField } from '@equinor/eds-core-react';
 import { AsyncStatus } from '../../typings/enums';
 import Comments from './Comments';
-import { APIComment, PunchComment, PunchItem } from '../../typings/apiTypes';
+import {
+    APIComment,
+    PunchComment,
+    PunchItem,
+    PunchListItem,
+} from '../../typings/apiTypes';
 import CollapsibleCard from '../CollapsibleCard';
 import styled from 'styled-components';
 
@@ -20,7 +25,7 @@ const ButtonWrapper = styled(Button)`
 
 type CommentCardProps = {
     plantId: string;
-    punchItem: PunchItem;
+    punchItem: PunchListItem;
     getPunchComments: (
         plantId: string,
         punchItemId: number,

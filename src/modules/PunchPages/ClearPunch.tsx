@@ -379,10 +379,10 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={
-                                punchItem.sorting
-                                    ? sortings.find(
-                                          (sort) =>
-                                              sort.code === punchItem.sorting
+                                punchItem.typeCode
+                                    ? types.find(
+                                          (type) =>
+                                              type.code === punchItem.typeCode
                                       )?.id
                                     : ''
                             }

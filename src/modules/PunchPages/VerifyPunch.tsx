@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@equinor/eds-core-react';
-import { APIComment, Attachment, PunchItem } from '../../typings/apiTypes';
+import {
+    APIComment,
+    Attachment,
+    PunchItem,
+    PunchListItem,
+} from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import Attachments from '../Attachments/Attachments';
 import CommentCard from '../../components/Comments/CommentCard';
@@ -25,7 +30,8 @@ const ButtonGroup = styled.div`
 
 type VerifyPunchProps = {
     plantId: string;
-    punchItem: PunchItem;
+    proCoSysGuid: string;
+    punchItem: PunchListItem;
     canUnclear: boolean;
     canVerify: boolean;
     handleUnclear: () => Promise<void>;
@@ -56,6 +62,7 @@ type VerifyPunchProps = {
 
 const VerifyPunch = ({
     plantId,
+    proCoSysGuid,
     punchItem,
     canUnclear,
     canVerify,
@@ -72,7 +79,7 @@ const VerifyPunch = ({
     abortController,
 }: VerifyPunchProps): JSX.Element => {
     const determineButtonsToRender = (): JSX.Element => {
-        if (punchItem.verifiedByFirstName) {
+        if (punchItem) {
             return (
                 <Button
                     disabled={
@@ -105,7 +112,7 @@ const VerifyPunch = ({
                         }
                         onClick={handleReject}
                     >
-                        Reject
+                        Rejecttt
                     </Button>
 
                     <Button
@@ -126,7 +133,7 @@ const VerifyPunch = ({
     return (
         <VerifyPunchWrapper>
             <label>Category:</label>
-            <p>{punchItem.status}</p>
+            <p>{punchItem.category}</p>
             <label>Description:</label>
             <p>{punchItem.description}</p>
             <label>Raised By:</label>
@@ -150,7 +157,7 @@ const VerifyPunch = ({
                 {punchItem.typeCode}. {punchItem.typeDescription}
             </p>
             <label>Sorting:</label>
-            <p>{punchItem.sorting ?? '--'}</p>
+
             <label>Priority:</label>
             <p>
                 {punchItem.priorityCode
