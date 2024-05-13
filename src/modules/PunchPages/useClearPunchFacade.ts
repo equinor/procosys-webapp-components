@@ -27,8 +27,8 @@ const useClearPunchFacade = (
 ) => {
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
 
-    const getDefaultOrganization = (code: string): string => {
-        const defaultId = organizations?.find((org) => org.code === code)?.guid;
+    const getDefaultOrganization = (guid: string): string => {
+        const defaultId = organizations?.find((org) => org.guid === guid)?.guid;
         return defaultId ? defaultId : "-1";
     };
 
@@ -84,17 +84,15 @@ const useClearPunchFacade = (
     };
 
     const handleActionByPersonChange = (
-        id: number | null,
+        azureOid: string | null,
         firstName: string,
         lastName: string
     ): void => {
         setPunchItem((prev) => ({
             ...prev,
-            actionByPerson: id,
-            actionByPersonFirstName: firstName,
-            actionByPersonLastName: lastName,
+            actionBy: {...prev.actionBy, azureOid, firstName, lastName}
         }));
-        updateDatabase(punchEndpoints.updateActionByPerson, id);
+        updateDatabase(punchEndpoints.updateActionByPerson, azureOid);
         setShowPersonsSearch(false);
     };
 

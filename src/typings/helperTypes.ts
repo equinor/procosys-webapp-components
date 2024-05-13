@@ -2,7 +2,7 @@ import { Person } from './apiTypes';
 import { SearchType, SearchStatus } from './enums';
 
 export type ChosenPerson = {
-    id: number | null;
+    id: string | null;
     name: string;
 };
 

@@ -240,7 +240,7 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={getDefaultOrganization(
-                                punchItem.raisedByCode
+                                punchItem.raisedByOrg.guid
                             )}
                             onChange={handleRaisedByChange}
                         >
@@ -264,7 +264,7 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={getDefaultOrganization(
-                                punchItem.clearingByCode
+                                punchItem.clearingByOrg.guid
                             )}
                             onChange={handleClearingByChange}
                         >
@@ -282,14 +282,15 @@ const ClearPunch = ({
                         <h5>Optional fields</h5>
                         <TextField
                             id="actionByPerson"
-                            defaultValue={
-                                punchItem.actionByPerson
-                                    ? `${punchItem.actionByPersonFirstName} ${punchItem.actionByPersonLastName}`
+                            value={
+                                punchItem.actionBy
+                                    ? `${punchItem.actionBy.firstName} ${punchItem.actionBy.lastName}`
                                     : ''
                             }
+                            onChange={() => ({})}
                             disabled={canEdit === false || disablePersonsSearch}
                             inputIcon={
-                                punchItem.actionByPerson && canEdit ? (
+                                punchItem.actionBy && canEdit ? (
                                     <div
                                         onClick={(): void =>
                                             handleActionByPersonChange(
@@ -320,8 +321,8 @@ const ClearPunch = ({
                                     canEdit === false
                                 }
                                 value={
-                                    punchItem.dueDate
-                                        ? punchItem.dueDate.split('T')[0]
+                                    punchItem.dueTimeUtc
+                                        ? punchItem.dueTimeUtc.split('T')[0]
                                         : ''
                                 }
                                 onChange={handleDueDateChange}
@@ -342,10 +343,10 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={
-                                punchItem.typeCode
+                                punchItem.type
                                     ? types.find(
                                           (type) =>
-                                              type.code === punchItem.typeCode
+                                              type.guid === punchItem.type?.guid
                                       )?.guid
                                     : ''
                             }
@@ -371,7 +372,7 @@ const ClearPunch = ({
                                 punchItem.sorting
                                     ? sortings.find(
                                           (sort) =>
-                                              sort.code === punchItem.sorting.code
+                                              sort.guid === punchItem.sorting?.guid
                                       )?.guid
                                     : ''
                             }
@@ -394,11 +395,11 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={
-                                punchItem.priorityCode
+                                punchItem.priority
                                     ? priorities.find(
                                           (priority) =>
-                                              priority.code ===
-                                              punchItem.priorityCode
+                                              priority.guid ===
+                                              punchItem.priority?.guid
                                       )?.guid
                                     : ''
                             }

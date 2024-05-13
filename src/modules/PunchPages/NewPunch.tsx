@@ -92,7 +92,7 @@ const NewPunch = ({
     const [showPersonsSearch, setShowPersonsSearch] = useState(false);
 
     const handlePersonChosen = (
-        id: number,
+        id: string,
         firstName: string,
         lastName: string
     ): void => {
