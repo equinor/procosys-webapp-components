@@ -44,7 +44,6 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 const attachmentsFromApi = await props.getAttachments(
                     props.abortController?.signal
                 );
-                console.log("attach", attachmentsFromApi);
                 setAttachments(attachmentsFromApi);
             } catch (error) {
                 if (!(error instanceof Error)) return;
