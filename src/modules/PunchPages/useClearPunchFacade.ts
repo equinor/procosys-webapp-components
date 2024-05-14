@@ -101,7 +101,7 @@ const useClearPunchFacade = (
     ): void =>
         setPunchItem((prev) => ({
             ...prev,
-            dueDate: e.target.value,
+            dueTimeUtc: e.target.value,
         }));
 
     const handleTypeChange = (

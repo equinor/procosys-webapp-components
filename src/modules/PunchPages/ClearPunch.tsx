@@ -206,7 +206,7 @@ const ClearPunch = ({
                         </NativeSelect>
                         <TextField
                             required
-                            maxLength={255}
+                            maxLength={2000}
                             value={punchItem.description}
                             label="Description"
                             multiline
@@ -322,14 +322,14 @@ const ClearPunch = ({
                                 }
                                 value={
                                     punchItem.dueTimeUtc
-                                        ? punchItem.dueTimeUtc.split('T')[0]
+                                        ? punchItem.dueTimeUtc.split("T")[0]
                                         : ''
                                 }
                                 onChange={handleDueDateChange}
                                 onBlur={(): void => {
                                     updateDatabase(
                                         punchEndpoints.updateDueDate,
-                                        punchItem.dueDate,
+                                        punchItem.dueTimeUtc,
                                     );
                                 }}
                             />
