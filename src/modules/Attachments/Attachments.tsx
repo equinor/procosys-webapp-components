@@ -14,7 +14,7 @@ export const AttachmentsWrapper = styled.div`
     > ${DocumentAttachmentWrapper}, > button {
         width: 100%;
         height: 100px;
-    }'
+    }
     & > img {
         object-fit: cover;
     }
