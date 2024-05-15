@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Caption, COLORS } from '../../style/GlobalStyles';
 import EdsIcon from '../icons/EdsIcon';
+import Markdown from "markdown-to-jsx";
 
 const EntityDetailsWrapper = styled.article<{
     isDetailsCard?: boolean;
@@ -98,9 +99,11 @@ const EntityDetails = ({
                         <Caption key={`${index}-${detail}`}>{detail}</Caption>
                     ))}
                 </HeaderWrapper>
-                <Typography variant="caption" lines={2}>
-                    {description}
-                </Typography>
+                {description ? 
+                    <Typography variant="caption" lines={2}>
+                        <Markdown>{description}</Markdown>
+                    </Typography>
+                 : null}
             </ContentWrapper>
             {offlinePlanningState && handleBookmarkClicked && (
                 <BookmarkWrapper>

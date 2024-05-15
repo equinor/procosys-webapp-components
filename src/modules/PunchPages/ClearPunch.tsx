@@ -29,10 +29,7 @@ import {
     PunchComment,
     PunchCategory,
     PunchItem,
-    PunchOrganization,
-    PunchPriority,
-    PunchSort,
-    PunchType,
+    LibrayTypes
 } from '../../typings/apiTypes';
 import {
     PunchEndpoints,
@@ -51,11 +48,11 @@ type ClearPunchProps = {
         endpoint: string,
         updateData: UpdatePunchData
     ) => Promise<void>;
-    organizations: PunchOrganization[];
+    organizations: LibrayTypes[];
     categories: PunchCategory[];
-    types: PunchType[];
-    sortings: PunchSort[];
-    priorities: PunchPriority[];
+    types: LibrayTypes[];
+    sortings: LibrayTypes[];
+    priorities: LibrayTypes[];
     clearPunchStatus: AsyncStatus;
     setClearPunchStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>;
     clearPunch: () => Promise<void>;
@@ -64,13 +61,12 @@ type ClearPunchProps = {
     updatePunchStatus: AsyncStatus;
     getPunchAttachments: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
         plantId: string,
-        punchItemId: number,
-        attachmentId: number,
+        punchGuid: string,
+        attachmentGuid: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postPunchAttachment: (
@@ -86,8 +82,7 @@ type ClearPunchProps = {
     ) => Promise<void>;
     getPunchComments?: (
         plantId: string,
-        punchItemId: number,
-        abortSignal?: AbortSignal
+        guid: string
     ) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
@@ -196,7 +191,7 @@ const ClearPunch = ({
                                 ensure(
                                     categories.find(
                                         (category) =>
-                                            category.code === punchItem.status
+                                            category.code === punchItem.category
                                     )
                                 ).id
                             }
@@ -211,7 +206,7 @@ const ClearPunch = ({
                         </NativeSelect>
                         <TextField
                             required
-                            maxLength={255}
+                            maxLength={2000}
                             value={punchItem.description}
                             label="Description"
                             multiline
@@ -231,11 +226,7 @@ const ClearPunch = ({
                                     descriptionBeforeEntering
                                 ) {
                                     updateDatabase(
-                                        punchEndpoints.updateDescription,
-                                        {
-                                            Description: punchItem.description,
-                                        }
-                                    );
+                                        punchEndpoints.updateDescription,punchItem.description);
                                 }
                             }}
                             onChange={handleDescriptionChange}
@@ -249,7 +240,7 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={getDefaultOrganization(
-                                punchItem.raisedByCode
+                                punchItem.raisedByOrg.guid
                             )}
                             onChange={handleRaisedByChange}
                         >
@@ -257,8 +248,8 @@ const ClearPunch = ({
 
                             {organizations.map((organization) => (
                                 <option
-                                    key={organization.id}
-                                    value={organization.id}
+                                    key={organization.guid}
+                                    value={organization.guid}
                                 >
                                     {organization.description}
                                 </option>
@@ -273,7 +264,7 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={getDefaultOrganization(
-                                punchItem.clearingByCode
+                                punchItem.clearingByOrg.guid
                             )}
                             onChange={handleClearingByChange}
                         >
@@ -281,8 +272,8 @@ const ClearPunch = ({
 
                             {organizations.map((organization) => (
                                 <option
-                                    key={organization.id}
-                                    value={organization.id}
+                                    key={organization.guid}
+                                    value={organization.guid}
                                 >
                                     {organization.description}
                                 </option>
@@ -291,14 +282,15 @@ const ClearPunch = ({
                         <h5>Optional fields</h5>
                         <TextField
                             id="actionByPerson"
-                            defaultValue={
-                                punchItem.actionByPerson
-                                    ? `${punchItem.actionByPersonFirstName} ${punchItem.actionByPersonLastName}`
+                            value={
+                                punchItem.actionBy
+                                    ? `${punchItem.actionBy.firstName} ${punchItem.actionBy.lastName}`
                                     : ''
                             }
+                            onChange={() => ({})}
                             disabled={canEdit === false || disablePersonsSearch}
                             inputIcon={
-                                punchItem.actionByPerson && canEdit ? (
+                                punchItem.actionBy && canEdit ? (
                                     <div
                                         onClick={(): void =>
                                             handleActionByPersonChange(
@@ -329,17 +321,15 @@ const ClearPunch = ({
                                     canEdit === false
                                 }
                                 value={
-                                    punchItem.dueDate
-                                        ? punchItem.dueDate.split('T')[0]
+                                    punchItem.dueTimeUtc
+                                        ? punchItem.dueTimeUtc.split("T")[0]
                                         : ''
                                 }
                                 onChange={handleDueDateChange}
                                 onBlur={(): void => {
                                     updateDatabase(
                                         punchEndpoints.updateDueDate,
-                                        {
-                                            DueDate: punchItem.dueDate,
-                                        }
+                                        punchItem.dueTimeUtc,
                                     );
                                 }}
                             />
@@ -353,11 +343,11 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={
-                                punchItem.typeCode
+                                punchItem.type
                                     ? types.find(
                                           (type) =>
-                                              type.code === punchItem.typeCode
-                                      )?.id
+                                              type.guid === punchItem.type?.guid
+                                      )?.guid
                                     : ''
                             }
                             onChange={handleTypeChange}
@@ -365,8 +355,8 @@ const ClearPunch = ({
                             <option hidden disabled value={''} />
                             {types?.map((type) => (
                                 <option
-                                    key={type.id}
-                                    value={type.id}
+                                    key={type.guid}
+                                    value={type.guid}
                                 >{`${type.code}. ${type.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -382,8 +372,8 @@ const ClearPunch = ({
                                 punchItem.sorting
                                     ? sortings.find(
                                           (sort) =>
-                                              sort.code === punchItem.sorting
-                                      )?.id
+                                              sort.guid === punchItem.sorting?.guid
+                                      )?.guid
                                     : ''
                             }
                             onChange={handleSortingChange}
@@ -391,8 +381,8 @@ const ClearPunch = ({
                             <option hidden disabled value={''} />
                             {sortings?.map((sort) => (
                                 <option
-                                    key={sort.id}
-                                    value={sort.id}
+                                    key={sort.guid}
+                                    value={sort.guid}
                                 >{`${sort.code}. ${sort.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -405,12 +395,12 @@ const ClearPunch = ({
                                 canEdit === false
                             }
                             defaultValue={
-                                punchItem.priorityCode
+                                punchItem.priority
                                     ? priorities.find(
                                           (priority) =>
-                                              priority.code ===
-                                              punchItem.priorityCode
-                                      )?.id
+                                              priority.guid ===
+                                              punchItem.priority?.guid
+                                      )?.guid
                                     : ''
                             }
                             onChange={handlePriorityChange}
@@ -418,8 +408,8 @@ const ClearPunch = ({
                             <option hidden disabled value={''} />
                             {priorities?.map((priority) => (
                                 <option
-                                    key={priority.id}
-                                    value={priority.id}
+                                    key={priority.guid}
+                                    value={priority.guid}
                                 >{`${priority.code}. ${priority.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -444,9 +434,7 @@ const ClearPunch = ({
                                 ) {
                                     updateDatabase(
                                         punchEndpoints.updateEstimate,
-                                        {
-                                            Estimate: punchItem.estimate,
-                                        }
+                                        punchItem.estimate,
                                     );
                                 }
                             }}
@@ -458,17 +446,16 @@ const ClearPunch = ({
                                 getAttachments={(): Promise<Attachment[]> =>
                                     getPunchAttachments(
                                         plantId,
-                                        punchItem.id,
-                                        abortController?.signal
+                                        punchItem.guid
                                     )
                                 }
                                 getAttachment={(
-                                    attachmentId: number
+                                    attachmentGuid: string
                                 ): Promise<Blob> =>
                                     getPunchAttachment(
                                         plantId,
-                                        punchItem.id,
-                                        attachmentId,
+                                        punchItem.guid,
+                                        attachmentGuid,
                                         abortController?.signal
                                     )
                                 }

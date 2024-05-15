@@ -43,7 +43,7 @@ const TallSearchField = styled(SearchField)`
 `;
 
 type PersonsSearchProps = {
-    setChosenPerson: (id: number, firstName: string, lastName: string) => void;
+    setChosenPerson: (id: string, firstName: string, lastName: string) => void;
     setShowPersonSearch: React.Dispatch<React.SetStateAction<boolean>>;
     hits: SearchResult;
     searchStatus: SearchStatus;
@@ -86,11 +86,11 @@ const PersonsSearch = ({
                 <div>
                     {hits.persons.map((person) => (
                         <NameWrapper
-                            key={person.id}
+                            key={person.azureOid}
                             role="button"
                             onClick={(): void =>
                                 setChosenPerson(
-                                    person.id,
+                                    person.azureOid,
                                     person.firstName,
                                     person.lastName
                                 )

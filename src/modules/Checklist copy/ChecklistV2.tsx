@@ -197,12 +197,12 @@ const ChecklistV2 = ({
                                     )
                                 }
                                 getAttachment={(
-                                    attachmentId: number
+                                    attachmentGuid: string
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
                                         plantId,
                                         checklistId,
-                                        attachmentId,
+                                        attachmentGuid,
                                         abortController.signal
                                     )
                                 }

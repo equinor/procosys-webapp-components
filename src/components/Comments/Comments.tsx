@@ -18,7 +18,7 @@ const Comments = ({ commentList }: CommentsProps): JSX.Element => {
         return (
             <CommentsWrapper>
                 {commentList.map((comment) => (
-                    <Comment key={comment.id} comment={comment}></Comment>
+                    <Comment key={comment.guid} comment={comment}></Comment>
                 ))}
             </CommentsWrapper>
         );

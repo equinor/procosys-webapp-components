@@ -23,7 +23,7 @@ export const AttachmentsWrapper = styled.div`
 type AttachmentsProps = {
     getAttachments: (abortSignal?: AbortSignal) => Promise<AttachmentType[]>;
     getAttachment: (
-        attachmentId: number,
+        attachmentGuid: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postAttachment?: (file: FormData, title: string) => Promise<void>;
@@ -44,7 +44,6 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 const attachmentsFromApi = await props.getAttachments(
                     props.abortController?.signal
                 );
-                console.log(attachmentsFromApi);
                 setAttachments(attachmentsFromApi);
             } catch (error) {
                 if (!(error instanceof Error)) return;
@@ -58,11 +57,11 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
         <AttachmentsWrapper>
             {attachments?.map((attachment) => (
                 <Attachment
-                    key={attachment.id}
+                    key={attachment.guid}
                     readOnly={props.readOnly}
-                    getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>
-                        props.getAttachment(attachment.id, abortSignal)
-                    }
+                    getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>{
+                        return props.getAttachment(attachment.guid, abortSignal)
+}                    }
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}
                     refreshAttachments={setRefreshAttachments}

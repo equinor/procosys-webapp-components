@@ -73,7 +73,7 @@ const Attachment = ({
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
     const [loadingStatus, setLoadingStatus] = useState(AsyncStatus.INACTIVE);
     const [deleteStatus, setDeleteStatus] = useState(AsyncStatus.INACTIVE);
-    const isDocument = attachment.mimeType.substr(0, 5) !== 'image';
+    const isDocument = attachment.fileName?.toLowerCase().includes(".pdf")
 
     useEffect(() => {
         loadAttachment();
@@ -85,13 +85,7 @@ const Attachment = ({
     const loadAttachment = async (): Promise<void> => {
         setLoadingStatus(AsyncStatus.LOADING);
         try {
-            const blob = await getAttachment(abortController?.signal);
-            let imageUrl = '';
-            try {
-                imageUrl = window.URL.createObjectURL(blob);
-            } catch {
-                console.log('Failed to create object URL from blob: ', blob);
-            }
+            const imageUrl = attachment.sasUri ?? window.URL.createObjectURL(await getAttachment(abortController?.signal));
             setAttachmentFileURL(imageUrl);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
@@ -238,3 +232,4 @@ const Attachment = ({
 };
 
 export default Attachment;
+ 

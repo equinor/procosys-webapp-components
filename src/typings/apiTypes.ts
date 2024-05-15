@@ -14,18 +14,6 @@ export interface Plant {
     projects?: Project[];
 }
 
-export interface Attachment {
-    id: number;
-    uri: string;
-    title: string;
-    createdAt: Date;
-    classification: string;
-    mimeType: string;
-    thumbnailAsBase64: string;
-    hasFile: boolean;
-    fileName: string;
-}
-
 export interface AttachmentInList {
     id: number;
     fileName: string;
@@ -34,6 +22,7 @@ export interface AttachmentInList {
     fileId: number;
     sortKey: number;
     uri?: string;
+    sasUri?: string;
 }
 
 // CHECKLIST
@@ -159,7 +148,7 @@ export interface ChecklistPreview {
 }
 
 // Attachments
-export interface Attachment {
+export interface Attachment extends AttachmentData {
     id: number;
     uri: string;
     title: string;
@@ -169,11 +158,13 @@ export interface Attachment {
     thumbnailAsBase64: string;
     hasFile: boolean;
     fileName: string;
+    sasUri?: string
 }
 
 // Punch
 export interface PunchPreview {
     id: number;
+    proCoSysGuid: string;
     status: CompletionStatus;
     description: string;
     systemModule: string;
@@ -202,10 +193,13 @@ export interface PunchComment {
 // Punch API Comment
 export interface APIComment {
     createdAt: Date;
+    createdAtUtc: Date;
     firstName: string;
     lastName: string;
     text: string;
     id: number;
+    guid: string;
+    createdBy: User
 }
 
 // Tag
@@ -309,56 +303,167 @@ export interface NewPunch {
     TemporaryFileIds: string[];
 }
 
-export interface PunchItem {
-    id: number;
-    checklistId: number;
-    formularType: string;
-    status: CompletionStatus;
-    description: string;
-    typeCode: string;
-    typeDescription: string;
-    raisedByCode: string;
-    raisedByDescription: string;
-    clearingByCode: string;
-    clearingByDescription: string;
-    clearedAt: string | null;
-    clearedByUser: string | null;
-    clearedByFirstName: string | null;
-    clearedByLastName: string | null;
-    verifiedAt: string | null;
-    verifiedByUser: string | null;
-    verifiedByFirstName: string | null;
-    verifiedByLastName: string | null;
-    rejectedAt: string | null;
-    rejectedByUser: string | null;
-    rejectedByFirstName: string | null;
-    rejectedByLastName: string | null;
-    dueDate: string | null;
-    estimate: number | null;
-    priorityId: number | null;
-    priorityCode: string | null;
-    priorityDescription: string | null;
-    actionByPerson: number | null;
-    actionByPersonFirstName: string | null;
-    actionByPersonLastName: string | null;
-    materialRequired: boolean;
-    materialEta: string | null;
-    materialNo: string | null;
-    systemModule: string;
-    tagDescription: string;
-    tagId: number;
-    tagNo: string;
-    responsibleCode: string;
-    responsibleDescription: string;
-    sorting: string | null;
-    statusControlledBySwcr: boolean;
-    isRestrictedForUser: boolean;
-    attachmentCount: number;
-}
+// export interface PunchItem {
+//     id: number;
+//     checklistId: number;
+//     formularType: string;
+//     status: CompletionStatus;
+//     description: string;
+//     typeCode: string;
+//     typeDescription: string;
+//     raisedByCode: string;
+//     raisedByDescription: string;
+//     clearingByCode: string;
+//     clearingByDescription: string;
+//     clearedAt: string | null;
+//     clearedByUser: string | null;
+//     clearedByFirstName: string | null;
+//     clearedByLastName: string | null;
+//     verifiedAt: string | null;
+//     verifiedByUser: string | null;
+//     verifiedByFirstName: string | null;
+//     verifiedByLastName: string | null;
+//     rejectedAt: string | null;
+//     rejectedByUser: string | null;
+//     rejectedByFirstName: string | null;
+//     rejectedByLastName: string | null;
+//     dueDate: string | null;
+//     estimate: number | null;
+//     priorityId: number | null;
+//     priorityCode: string | null;
+//     priorityDescription: string | null;
+//     actionByPerson: number | null;
+//     actionByPersonFirstName: string | null;
+//     actionByPersonLastName: string | null;
+//     materialRequired: boolean;
+//     materialEta: string | null;
+//     materialNo: string | null;
+//     systemModule: string;
+//     tagDescription: string;
+//     tagId: number;
+//     tagNo: string;
+//     responsibleCode: string;
+//     responsibleDescription: string;
+//     sorting: string | null;
+//     statusControlledBySwcr: boolean;
+//     isRestrictedForUser: boolean;
+//     attachmentCount: number;
+// }
 
+export type WorkOrder = {
+    no: string;
+    guid: string;
+  };
+  export interface AttachmentData {
+    parentGuid: string;
+    guid: string;
+    fullBlobPath: string;
+    sasUri?: string;
+    fileName: string;
+    description: string;
+    labels: string[];
+    createdBy: {
+      guid: string;
+      firstName: string;
+      lastName: string;
+      userName: string;
+      email: string;
+    } | null;
+    createdAtUtc: string | null;
+    modifiedBy: {
+      guid: string;
+      firstName: string;
+      lastName: string;
+      userName: string;
+      email: string;
+    } | null;
+    modifiedAtUtc: string | null;
+    rowVersion: string;
+  }
+  interface User {
+    id: number;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    officePhoneNo: null;
+    mobilePhoneNo: null;
+    isVoided: boolean;
+    nameAndUserNameAsString: string;
+    fullName: string;
+    fullNameFormal: string;
+  }
+type Guid = string;
+type DateTimeString = string;
+
+interface OrganizationDetail {
+    guid: Guid;
+    code: string;
+    description: string;
+  }
+  
+  export interface PriorityAndSorting {
+    guid: Guid;
+    code: string;
+    description: string;
+  }
+
+  export interface LibrayTypes {
+    guid: string;
+    libraryType: string;
+    code: string;
+    description: string;
+  }
+
+  export interface SWCR {
+    guid: Guid;
+    no: number;
+  }
+export interface PunchItem {
+    [index: string]: any;
+    guid: Guid;
+    projectName: string;
+    itemNo: number;
+    category: string;
+    description: string;
+    createdBy: User;
+    createdAtUtc: DateTimeString;
+    modifiedBy: User;
+    modifiedAtUtc: DateTimeString;
+    isReadyToBeCleared: boolean;
+    isReadyToBeUncleared: boolean;
+    clearedBy: User;
+    clearedAtUtc: DateTimeString;
+    isReadyToBeRejected: boolean;
+    rejectedBy: User;
+    rejectedAtUtc: DateTimeString;
+    isReadyToBeVerified: boolean;
+    isReadyToBeUnverified: boolean;
+    verifiedBy: User;
+    verifiedAtUtc: DateTimeString;
+    raisedByOrg: OrganizationDetail;
+    clearingByOrg: OrganizationDetail;
+    priority: PriorityAndSorting;
+    sorting: PriorityAndSorting;
+    type: PriorityAndSorting;
+    actionBy: User;
+    dueTimeUtc: DateTimeString;
+    estimate: number;
+    externalItemNo: string;
+    materialRequired: boolean;
+    materialETAUtc: DateTimeString;
+    materialExternalNo: string;
+    workOrder: WorkOrder;
+    originalWorkOrder: WorkOrder;
+    document: Document;
+    swcr: SWCR;
+    rowVersion: string;
+    attachments?: Attachment[];
+    attachmentCount: number;
+  }
 // Documents
 
-export interface Document {
+export interface Document extends DocumentData {
     documentId: number;
     documentNo: string;
     title: string;
@@ -367,6 +472,11 @@ export interface Document {
     relationType: DocumentRelationType;
     attachments: DocumentAttachment[];
 }
+
+export interface DocumentData {
+    guid: Guid;
+    no: string;
+  }
 
 export interface DocumentAttachment {
     id: number;
