@@ -106,7 +106,7 @@ export default interface ChecklistV2Api {
     getChecklistAttachment: (
         plantId: string,
         checklistId: string,
-        attachmentId: number,
+        attachmentGuid: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postChecklistAttachment: (

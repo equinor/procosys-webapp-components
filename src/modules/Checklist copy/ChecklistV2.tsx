@@ -199,13 +199,12 @@ const ChecklistV2 = ({
                                 getAttachment={(
                                     attachmentGuid: string
                                 ): Promise<Blob> =>
-                                    // api.getChecklistAttachment(
-                                    //     plantId,
-                                    //     checklistId,
-                                    //     attachmentId,
-                                    //     abortController.signal
-                                    // )
-                                    Promise.resolve(new Blob)
+                                    api.getChecklistAttachment(
+                                        plantId,
+                                        checklistId,
+                                        attachmentGuid,
+                                        abortController.signal
+                                    )
                                 }
                                 postAttachment={(
                                     file: FormData,

@@ -313,11 +313,11 @@ const procosysApiService = ({
 
     const getChecklistAttachment = async (
         abortSignal: AbortSignal,
-        attachmentId: number
+        attachmentGuid: string
     ): Promise<Blob> => {
         const data = await getAttachmentByFetch(
             apiSettings,
-            `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&attachmentId=${attachmentId}${apiVersion}`,
+            `CheckList/Attachment?plantId=PCS$${plantId}&checkListId=${checklistId}&attachmentId=${attachmentGuid}${apiVersion}`,
 
             abortSignal
         );

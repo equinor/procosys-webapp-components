@@ -198,6 +198,7 @@ export interface APIComment {
     lastName: string;
     text: string;
     id: number;
+    guid: string;
     createdBy: User
 }
 

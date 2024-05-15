@@ -9,7 +9,7 @@ import { AttachmentsWrapper } from './Attachments';
 interface AttachmentsFromListProps {
     attachments: AttachmentInList[];
     getAttachment: (
-        attachmentId: number,
+        attachmentId: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
@@ -26,7 +26,7 @@ const AttachmentsFromList = (props: AttachmentsFromListProps): JSX.Element => {
                     key={attachment.id}
                     readOnly={true}
                     getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>
-                        props.getAttachment(attachment.id, abortSignal)
+                        props.getAttachment(`${attachment.id}`, abortSignal)
                     }
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}
