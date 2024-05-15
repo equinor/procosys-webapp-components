@@ -7,9 +7,9 @@ type CommentProps = {
 };
 const Comment = ({ comment }: CommentProps): JSX.Element => {
     if (comment) {
-        const name = comment.firstName + ' ' + comment.lastName;
+        const name = comment?.createdBy.firstName + ' ' + comment?.createdBy.lastName;
 
-        const date = new Date(comment.createdAt).toLocaleDateString('en-GB');
+        const date = new Date(comment.createdAtUtc).toLocaleDateString('en-GB');
         return (
             <EntityDetails
                 headerText={name}

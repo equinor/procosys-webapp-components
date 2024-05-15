@@ -193,10 +193,12 @@ export interface PunchComment {
 // Punch API Comment
 export interface APIComment {
     createdAt: Date;
+    createdAtUtc: Date;
     firstName: string;
     lastName: string;
     text: string;
     id: number;
+    createdBy: User
 }
 
 // Tag
@@ -456,6 +458,7 @@ export interface PunchItem {
     swcr: SWCR;
     rowVersion: string;
     attachments?: Attachment[];
+    attachmentCount: number;
   }
 // Documents
 
