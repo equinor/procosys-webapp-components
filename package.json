@@ -1,12 +1,12 @@
 {
   "name": "@equinor/procosys-webapp-components",
-  "version": "7.0.0",
+  "version": "6.0.0",
   "description": "Library for sharing components and modules between Procosys MC webapp, Comm webapp and Echo.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "start": "rollup -c --bundleConfigAsCjs -w",
-    "lint-all": "./node_modules/.bin/eslint --ext .ts,.tsx src/"
+    "lint-all": "eslint --ext .ts,.tsx src/"
   },
   "peerDependencies": {
     "@equinor/eds-core-react": "^0.31.0",
