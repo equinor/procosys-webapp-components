@@ -27,6 +27,7 @@ type CommentCardProps = {
     ) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
+        guid: string,
         comment: PunchComment
     ) => Promise<void>;
     showCommentTextField: boolean;
@@ -82,10 +83,10 @@ const CommentCard = ({
 
     const buttonClick = async (): Promise<void> => {
         if (punchComment && postPunchComment) {
-            await postPunchComment(plantId, {
-                PunchItemId: punchItem.id,
-                Text: punchComment,
-            });
+            await postPunchComment(plantId,
+                punchItem.guid,
+                {text: punchComment, labels: [], mentions: []},
+            );
             setPunchComment('');
         }
         loadComments();
