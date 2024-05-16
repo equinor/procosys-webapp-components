@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "start": "rollup -c --bundleConfigAsCjs -w",
-    "lint-all": "./node_modules/.bin/eslint --ext .ts,.tsx src/"
+    "lint-all": "eslint --ext .ts,.tsx src/"
   },
   "peerDependencies": {
     "@equinor/eds-core-react": "^0.31.0",
