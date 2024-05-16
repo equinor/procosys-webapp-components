@@ -86,6 +86,7 @@ type ClearPunchProps = {
     ) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
+        guid: string,
         comment: PunchComment
     ) => Promise<void>;
     snackbar: JSX.Element;

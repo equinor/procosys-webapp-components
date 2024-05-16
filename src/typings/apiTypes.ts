@@ -186,8 +186,9 @@ export interface PunchPreview {
 
 // Punch Comment
 export interface PunchComment {
-    PunchItemId: number;
-    Text: string;
+    labels: string[];
+    text: string;
+    mentions: string[];
 }
 
 // Punch API Comment
