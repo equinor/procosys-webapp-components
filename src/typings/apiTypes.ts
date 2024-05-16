@@ -268,7 +268,11 @@ export interface PunchType {
     code: string;
     description: string;
 }
-
+export interface Type {
+    guid: Guid;
+    code: string;
+    description: string;
+}
 export interface PunchOrganization {
     id: number;
     parentId: number;
@@ -290,18 +294,18 @@ export interface PunchPriority {
 }
 
 export interface NewPunch {
-    CheckListId: number;
-    CategoryId: number;
-    Description: string;
-    TypeId?: number;
-    RaisedByOrganizationId: number;
-    ClearingByOrganizationId: number;
-    SortingId?: number;
-    PriorityId?: number;
-    ActionByPerson?: number | null;
-    DueDate?: string;
-    Estimate?: number;
-    TemporaryFileIds: string[];
+    checkListGuid: number;
+    category: number;
+    description: string;
+    typeGuid?: number;
+    raisedByOrgGuid: number;
+    clearingByOrgGuid: number;
+    sortingGuid?: number;
+    priorityGuid?: number;
+    actionByPersonGuid?: number | null;
+    dueTimeUtc?: string;
+    estimate?: number;
+    TemporaryFileIds?: string[];
 }
 
 // export interface PunchItem {
@@ -397,7 +401,7 @@ export type WorkOrder = {
 type Guid = string;
 type DateTimeString = string;
 
-interface OrganizationDetail {
+export interface OrganizationDetail {
     guid: Guid;
     code: string;
     description: string;

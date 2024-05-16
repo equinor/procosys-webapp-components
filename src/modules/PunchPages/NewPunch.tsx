@@ -5,11 +5,10 @@ import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus, PunchFields, SearchStatus } from '../../typings/enums';
 import TempAttachments from '../Attachments/TempAttachments';
 import {
+    OrganizationDetail,
+    PriorityAndSorting,
     PunchCategory,
-    PunchOrganization,
-    PunchPriority,
-    PunchSort,
-    PunchType,
+    Type,
 } from '../../typings/apiTypes';
 import {
     NativeSelect,
@@ -41,10 +40,10 @@ interface NewPunchProps {
         >
     ) => void;
     categories: PunchCategory[];
-    organizations: PunchOrganization[];
-    types: PunchType[];
-    sortings: PunchSort[];
-    priorities: PunchPriority[];
+    organizations: OrganizationDetail[];
+    types: Type[];
+    sortings: PriorityAndSorting[];
+    priorities: PriorityAndSorting[];
     handleSubmit: (e: React.FormEvent) => Promise<void>;
     submitPunchStatus: AsyncStatus;
     plantId: string;
@@ -161,14 +160,16 @@ const NewPunch = ({
                             defaultValue={''}
                         >
                             <option hidden disabled value={''} />
-                            {organizations.map((organization) => (
+                            {organizations.map((organization) => {
+                                console.log(organization)
+                                return (
                                 <option
-                                    key={organization.id}
-                                    value={organization.id}
+                                    key={organization.guid}
+                                    value={organization.guid}
                                 >
                                     {organization.description}
                                 </option>
-                            ))}
+                            )})}
                         </NativeSelect>
                         <NativeSelect
                             required
@@ -183,8 +184,8 @@ const NewPunch = ({
                             <option hidden disabled value={''} />
                             {organizations.map((organization) => (
                                 <option
-                                    key={organization.id}
-                                    value={organization.id}
+                                    key={organization.guid}
+                                    value={organization.guid}
                                 >
                                     {organization.description}
                                 </option>
@@ -194,6 +195,7 @@ const NewPunch = ({
                         <TextField
                             id="actionByPerson"
                             value={chosenPerson.name}
+                            onChange={()=>({})}
                             inputIcon={
                                 chosenPerson.id ? (
                                     <div
@@ -239,8 +241,8 @@ const NewPunch = ({
                             <option hidden disabled value={''} />
                             {types.map((type) => (
                                 <option
-                                    key={type.id}
-                                    value={type.id}
+                                    key={type.guid}
+                                    value={type.guid}
                                 >{`${type.code}. ${type.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -257,8 +259,8 @@ const NewPunch = ({
                             <option hidden disabled value={''} />
                             {sortings.map((sort) => (
                                 <option
-                                    key={sort.id}
-                                    value={sort.id}
+                                    key={sort.guid}
+                                    value={sort.guid}
                                 >{`${sort.code}. ${sort.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -275,8 +277,8 @@ const NewPunch = ({
                             <option hidden disabled value={''} />
                             {priorities.map((priority) => (
                                 <option
-                                    key={priority.id}
-                                    value={priority.id}
+                                    key={priority.guid}
+                                    value={priority.guid}
                                 >{`${priority.code}. ${priority.description}`}</option>
                             ))}
                         </NativeSelect>
