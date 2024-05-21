@@ -16,6 +16,7 @@ const useClearPunchFacade = (
         endpoint: string,
         updateData: UpdatePunchData
     ) => Promise<void>,
+    changeCategory: (newCategoryId: string) => Promise<void>,
     organizations: LibrayTypes[],
     categories: PunchCategory[],
     types: LibrayTypes[],
@@ -34,15 +35,15 @@ const useClearPunchFacade = (
 
     const handleCategoryChange = (
         e: React.ChangeEvent<HTMLSelectElement>
-    ): void => {
-        const newCategoryId = parseInt(e.target.value);
+    ): void => {    
+        const newCategory = e.target.value
         setPunchItem((prev) => ({
             ...prev,
             status: ensure(
-                categories.find((category) => category.id === newCategoryId)
+                categories.find((category) => category.code === newCategory)
             ).code,
         }));
-        updateDatabase(punchEndpoints.updateCategory, newCategoryId);
+        changeCategory(newCategory);
     };
 
     const handleDescriptionChange = (

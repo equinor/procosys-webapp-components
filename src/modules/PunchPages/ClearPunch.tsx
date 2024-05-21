@@ -29,7 +29,7 @@ import {
     PunchComment,
     PunchCategory,
     PunchItem,
-    LibrayTypes
+    LibrayTypes,
 } from '../../typings/apiTypes';
 import {
     PunchEndpoints,
@@ -48,6 +48,7 @@ type ClearPunchProps = {
         endpoint: string,
         updateData: UpdatePunchData
     ) => Promise<void>;
+    changeCategory: (newCategoryId: string) => Promise<void>;
     organizations: LibrayTypes[];
     categories: PunchCategory[];
     types: LibrayTypes[];
@@ -71,7 +72,7 @@ type ClearPunchProps = {
     ) => Promise<Blob>;
     postPunchAttachment: (
         plantId: string,
-        punchItemId: number,
+        punchItemId: string,
         file: FormData,
         title: string
     ) => Promise<void>;
@@ -80,10 +81,7 @@ type ClearPunchProps = {
         punchItemId: number,
         attachmentId: number
     ) => Promise<void>;
-    getPunchComments?: (
-        plantId: string,
-        guid: string
-    ) => Promise<APIComment[]>;
+    getPunchComments?: (plantId: string, guid: string) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
         guid: string,
@@ -107,6 +105,7 @@ const ClearPunch = ({
     canClear,
     punchEndpoints,
     updateDatabase,
+    changeCategory,
     organizations,
     categories,
     types,
@@ -152,6 +151,7 @@ const ClearPunch = ({
         setPunchItem,
         punchEndpoints,
         updateDatabase,
+        changeCategory,
         organizations,
         categories,
         types,
@@ -194,14 +194,14 @@ const ClearPunch = ({
                                         (category) =>
                                             category.code === punchItem.category
                                     )
-                                ).id
+                                ).code
                             }
                             onChange={handleCategoryChange}
                         >
                             {categories.map((category) => (
                                 <option
                                     key={category.id}
-                                    value={category.id}
+                                    value={category.code}
                                 >{`${category.description}`}</option>
                             ))}
                         </NativeSelect>
@@ -227,7 +227,9 @@ const ClearPunch = ({
                                     descriptionBeforeEntering
                                 ) {
                                     updateDatabase(
-                                        punchEndpoints.updateDescription,punchItem.description);
+                                        punchEndpoints.updateDescription,
+                                        punchItem.description
+                                    );
                                 }
                             }}
                             onChange={handleDescriptionChange}
@@ -323,14 +325,14 @@ const ClearPunch = ({
                                 }
                                 value={
                                     punchItem.dueTimeUtc
-                                        ? punchItem.dueTimeUtc.split("T")[0]
+                                        ? punchItem.dueTimeUtc.split('T')[0]
                                         : ''
                                 }
                                 onChange={handleDueDateChange}
                                 onBlur={(): void => {
                                     updateDatabase(
                                         punchEndpoints.updateDueDate,
-                                        punchItem.dueTimeUtc,
+                                        punchItem.dueTimeUtc
                                     );
                                 }}
                             />
@@ -373,7 +375,8 @@ const ClearPunch = ({
                                 punchItem.sorting
                                     ? sortings.find(
                                           (sort) =>
-                                              sort.guid === punchItem.sorting?.guid
+                                              sort.guid ===
+                                              punchItem.sorting?.guid
                                       )?.guid
                                     : ''
                             }
@@ -435,7 +438,7 @@ const ClearPunch = ({
                                 ) {
                                     updateDatabase(
                                         punchEndpoints.updateEstimate,
-                                        punchItem.estimate,
+                                        punchItem.estimate
                                     );
                                 }
                             }}
@@ -445,10 +448,7 @@ const ClearPunch = ({
                         <AttachmentsWrapper>
                             <Attachments
                                 getAttachments={(): Promise<Attachment[]> =>
-                                    getPunchAttachments(
-                                        plantId,
-                                        punchItem.guid
-                                    )
+                                    getPunchAttachments(plantId, punchItem.guid)
                                 }
                                 getAttachment={(
                                     attachmentGuid: string
@@ -466,7 +466,7 @@ const ClearPunch = ({
                                 ): Promise<void> =>
                                     postPunchAttachment(
                                         plantId,
-                                        punchItem.id,
+                                        punchItem.guid,
                                         file,
                                         title
                                     )
