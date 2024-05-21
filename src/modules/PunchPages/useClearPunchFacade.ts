@@ -35,14 +35,14 @@ const useClearPunchFacade = (
     const handleCategoryChange = (
         e: React.ChangeEvent<HTMLSelectElement>
     ): void => {
-        const newCategoryId = parseInt(e.target.value);
+        const code = e.target.value;
         setPunchItem((prev) => ({
             ...prev,
-            status: ensure(
-                categories.find((category) => category.id === newCategoryId)
+            category: ensure(
+                categories.find((category) => category.code === code)
             ).code,
         }));
-        updateDatabase(punchEndpoints.updateCategory, newCategoryId);
+        updateDatabase(punchEndpoints.updateCategory, code);
     };
 
     const handleDescriptionChange = (
