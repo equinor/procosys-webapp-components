@@ -194,14 +194,14 @@ const ClearPunch = ({
                                         (category) =>
                                             category.code === punchItem.category
                                     )
-                                ).id
+                                ).code
                             }
                             onChange={handleCategoryChange}
                         >
                             {categories.map((category) => (
                                 <option
-                                    key={category.id}
-                                    value={category.id}
+                                    key={category.code}
+                                    value={category.code}
                                 >{`${category.description}`}</option>
                             ))}
                         </NativeSelect>
