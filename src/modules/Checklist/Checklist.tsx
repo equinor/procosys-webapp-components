@@ -236,7 +236,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
                                     attachmentId: number | string
                                 ): Promise<void> =>
                                     api.deleteChecklistAttachment(
-                                        attachmentId as number
+                                        parseInt(`${attachmentId}`)
                                     )
                                 }
                                 setSnackbarText={props.setSnackbarText}

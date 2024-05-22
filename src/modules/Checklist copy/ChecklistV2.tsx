@@ -223,7 +223,7 @@ const ChecklistV2 = ({
                                     api.deleteChecklistAttachment(
                                         plantId,
                                         checklistId,
-                                        attachmentId as number
+                                        parseInt(`${attachmentId}`)
                                     )
                                 }
                                 setSnackbarText={setSnackbarText}
