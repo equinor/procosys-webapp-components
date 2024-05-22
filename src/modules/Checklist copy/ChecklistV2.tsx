@@ -218,12 +218,12 @@ const ChecklistV2 = ({
                                     )
                                 }
                                 deleteAttachment={(
-                                    attachmentId: number
+                                    attachmentId: number | string
                                 ): Promise<void> =>
                                     api.deleteChecklistAttachment(
                                         plantId,
                                         checklistId,
-                                        attachmentId
+                                        attachmentId as number
                                     )
                                 }
                                 setSnackbarText={setSnackbarText}

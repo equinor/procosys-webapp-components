@@ -54,7 +54,10 @@ type AttachmentProps = {
     attachment: AttachmentType | AttachmentInList;
     refreshAttachments?: React.Dispatch<React.SetStateAction<boolean>>;
     readOnly: boolean;
-    deleteAttachment?: (attachmentId: number) => Promise<void>;
+    deleteAttachment?: (
+        attachmentId?: any,
+        attachmentRowVersion?: string
+    ) => Promise<void>;
     getAttachment: (abortSignal?: AbortSignal) => Promise<Blob>;
     setSnackbarText: (message: string) => void;
     abortController?: AbortController;
@@ -73,7 +76,7 @@ const Attachment = ({
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
     const [loadingStatus, setLoadingStatus] = useState(AsyncStatus.INACTIVE);
     const [deleteStatus, setDeleteStatus] = useState(AsyncStatus.INACTIVE);
-    const isDocument = attachment.fileName?.toLowerCase().includes(".pdf")
+    const isDocument = attachment.fileName?.toLowerCase().includes('.pdf');
 
     useEffect(() => {
         loadAttachment();
@@ -85,7 +88,11 @@ const Attachment = ({
     const loadAttachment = async (): Promise<void> => {
         setLoadingStatus(AsyncStatus.LOADING);
         try {
-            const imageUrl = attachment.sasUri ?? window.URL.createObjectURL(await getAttachment(abortController?.signal));
+            const imageUrl =
+                attachment.sasUri ??
+                window.URL.createObjectURL(
+                    await getAttachment(abortController?.signal)
+                );
             setAttachmentFileURL(imageUrl);
             setLoadingStatus(AsyncStatus.SUCCESS);
         } catch (error) {
@@ -99,7 +106,7 @@ const Attachment = ({
         if (!deleteAttachment) return;
         setDeleteStatus(AsyncStatus.LOADING);
         try {
-            await deleteAttachment(attachment.id);
+            await deleteAttachment(attachment.guid, attachment.rowVersion);
             setSnackbarText('Attachment successfully removed');
             refreshAttachments && refreshAttachments((prev) => !prev);
             setDeleteStatus(AsyncStatus.SUCCESS);
@@ -232,4 +239,3 @@ const Attachment = ({
 };
 
 export default Attachment;
- 

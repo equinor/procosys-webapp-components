@@ -27,7 +27,10 @@ type AttachmentsProps = {
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postAttachment?: (file: FormData, title: string) => Promise<void>;
-    deleteAttachment?: (attachmentId: number) => Promise<void>;
+    deleteAttachment?: (
+        attachmentId: number | string,
+        attachmentRowVersion?: string
+    ) => Promise<void>;
     setSnackbarText: (message: string) => void;
     readOnly: boolean;
     abortController?: AbortController;
@@ -59,9 +62,14 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                 <Attachment
                     key={attachment.guid}
                     readOnly={props.readOnly}
-                    getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>{
-                        return props.getAttachment(attachment.guid, abortSignal)
-}                    }
+                    getAttachment={(
+                        abortSignal?: AbortSignal
+                    ): Promise<Blob> => {
+                        return props.getAttachment(
+                            attachment.guid,
+                            abortSignal
+                        );
+                    }}
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}
                     refreshAttachments={setRefreshAttachments}
