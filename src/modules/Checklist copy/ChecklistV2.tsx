@@ -218,7 +218,7 @@ const ChecklistV2 = ({
                                     )
                                 }
                                 deleteAttachment={(
-                                    attachmentId: number | string
+                                    attachmentId: string | number
                                 ): Promise<void> =>
                                     api.deleteChecklistAttachment(
                                         plantId,

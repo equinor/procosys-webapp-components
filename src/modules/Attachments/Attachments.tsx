@@ -28,7 +28,7 @@ type AttachmentsProps = {
     ) => Promise<Blob>;
     postAttachment?: (file: FormData, title: string) => Promise<void>;
     deleteAttachment?: (
-        attachmentId: number | string,
+        attachmentId: string | number,
         attachmentRowVersion?: string
     ) => Promise<void>;
     setSnackbarText: (message: string) => void;

@@ -55,7 +55,7 @@ type AttachmentProps = {
     refreshAttachments?: React.Dispatch<React.SetStateAction<boolean>>;
     readOnly: boolean;
     deleteAttachment?: (
-        attachmentId?: any,
+        attachmentId: string | number,
         attachmentRowVersion?: string
     ) => Promise<void>;
     getAttachment: (abortSignal?: AbortSignal) => Promise<Blob>;
