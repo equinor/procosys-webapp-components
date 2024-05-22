@@ -16,6 +16,8 @@ export interface Plant {
 
 export interface AttachmentInList {
     id: number;
+    guid: string;
+    rowVersion: string;
     fileName: string;
     title: string;
     mimeType: string;
