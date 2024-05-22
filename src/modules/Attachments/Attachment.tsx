@@ -76,7 +76,9 @@ const Attachment = ({
     const [attachmentFileURL, setAttachmentFileURL] = useState('');
     const [loadingStatus, setLoadingStatus] = useState(AsyncStatus.INACTIVE);
     const [deleteStatus, setDeleteStatus] = useState(AsyncStatus.INACTIVE);
-    const isDocument = attachment.fileName?.toLowerCase().includes('.pdf');
+    const isDocument = attachment.fileName
+        ?.toLowerCase()
+        .match(/.(jpg|jpeg|png|gif)$/i);
 
     useEffect(() => {
         loadAttachment();
