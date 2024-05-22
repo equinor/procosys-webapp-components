@@ -97,7 +97,8 @@ const UploadAttachment = ({
 
         setPostAttachmentStatus(AsyncStatus.LOADING);
         const formData = new FormData();
-        formData.append(selectedFile.name, selectedFile);
+        formData.append('File', selectedFile, selectedFile.name);
+
         try {
             if (postTempAttachment && updateTempAttachments) {
                 const response = await postTempAttachment(

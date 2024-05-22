@@ -23,10 +23,10 @@ const AttachmentsFromList = (props: AttachmentsFromListProps): JSX.Element => {
         <AttachmentsWrapper>
             {props.attachments.map((attachment) => (
                 <Attachment
-                    key={attachment.id}
+                    key={attachment.guid}
                     readOnly={true}
                     getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>
-                        props.getAttachment(`${attachment.id}`, abortSignal)
+                        props.getAttachment(`${attachment.guid}`, abortSignal)
                     }
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}

@@ -29,7 +29,7 @@ import {
     PunchComment,
     PunchCategory,
     PunchItem,
-    LibrayTypes
+    LibrayTypes,
 } from '../../typings/apiTypes';
 import {
     PunchEndpoints,
@@ -71,19 +71,17 @@ type ClearPunchProps = {
     ) => Promise<Blob>;
     postPunchAttachment: (
         plantId: string,
-        punchItemId: number,
+        punchItemId: string,
         file: FormData,
         title: string
     ) => Promise<void>;
     deletePunchAttachment: (
         plantId: string,
-        punchItemId: number,
-        attachmentId: number
+        punchItemId: string,
+        attachmentGuid: string,
+        rowVersion: string
     ) => Promise<void>;
-    getPunchComments?: (
-        plantId: string,
-        guid: string
-    ) => Promise<APIComment[]>;
+    getPunchComments?: (plantId: string, guid: string) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
         guid: string,
@@ -227,7 +225,9 @@ const ClearPunch = ({
                                     descriptionBeforeEntering
                                 ) {
                                     updateDatabase(
-                                        punchEndpoints.updateDescription,punchItem.description);
+                                        punchEndpoints.updateDescription,
+                                        punchItem.description
+                                    );
                                 }
                             }}
                             onChange={handleDescriptionChange}
@@ -323,14 +323,14 @@ const ClearPunch = ({
                                 }
                                 value={
                                     punchItem.dueTimeUtc
-                                        ? punchItem.dueTimeUtc.split("T")[0]
+                                        ? punchItem.dueTimeUtc.split('T')[0]
                                         : ''
                                 }
                                 onChange={handleDueDateChange}
                                 onBlur={(): void => {
                                     updateDatabase(
                                         punchEndpoints.updateDueDate,
-                                        punchItem.dueTimeUtc,
+                                        punchItem.dueTimeUtc
                                     );
                                 }}
                             />
@@ -373,7 +373,8 @@ const ClearPunch = ({
                                 punchItem.sorting
                                     ? sortings.find(
                                           (sort) =>
-                                              sort.guid === punchItem.sorting?.guid
+                                              sort.guid ===
+                                              punchItem.sorting?.guid
                                       )?.guid
                                     : ''
                             }
@@ -435,7 +436,7 @@ const ClearPunch = ({
                                 ) {
                                     updateDatabase(
                                         punchEndpoints.updateEstimate,
-                                        punchItem.estimate,
+                                        punchItem.estimate
                                     );
                                 }
                             }}
@@ -445,10 +446,7 @@ const ClearPunch = ({
                         <AttachmentsWrapper>
                             <Attachments
                                 getAttachments={(): Promise<Attachment[]> =>
-                                    getPunchAttachments(
-                                        plantId,
-                                        punchItem.guid
-                                    )
+                                    getPunchAttachments(plantId, punchItem.guid)
                                 }
                                 getAttachment={(
                                     attachmentGuid: string
@@ -466,18 +464,20 @@ const ClearPunch = ({
                                 ): Promise<void> =>
                                     postPunchAttachment(
                                         plantId,
-                                        punchItem.id,
+                                        punchItem.guid,
                                         file,
                                         title
                                     )
                                 }
                                 deleteAttachment={(
-                                    attachmentId: number
+                                    attachmentGuid: any,
+                                    attachmentRowVersion: any
                                 ): Promise<void> =>
                                     deletePunchAttachment(
                                         plantId,
-                                        punchItem.id,
-                                        attachmentId
+                                        punchItem.guid,
+                                        attachmentGuid,
+                                        attachmentRowVersion
                                     )
                                 }
                                 setSnackbarText={setSnackbarText}
