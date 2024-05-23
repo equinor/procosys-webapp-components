@@ -489,6 +489,8 @@ export interface DocumentData {
 
 export interface DocumentAttachment {
   id: number;
+  guid: string;
+  rowVersion: string;
   fileName: string;
   title: string;
   mimeType: string;
