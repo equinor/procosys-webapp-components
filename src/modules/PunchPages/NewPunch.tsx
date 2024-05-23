@@ -1,33 +1,33 @@
 import {
-  Button,
-  Label,
-  NativeSelect,
-  TextField
+    Button,
+    Label,
+    NativeSelect,
+    TextField
 } from "@equinor/eds-core-react";
 import React, { useState } from "react";
 import AsyncPage from "../../components/AsyncPage";
 import EdsIcon from "../../components/icons/EdsIcon";
 import { COLORS } from "../../style/GlobalStyles";
 import {
-  OrganizationDetail,
-  PriorityAndSorting,
-  PunchCategory,
-  Type
+    OrganizationDetail,
+    PriorityAndSorting,
+    PunchCategory,
+    Type
 } from "../../typings/apiTypes";
 import { AsyncStatus, PunchFields, SearchStatus } from "../../typings/enums";
 import {
-  ChosenPerson,
-  PunchFormData,
-  SearchResult
+    ChosenPerson,
+    PunchFormData,
+    SearchResult
 } from "../../typings/helperTypes";
 import useSnackbar from "../../utils/useSnackbar";
 import TempAttachments from "../Attachments/TempAttachments";
 import PersonsSearch from "./PersonsSearch";
 import {
-  AttachmentsWrapper,
-  DateField,
-  FormButtonWrapper,
-  PunchFormWrapper
+    AttachmentsWrapper,
+    DateField,
+    FormButtonWrapper,
+    PunchFormWrapper
 } from "./shared.style";
 
 interface NewPunchProps {
@@ -131,8 +131,8 @@ const NewPunch = ({
               <option hidden disabled value={""} />
               {categories.map((category) => (
                 <option
-                  key={category.id}
-                  value={category.id}
+                  key={category.code}
+                  value={category.code}
                 >{`${category.description}`}</option>
               ))}
             </NativeSelect>
