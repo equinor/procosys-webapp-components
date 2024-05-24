@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
+    LibrayTypes,
     PunchCategory,
     PunchItem,
-    LibrayTypes,
 } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
-import ensure from '../../utils/ensure';
 import { PunchEndpoints, UpdatePunchData } from '../../typings/helperTypes';
+import ensure from '../../utils/ensure';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useClearPunchFacade = (
@@ -101,7 +101,7 @@ const useClearPunchFacade = (
     ): void =>
         setPunchItem((prev) => ({
             ...prev,
-            dueTimeUtc: e.target.value,
+            dueTimeUtc: new Date(e.target.value).toISOString(),
         }));
 
     const handleTypeChange = (
