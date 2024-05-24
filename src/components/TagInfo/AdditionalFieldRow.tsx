@@ -1,5 +1,3 @@
-import React from 'react';
-import styled from 'styled-components';
 import { InfoRowWrapper } from './InfoRow';
 
 const isValidValue = (value: string | null): boolean => {
@@ -11,17 +9,15 @@ type AdditionalFieldRowProps = {
     label: string;
     value: string | null;
     unit: string | null;
-    key: number;
 };
 
 const AdditionalFieldRow = ({
     label,
     value,
-    unit,
-    key,
+    unit
 }: AdditionalFieldRowProps): JSX.Element => {
     return (
-        <InfoRowWrapper key={key}>
+        <InfoRowWrapper>
             <label>{label}</label>
             <p>
                 {isValidValue(value) ? value : '-'}{' '}
