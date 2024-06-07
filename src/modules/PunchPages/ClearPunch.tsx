@@ -1,41 +1,40 @@
-import React from 'react';
 import {
     Button,
-    Icon,
     Label,
     NativeSelect,
-    TextField,
+    TextField
 } from '@equinor/eds-core-react';
-import useClearPunchFacade from './useClearPunchFacade';
+import React from 'react';
+import CommentCard from '../../components/Comments/CommentCard';
 import ReloadButton from '../../components/buttons/ReloadButton';
 import ErrorPage from '../../components/error/ErrorPage';
 import EdsIcon from '../../components/icons/EdsIcon';
 import SkeletonLoadingPage from '../../components/loading/SkeletonLoader';
 import { COLORS } from '../../style/GlobalStyles';
-import { AsyncStatus, SearchStatus } from '../../typings/enums';
-import ensure from '../../utils/ensure';
-import Attachments from '../Attachments/Attachments';
-import CommentCard from '../../components/Comments/CommentCard';
-import PersonsSearch from './PersonsSearch';
-import {
-    PunchFormWrapper,
-    DateField,
-    AttachmentsWrapper,
-    FormButtonWrapper,
-} from './shared.style';
 import {
     APIComment,
     Attachment,
-    PunchComment,
-    PunchCategory,
-    PunchItem,
     LibrayTypes,
+    PunchCategory,
+    PunchComment,
+    PunchItem,
 } from '../../typings/apiTypes';
+import { AsyncStatus, SearchStatus } from '../../typings/enums';
 import {
     PunchEndpoints,
     SearchResult,
     UpdatePunchData,
 } from '../../typings/helperTypes';
+import ensure from '../../utils/ensure';
+import Attachments from '../Attachments/Attachments';
+import PersonsSearch from './PersonsSearch';
+import {
+    AttachmentsWrapper,
+    DateField,
+    FormButtonWrapper,
+    PunchFormWrapper,
+} from './shared.style';
+import useClearPunchFacade from './useClearPunchFacade';
 
 type ClearPunchProps = {
     plantId: string;
@@ -196,7 +195,7 @@ const ClearPunch = ({
                             }
                             onChange={handleCategoryChange}
                         >
-                            {categories.map((category) => (
+                            {categories?.map((category) => (
                                 <option
                                     key={category.code}
                                     value={category.code}
@@ -340,7 +339,7 @@ const ClearPunch = ({
                             label="Type"
                             disabled={
                                 clearPunchStatus === AsyncStatus.LOADING ||
-                                types.length < 1 ||
+                                !types?.length ||
                                 canEdit === false
                             }
                             defaultValue={
@@ -366,7 +365,7 @@ const ClearPunch = ({
                             label="Sorting"
                             disabled={
                                 clearPunchStatus === AsyncStatus.LOADING ||
-                                sortings.length < 1 ||
+                                !sortings?.length ||
                                 canEdit === false
                             }
                             defaultValue={
@@ -393,7 +392,7 @@ const ClearPunch = ({
                             label="Priority"
                             disabled={
                                 clearPunchStatus === AsyncStatus.LOADING ||
-                                priorities.length < 1 ||
+                                !priorities?.length ||
                                 canEdit === false
                             }
                             defaultValue={
