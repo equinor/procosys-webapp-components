@@ -339,7 +339,7 @@ const ClearPunch = ({
                             label="Type"
                             disabled={
                                 clearPunchStatus === AsyncStatus.LOADING ||
-                                types.length < 1 ||
+                                !types?.length ||
                                 canEdit === false
                             }
                             defaultValue={
@@ -365,7 +365,7 @@ const ClearPunch = ({
                             label="Sorting"
                             disabled={
                                 clearPunchStatus === AsyncStatus.LOADING ||
-                                sortings.length < 1 ||
+                                !sortings?.length ||
                                 canEdit === false
                             }
                             defaultValue={
@@ -392,7 +392,7 @@ const ClearPunch = ({
                             label="Priority"
                             disabled={
                                 clearPunchStatus === AsyncStatus.LOADING ||
-                                priorities.length < 1 ||
+                                !priorities?.length ||
                                 canEdit === false
                             }
                             defaultValue={
