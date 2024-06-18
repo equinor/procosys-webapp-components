@@ -85,6 +85,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
     );
+
     const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
