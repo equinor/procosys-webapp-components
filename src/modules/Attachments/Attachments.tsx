@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { Button } from '@equinor/eds-core-react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import EdsIcon from '../../components/icons/EdsIcon';
 import { Attachment as AttachmentType } from '../../typings/apiTypes';
 import Attachment, { DocumentAttachmentWrapper } from './Attachment';
-import { Button } from '@equinor/eds-core-react';
-import EdsIcon from '../../components/icons/EdsIcon';
 import UploadAttachment from './UploadAttachment';
 
 export const AttachmentsWrapper = styled.div`
@@ -24,6 +24,7 @@ type AttachmentsProps = {
     getAttachments: (abortSignal?: AbortSignal) => Promise<AttachmentType[]>;
     getAttachment: (
         attachmentGuid: string,
+        //attachmentId?: number,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
     postAttachment?: (file: FormData, title: string) => Promise<void>;
@@ -65,8 +66,9 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                     getAttachment={(
                         abortSignal?: AbortSignal
                     ): Promise<Blob> => {
+                        console.log("punch item id/guid",attachment.id.toString());
                         return props.getAttachment(
-                            attachment.guid,
+                            attachment.id.toString(), // or attachment.guid
                             abortSignal
                         );
                     }}
