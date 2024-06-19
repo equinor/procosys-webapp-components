@@ -66,7 +66,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                         abortSignal?: AbortSignal
                     ): Promise<Blob> => {
                         return props.getAttachment(
-                            attachment.id.toString(), 
+                            `${attachment.id ?? attachment.guid}`,
                             abortSignal
                         );
                     }}
