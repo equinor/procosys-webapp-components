@@ -1,4 +1,7 @@
+import { Banner } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import AsyncPage from '../../components/AsyncPage';
 import {
     Attachment,
     CheckItem,
@@ -6,17 +9,14 @@ import {
     CustomCheckItem,
     LoopTag,
 } from '../../typings/apiTypes';
-import CheckItemsV2 from './CheckItems/CheckItemsV2';
-import ChecklistSignature from './ChecklistSignatureV2';
-import styled from 'styled-components';
-import { Banner } from '@equinor/eds-core-react';
-import CustomCheckItems from './CheckItems/CustomCheckItemsV2';
-import CheckAllButtonV2 from './CheckItems/CheckAllButtonV2';
-import AsyncPage from '../../components/AsyncPage';
-import Attachments from '../Attachments/Attachments';
 import { AsyncStatus } from '../../typings/enums';
-import ChecklistV2Api from './checklistV2Api';
+import Attachments from '../Attachments/Attachments';
 import LoopTags from '../Checklist/LoopTags';
+import CheckAllButtonV2 from './CheckItems/CheckAllButtonV2';
+import CheckItemsV2 from './CheckItems/CheckItemsV2';
+import CustomCheckItems from './CheckItems/CustomCheckItemsV2';
+import ChecklistSignature from './ChecklistSignatureV2';
+import ChecklistV2Api from './checklistV2Api';
 
 const ChecklistWrapper = styled.div`
     padding: 0 4%;
@@ -66,6 +66,7 @@ const ChecklistV2 = ({
     checklistId,
     offlineState,
 }: ChecklistProps): JSX.Element => {
+
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
     );
@@ -197,7 +198,7 @@ const ChecklistV2 = ({
                                     )
                                 }
                                 getAttachment={(
-                                    attachmentGuid: string
+                                    attachmentGuid: string,
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
                                         plantId,

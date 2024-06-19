@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { Button } from '@equinor/eds-core-react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import EdsIcon from '../../components/icons/EdsIcon';
 import { Attachment as AttachmentType } from '../../typings/apiTypes';
 import Attachment, { DocumentAttachmentWrapper } from './Attachment';
-import { Button } from '@equinor/eds-core-react';
-import EdsIcon from '../../components/icons/EdsIcon';
 import UploadAttachment from './UploadAttachment';
 
 export const AttachmentsWrapper = styled.div`
@@ -66,7 +66,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
                         abortSignal?: AbortSignal
                     ): Promise<Blob> => {
                         return props.getAttachment(
-                            attachment.guid,
+                            `${attachment.id ?? attachment.guid}`,
                             abortSignal
                         );
                     }}

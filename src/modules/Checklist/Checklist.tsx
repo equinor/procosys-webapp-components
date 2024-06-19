@@ -1,4 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { Banner } from '@equinor/eds-core-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
+import AsyncPage from '../../components/AsyncPage';
+import procosysApiService from '../../services/procosysApi';
 import {
     Attachment,
     CheckItem,
@@ -6,17 +10,13 @@ import {
     CustomCheckItem,
     LoopTag,
 } from '../../typings/apiTypes';
-import CheckItems from './CheckItems/CheckItems';
-import ChecklistSignature from './ChecklistSignature';
-import styled from 'styled-components';
-import { Banner } from '@equinor/eds-core-react';
-import procosysApiService from '../../services/procosysApi';
-import CustomCheckItems from './CheckItems/CustomCheckItems';
-import CheckAllButton from './CheckItems/CheckAllButton';
-import AsyncPage from '../../components/AsyncPage';
-import Attachments from '../Attachments/Attachments';
-import LoopTags from './LoopTags';
 import { AsyncStatus } from '../../typings/enums';
+import Attachments from '../Attachments/Attachments';
+import CheckAllButton from './CheckItems/CheckAllButton';
+import CheckItems from './CheckItems/CheckItems';
+import CustomCheckItems from './CheckItems/CustomCheckItems';
+import ChecklistSignature from './ChecklistSignature';
+import LoopTags from './LoopTags';
 
 type ProcosysApiSettings = {
     baseUrl: string;
@@ -85,6 +85,7 @@ const Checklist = (props: ChecklistProps): JSX.Element => {
         () => initializeApi({ ...props }),
         [props.checklistId, props.plantId]
     );
+
     const [permissions, setPermissions] = useState<string[]>([]);
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING

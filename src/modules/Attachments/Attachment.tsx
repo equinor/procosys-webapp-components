@@ -6,14 +6,14 @@ import {
 } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ActionsPanel from './ActionsPanel';
-import { AsyncStatus } from '../../typings/enums';
+import EdsIcon from '../../components/icons/EdsIcon';
 import { COLORS } from '../../style/GlobalStyles';
 import {
-    Attachment as AttachmentType,
     AttachmentInList,
+    Attachment as AttachmentType,
 } from '../../typings/apiTypes';
-import EdsIcon from '../../components/icons/EdsIcon';
+import { AsyncStatus } from '../../typings/enums';
+import ActionsPanel from './ActionsPanel';
 
 const AttachmentWrapper = styled.div`
     display: flex;
@@ -108,7 +108,7 @@ const Attachment = ({
         if (!deleteAttachment) return;
         setDeleteStatus(AsyncStatus.LOADING);
         try {
-            await deleteAttachment(attachment.guid, attachment.rowVersion);
+            await deleteAttachment( `${attachment.id ?? attachment.guid}`, attachment.rowVersion);
             setSnackbarText('Attachment successfully removed');
             refreshAttachments && refreshAttachments((prev) => !prev);
             setDeleteStatus(AsyncStatus.SUCCESS);
