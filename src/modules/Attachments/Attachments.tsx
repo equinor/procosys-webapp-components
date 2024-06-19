@@ -60,7 +60,7 @@ const Attachments = (props: AttachmentsProps): JSX.Element => {
         <AttachmentsWrapper>
             {attachments?.map((attachment) => (
                 <Attachment
-                    key={attachment.guid}
+                    key={attachment.guid ?? attachment.id}
                     readOnly={props.readOnly}
                     getAttachment={(
                         abortSignal?: AbortSignal
