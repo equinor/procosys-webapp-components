@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BREAKPOINT, COLORS } from '../style/GlobalStyles';
 import EdsIcon from './icons/EdsIcon';
 
-const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean, testColor?: boolean }>`
+const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean, testColor: boolean }>`
     height: 54px;
     width: 100%;
     max-width: 768px;
