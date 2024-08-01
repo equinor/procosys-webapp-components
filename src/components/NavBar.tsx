@@ -1,15 +1,14 @@
-import React from 'react';
+import { Button, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { BREAKPOINT, COLORS } from '../style/GlobalStyles';
-import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import EdsIcon from './icons/EdsIcon';
 
-const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean }>`
+const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean, testColor?: boolean }>`
     height: 54px;
     width: 100%;
     max-width: 768px;
-    background-color: ${({ isOffline }): string =>
-        isOffline ? `${COLORS.midnight}` : `${COLORS.white}`};
+    background-color: ${({ isOffline, testColor }): string =>
+        testColor ? '#FFFF5C' : (isOffline ? `${COLORS.midnight}` : `${COLORS.white}`)};
     border-bottom: ${({ noBorder }): string =>
         noBorder ? 'none' : `1px solid ${COLORS.fadedBlue}`};
     display: flex;
@@ -64,6 +63,7 @@ type NavbarProps = {
     rightContent?: JSX.Element;
     noBorder?: boolean;
     isOffline?: boolean;
+    testColor?: boolean;
 };
 
 const Navbar = ({
@@ -72,10 +72,11 @@ const Navbar = ({
     rightContent,
     noBorder = false,
     isOffline = false,
+    testColor = false,
 }: NavbarProps): JSX.Element => {
     return (
         <>
-            <NavbarWrapper noBorder={noBorder} isOffline={isOffline}>
+            <NavbarWrapper noBorder={noBorder} isOffline={isOffline} testColor={testColor}>
                 {leftContent}
                 <span>
                     {isOffline && (
