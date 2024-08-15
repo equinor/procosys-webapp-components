@@ -1,7 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 
-const PageHeaderWrapper = styled.div<{ hasSubtitle: boolean }>`
+interface PageHeaderWrapperProps {
+    $hasSubtitle: boolean;
+}
+const PageHeaderWrapper = styled.div<PageHeaderWrapperProps>`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -11,7 +13,7 @@ const PageHeaderWrapper = styled.div<{ hasSubtitle: boolean }>`
     & h2 {
         text-align: center;
         margin: ${(props): string =>
-            props.hasSubtitle ? '16px 0 0 0' : '16px 0 24px 0'};
+            props.$hasSubtitle ? '16px 0 0 0' : '16px 0 24px 0'};
     }
     & h6 {
         text-align: center;
@@ -25,10 +27,11 @@ type PageHeaderProps = {
     subtitle?: string;
 };
 const PageHeader = ({ title, subtitle }: PageHeaderProps): JSX.Element => {
+    const hasSubtitle = Boolean(subtitle);
     return (
-        <PageHeaderWrapper hasSubtitle={!!subtitle}>
+        <PageHeaderWrapper $hasSubtitle={hasSubtitle}>
             <h2>{title}</h2>
-            {subtitle && <h6>{subtitle}</h6>}
+            {hasSubtitle && <h6>{subtitle}</h6>}
         </PageHeaderWrapper>
     );
 };

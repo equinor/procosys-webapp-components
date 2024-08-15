@@ -1,10 +1,10 @@
 import { Button } from '@equinor/eds-core-react';
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../style/GlobalStyles';
-import { TextResult } from './TagPhotoRecognition';
 import PageHeader from '../../components/PageHeader';
+import { COLORS } from '../../style/GlobalStyles';
 import { AsyncStatus } from '../../typings/enums';
+import { TextResult } from './TagPhotoRecognition';
 
 const CloseButton = styled(Button)`
     margin-bottom: 50px;
@@ -64,7 +64,7 @@ function determineModalSubtitle(status: AsyncStatus): string {
 
 type TagSelectionModalProps = {
     setShowTagSelectionModal: React.Dispatch<React.SetStateAction<boolean>>;
-    suggestedTags: TextResult[];
+    suggestedTags?: TextResult[];
     setSuggestedTags: React.Dispatch<React.SetStateAction<TextResult[]>>;
     setQuery: React.Dispatch<React.SetStateAction<string>>;
     ocrStatus: AsyncStatus;
@@ -72,7 +72,7 @@ type TagSelectionModalProps = {
 
 const TagSelectionModal = ({
     setShowTagSelectionModal,
-    suggestedTags,
+    suggestedTags = [],
     setSuggestedTags,
     setQuery,
     ocrStatus,
@@ -93,15 +93,17 @@ const TagSelectionModal = ({
                 title={determineModalTitle(ocrStatus)}
                 subtitle={determineModalSubtitle(ocrStatus)}
             />
-            {suggestedTags.map((tag) => (
-                <SelectorButton
-                    role={'button'}
-                    key={tag.id}
-                    onClick={(): void => handleSelectClick(tag.value)}
-                >
-                    {tag.value}
-                </SelectorButton>
-            ))}
+            {Array.isArray(suggestedTags) && suggestedTags.length > 0  &&
+                suggestedTags.map((tag) => (
+                    <SelectorButton
+                        role={'button'}
+                        key={tag.id}
+                        onClick={(): void => handleSelectClick(tag.value)}
+                    >
+                        {tag.value}
+                    </SelectorButton>
+                ))
+           }
             <CloseButton onClick={closeModal}>Close</CloseButton>
         </SelectTagWrapper>
     );

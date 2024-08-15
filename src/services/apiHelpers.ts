@@ -182,9 +182,18 @@ export const postByFetchSimple = async (
     url: string,
     bodyData?: any
 ): Promise<any> => {
+    const headers: Record<string, string> = {};
+
+    // Set the Content-Type header only if bodyData is not FormData
+    if (!(bodyData instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+        bodyData = JSON.stringify(bodyData);
+    }
+
     const PostOperation = {
         method: 'POST',
-        body: JSON.stringify(bodyData),
+        headers: headers,
+        body: bodyData,
     };
 
     let response = new Response();
