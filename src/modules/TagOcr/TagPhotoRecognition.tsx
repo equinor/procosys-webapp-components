@@ -2,9 +2,9 @@ import { Button } from '@equinor/eds-core-react';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EdsIcon from '../../components/icons/EdsIcon';
+import { postByFetchSimple } from '../../services/apiHelpers';
 import { AsyncStatus } from '../../typings/enums';
 import TagSelectionModal from './TagSelectionModal';
-import { postByFetch, postByFetchSimple } from '../../services/apiHelpers';
 
 const CaptureInput = styled.input`
     display: none;
@@ -24,9 +24,6 @@ export type TextResult = {
 };
 
 function generateFormData(file: File): FormData {
-    const uploadHeaders = new Headers();
-    uploadHeaders.append('Content-Type', 'multipart/form-data');
-    uploadHeaders.append('Accept', 'application/json');
     const data = new FormData();
     data.append('my_photo', file);
     return data;
@@ -50,28 +47,47 @@ const TagPhotoRecognition = ({
         document.createElement('input')
     );
 
-    const onCapture = async (
-        e: React.ChangeEvent<HTMLInputElement>
-    ): Promise<void> => {
+    const onCapture = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
         const currentFiles = e.currentTarget.files;
         if (!currentFiles) return;
-        const data = generateFormData(currentFiles[0]);
-        setOcrStatus(AsyncStatus.LOADING);
-        setShowTagSelectionModal(true);
-        try {
-            const response = await postByFetchSimple(tagOcrEndpoint, data);
-            setSuggestedTags(response.data);
-            if (response.data.length < 1) {
-                setOcrStatus(AsyncStatus.EMPTY_RESPONSE);
-            } else {
-                setOcrStatus(AsyncStatus.SUCCESS);
+    
+        const image = new Image();
+        const file = currentFiles[0];
+    
+        image.src = URL.createObjectURL(file);
+        image.onload = async () => {
+            const width = image.width;
+            const height = image.height;
+    
+            if (width < 50 || height < 50 || width > 10000 || height > 10000) {
+                setSnackbarText('The image size is incorrect. The minimum size is 50x50 pixels, and the maximum size is 10000x10000 pixels.');
+                captureImageInputRef.current.value = ''; 
+                return;
             }
-        } catch (error) {
-            if (!(error instanceof Error)) return;
-            setSnackbarText(error.message);
-            setOcrStatus(AsyncStatus.ERROR);
-        }
-        captureImageInputRef.current.files = null;
+    
+            const data = generateFormData(file);
+            setOcrStatus(AsyncStatus.LOADING);
+            setShowTagSelectionModal(true);
+            try {
+                const response = await postByFetchSimple(tagOcrEndpoint, data);
+                if (Array.isArray(response)) {
+                    setSuggestedTags(response);
+                    if (response.length < 1) {
+                        setOcrStatus(AsyncStatus.EMPTY_RESPONSE);
+                    } else {
+                        setOcrStatus(AsyncStatus.SUCCESS);
+                    }
+                } else {
+                    console.error('Unexpected response format:', response);
+                    setOcrStatus(AsyncStatus.ERROR);
+                }
+            } catch (error) {
+                if (!(error instanceof Error)) return;
+                setSnackbarText(error.message);
+                setOcrStatus(AsyncStatus.ERROR);
+            }
+            captureImageInputRef.current.value = ''; 
+        };
     };
 
     return (
