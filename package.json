@@ -38,7 +38,7 @@
     "micromatch": "^4.0.7"
   },
   "devDependencies": {
-    "@equinor/eds-core-react": "^0.36.1",
+    "@equinor/eds-core-react": "^0.45.0",
     "@equinor/eds-icons": "^0.21.0",
     "@rollup/plugin-image": "^3.0.3",
     "@types/react": "^18.2.67",
