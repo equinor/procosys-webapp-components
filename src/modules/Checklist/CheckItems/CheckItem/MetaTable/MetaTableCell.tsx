@@ -24,7 +24,8 @@ const MetaTableDateCellWrapper = styled.div`
         background-color: ${COLORS.greyBackground};
         height: 40px;
         border: none;
-        box-shadow: inset 0 -1px 0 0 var(--eds_text__static_ic, rgba(111, 111, 111, 1)); // TODO: fix(?)
+        box-shadow: inset 0 -1px 0 0
+            var(--eds_text__static_ic, rgba(111, 111, 111, 1)); // TODO: fix(?)
         font-family: Equinor;
         padding: 0 8px;
     }

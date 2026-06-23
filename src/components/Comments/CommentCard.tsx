@@ -1,16 +1,16 @@
+import { Button, Progress, Textarea } from '@equinor/eds-core-react';
 import React, { useEffect, useState } from 'react';
-import { Button, Progress, TextField } from '@equinor/eds-core-react';
-import { AsyncStatus } from '../../typings/enums';
-import Comments from './Comments';
-import { APIComment, PunchComment, PunchItem } from '../../typings/apiTypes';
-import CollapsibleCard from '../CollapsibleCard';
 import styled from 'styled-components';
+import { APIComment, PunchComment, PunchItem } from '../../typings/apiTypes';
+import { AsyncStatus } from '../../typings/enums';
+import CollapsibleCard from '../CollapsibleCard';
+import Comments from './Comments';
 
 const CommentField = styled.div`
     margin-top: 16px;
 `;
 
-const TextFieldWrapper = styled(TextField)`
+const TextFieldWrapper = styled(Textarea)`
     margin-bottom: 8px;
 `;
 
@@ -21,10 +21,7 @@ const ButtonWrapper = styled(Button)`
 type CommentCardProps = {
     plantId: string;
     punchItem: PunchItem;
-    getPunchComments: (
-        plantId: string,
-        guid: string
-    ) => Promise<APIComment[]>;
+    getPunchComments: (plantId: string, guid: string) => Promise<APIComment[]>;
     postPunchComment?: (
         plantId: string,
         guid: string,
@@ -62,10 +59,7 @@ const CommentCard = ({
     const loadComments = async (): Promise<void> => {
         setLoadingStatus(AsyncStatus.LOADING);
         try {
-            const comments = await getPunchComments(
-                plantId,
-                punchItem.guid
-            );
+            const comments = await getPunchComments(plantId, punchItem.guid);
             let fetchedComments: APIComment[] = [];
             try {
                 fetchedComments = comments;
@@ -83,10 +77,11 @@ const CommentCard = ({
 
     const buttonClick = async (): Promise<void> => {
         if (punchComment && postPunchComment) {
-            await postPunchComment(plantId,
-                punchItem.guid,
-                {text: punchComment, labels: [], mentions: []},
-            );
+            await postPunchComment(plantId, punchItem.guid, {
+                text: punchComment,
+                labels: [],
+                mentions: [],
+            });
             setPunchComment('');
         }
         loadComments();
@@ -103,7 +98,6 @@ const CommentCard = ({
                             maxLength={255}
                             value={punchComment}
                             label="Comment"
-                            multiline
                             rows={5}
                             id="NewPunchComment"
                             onChange={handleCommentChange}

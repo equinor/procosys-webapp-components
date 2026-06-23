@@ -3,12 +3,20 @@ import styled from 'styled-components';
 import { BREAKPOINT, COLORS } from '../style/GlobalStyles';
 import EdsIcon from './icons/EdsIcon';
 
-const NavbarWrapper = styled.nav<{ noBorder: boolean; isOffline: boolean, testColor: boolean }>`
+const NavbarWrapper = styled.nav<{
+    noBorder: boolean;
+    isOffline: boolean;
+    testColor: boolean;
+}>`
     height: 54px;
     width: 100%;
     max-width: 768px;
     background-color: ${({ isOffline, testColor }): string =>
-        testColor ? '#FFFF5C' : (isOffline ? `${COLORS.midnight}` : `${COLORS.white}`)};
+        testColor
+            ? '#FFFF5C'
+            : isOffline
+              ? `${COLORS.midnight}`
+              : `${COLORS.white}`};
     border-bottom: ${({ noBorder }): string =>
         noBorder ? 'none' : `1px solid ${COLORS.fadedBlue}`};
     display: flex;
@@ -76,7 +84,11 @@ const Navbar = ({
 }: NavbarProps): JSX.Element => {
     return (
         <>
-            <NavbarWrapper noBorder={noBorder} isOffline={isOffline} testColor={testColor}>
+            <NavbarWrapper
+                noBorder={noBorder}
+                isOffline={isOffline}
+                testColor={testColor}
+            >
                 {leftContent}
                 <span>
                     {isOffline && (

@@ -12,14 +12,14 @@ These are the existing and planned modules:
 Most modules require your app, represented by an Azure App Registration, to have access to the relevant Procosys API. Please contact the Procosys team to obtain this access.
 
 How to use this library:
-* Run "yarn" in the root of this repo
-* Run "yarn link"
+* Run "npm install" in the root of this repo
+* Run "npm link"
 
 To link to this library
-* Run "yarn start"
-* Run "yarn link @equinor/procosys-webapp-components" in the app you want to test the code in.
+* Run "npm start"
+* Run "npm link @equinor/procosys-webapp-components" in the app you want to test the code in.
 
 To unlink
-* Run "yarn unlink @equinor/procosys-webapp-components" in the app you tested the code in.
+* Run "npm unlink @equinor/procosys-webapp-components" in the app you tested the code in.
 
 For info on how to contribute and publish changes to the package, please check out the guide in the Procosys Wiki Frontend section.

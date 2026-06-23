@@ -58,7 +58,7 @@ export const filterOnMcPkg = <T extends { mcPkgNo?: string }>(
 };
 
 export const filterOnDocumentRelationType = <
-    T extends { relationType: DocumentRelationType }
+    T extends { relationType: DocumentRelationType },
 >(
     arrayToFilter: T[],
     relationTypes: string[]

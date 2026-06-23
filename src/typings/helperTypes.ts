@@ -31,7 +31,7 @@ export type PunchEndpoints = {
     updateEstimate: string;
 };
 
-export type UpdatePunchData = string | number | null
+export type UpdatePunchData = string | number | null;
 
 // export type UpdatePunchData =
 //     | { CategoryId: number }

@@ -35,7 +35,7 @@ type VerifyPunchProps = {
     punchActionStatus: AsyncStatus;
     getPunchAttachments: (
         plantId: string,
-        guid: string,
+        guid: string
     ) => Promise<Attachment[]>;
     getPunchAttachment: (
         plantId: string,
@@ -43,10 +43,7 @@ type VerifyPunchProps = {
         attachmentGuid: string,
         abortSignal?: AbortSignal
     ) => Promise<Blob>;
-    getPunchComments?: (
-        plantId: string,
-        guid: string
-    ) => Promise<APIComment[]>;
+    getPunchComments?: (plantId: string, guid: string) => Promise<APIComment[]>;
     snackbar: JSX.Element;
     setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
     abortController?: AbortController;
@@ -129,11 +126,13 @@ const VerifyPunch = ({
             <p>{punchItem.description}</p>
             <label>Raised By:</label>
             <p>
-                {punchItem.raisedByOrg?.code}. {punchItem.raisedByOrg?.description}
+                {punchItem.raisedByOrg?.code}.{' '}
+                {punchItem.raisedByOrg?.description}
             </p>
             <label>Clearing by:</label>
             <p>
-                {punchItem.clearingByOrg?.code}. {punchItem.clearingByOrg?.description}
+                {punchItem.clearingByOrg?.code}.{' '}
+                {punchItem.clearingByOrg?.description}
             </p>
             <label>Action by person:</label>
             <p>
@@ -161,35 +160,41 @@ const VerifyPunch = ({
             {punchItem.clearedAtUtc ? (
                 <p>
                     Cleared at{' '}
-                    {new Date(punchItem.clearedAtUtc).toLocaleDateString('en-GB')}{' '}
+                    {new Date(punchItem.clearedAtUtc).toLocaleDateString(
+                        'en-GB'
+                    )}{' '}
                     by {punchItem.clearedBy.firstName}{' '}
-                    {punchItem.clearedBy?.lastName} ({punchItem.clearedBy.userName})
+                    {punchItem.clearedBy?.lastName} (
+                    {punchItem.clearedBy.userName})
                 </p>
             ) : null}
             {punchItem.verifiedAtUtc ? (
                 <p>
                     Verified at{' '}
-                    {new Date(punchItem.verifiedAtUtc).toLocaleDateString('en-GB')}{' '}
+                    {new Date(punchItem.verifiedAtUtc).toLocaleDateString(
+                        'en-GB'
+                    )}{' '}
                     by {punchItem.verifiedBy.firstName}{' '}
-                    {punchItem.verifiedBy.lastName} ({punchItem.verifiedBy.userName})
+                    {punchItem.verifiedBy.lastName} (
+                    {punchItem.verifiedBy.userName})
                 </p>
             ) : null}
             {punchItem.rejectedAtUtc ? (
                 <p>
                     Rejected at{' '}
-                    {new Date(punchItem.rejectedAtUtc).toLocaleDateString('en-GB')}{' '}
+                    {new Date(punchItem.rejectedAtUtc).toLocaleDateString(
+                        'en-GB'
+                    )}{' '}
                     by {punchItem.rejectedBy.firstName}{' '}
-                    {punchItem.rejectedBy.lastName} ({punchItem.rejectedBy.userName})
+                    {punchItem.rejectedBy.lastName} (
+                    {punchItem.rejectedBy.userName})
                 </p>
             ) : null}
 
             <Attachments
                 readOnly
                 getAttachments={(): Promise<Attachment[]> =>
-                    getPunchAttachments(
-                        plantId,
-                        punchItem.guid
-                    )
+                    getPunchAttachments(plantId, punchItem.guid)
                 }
                 getAttachment={(attachmentGuid: string): Promise<Blob> =>
                     getPunchAttachment(

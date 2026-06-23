@@ -1,10 +1,6 @@
-import { Button } from '@equinor/eds-core-react';
-import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import removeSubdirectories from '../../utils/removeSubdirectories';
 import EdsIcon from '../icons/EdsIcon';
-import styled from 'styled-components';
-import { COLORS } from '../../style/GlobalStyles';
 import { NavButton } from '../NavBar';
 
 type BackButtonProps = {
@@ -12,16 +8,16 @@ type BackButtonProps = {
 };
 
 const BackButton = ({ to }: BackButtonProps): JSX.Element => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { pathname } = useLocation();
     return (
         <NavButton
             variant="ghost"
             onClick={(): void => {
                 if (to) {
-                    history.push(to);
+                    navigate(to);
                 } else {
-                    history.push(removeSubdirectories(pathname, 1));
+                    navigate(removeSubdirectories(pathname, 1));
                 }
             }}
         >

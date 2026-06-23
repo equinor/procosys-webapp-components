@@ -108,7 +108,10 @@ const Attachment = ({
         if (!deleteAttachment) return;
         setDeleteStatus(AsyncStatus.LOADING);
         try {
-            await deleteAttachment( `${attachment.id ?? attachment.guid}`, attachment.rowVersion);
+            await deleteAttachment(
+                `${attachment.id ?? attachment.guid}`,
+                attachment.rowVersion
+            );
             setSnackbarText('Attachment successfully removed');
             refreshAttachments && refreshAttachments((prev) => !prev);
             setDeleteStatus(AsyncStatus.SUCCESS);

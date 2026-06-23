@@ -14,7 +14,7 @@ type AdditionalFieldRowProps = {
 const AdditionalFieldRow = ({
     label,
     value,
-    unit
+    unit,
 }: AdditionalFieldRowProps): JSX.Element => {
     return (
         <InfoRowWrapper>

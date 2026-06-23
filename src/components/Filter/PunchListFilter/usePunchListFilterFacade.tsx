@@ -1,11 +1,8 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PunchPreview } from '../../../typings/apiTypes';
 import useFilterFacade, { Filter } from '../useFilter';
 import { filterPunchPreviews } from './filterPunchPreviews';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const usePunchListFilterFacade = (
     setFilterCount: React.Dispatch<React.SetStateAction<number>>,
     setShownPunches: React.Dispatch<
@@ -38,7 +35,7 @@ const usePunchListFilterFacade = (
         allPunches?.map((item) => {
             uniqueResponsibles.add(item.responsibleCode);
             uniqueFormTypes.add(item.formularType);
-            item.mcPkgNo ? uniqueMcPkgs.add(item.mcPkgNo) : null;
+            item.mcPkgNo && uniqueMcPkgs.add(item.mcPkgNo);
         });
         setResponsibles(Array.from(uniqueResponsibles));
         setFormTypes(Array.from(uniqueFormTypes));

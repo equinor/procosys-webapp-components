@@ -47,24 +47,28 @@ const TagPhotoRecognition = ({
         document.createElement('input')
     );
 
-    const onCapture = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const onCapture = async (
+        e: React.ChangeEvent<HTMLInputElement>
+    ): Promise<void> => {
         const currentFiles = e.currentTarget.files;
         if (!currentFiles) return;
-    
+
         const image = new Image();
         const file = currentFiles[0];
-    
+
         image.src = URL.createObjectURL(file);
         image.onload = async () => {
             const width = image.width;
             const height = image.height;
-    
+
             if (width < 50 || height < 50 || width > 10000 || height > 10000) {
-                setSnackbarText('The image size is incorrect. The minimum size is 50x50 pixels, and the maximum size is 10000x10000 pixels.');
-                captureImageInputRef.current.value = ''; 
+                setSnackbarText(
+                    'The image size is incorrect. The minimum size is 50x50 pixels, and the maximum size is 10000x10000 pixels.'
+                );
+                captureImageInputRef.current.value = '';
                 return;
             }
-    
+
             const data = generateFormData(file);
             setOcrStatus(AsyncStatus.LOADING);
             setShowTagSelectionModal(true);
@@ -86,7 +90,7 @@ const TagPhotoRecognition = ({
                 setSnackbarText(error.message);
                 setOcrStatus(AsyncStatus.ERROR);
             }
-            captureImageInputRef.current.value = ''; 
+            captureImageInputRef.current.value = '';
         };
     };
 
