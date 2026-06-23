@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Document } from '../../../typings/apiTypes';
 import { DocumentFilterType, filterDocuments } from './filterDocuments';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useDocumentFilterFacade = (
     setFilterCount: React.Dispatch<React.SetStateAction<number>>,
     setFilteredDocuments: React.Dispatch<

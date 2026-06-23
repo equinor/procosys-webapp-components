@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import {
-    LibrayTypes,
-    PunchCategory,
-    PunchItem,
-} from '../../typings/apiTypes';
+import { LibrayTypes, PunchCategory, PunchItem } from '../../typings/apiTypes';
 import { AsyncStatus } from '../../typings/enums';
 import { PunchEndpoints, UpdatePunchData } from '../../typings/helperTypes';
 import ensure from '../../utils/ensure';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useClearPunchFacade = (
     setPunchItem: React.Dispatch<React.SetStateAction<PunchItem>>,
     punchEndpoints: PunchEndpoints,
@@ -29,7 +24,7 @@ const useClearPunchFacade = (
 
     const getDefaultOrganization = (guid: string): string => {
         const defaultId = organizations?.find((org) => org.guid === guid)?.guid;
-        return defaultId ? defaultId : "-1";
+        return defaultId ? defaultId : '-1';
     };
 
     const handleCategoryChange = (
@@ -56,13 +51,11 @@ const useClearPunchFacade = (
     const handleRaisedByChange = (
         e: React.ChangeEvent<HTMLSelectElement>
     ): void => {
-        const raisedByOrgGuid = e.target.value
+        const raisedByOrgGuid = e.target.value;
         setPunchItem((prev) => ({
             ...prev,
             raisedByCode: ensure(
-                organizations.find(
-                    (org) => org.guid === raisedByOrgGuid
-                )
+                organizations.find((org) => org.guid === raisedByOrgGuid)
             ).code,
         }));
         updateDatabase(punchEndpoints.updateRaisedBy, raisedByOrgGuid);
@@ -75,9 +68,7 @@ const useClearPunchFacade = (
         setPunchItem((prev) => ({
             ...prev,
             clearingByCode: ensure(
-                organizations.find(
-                    (org) => org.guid === clearingByOrgGuid
-                )
+                organizations.find((org) => org.guid === clearingByOrgGuid)
             ).code,
         }));
         updateDatabase(punchEndpoints.updateClearingBy, clearingByOrgGuid);
@@ -90,7 +81,7 @@ const useClearPunchFacade = (
     ): void => {
         setPunchItem((prev) => ({
             ...prev,
-            actionBy: {...prev.actionBy, azureOid, firstName, lastName}
+            actionBy: { ...prev.actionBy, azureOid, firstName, lastName },
         }));
         updateDatabase(punchEndpoints.updateActionByPerson, azureOid);
         setShowPersonsSearch(false);
@@ -109,9 +100,8 @@ const useClearPunchFacade = (
     ): void => {
         setPunchItem((prev) => ({
             ...prev,
-            typeCode: ensure(
-                types.find((type) => type.guid === e.target.value)
-            ).code,
+            typeCode: ensure(types.find((type) => type.guid === e.target.value))
+                .code,
         }));
         updateDatabase(punchEndpoints.updateType, e.target.value);
     };
@@ -134,9 +124,7 @@ const useClearPunchFacade = (
         setPunchItem((prev) => ({
             ...prev,
             priorityCode: ensure(
-                priorities.find(
-                    (priority) => priority.guid === e.target.value
-                )
+                priorities.find((priority) => priority.guid === e.target.value)
             ).code,
         }));
         updateDatabase(punchEndpoints.updatePriority, e.target.value);

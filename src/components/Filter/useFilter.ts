@@ -15,7 +15,6 @@ export type Filter = {
     mcPkg: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useFilterFacade = (
     setFilter: React.Dispatch<React.SetStateAction<Filter>>
 ) => {

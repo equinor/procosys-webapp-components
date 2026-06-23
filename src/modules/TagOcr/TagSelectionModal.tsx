@@ -93,7 +93,8 @@ const TagSelectionModal = ({
                 title={determineModalTitle(ocrStatus)}
                 subtitle={determineModalSubtitle(ocrStatus)}
             />
-            {Array.isArray(suggestedTags) && suggestedTags.length > 0  &&
+            {Array.isArray(suggestedTags) &&
+                suggestedTags.length > 0 &&
                 suggestedTags.map((tag) => (
                     <SelectorButton
                         role={'button'}
@@ -102,8 +103,7 @@ const TagSelectionModal = ({
                     >
                         {tag.value}
                     </SelectorButton>
-                ))
-           }
+                ))}
             <CloseButton onClick={closeModal}>Close</CloseButton>
         </SelectTagWrapper>
     );

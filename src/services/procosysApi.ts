@@ -27,7 +27,6 @@ type ProcosysApiServiceProps = {
     checklistId: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const procosysApiService = ({
     apiSettings,
     apiVersion,

@@ -1,11 +1,8 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChecklistPreview } from '../../../typings/apiTypes';
 import useFilterFacade, { Filter } from '../useFilter';
 import { filterChecklistPreviews } from './filterChecklistPreviews';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useScopeFilterFacade = (
     setFilterCount: React.Dispatch<React.SetStateAction<number>>,
     setFilteredScope: React.Dispatch<
@@ -41,7 +38,7 @@ const useScopeFilterFacade = (
             uniqueResponsibles.add(item.responsibleCode);
             uniqueFormTypes.add(item.formularType);
             uniqueStatuses.add(item.status);
-            item.mcPkgNo ? uniqueMcPkgs.add(item.mcPkgNo) : null;
+            item.mcPkgNo && uniqueMcPkgs.add(item.mcPkgNo);
         });
         setResponsibles(Array.from(uniqueResponsibles));
         setFormTypes(Array.from(uniqueFormTypes));

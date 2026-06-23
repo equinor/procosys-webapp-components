@@ -2,7 +2,7 @@ import React, { ErrorInfo } from 'react';
 import ErrorPage from './ErrorPage';
 
 type ErrorProps = {
-    children: React.ReactChild;
+    children: React.ReactNode;
 };
 
 type ErrorState = {
@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
         // console.error('ErrorInfo: ', errorInfo);
     }
 
-    render(): React.ReactChild {
+    render(): React.ReactNode {
         if (this.state.hasError) {
             return (
                 <ErrorPage

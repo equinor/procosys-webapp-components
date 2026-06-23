@@ -1,6 +1,4 @@
-import {
-    AttachmentInList
-} from '../../typings/apiTypes';
+import { AttachmentInList } from '../../typings/apiTypes';
 import Attachment from './Attachment';
 import { AttachmentsWrapper } from './Attachments';
 
@@ -24,7 +22,10 @@ const AttachmentsFromList = (props: AttachmentsFromListProps): JSX.Element => {
                     key={attachment.guid ?? attachment.id}
                     readOnly={true}
                     getAttachment={(abortSignal?: AbortSignal): Promise<Blob> =>
-                        props.getAttachment(`${attachment.id ?? attachment.guid } `, abortSignal)
+                        props.getAttachment(
+                            `${attachment.id ?? attachment.guid} `,
+                            abortSignal
+                        )
                     }
                     setSnackbarText={props.setSnackbarText}
                     attachment={attachment}

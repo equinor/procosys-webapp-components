@@ -2,7 +2,8 @@ import {
     Button,
     Label,
     NativeSelect,
-    TextField
+    TextField,
+    Textarea,
 } from '@equinor/eds-core-react';
 import React from 'react';
 import CommentCard from '../../components/Comments/CommentCard';
@@ -202,12 +203,11 @@ const ClearPunch = ({
                                 >{`${category.description}`}</option>
                             ))}
                         </NativeSelect>
-                        <TextField
+                        <Textarea
                             required
                             maxLength={2000}
                             value={punchItem.description}
                             label="Description"
-                            multiline
                             rows={5}
                             id="NewPunchDescription"
                             disabled={

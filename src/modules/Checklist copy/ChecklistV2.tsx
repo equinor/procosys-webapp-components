@@ -66,7 +66,6 @@ const ChecklistV2 = ({
     checklistId,
     offlineState,
 }: ChecklistProps): JSX.Element => {
-
     const [fetchChecklistStatus, setFetchChecklistStatus] = useState(
         AsyncStatus.LOADING
     );
@@ -198,7 +197,7 @@ const ChecklistV2 = ({
                                     )
                                 }
                                 getAttachment={(
-                                    attachmentGuid: string,
+                                    attachmentGuid: string
                                 ): Promise<Blob> =>
                                     api.getChecklistAttachment(
                                         plantId,
