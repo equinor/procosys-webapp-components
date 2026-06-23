@@ -52,6 +52,28 @@ const GlobalStyles = createGlobalStyle`
     label {
         ${tokens.typography.input.label as CSSObject}
     }
+    /* iPad/iOS Safari fix: EDS Checkbox renders ticked/unticked state by
+       toggling display:none/inline on SVG <path> elements via a sibling
+       :checked selector. WebKit on iOS does not repaint SVG <path> elements
+       when display is toggled this way, so ticked boxes keep showing the empty
+       outline. On iOS only, hide the broken SVG overlay and fall back to the
+       native browser checkbox, which renders the checked state correctly.
+       '@supports (-webkit-touch-callout: none)' matches iOS/iPadOS Safari
+       exclusively, so desktop EDS styling is unaffected. */
+    @supports (-webkit-touch-callout: none) {
+        input[type='checkbox'] ~ svg {
+            display: none;
+        }
+        input[type='checkbox'] {
+            appearance: auto;
+            -webkit-appearance: checkbox;
+            transform: none;
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            accent-color: ${COLORS.mossGreen};
+        }
+    }
     caption { 
         ${tokens.typography.paragraph.caption as CSSObject}
     }
