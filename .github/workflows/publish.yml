@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   publish:
@@ -18,8 +19,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.org
-          scope: '@equinor'
+          registry-url: https://npm.pkg.github.com
+          scope: '@procosys'
           cache: yarn
 
       - name: Install dependencies
@@ -39,9 +40,11 @@ jobs:
           else
             echo "should_publish=true" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Publish to npm
-        if: steps.check.outputs.should_publish == 'true'
-        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.PROCOSYS_NPM_TOKEN }}
+
+      - name: Publish to GitHub Packages
+        if: steps.check.outputs.should_publish == 'true'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PROCOSYS_NPM_TOKEN }}

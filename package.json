@@ -1,6 +1,6 @@
 {
-  "name": "@equinor/procosys-webapp-components",
-  "version": "6.1.4",
+  "name": "@procosys/procosys-webapp-components",
+  "version": "1.0.0",
   "description": "Library for sharing components and modules between Procosys MC webapp, Comm webapp and Echo.",
   "main": "dist/index.js",
   "scripts": {
@@ -20,6 +20,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/equinor/procosys-webapp-components.git"
