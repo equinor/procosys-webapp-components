@@ -26,22 +26,9 @@ For info on how to contribute and publish changes to the package, please check o
 
 ## Installing the package
 
-This package is published to **GitHub Packages** (not npmjs.com). To install it, configure npm/yarn to resolve the `@equinor` scope from the GitHub Packages registry.
+This package is published to **npmjs.com** under the `@equinor` scope, alongside the EDS packages (`@equinor/eds-*`) and other `@equinor` dependencies.
 
-1. Create or update an `.npmrc` file in the root of your project:
-
-   ```
-   @equinor:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-   ```
-
-2. Provide a GitHub Personal Access Token (classic) with the `read:packages` scope via the `GITHUB_TOKEN` environment variable (or paste the token directly in `.npmrc`, but never commit it):
-
-   ```
-   export GITHUB_TOKEN=your_token_here
-   ```
-
-3. Install the package:
+1. Install the package:
 
    ```
    yarn add @equinor/procosys-webapp-components
@@ -53,10 +40,17 @@ This package is published to **GitHub Packages** (not npmjs.com). To install it,
    npm install @equinor/procosys-webapp-components
    ```
 
-In CI, you can use the automatically provided `GITHUB_TOKEN` secret instead of a personal access token.
+No `.npmrc` or auth token is required for installing, since the package is public on npmjs.com.
 
 ## Publishing
 
-Publishing is automated via the `Publish package` GitHub Actions workflow (`.github/workflows/publish.yml`). On every push to `main`, the workflow builds the package and publishes it to GitHub Packages **only if** the version in `package.json` has not already been published.
+Publishing is automated via the `📦 Publish package` GitHub Actions workflow (`.github/workflows/publish.yml`). On every push to `main`, the workflow builds the package and publishes it to npmjs.com **only if** the version in `package.json` has not already been published. This means routine commits to `main` won't fail when the version is unchanged.
 
-To release a new version, bump the `version` field in `package.json` and merge to `main`.
+To release a new version:
+
+1. Bump the `version` field in `package.json`.
+2. Merge to `main`. The workflow publishes the new version automatically.
+
+### Authentication (Trusted Publisher / OIDC)
+
+Publishing uses npm's **Trusted Publisher** (OIDC) feature, so no npm token is required. The workflow authenticates tokenlessly via GitHub Actions OIDC (`id-token: write` permission). The package on npmjs.com must have this repository and the `publish.yml` workflow configured as a Trusted Publisher.
