@@ -26,37 +26,27 @@ For info on how to contribute and publish changes to the package, please check o
 
 ## Installing the package
 
-This package is published to **GitHub Packages** (not npmjs.com). To install it, configure npm/yarn to resolve the `@equinor` scope from the GitHub Packages registry.
+This package is published to **npmjs.com** under the public `@equinor` scope, so no special registry configuration is required. Install it like any other dependency:
 
-1. Create or update an `.npmrc` file in the root of your project:
+```
+yarn add @equinor/procosys-webapp-components
+```
 
-   ```
-   @equinor:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-   ```
+or
 
-2. Provide a GitHub Personal Access Token (classic) with the `read:packages` scope via the `GITHUB_TOKEN` environment variable (or paste the token directly in `.npmrc`, but never commit it):
-
-   ```
-   export GITHUB_TOKEN=your_token_here
-   ```
-
-3. Install the package:
-
-   ```
-   yarn add @equinor/procosys-webapp-components
-   ```
-
-   or
-
-   ```
-   npm install @equinor/procosys-webapp-components
-   ```
-
-In CI, you can use the automatically provided `GITHUB_TOKEN` secret instead of a personal access token.
+```
+npm install @equinor/procosys-webapp-components
+```
 
 ## Publishing
 
-Publishing is automated via the `Publish package` GitHub Actions workflow (`.github/workflows/publish.yml`). On every push to `main`, the workflow builds the package and publishes it to GitHub Packages **only if** the version in `package.json` has not already been published.
+Publishing is automated via the `Publish package` GitHub Actions workflow (`.github/workflows/publish.yml`). On every push to `main`, the workflow builds the package and publishes it to npmjs.com **only if** the version in `package.json` has not already been published. This means routine commits to `main` won't fail when the version is unchanged.
 
-To release a new version, bump the `version` field in `package.json` and merge to `main`.
+To release a new version:
+
+1. Bump the `version` field in `package.json`.
+2. Merge to `main`. The workflow publishes the new version automatically.
+
+### Required secret
+
+The workflow authenticates with npm using an `NPM_TOKEN` repository (or organization) secret. Create an npm **Automation** access token for an account with publish rights to the `@equinor` scope, then add it under **Settings → Secrets and variables → Actions** as `NPM_TOKEN`.
