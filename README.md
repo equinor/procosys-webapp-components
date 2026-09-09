@@ -3,7 +3,6 @@ This library exists to share visual components as well as entire modules between
 These are the existing and planned modules:
 * Attachments 
 * MCCR checklists
-* Tag OCR (pending major upgrade)
 * CPCL checklists (planned)
 * Punch (planned)
 * Commissioning Action log (planned)

@@ -174,51 +174,6 @@ export const postByFetch = async (
 };
 
 /**
- * Generic method for doing a POST call with json as body data without the need for a token or a base URL
- * If the request fails because of http error code from server, HTTPError will be thrown.
- * If the request fails because of network issues etc, Error will be thrown.
- */
-export const postByFetchSimple = async (
-    url: string,
-    bodyData?: any
-): Promise<any> => {
-    const headers: Record<string, string> = {};
-
-    // Set the Content-Type header only if bodyData is not FormData
-    if (!(bodyData instanceof FormData)) {
-        headers['Content-Type'] = 'application/json';
-        bodyData = JSON.stringify(bodyData);
-    }
-
-    const PostOperation = {
-        method: 'POST',
-        headers: headers,
-        body: bodyData,
-    };
-
-    let response = new Response();
-    try {
-        response = await fetch(url, PostOperation);
-    } catch (error) {
-        console.error('Something went wrong when accessing the server.', error);
-        throw new Error('Something went wrong when accessing the server.');
-    }
-
-    if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.indexOf('application/json') !== -1) {
-            return await response.json();
-        } else {
-            return;
-        }
-    } else {
-        const errorMessage = await getErrorMessage(response);
-        console.error('Error occured on postByFetch', errorMessage);
-        throw new HTTPError(response.status, errorMessage);
-    }
-};
-
-/**
  * Generic method for posting attachment with form data as body data.
  */
 export const postAttachmentByFetch = async (

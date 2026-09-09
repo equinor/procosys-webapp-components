@@ -1,178 +1,177 @@
 //Modules
-import Checklist from './modules/Checklist/Checklist';
-import TempAttachments from './modules/Attachments/TempAttachments';
 import Attachments from './modules/Attachments/Attachments';
-import TagPhotoRecognition from './modules/TagOcr/TagPhotoRecognition';
-import NewPunch from './modules/PunchPages/NewPunch';
-import ClearPunch from './modules/PunchPages/ClearPunch';
-import VerifyPunch from './modules/PunchPages/VerifyPunch';
+import TempAttachments from './modules/Attachments/TempAttachments';
 import ChecklistV2 from './modules/Checklist copy/ChecklistV2';
+import Checklist from './modules/Checklist/Checklist';
+import ClearPunch from './modules/PunchPages/ClearPunch';
+import NewPunch from './modules/PunchPages/NewPunch';
+import VerifyPunch from './modules/PunchPages/VerifyPunch';
 
 //Components
 import AsyncCard from './components/AsyncCard';
-import CollapsibleCard from './components/CollapsibleCard';
-import InfoItem from './components/InfoItem/InfoItem';
-import StatusColumn from './components/InfoItem/StatusColumn';
-import ErrorPage from './components/error/ErrorPage';
-import HomeButton from './components/buttons/HomeButton';
-import ReloadButton from './components/buttons/ReloadButton';
 import BackButton from './components/buttons/BackButton';
+import HomeButton from './components/buttons/HomeButton';
 import ProcosysButton from './components/buttons/ProcosysButton';
-import Navbar from './components/NavBar';
-import LoadingPage from './components/loading/LoadingPage';
-import SkeletonLoadingPage from './components/loading/SkeletonLoader';
+import ReloadButton from './components/buttons/ReloadButton';
+import SearchTypeButton from './components/buttons/SearchTypeButton';
+import CollapsibleCard from './components/CollapsibleCard';
 import EntityDetails from './components/EntityDetails/EntityDetails';
 import TextIcon from './components/EntityDetails/TextIcon';
-import PunchList from './components/PunchList';
-import Scope from './components/Scope';
+import ErrorPage from './components/error/ErrorPage';
+import DocumentFilter from './components/Filter/DocumentFilter/DocumentFilter';
 import FooterButton from './components/Footer/FooterButton';
 import NavigationFooter from './components/Footer/NavigationFooter';
-import SearchTypeButton from './components/buttons/SearchTypeButton';
+import InfoItem from './components/InfoItem/InfoItem';
+import StatusColumn from './components/InfoItem/StatusColumn';
+import LoadingPage from './components/loading/LoadingPage';
+import SkeletonLoadingPage from './components/loading/SkeletonLoader';
+import Navbar from './components/NavBar';
 import PageHeader from './components/PageHeader';
+import PunchList from './components/PunchList';
+import Scope from './components/Scope';
 import TagInfo from './components/TagInfo/TagInfo';
 import AttachmentsFromList from './modules/Attachments/AttachmentsFromList';
-import DocumentFilter from './components/Filter/DocumentFilter/DocumentFilter';
 
 //types and enums
+import ChecklistV2Api from './modules/Checklist copy/checklistV2Api';
 import {
-    StorageKey,
-    AsyncStatus,
-    CompletionStatus,
-    PunchAction,
-    SearchStatus,
-    DocumentRelationType,
-    SearchType,
-} from './typings/enums';
-import {
-    Project,
-    Plant,
+    APIComment,
     Attachment,
-    Document,
-    DocumentAttachment,
+    CheckItem,
     ChecklistDetails,
     ChecklistResponse,
+    Document,
+    DocumentAttachment,
     ItemToMultiSignOrVerify,
-    CheckItem,
-    APIComment,
-    PunchPriority,
+    Plant,
+    Project,
     PunchComment,
+    PunchPriority,
 } from './typings/apiTypes';
 import {
+    AsyncStatus,
+    CompletionStatus,
+    DocumentRelationType,
+    PunchAction,
+    SearchStatus,
+    SearchType,
+    StorageKey,
+} from './typings/enums';
+import {
     ChosenPerson,
-    PunchFormData,
+    FetchOperationProps,
+    IEntity,
+    ProcosysApiSettings,
     PunchEndpoints,
-    UpdatePunchData,
+    PunchFormData,
     SearchResult,
     SearchState,
-    IEntity,
-    FetchOperationProps,
-    ProcosysApiSettings,
+    UpdatePunchData,
 } from './typings/helperTypes';
-import ChecklistV2Api from './modules/Checklist copy/checklistV2Api';
 
 //Utils
+import {
+    deleteByFetch,
+    getAttachmentByFetch,
+    getByFetch,
+    getErrorMessage,
+    postByFetch,
+    putByFetch,
+    removeBaseUrlFromUrl,
+    updateOfflineEntityObj,
+} from './services/apiHelpers';
+import { HTTPError } from './services/HTTPError';
 import ensure from './utils/ensure';
-import removeSubdirectories from './utils/removeSubdirectories';
 import matchPlantInURL from './utils/matchPlantInURL';
 import matchProjectInURL from './utils/matchProjectInURL';
 import objectToCamelCase from './utils/objectToCamelCase';
+import { removeHtmlFromText } from './utils/removeHtmlFromText';
+import removeSubdirectories from './utils/removeSubdirectories';
+import { isArrayOfType, isOfType } from './utils/typeguard';
 import useFormFields from './utils/useFormFields';
 import useSnackbar from './utils/useSnackbar';
-import { isOfType, isArrayOfType } from './utils/typeguard';
-import { removeHtmlFromText } from './utils/removeHtmlFromText';
-import {
-    removeBaseUrlFromUrl,
-    updateOfflineEntityObj,
-    getErrorMessage,
-    getAttachmentByFetch,
-    getByFetch,
-    postByFetch,
-    putByFetch,
-    deleteByFetch,
-} from './services/apiHelpers';
-import { HTTPError } from './services/HTTPError';
 
 export {
-    ChecklistV2,
-    NewPunch,
-    ClearPunch,
-    VerifyPunch,
-    removeHtmlFromText,
-    isArrayOfType,
-    isOfType,
-    ensure,
-    matchPlantInURL,
-    matchProjectInURL,
-    objectToCamelCase,
-    useFormFields,
-    useSnackbar,
-    Checklist,
     AsyncCard,
-    TempAttachments,
+    AsyncStatus,
     Attachments,
-    CollapsibleCard,
-    InfoItem,
-    StatusColumn,
-    ErrorPage,
-    HomeButton,
-    ReloadButton,
-    Navbar,
-    BackButton,
-    ProcosysButton,
-    LoadingPage,
-    SkeletonLoadingPage,
-    removeSubdirectories,
-    PunchList,
-    Scope,
-    FooterButton,
-    NavigationFooter,
-    EntityDetails,
-    TextIcon,
-    SearchTypeButton,
-    PageHeader,
-    TagPhotoRecognition,
-    TagInfo,
     AttachmentsFromList,
+    BackButton,
+    Checklist,
+    ChecklistV2,
+    ClearPunch,
+    CollapsibleCard,
+    CompletionStatus,
+    deleteByFetch,
     DocumentFilter,
-    removeBaseUrlFromUrl,
-    updateOfflineEntityObj,
-    getErrorMessage,
+    DocumentRelationType,
+    ensure,
+    EntityDetails,
+    ErrorPage,
+    FooterButton,
     getAttachmentByFetch,
     getByFetch,
-    postByFetch,
-    putByFetch,
-    deleteByFetch,
+    getErrorMessage,
+    HomeButton,
     HTTPError,
-    AsyncStatus,
-    StorageKey,
-    CompletionStatus,
+    InfoItem,
+    isArrayOfType,
+    isOfType,
+    LoadingPage,
+    matchPlantInURL,
+    matchProjectInURL,
+    Navbar,
+    NavigationFooter,
+    NewPunch,
+    objectToCamelCase,
+    PageHeader,
+    postByFetch,
+    ProcosysButton,
     PunchAction,
+    PunchList,
+    putByFetch,
+    ReloadButton,
+    removeBaseUrlFromUrl,
+    removeHtmlFromText,
+    removeSubdirectories,
+    Scope,
     SearchStatus,
-    DocumentRelationType,
     SearchType,
+    SearchTypeButton,
+    SkeletonLoadingPage,
+    StatusColumn,
+    StorageKey,
+    TagInfo,
+    TempAttachments,
+    TextIcon,
+    updateOfflineEntityObj,
+    useFormFields,
+    useSnackbar,
+    VerifyPunch
 };
 
-export type {
-    Project,
-    Plant,
-    Attachment,
-    ChosenPerson,
-    PunchFormData,
-    PunchEndpoints,
-    UpdatePunchData,
-    SearchResult,
-    SearchState,
-    Document,
-    DocumentAttachment,
-    IEntity,
-    FetchOperationProps,
-    ProcosysApiSettings,
-    ChecklistDetails,
-    ChecklistResponse,
-    ItemToMultiSignOrVerify,
-    CheckItem,
-    APIComment,
-    PunchPriority,
-    PunchComment,
-    ChecklistV2Api,
-};
+    export type {
+        APIComment,
+        Attachment,
+        CheckItem,
+        ChecklistDetails,
+        ChecklistResponse,
+        ChecklistV2Api,
+        ChosenPerson,
+        Document,
+        DocumentAttachment,
+        FetchOperationProps,
+        IEntity,
+        ItemToMultiSignOrVerify,
+        Plant,
+        ProcosysApiSettings,
+        Project,
+        PunchComment,
+        PunchEndpoints,
+        PunchFormData,
+        PunchPriority,
+        SearchResult,
+        SearchState,
+        UpdatePunchData
+    };
+
