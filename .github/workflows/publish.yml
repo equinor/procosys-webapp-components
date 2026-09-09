@@ -18,13 +18,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: https://registry.npmjs.org
           scope: "@equinor"
           cache: yarn
 
       - name: Update npm for OIDC trusted publishing
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.19.1
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
